@@ -34,9 +34,27 @@ pub fn init_db(app_handle: &AppHandle) -> DbState {
         );
 
         INSERT OR IGNORE INTO user_state (id, total_hearts, updated_at)
-        VALUES (1, 0, datetime('now'));",
+        VALUES (1, 0, datetime('now'));
+
+        CREATE TABLE IF NOT EXISTS plant_species (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            max_stages INTEGER NOT NULL,
+            stage_thresholds TEXT NOT NULL
+        );
+
+        INSERT OR IGNORE INTO plant_species (id, name, max_stages, stage_thresholds)
+        VALUES ('daisy', 'Margarita', 5, '[5, 10, 15, 20, 25]');",
     )
     .expect("failed to run migrations");
+
+    // ALTER TABLE ignores errors for columns that already exist (idempotent)
+    let _ = conn.execute_batch(
+        "ALTER TABLE sessions ADD COLUMN plant_species TEXT NOT NULL DEFAULT 'daisy';",
+    );
+    let _ = conn.execute_batch(
+        "ALTER TABLE sessions ADD COLUMN plant_stage INTEGER NOT NULL DEFAULT 1;",
+    );
 
     DbState(Mutex::new(conn))
 }

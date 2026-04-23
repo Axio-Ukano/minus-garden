@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { useHistoryStore } from "../history/historyStore";
 import type { Session } from "../history/historyStore";
+import { calculateFinalStage, DAISY_SPECIES } from "../plant/plantService";
 
 export type TimerStatus = "idle" | "running" | "paused" | "finished";
 
@@ -47,19 +48,23 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     })),
 
   finish: () => {
-    const heartsEarned = Math.floor(get().durationMinutes / 5);
+    const { durationMinutes, startedAt, subject } = get();
+    const heartsEarned = Math.floor(durationMinutes / 5);
+    const plantStage = calculateFinalStage(durationMinutes, DAISY_SPECIES);
     const session: Session = {
       id: crypto.randomUUID(),
-      start_time: get().startedAt ?? new Date().toISOString(),
+      start_time: startedAt ?? new Date().toISOString(),
       end_time: new Date().toISOString(),
-      duration_minutes: get().durationMinutes,
-      subject: get().subject,
+      duration_minutes: durationMinutes,
+      subject,
       completed: true,
       hearts_earned: heartsEarned,
+      plant_species: 'daisy',
+      plant_stage: plantStage,
     };
     useHistoryStore.getState().saveSession(session);
     useHistoryStore.getState().syncHearts(
-      useHistoryStore.getState().totalHearts + heartsEarned
+      useHistoryStore.getState().totalHearts + heartsEarned,
     );
     set({ status: "finished", secondsLeft: 0, startedAt: null });
   },
