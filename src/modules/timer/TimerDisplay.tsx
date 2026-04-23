@@ -40,7 +40,7 @@ export function TimerDisplay() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen gap-6"
+      className="pixel-panel flex flex-col items-center justify-center min-h-screen gap-6"
       style={{ backgroundColor: "var(--color-bg)", fontFamily: "'Nunito', sans-serif" }}
     >
       {/* Hearts display */}
