@@ -21,5 +21,5 @@ export function useTimer() {
         intervalRef.current = null;
       }
     };
-  }, [status]);
+  }, [status, tick]);
 }
