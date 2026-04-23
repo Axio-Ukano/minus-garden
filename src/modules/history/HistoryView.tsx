@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useHistoryStore } from "./historyStore";
 import type { Session } from "./historyStore";
+import { PlantDisplay } from "../plant/PlantDisplay";
+import { getStageName } from "../plant/plantService";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -22,69 +24,79 @@ function formatDate(isoString: string): string {
 }
 
 function SessionCard({ session, onDelete }: { session: Session; onDelete: () => void }) {
+  const stageName = getStageName(session.plant_stage, session.plant_species);
+
   return (
     <div
+      className="pixel-panel"
       style={{
-        backgroundColor: "var(--color-panel)",
-        borderRadius: "16px",
-        padding: "14px 18px",
         display: "flex",
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
-        gap: "12px",
-        fontFamily: "'Nunito', sans-serif",
-        border: "1.5px solid var(--color-hearts)",
+        gap: 12,
+        padding: "12px 16px",
       }}
     >
+      {/* Plant thumbnail */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flexShrink: 0 }}>
+        <PlantDisplay stage={session.plant_stage} species={session.plant_species} size="sm" />
+        <span
+          style={{
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            color: "var(--color-text-muted)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {stageName.toUpperCase()}
+        </span>
+      </div>
+
+      {/* Session info */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div
           style={{
-            fontWeight: 700,
-            fontSize: "15px",
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-sm)",
             color: "var(--color-text)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            marginBottom: 6,
           }}
         >
           {session.subject || "Sin materia"}
         </div>
         <div
           style={{
-            fontSize: "13px",
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
             color: "var(--color-text-muted)",
-            marginTop: "3px",
           }}
         >
           {formatDate(session.start_time)}
         </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          flexShrink: 0,
-        }}
-      >
+      {/* Stats + delete */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
         <span
           style={{
-            fontSize: "13px",
-            fontWeight: 600,
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
             color: "var(--color-text-muted)",
           }}
         >
-          {session.duration_minutes} min
+          {session.duration_minutes}m
         </span>
         <span
           style={{
-            fontSize: "13px",
-            fontWeight: 700,
-            color: "var(--color-accent)",
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            color: "var(--color-heart)",
           }}
         >
-          +{session.hearts_earned} 💗
+          +{session.hearts_earned}♥
         </span>
         <button
           onClick={onDelete}
@@ -92,11 +104,10 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: "16px",
+            fontSize: "18px",
             color: "var(--color-text-muted)",
             lineHeight: 1,
             padding: "2px 4px",
-            borderRadius: "6px",
             fontFamily: "'Nunito', sans-serif",
           }}
           aria-label="Borrar sesión"
@@ -127,7 +138,6 @@ export function HistoryView() {
       style={{
         minHeight: "100vh",
         backgroundColor: "var(--color-bg)",
-        fontFamily: "'Nunito', sans-serif",
         padding: "24px 16px",
         display: "flex",
         flexDirection: "column",
@@ -140,45 +150,58 @@ export function HistoryView() {
       <div
         style={{
           textAlign: "center",
-          fontSize: "22px",
-          fontWeight: 800,
-          color: "var(--color-accent)",
+          fontFamily: "var(--font-pixel)",
+          fontSize: "var(--text-pixel-lg)",
+          color: "var(--color-heart)",
         }}
       >
-        💗 {totalHearts} corazones acumulados
+        ♥ {totalHearts} CORAZONES
       </div>
 
-      {/* Body */}
       {loading ? (
         <div
           style={{
             textAlign: "center",
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
             color: "var(--color-text-muted)",
-            fontSize: "15px",
-            marginTop: "32px",
+            marginTop: 32,
           }}
         >
-          Cargando tu historial...
+          CARGANDO...
         </div>
       ) : sessions.length === 0 ? (
         <div
           style={{
             textAlign: "center",
-            marginTop: "48px",
+            marginTop: 48,
             display: "flex",
             flexDirection: "column",
-            gap: "8px",
+            gap: 12,
           }}
         >
-          <span style={{ fontSize: "18px", fontWeight: 700, color: "var(--color-text)" }}>
-            Aún no has estudiado hoy 🌱
+          <PlantDisplay stage={1} size="md" />
+          <span
+            style={{
+              fontFamily: "var(--font-pixel)",
+              fontSize: "var(--text-pixel-sm)",
+              color: "var(--color-text)",
+            }}
+          >
+            SIN SESIONES AÚN
           </span>
-          <span style={{ fontSize: "14px", color: "var(--color-text-muted)" }}>
-            ¡Empieza tu primera sesión!
+          <span
+            style={{
+              fontFamily: "var(--font-pixel)",
+              fontSize: "var(--text-pixel-xs)",
+              color: "var(--color-text-muted)",
+            }}
+          >
+            ¡Empieza a estudiar!
           </span>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {sessions.map((session) => (
             <SessionCard
               key={session.id}

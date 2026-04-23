@@ -1,14 +1,92 @@
+import { useRef, useState } from "react";
 import { useTimerStore } from "./timerStore";
 import { useTimer } from "./useTimer";
 import { useHistoryStore } from "../history/historyStore";
+import { usePlantGrowth } from "../plant/usePlantGrowth";
+import { PlantDisplay } from "../plant/PlantDisplay";
+import { DAISY_SPECIES, getStageName } from "../plant/plantService";
 
 const RADIUS = 90;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+const DURATION_MIN = 15;
+const DURATION_MAX = 300;
+const DURATION_STEP = 5;
+
+function clampDuration(v: number) {
+  return Math.max(DURATION_MIN, Math.min(DURATION_MAX, Math.round(v / DURATION_STEP) * DURATION_STEP));
+}
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function DurationSelector({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  const [inputVal, setInputVal] = useState(String(value));
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const commit = (raw: string) => {
+    const n = parseInt(raw, 10);
+    const clamped = clampDuration(isNaN(n) ? value : n);
+    onChange(clamped);
+    setInputVal(String(clamped));
+  };
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
+      <button
+        className="pixel-btn-secondary"
+        onClick={() => {
+          const next = clampDuration(value - DURATION_STEP);
+          onChange(next);
+          setInputVal(String(next));
+        }}
+        style={{ minWidth: 36, justifyContent: "center" }}
+      >
+        −
+      </button>
+      <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+        <input
+          ref={inputRef}
+          className="pixel-input"
+          style={{ width: 56, textAlign: "center", padding: "8px 4px" }}
+          value={inputVal}
+          onChange={(e) => setInputVal(e.target.value)}
+          onBlur={(e) => commit(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") commit(inputVal); }}
+        />
+        <span
+          style={{
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            color: "var(--color-text-muted)",
+            marginLeft: 6,
+          }}
+        >
+          MIN
+        </span>
+      </div>
+      <button
+        className="pixel-btn-secondary"
+        onClick={() => {
+          const next = clampDuration(value + DURATION_STEP);
+          onChange(next);
+          setInputVal(String(next));
+        }}
+        style={{ minWidth: 36, justifyContent: "center" }}
+      >
+        +
+      </button>
+    </div>
+  );
 }
 
 export function TimerDisplay() {
@@ -30,8 +108,12 @@ export function TimerDisplay() {
   const totalHearts = useHistoryStore((s) => s.totalHearts);
 
   const totalSeconds = durationMinutes * 60;
+  const elapsedSeconds = totalSeconds - secondsLeft;
   const progress = secondsLeft / totalSeconds;
   const dashOffset = CIRCUMFERENCE * (1 - progress);
+
+  const growthState = usePlantGrowth(elapsedSeconds, DAISY_SPECIES);
+  const stageName = getStageName(growthState.currentStage, DAISY_SPECIES.id);
 
   const isIdle = status === "idle";
   const isRunning = status === "running";
@@ -44,7 +126,7 @@ export function TimerDisplay() {
       style={{ backgroundColor: "var(--color-bg)", fontFamily: "'Nunito', sans-serif" }}
     >
       {/* Hearts display */}
-      <div className="flex items-center gap-1" style={{ color: "var(--color-hearts)" }}>
+      <div className="flex items-center gap-1" style={{ color: "var(--color-heart)" }}>
         {totalHearts > 0 && (
           <>
             <span className="text-2xl">{"♥".repeat(Math.min(totalHearts, 10))}</span>
@@ -60,32 +142,29 @@ export function TimerDisplay() {
       {/* Circular timer */}
       <div className="relative flex items-center justify-center">
         <svg width="220" height="220" className="-rotate-90">
-          {/* Background ring */}
           <circle
             cx="110"
             cy="110"
             r={RADIUS}
             fill="none"
-            stroke="var(--color-hearts)"
+            stroke="var(--color-accent-pink)"
             strokeWidth="10"
             opacity="0.35"
           />
-          {/* Progress ring */}
           <circle
             cx="110"
             cy="110"
             r={RADIUS}
             fill="none"
-            stroke={isFinished ? "var(--color-success)" : "var(--color-accent)"}
+            stroke={isFinished ? "var(--color-accent-green)" : "var(--color-accent-green)"}
             strokeWidth="10"
             strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
             strokeDashoffset={isFinished ? CIRCUMFERENCE : dashOffset}
-            style={{ transition: "stroke-dashoffset 0.6s ease, stroke 0.4s ease" }}
+            style={{ transition: "stroke-dashoffset 0.6s ease" }}
           />
         </svg>
 
-        {/* Center text */}
         <div className="absolute flex flex-col items-center">
           {isFinished ? (
             <span className="text-4xl">💗</span>
@@ -108,19 +187,39 @@ export function TimerDisplay() {
         </div>
       </div>
 
+      {/* Plant display */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+        <PlantDisplay stage={growthState.currentStage} size="lg" />
+        <span
+          style={{
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            color: "var(--color-text-muted)",
+            letterSpacing: "0.05em",
+          }}
+        >
+          {`ETAPA ${growthState.currentStage} — ${stageName.toUpperCase()}`}
+          {growthState.isMaxStage && " ✦ MAX"}
+        </span>
+      </div>
+
       {/* Finished message */}
       {isFinished && (
         <div
-          className="text-xl font-bold text-center px-6 py-3 rounded-2xl"
+          className="text-xl font-bold text-center px-6 py-3"
           style={{
-            backgroundColor: "var(--color-panel)",
-            color: "var(--color-accent)",
-            border: "2px solid var(--color-hearts)",
+            backgroundColor: "var(--color-surface)",
+            color: "var(--color-accent-green)",
+            border: "3px solid var(--color-border)",
+            boxShadow: "3px 3px 0 var(--color-pixel-shadow)",
           }}
         >
-          ¡Lo lograste! 💗
+          ¡Lo lograste!
           {Math.floor(durationMinutes / 5) > 0 && (
-            <p className="text-sm font-semibold mt-1" style={{ color: "var(--color-text-muted)" }}>
+            <p
+              className="text-sm font-semibold mt-1"
+              style={{ color: "var(--color-text-muted)" }}
+            >
               +{Math.floor(durationMinutes / 5)} ♥ ganados
             </p>
           )}
@@ -134,92 +233,31 @@ export function TimerDisplay() {
           placeholder="¿Qué estás estudiando?"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="px-4 py-2 rounded-full text-sm font-semibold outline-none w-64 text-center"
-          style={{
-            backgroundColor: "var(--color-panel)",
-            color: "var(--color-text)",
-            border: "2px solid var(--color-hearts)",
-          }}
+          className="pixel-input"
+          style={{ width: 240, textAlign: "center" }}
         />
       )}
 
       {/* Duration selector — only when idle */}
       {isIdle && (
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold" style={{ color: "var(--color-text-muted)" }}>
-            Duración:
-          </span>
-          {[5, 10, 15, 25, 50].map((min) => (
-            <button
-              key={min}
-              onClick={() => setDuration(min)}
-              className="w-10 h-10 rounded-full text-sm font-bold transition-all"
-              style={{
-                backgroundColor:
-                  durationMinutes === min ? "var(--color-accent)" : "var(--color-panel)",
-                color:
-                  durationMinutes === min ? "#fff" : "var(--color-text-muted)",
-                border: "2px solid var(--color-hearts)",
-              }}
-            >
-              {min}
-            </button>
-          ))}
-        </div>
+        <DurationSelector value={durationMinutes} onChange={setDuration} />
       )}
 
       {/* Control buttons */}
       <div className="flex gap-3">
         {isIdle && (
-          <ActionButton onClick={start} accent>
-            Iniciar
-          </ActionButton>
+          <button className="pixel-btn" onClick={start}>INICIAR</button>
         )}
         {isRunning && (
-          <ActionButton onClick={pause}>Pausar</ActionButton>
+          <button className="pixel-btn-secondary" onClick={pause}>PAUSAR</button>
         )}
         {isPaused && (
-          <ActionButton onClick={resume} accent>
-            Reanudar
-          </ActionButton>
+          <button className="pixel-btn" onClick={resume}>REANUDAR</button>
         )}
         {(isRunning || isPaused || isFinished) && (
-          <ActionButton onClick={reset} muted>
-            Reiniciar
-          </ActionButton>
+          <button className="pixel-btn-secondary" onClick={reset}>REINICIAR</button>
         )}
       </div>
     </div>
-  );
-}
-
-function ActionButton({
-  children,
-  onClick,
-  accent,
-  muted,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  accent?: boolean;
-  muted?: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="px-6 py-2 rounded-full font-bold text-sm transition-all active:scale-95"
-      style={{
-        backgroundColor: accent
-          ? "var(--color-accent)"
-          : muted
-          ? "var(--color-panel)"
-          : "var(--color-panel)",
-        color: accent ? "#fff" : muted ? "var(--color-text-muted)" : "var(--color-text)",
-        border: `2px solid ${accent ? "var(--color-accent)" : "var(--color-hearts)"}`,
-        boxShadow: accent ? "0 2px 10px rgba(255,107,181,0.35)" : "none",
-      }}
-    >
-      {children}
-    </button>
   );
 }
