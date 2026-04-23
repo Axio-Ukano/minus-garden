@@ -9,18 +9,28 @@ import { DAISY_SPECIES, getStageName } from "../plant/plantService";
 const RADIUS = 80;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
-const DURATION_MIN = 15;
+const DURATION_MIN = 5;
 const DURATION_MAX = 300;
 const DURATION_STEP = 5;
 
-function clampDuration(v: number) {
+// Used by − / + buttons: snaps to nearest multiple of step
+function stepDuration(v: number) {
   const snapped = Math.round(v / DURATION_STEP) * DURATION_STEP;
   return Math.max(DURATION_MIN, Math.min(DURATION_MAX, snapped));
 }
 
+// Used by manual input: only clamps to range, no snapping
+function clampDuration(v: number) {
+  return Math.max(DURATION_MIN, Math.min(DURATION_MAX, v));
+}
+
 function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
@@ -42,60 +52,61 @@ function DurationSelector({
   }, [value]);
 
   const commit = (raw: string) => {
-    const n = parseInt(raw, 10);
-    const clamped = clampDuration(isNaN(n) ? value : n);
+    const n = parseInt(raw.trim(), 10);
+    // Empty or invalid → clamp 0 → DURATION_MIN
+    const clamped = clampDuration(isNaN(n) ? 0 : n);
     setInputVal(String(clamped));
     onChange(clamped);
   };
 
-  const decrement = () => onChange(clampDuration(value - DURATION_STEP));
-  const increment = () => onChange(clampDuration(value + DURATION_STEP));
+  const decrement = () => onChange(stepDuration(value - DURATION_STEP));
+  const increment = () => onChange(stepDuration(value + DURATION_STEP));
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-      <button
-        className="pixel-btn-secondary"
-        onClick={decrement}
-        style={{ padding: "8px 14px", justifyContent: "center" }}
-      >
-        −
-      </button>
-      <input
-        ref={inputRef}
-        className="pixel-input"
-        style={{
-          width: 56,
-          textAlign: "center",
-          padding: "8px 4px",
-          borderLeft: "none",
-          borderRight: "none",
-        }}
-        value={inputVal}
-        onChange={(e) => setInputVal(e.target.value)}
-        onBlur={(e) => commit(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            commit(inputVal);
-            inputRef.current?.blur();
-          }
-        }}
-      />
-      <button
-        className="pixel-btn-secondary"
-        onClick={increment}
-        style={{ padding: "8px 14px", justifyContent: "center" }}
-      >
-        +
-      </button>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <button
+          className="pixel-btn-secondary"
+          onClick={decrement}
+          style={{ padding: "8px 16px", justifyContent: "center" }}
+        >
+          −
+        </button>
+        <input
+          ref={inputRef}
+          className="pixel-input"
+          style={{
+            width: 64,
+            textAlign: "center",
+            padding: "8px 4px",
+          }}
+          value={inputVal}
+          onChange={(e) => setInputVal(e.target.value)}
+          onBlur={(e) => commit(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              commit(inputVal);
+              inputRef.current?.blur();
+            }
+          }}
+        />
+        <button
+          className="pixel-btn-secondary"
+          onClick={increment}
+          style={{ padding: "8px 16px", justifyContent: "center" }}
+        >
+          +
+        </button>
+      </div>
       <span
         style={{
           fontFamily: "var(--font-pixel)",
           fontSize: "var(--text-pixel-xs)",
           color: "var(--color-text-muted)",
-          marginLeft: 10,
+          letterSpacing: "0.1em",
         }}
       >
-        MIN
+        MINUTOS
       </span>
     </div>
   );
