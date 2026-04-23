@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
+  /* ── pixel art palette ── */
   --color-bg: #f5f0e8;
   --color-surface: #fdf8f0;
   --color-border: #3d2b1f;
@@ -11,6 +12,13 @@
   --color-heart: #e05050;
   --color-pixel-shadow: #2a1f15;
 
+  /* ── aliases for legacy variables still used in components ── */
+  --color-panel: var(--color-surface);
+  --color-accent: var(--color-accent-green);
+  --color-hearts: var(--color-accent-pink);
+  --color-success: var(--color-accent-green);
+
+  /* ── typography ── */
   --font-pixel: 'Press Start 2P', monospace;
 
   --text-pixel-xs: 7px;

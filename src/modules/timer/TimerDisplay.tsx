@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTimerStore } from "./timerStore";
 import { useTimer } from "./useTimer";
 import { useHistoryStore } from "../history/historyStore";
@@ -14,7 +14,8 @@ const DURATION_MAX = 300;
 const DURATION_STEP = 5;
 
 function clampDuration(v: number) {
-  return Math.max(DURATION_MIN, Math.min(DURATION_MAX, Math.round(v / DURATION_STEP) * DURATION_STEP));
+  const snapped = Math.round(v / DURATION_STEP) * DURATION_STEP;
+  return Math.max(DURATION_MIN, Math.min(DURATION_MAX, snapped));
 }
 
 function formatTime(seconds: number): string {
@@ -33,58 +34,50 @@ function DurationSelector({
   const [inputVal, setInputVal] = useState(String(value));
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // keep local state in sync when the external value changes (e.g. on reset)
+  useEffect(() => {
+    if (document.activeElement !== inputRef.current) {
+      setInputVal(String(value));
+    }
+  }, [value]);
+
   const commit = (raw: string) => {
     const n = parseInt(raw, 10);
     const clamped = clampDuration(isNaN(n) ? value : n);
-    onChange(clamped);
     setInputVal(String(clamped));
+    onChange(clamped);
   };
 
+  const decrement = () => onChange(clampDuration(value - DURATION_STEP));
+  const increment = () => onChange(clampDuration(value + DURATION_STEP));
+
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
-      <button
-        className="pixel-btn-secondary"
-        onClick={() => {
-          const next = clampDuration(value - DURATION_STEP);
-          onChange(next);
-          setInputVal(String(next));
-        }}
-        style={{ minWidth: 36, justifyContent: "center" }}
-      >
+    <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+      <button className="pixel-btn-secondary" onClick={decrement} style={{ padding: "8px 14px" }}>
         −
       </button>
-      <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-        <input
-          ref={inputRef}
-          className="pixel-input"
-          style={{ width: 56, textAlign: "center", padding: "8px 4px" }}
-          value={inputVal}
-          onChange={(e) => setInputVal(e.target.value)}
-          onBlur={(e) => commit(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") commit(inputVal); }}
-        />
-        <span
-          style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-xs)",
-            color: "var(--color-text-muted)",
-            marginLeft: 6,
-          }}
-        >
-          MIN
-        </span>
-      </div>
-      <button
-        className="pixel-btn-secondary"
-        onClick={() => {
-          const next = clampDuration(value + DURATION_STEP);
-          onChange(next);
-          setInputVal(String(next));
-        }}
-        style={{ minWidth: 36, justifyContent: "center" }}
-      >
+      <input
+        ref={inputRef}
+        className="pixel-input"
+        style={{ width: 52, textAlign: "center", padding: "8px 4px", borderLeft: "none", borderRight: "none" }}
+        value={inputVal}
+        onChange={(e) => setInputVal(e.target.value)}
+        onBlur={(e) => commit(e.target.value)}
+        onKeyDown={(e) => { if (e.key === "Enter") { commit(inputVal); inputRef.current?.blur(); } }}
+      />
+      <button className="pixel-btn-secondary" onClick={increment} style={{ padding: "8px 14px" }}>
         +
       </button>
+      <span
+        style={{
+          fontFamily: "var(--font-pixel)",
+          fontSize: "var(--text-pixel-xs)",
+          color: "var(--color-text-muted)",
+          marginLeft: 10,
+        }}
+      >
+        MIN
+      </span>
     </div>
   );
 }
@@ -122,64 +115,90 @@ export function TimerDisplay() {
 
   return (
     <div
-      className="pixel-panel flex flex-col items-center justify-center min-h-screen gap-6"
-      style={{ backgroundColor: "var(--color-bg)", fontFamily: "'Nunito', sans-serif" }}
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "var(--color-bg)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 24,
+        padding: "24px 16px 80px",
+      }}
     >
-      {/* Hearts display */}
-      <div className="flex items-center gap-1" style={{ color: "var(--color-heart)" }}>
-        {totalHearts > 0 && (
-          <>
-            <span className="text-2xl">{"♥".repeat(Math.min(totalHearts, 10))}</span>
-            {totalHearts > 10 && (
-              <span className="text-sm font-bold" style={{ color: "var(--color-text-muted)" }}>
-                +{totalHearts - 10}
-              </span>
-            )}
-          </>
-        )}
-      </div>
+      {/* Hearts */}
+      {totalHearts > 0 && (
+        <div
+          style={{
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            color: "var(--color-heart)",
+            letterSpacing: 2,
+          }}
+        >
+          {"♥".repeat(Math.min(totalHearts, 10))}
+          {totalHearts > 10 && ` +${totalHearts - 10}`}
+        </div>
+      )}
 
       {/* Circular timer */}
-      <div className="relative flex items-center justify-center">
-        <svg width="220" height="220" className="-rotate-90">
+      <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <svg width="220" height="220" style={{ transform: "rotate(-90deg)" }}>
           <circle
-            cx="110"
-            cy="110"
-            r={RADIUS}
+            cx="110" cy="110" r={RADIUS}
             fill="none"
             stroke="var(--color-accent-pink)"
             strokeWidth="10"
-            opacity="0.35"
+            opacity="0.3"
           />
           <circle
-            cx="110"
-            cy="110"
-            r={RADIUS}
+            cx="110" cy="110" r={RADIUS}
             fill="none"
             stroke={isFinished ? "var(--color-accent-green)" : "var(--color-accent-green)"}
             strokeWidth="10"
-            strokeLinecap="round"
+            strokeLinecap="square"
             strokeDasharray={CIRCUMFERENCE}
-            strokeDashoffset={isFinished ? CIRCUMFERENCE : dashOffset}
-            style={{ transition: "stroke-dashoffset 0.6s ease" }}
+            strokeDashoffset={isFinished ? 0 : dashOffset}
+            style={{ transition: "stroke-dashoffset 0.8s linear" }}
           />
         </svg>
 
-        <div className="absolute flex flex-col items-center">
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
           {isFinished ? (
-            <span className="text-4xl">💗</span>
+            <span style={{ fontSize: 40 }}>💗</span>
           ) : (
             <span
-              className="text-5xl font-extrabold tracking-tight"
-              style={{ color: "var(--color-text)" }}
+              style={{
+                fontFamily: "'Courier New', monospace",
+                fontSize: 36,
+                fontWeight: 900,
+                color: "var(--color-text)",
+                letterSpacing: 2,
+              }}
             >
               {formatTime(secondsLeft)}
             </span>
           )}
           {subject && !isFinished && (
             <span
-              className="text-xs font-semibold mt-1 max-w-[120px] text-center truncate"
-              style={{ color: "var(--color-text-muted)" }}
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                color: "var(--color-text-muted)",
+                maxWidth: 120,
+                textAlign: "center",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
             >
               {subject}
             </span>
@@ -187,15 +206,15 @@ export function TimerDisplay() {
         </div>
       </div>
 
-      {/* Plant display */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+      {/* Plant */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
         <PlantDisplay stage={growthState.currentStage} size="lg" />
         <span
           style={{
             fontFamily: "var(--font-pixel)",
             fontSize: "var(--text-pixel-xs)",
             color: "var(--color-text-muted)",
-            letterSpacing: "0.05em",
+            letterSpacing: "0.08em",
           }}
         >
           {`ETAPA ${growthState.currentStage} — ${stageName.toUpperCase()}`}
@@ -203,25 +222,37 @@ export function TimerDisplay() {
         </span>
       </div>
 
-      {/* Finished message */}
+      {/* Finished banner */}
       {isFinished && (
         <div
-          className="text-xl font-bold text-center px-6 py-3"
           style={{
-            backgroundColor: "var(--color-surface)",
-            color: "var(--color-accent-green)",
+            background: "var(--color-surface)",
             border: "3px solid var(--color-border)",
             boxShadow: "3px 3px 0 var(--color-pixel-shadow)",
+            padding: "12px 24px",
+            textAlign: "center",
           }}
         >
-          ¡Lo lograste!
+          <div
+            style={{
+              fontFamily: "var(--font-pixel)",
+              fontSize: "var(--text-pixel-md)",
+              color: "var(--color-accent-green)",
+            }}
+          >
+            ¡LO LOGRASTE!
+          </div>
           {Math.floor(durationMinutes / 5) > 0 && (
-            <p
-              className="text-sm font-semibold mt-1"
-              style={{ color: "var(--color-text-muted)" }}
+            <div
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                color: "var(--color-heart)",
+                marginTop: 8,
+              }}
             >
-              +{Math.floor(durationMinutes / 5)} ♥ ganados
-            </p>
+              +{Math.floor(durationMinutes / 5)} ♥ GANADOS
+            </div>
           )}
         </div>
       )}
@@ -234,17 +265,17 @@ export function TimerDisplay() {
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           className="pixel-input"
-          style={{ width: 240, textAlign: "center" }}
+          style={{ width: 260, textAlign: "center" }}
         />
       )}
 
-      {/* Duration selector — only when idle */}
+      {/* Duration selector — idle only */}
       {isIdle && (
         <DurationSelector value={durationMinutes} onChange={setDuration} />
       )}
 
       {/* Control buttons */}
-      <div className="flex gap-3">
+      <div style={{ display: "flex", gap: 12 }}>
         {isIdle && (
           <button className="pixel-btn" onClick={start}>INICIAR</button>
         )}
