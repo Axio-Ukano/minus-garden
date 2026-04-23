@@ -379,18 +379,17 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
         {/* ── Left column — controls ── */}
         <div
           style={{
-            padding: 24,
+            padding: "32px 32px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            gap: 20,
+            justifyContent: "space-between",
             overflow: "hidden",
           }}
         >
           {isIdle && (
             <>
               {/* Subject selector */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <span style={labelStyle}>MATERIA</span>
                 {isLoaded && subjects.length > 0 ? (
                   <>
@@ -437,8 +436,8 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
                 )}
               </div>
 
-              {/* Duration selector */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {/* Duration selector — centered */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
                 <span style={labelStyle}>DURACIÓN</span>
                 <DurationSelector value={durationMinutes} onChange={setDuration} />
               </div>
@@ -448,8 +447,9 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
                 className="pixel-btn"
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "16px",
                   justifyContent: "center",
+                  fontSize: "var(--text-pixel-sm)",
                   opacity: !subject.trim() ? 0.5 : 1,
                   cursor: !subject.trim() ? "not-allowed" : "pointer",
                 }}
@@ -500,29 +500,34 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
         {/* ── Right column — plant ── */}
         <div
           style={{
-            padding: 24,
+            padding: "32px 32px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            gap: 16,
+            gap: 20,
             overflow: "hidden",
           }}
         >
           {isIdle && (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-              <PlantDisplay stage={1} size="lg" />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+              {/* Plant scaled up — wrapper reserves the visual space */}
+              <div style={{ width: 160, height: 160, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ transform: "scale(2)", transformOrigin: "center" }}>
+                  <PlantDisplay stage={1} size="lg" />
+                </div>
+              </div>
               <span
                 style={{
                   fontFamily: "var(--font-pixel)",
-                  fontSize: "var(--text-pixel-sm)",
+                  fontSize: "var(--text-pixel-md)",
                   color: "var(--color-text)",
-                  letterSpacing: "0.05em",
+                  letterSpacing: "0.08em",
                 }}
               >
                 MARGARITA
               </span>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
                 <span style={labelStyle}>5 ETAPAS</span>
                 <span style={labelStyle}>HASTA 120 MIN</span>
               </div>
