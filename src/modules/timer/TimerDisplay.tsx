@@ -376,7 +376,7 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
           height: "100%",
         }}
       >
-        {/* ── Left column ── */}
+        {/* ── Left column — controls ── */}
         <div
           style={{
             padding: 24,
@@ -388,83 +388,9 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
           }}
         >
           {isIdle && (
-            /* IDLE left: plant preview */
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <span style={labelStyle}>PLANTA DE SESIÓN</span>
-              <PlantDisplay stage={1} size="md" />
-              <span
-                style={{
-                  fontFamily: "var(--font-pixel)",
-                  fontSize: "var(--text-pixel-sm)",
-                  color: "var(--color-text)",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                MARGARITA
-              </span>
-              <span style={labelStyle}>5 ETAPAS · HASTA 120 MIN</span>
-              <button
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontFamily: "var(--font-pixel)",
-                  fontSize: "var(--text-pixel-xs)",
-                  color: "var(--color-accent-pink)",
-                  padding: 0,
-                  letterSpacing: "0.05em",
-                  textAlign: "left",
-                }}
-              >
-                VER ETAPAS ›
-              </button>
-            </div>
-          )}
-
-          {(isRunning || isPaused) && (
-            /* RUNNING / PAUSED left: circular timer */
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <span style={{ ...labelStyle, color: "var(--color-text)" }}>
-                {subject.toUpperCase()}
-              </span>
-              {isPaused && (
-                <span
-                  style={{
-                    ...labelStyle,
-                    color: "var(--color-heart)",
-                    letterSpacing: "0.15em",
-                  }}
-                >
-                  — PAUSADO —
-                </span>
-              )}
-              <TimerCircle
-                secondsLeft={secondsLeft}
-                totalSeconds={totalSeconds}
-                faded={isPaused}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* ── Right column ── */}
-        <div
-          style={{
-            padding: 24,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 16,
-            borderLeft: "3px solid var(--color-border)",
-            overflow: "hidden",
-          }}
-        >
-          {isIdle && (
-            /* IDLE right: subject + duration + start */
             <>
               {/* Subject selector */}
-              <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <span style={labelStyle}>MATERIA</span>
                 {isLoaded && subjects.length > 0 ? (
                   <>
@@ -512,7 +438,7 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
               </div>
 
               {/* Duration selector */}
-              <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <span style={labelStyle}>DURACIÓN</span>
                 <DurationSelector value={durationMinutes} onChange={setDuration} />
               </div>
@@ -534,7 +460,77 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
           )}
 
           {(isRunning || isPaused) && (
-            /* RUNNING / PAUSED right: plant + stage info */
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <span style={{ ...labelStyle, color: "var(--color-text)" }}>
+                {subject.toUpperCase()}
+              </span>
+              {isPaused && (
+                <span
+                  style={{
+                    ...labelStyle,
+                    color: "var(--color-heart)",
+                    letterSpacing: "0.15em",
+                  }}
+                >
+                  — PAUSADO —
+                </span>
+              )}
+              <TimerCircle
+                secondsLeft={secondsLeft}
+                totalSeconds={totalSeconds}
+                faded={isPaused}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* ── Right column — plant ── */}
+        <div
+          style={{
+            padding: 24,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 16,
+            borderLeft: "3px solid var(--color-border)",
+            overflow: "hidden",
+          }}
+        >
+          {isIdle && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <span style={labelStyle}>PLANTA DE SESIÓN</span>
+              <PlantDisplay stage={1} size="md" />
+              <span
+                style={{
+                  fontFamily: "var(--font-pixel)",
+                  fontSize: "var(--text-pixel-sm)",
+                  color: "var(--color-text)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                MARGARITA
+              </span>
+              <span style={labelStyle}>5 ETAPAS · HASTA 120 MIN</span>
+              <button
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "var(--font-pixel)",
+                  fontSize: "var(--text-pixel-xs)",
+                  color: "var(--color-accent-pink)",
+                  padding: 0,
+                  letterSpacing: "0.05em",
+                  textAlign: "left",
+                }}
+              >
+                VER ETAPAS ›
+              </button>
+            </div>
+          )}
+
+          {(isRunning || isPaused) && (
             <>
               <div style={{ opacity: isPaused ? 0.55 : 1 }}>
                 <PlantDisplay stage={growthState.currentStage} size="lg" />
