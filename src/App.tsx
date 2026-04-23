@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { TimerDisplay } from "./modules/timer/TimerDisplay";
 import { HistoryView } from "./modules/history/HistoryView";
 import { useHistoryStore } from "./modules/history/historyStore";
+import { useSubjectStore } from "./modules/subjects/subjectStore";
 
 type Tab = "timer" | "history";
 
@@ -34,6 +35,7 @@ function App() {
   useEffect(() => {
     useHistoryStore.getState().loadSessions();
     useHistoryStore.getState().loadUserState();
+    useSubjectStore.getState().loadSubjects();
   }, []);
 
   return (
