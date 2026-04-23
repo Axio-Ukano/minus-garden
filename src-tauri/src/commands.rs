@@ -1,5 +1,6 @@
 use rusqlite::params;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 use crate::db::DbState;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -104,6 +105,78 @@ pub fn update_hearts(state: tauri::State<'_, DbState>, total_hearts: i64) -> Res
     conn.execute(
         "UPDATE user_state SET total_hearts = ?1, updated_at = datetime('now') WHERE id = 1",
         params![total_hearts],
+    )
+    .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Subject {
+    pub id: String,
+    pub name: String,
+    pub color: String,
+    pub use_count: i64,
+}
+
+#[tauri::command]
+pub fn get_subjects(state: tauri::State<'_, DbState>) -> Result<Vec<Subject>, String> {
+    let conn = state.0.lock().map_err(|e| e.to_string())?;
+    let mut stmt = conn
+        .prepare(
+            "SELECT id, name, color, use_count FROM subjects
+             ORDER BY use_count DESC, last_used_at DESC",
+        )
+        .map_err(|e| e.to_string())?;
+
+    let subjects = stmt
+        .query_map([], |row| {
+            Ok(Subject {
+                id: row.get(0)?,
+                name: row.get(1)?,
+                color: row.get(2)?,
+                use_count: row.get(3)?,
+            })
+        })
+        .map_err(|e| e.to_string())?
+        .collect::<Result<Vec<Subject>, _>>()
+        .map_err(|e| e.to_string())?;
+
+    Ok(subjects)
+}
+
+#[tauri::command]
+pub fn save_subject(
+    state: tauri::State<'_, DbState>,
+    name: String,
+    color: String,
+) -> Result<Subject, String> {
+    let conn = state.0.lock().map_err(|e| e.to_string())?;
+    let id = Uuid::new_v4().to_string();
+
+    conn.execute(
+        "INSERT INTO subjects (id, name, color) VALUES (?1, ?2, ?3)",
+        params![id, name, color],
+    )
+    .map_err(|e| {
+        if e.to_string().contains("UNIQUE constraint failed") {
+            "Ya existe una materia con ese nombre".to_string()
+        } else {
+            e.to_string()
+        }
+    })?;
+
+    Ok(Subject { id, name, color, use_count: 0 })
+}
+
+#[tauri::command]
+pub fn update_subject_usage(
+    state: tauri::State<'_, DbState>,
+    id: String,
+) -> Result<(), String> {
+    let conn = state.0.lock().map_err(|e| e.to_string())?;
+    conn.execute(
+        "UPDATE subjects SET use_count = use_count + 1, last_used_at = ?1 WHERE id = ?2",
+        params![chrono::Utc::now().to_rfc3339(), id],
     )
     .map_err(|e| e.to_string())?;
     Ok(())
