@@ -1,5 +1,6 @@
 import { useTimerStore } from "./timerStore";
 import { useTimer } from "./useTimer";
+import { useHistoryStore } from "../history/historyStore";
 
 const RADIUS = 90;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -18,7 +19,6 @@ export function TimerDisplay() {
     durationMinutes,
     secondsLeft,
     subject,
-    hearts,
     start,
     pause,
     resume,
@@ -26,6 +26,8 @@ export function TimerDisplay() {
     setDuration,
     setSubject,
   } = useTimerStore();
+
+  const totalHearts = useHistoryStore((s) => s.totalHearts);
 
   const totalSeconds = durationMinutes * 60;
   const progress = secondsLeft / totalSeconds;
@@ -43,12 +45,12 @@ export function TimerDisplay() {
     >
       {/* Hearts display */}
       <div className="flex items-center gap-1" style={{ color: "var(--color-hearts)" }}>
-        {hearts > 0 && (
+        {totalHearts > 0 && (
           <>
-            <span className="text-2xl">{"♥".repeat(Math.min(hearts, 10))}</span>
-            {hearts > 10 && (
+            <span className="text-2xl">{"♥".repeat(Math.min(totalHearts, 10))}</span>
+            {totalHearts > 10 && (
               <span className="text-sm font-bold" style={{ color: "var(--color-text-muted)" }}>
-                +{hearts - 10}
+                +{totalHearts - 10}
               </span>
             )}
           </>
@@ -117,7 +119,7 @@ export function TimerDisplay() {
           }}
         >
           ¡Lo lograste! 💗
-          {hearts > 0 && (
+          {Math.floor(durationMinutes / 5) > 0 && (
             <p className="text-sm font-semibold mt-1" style={{ color: "var(--color-text-muted)" }}>
               +{Math.floor(durationMinutes / 5)} ♥ ganados
             </p>
