@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useHistoryStore } from "./historyStore";
 import type { Session } from "./historyStore";
-import { PlantDisplay } from "../plant/PlantDisplay";
-import { getStageName } from "../plant/plantService";
+import { PlantDisplay } from "../plants/PlantDisplay";
+import { getStageName, getSpeciesById } from "../plants/plantService";
+import { HeartIcon } from "../../components/HeartIcon";
+import "../../components/Panel.css";
+import "../../components/Button.css";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -24,7 +27,7 @@ function formatDate(isoString: string): string {
 }
 
 function SessionCard({ session, onDelete }: { session: Session; onDelete: () => void }) {
-  const stageName = getStageName(session.plant_stage, session.plant_species);
+  const stageName = getStageName(session.plant_stage, getSpeciesById(session.plant_species));
 
   return (
     <div
@@ -38,8 +41,16 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
       }}
     >
       {/* Plant thumbnail */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flexShrink: 0 }}>
-        <PlantDisplay stage={session.plant_stage} species={session.plant_species} size="sm" />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 4,
+          flexShrink: 0,
+        }}
+      >
+        <PlantDisplay stage={session.plant_stage} speciesId={session.plant_species} size="sm" />
         <span
           style={{
             fontFamily: "var(--font-pixel)",
@@ -94,9 +105,12 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
             fontFamily: "var(--font-pixel)",
             fontSize: "var(--text-pixel-xs)",
             color: "var(--color-heart)",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
           }}
         >
-          +{session.hearts_earned}♥
+          +{session.hearts_earned} <HeartIcon size={12} color="currentColor" />
         </span>
         <button
           onClick={onDelete}
@@ -126,7 +140,7 @@ export function HistoryView() {
   useEffect(() => {
     loadSessions();
     loadUserState();
-  }, []);
+  }, [loadSessions, loadUserState]);
 
   const handleDelete = (id: string) => {
     if (confirm("¿Borrar esta sesión?")) deleteSession(id);
@@ -135,26 +149,32 @@ export function HistoryView() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "100%",
         backgroundColor: "var(--color-bg)",
-        padding: "24px 16px 80px",
+        padding: "32px",
         display: "flex",
         flexDirection: "column",
-        gap: "20px",
-        maxWidth: "480px",
+        gap: "24px",
+        width: "100%",
+        maxWidth: "900px",
         margin: "0 auto",
+        boxSizing: "border-box",
       }}
     >
       {/* Hearts header */}
       <div
         style={{
-          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 12,
           fontFamily: "var(--font-pixel)",
           fontSize: "var(--text-pixel-lg)",
           color: "var(--color-heart)",
         }}
       >
-        ♥ {totalHearts} CORAZONES
+        <HeartIcon size={20} color="currentColor" />
+        <span style={{ paddingTop: 4 }}>{totalHearts} CORAZONES</span>
       </div>
 
       {loading ? (
@@ -200,7 +220,13 @@ export function HistoryView() {
           </span>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: 16,
+          }}
+        >
           {sessions.map((session) => (
             <SessionCard
               key={session.id}

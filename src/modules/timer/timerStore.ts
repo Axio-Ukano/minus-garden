@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { useHistoryStore } from "../history/historyStore";
 import type { Session } from "../history/historyStore";
-import { calculateFinalStage, DAISY_SPECIES } from "../plant/plantService";
+import { calculateFinalStage, getSpeciesById } from "../plants/plantService";
 
 export type TimerStatus = "idle" | "running" | "paused" | "finished";
 
@@ -11,6 +11,7 @@ interface TimerState {
   status: TimerStatus;
   subject: string;
   startedAt: string | null;
+  plantSpeciesId: string;
 
   start: () => void;
   pause: () => void;
@@ -20,6 +21,7 @@ interface TimerState {
   tick: () => void;
   setDuration: (minutes: number) => void;
   setSubject: (subject: string) => void;
+  setPlantSpecies: (id: string) => void;
 }
 
 export const useTimerStore = create<TimerState>((set, get) => ({
@@ -28,6 +30,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
   status: "idle",
   subject: "",
   startedAt: null,
+  plantSpeciesId: "daisy",
 
   start: () =>
     set((s) => ({
@@ -48,9 +51,10 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     })),
 
   finish: () => {
-    const { durationMinutes, startedAt, subject } = get();
+    const { durationMinutes, startedAt, subject, plantSpeciesId } = get();
+    const species = getSpeciesById(plantSpeciesId);
     const heartsEarned = Math.floor(durationMinutes / 5);
-    const plantStage = calculateFinalStage(durationMinutes, DAISY_SPECIES);
+    const plantStage = calculateFinalStage(durationMinutes, species);
     const session: Session = {
       id: crypto.randomUUID(),
       start_time: startedAt ?? new Date().toISOString(),
@@ -59,13 +63,11 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       subject,
       completed: true,
       hearts_earned: heartsEarned,
-      plant_species: 'daisy',
+      plant_species: plantSpeciesId,
       plant_stage: plantStage,
     };
     useHistoryStore.getState().saveSession(session);
-    useHistoryStore.getState().syncHearts(
-      useHistoryStore.getState().totalHearts + heartsEarned,
-    );
+    useHistoryStore.getState().syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
     set({ status: "finished", secondsLeft: 0, startedAt: null });
   },
 
@@ -82,4 +84,6 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     set({ durationMinutes: minutes, secondsLeft: minutes * 60, status: "idle" }),
 
   setSubject: (subject: string) => set({ subject }),
+
+  setPlantSpecies: (id: string) => set({ plantSpeciesId: id }),
 }));
