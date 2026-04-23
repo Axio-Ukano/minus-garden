@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --color-bg: #f5f0e8;
+  --color-surface: #fdf8f0;
+  --color-border: #3d2b1f;
+  --color-accent-green: #5a8a3c;
+  --color-accent-pink: #e8a0b4;
+  --color-text: #3d2b1f;
+  --color-text-muted: #7a5c4a;
+  --color-heart: #e05050;
+  --color-pixel-shadow: #2a1f15;
+
+  --font-pixel: 'Press Start 2P', monospace;
+
+  --text-pixel-xs: 7px;
+  --text-pixel-sm: 8px;
+  --text-pixel-md: 10px;
+  --text-pixel-lg: 12px;
+  --text-pixel-xl: 16px;
+}
+
+.pixel-border {
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+}
+
+.pixel-border-green {
+  border: 3px solid var(--color-accent-green);
+  box-shadow: 3px 3px 0 var(--color-accent-green);
+}
+
+.pixel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-accent-green);
+  color: #fff;
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  border-radius: 0;
+  user-select: none;
+}
+
+.pixel-btn:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+}
+
+.pixel-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  border-radius: 0;
+  user-select: none;
+}
+
+.pixel-btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+}
+
+.pixel-panel {
+  background: var(--color-surface);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  padding: 16px;
+}
+
+.pixel-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-surface);
+  border: 3px solid var(--color-border);
+  border-radius: 0;
+  color: var(--color-text);
+  outline: none;
+}
+
+.pixel-input:focus {
+  border-color: var(--color-accent-green);
+}

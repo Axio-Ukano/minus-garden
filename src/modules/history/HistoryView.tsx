@@ -123,6 +123,7 @@ export function HistoryView() {
 
   return (
     <div
+      className="pixel-panel"
       style={{
         minHeight: "100vh",
         backgroundColor: "var(--color-bg)",

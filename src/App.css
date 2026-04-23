@@ -1,20 +1,23 @@
-/* App.css — estilos base globales */
+@import './styles/pixel-theme.css';
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  image-rendering: pixelated;
 }
 
 html,
-body,
-#root {
+body {
   height: 100%;
-  width: 100%;
+  background: var(--color-bg);
+  font-family: var(--font-pixel);
+  color: var(--color-text);
+  font-size: var(--text-pixel-md);
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#root {
+  height: 100%;
 }
