@@ -9,6 +9,8 @@ export interface Session {
   subject: string
   completed: boolean
   hearts_earned: number
+  plant_species: string
+  plant_stage: number
 }
 
 interface HistoryState {
