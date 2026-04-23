@@ -1,7 +1,25 @@
-# Tauri + React + Typescript
+# minu-garden 🌸
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+App de escritorio para sesiones de estudio con jardín virtual.
 
-## Recommended IDE Setup
+## Stack
+- **Frontend:** React 19 + TypeScript + Tailwind CSS 4
+- **Desktop shell:** Tauri 2 (Rust)
+- **Estado:** Zustand
+- **Persistencia:** SQLite (próximamente)
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Dev
+
+```bash
+pnpm install
+pnpm tauri dev
+```
+
+## Build
+
+```bash
+pnpm tauri build
+```
+
+---
+Proyecto personal privado. No acepta contribuciones externas.
