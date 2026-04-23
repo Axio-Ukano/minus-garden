@@ -97,6 +97,7 @@
   font-size: var(--text-pixel-sm);
   background: var(--color-panel);
   border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
   border-radius: 0;
   color: var(--color-text);
   outline: none;

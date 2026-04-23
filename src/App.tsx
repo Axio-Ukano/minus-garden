@@ -5,22 +5,22 @@ import { useHistoryStore } from "./modules/history/historyStore";
 
 type Tab = "timer" | "history";
 
-function ClockIcon() {
+function ClockIcon({ bg }: { bg: string }) {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="14" height="14" fill="currentColor" />
-      <rect x="2" y="2" width="12" height="12" fill="var(--color-bg)" />
+      <rect x="2" y="2" width="12" height="12" fill={bg} />
       <rect x="7" y="4" width="2" height="5" fill="currentColor" />
       <rect x="7" y="8" width="4" height="2" fill="currentColor" />
     </svg>
   );
 }
 
-function BookIcon() {
+function BookIcon({ bg }: { bg: string }) {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="1" width="12" height="14" fill="currentColor" />
-      <rect x="3" y="2" width="10" height="12" fill="var(--color-bg)" />
+      <rect x="3" y="2" width="10" height="12" fill={bg} />
       <rect x="4" y="4" width="8" height="2" fill="currentColor" />
       <rect x="4" y="7" width="8" height="2" fill="currentColor" />
       <rect x="4" y="10" width="5" height="2" fill="currentColor" />
@@ -84,7 +84,10 @@ function App() {
                 textTransform: "uppercase",
               }}
             >
-              {tab === "timer" ? <ClockIcon /> : <BookIcon />}
+              {tab === "timer"
+                ? <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+                : <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+              }
               {tab === "timer" ? "ESTUDIAR" : "HISTORIAL"}
             </button>
           );
