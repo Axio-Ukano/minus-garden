@@ -1,0 +1,42 @@
+:root {
+  /* ── paleta principal (rosa/cozy original) ── */
+  --color-bg: #fceaf8;
+  --color-panel: #fdf2fa;
+  --color-surface: #fdf2fa;
+  --color-accent: #ff6bb5;
+  --color-accent-hover: #ff1492;
+  --color-text: #2a1f20;
+  --color-text-muted: #8a5a63;
+  --color-hearts: #ffb8c1;
+  --color-heart: #ff6bb5;
+  --color-success: #7acb8a;
+  --color-error: #f295be;
+
+  /* ── pixel art extras ── */
+  --color-border: #3b2f3f;
+  --color-pixel-shadow: #2a1f20;
+
+  /* ── colores de la planta (solo para PlantDisplay) ── */
+  --color-accent-green: #5a8a3c;
+  --color-accent-pink: #ff6bb5;
+  --color-accent-purple: #9b6dbd;
+
+  /* ── tipografía pixel ── */
+  --font-pixel: "Press Start 2P", monospace;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --text-pixel-xs: 9px;
+  --text-pixel-sm: 10px;
+  --text-pixel-md: 12px;
+  --text-pixel-lg: 14px;
+  --text-pixel-xl: 16px;
+  --text-pixel-2xl: 20px;
+
+  /* ── hover transition speed ── */
+  --hover-speed: 0.18s;
+}

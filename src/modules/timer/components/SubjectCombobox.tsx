@@ -1,0 +1,157 @@
+import { useEffect, useRef, useState, useMemo } from "react";
+import type { Subject } from "../../subjects/subjectStore";
+import "./SubjectCombobox.css";
+
+/** Capitalize the first letter of a string */
+// eslint-disable-next-line react-refresh/only-export-components
+export function capitalize(str: string): string {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function SubjectCombobox({
+  value,
+  onChange,
+  onSubmit,
+  subjects,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  onSubmit: () => void;
+  subjects: Subject[];
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Filter and sort alphabetically
+  const filtered = useMemo(() => {
+    return [...subjects]
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .filter((s) => s.name.toLowerCase().includes(value.trim().toLowerCase()));
+  }, [subjects, value]);
+
+  const exactMatch = subjects.find((s) => s.name.toLowerCase() === value.trim().toLowerCase());
+  const showCreateOption = value.trim() && !exactMatch;
+
+  const handleSelect = (name: string) => {
+    onChange(name);
+    setIsOpen(false);
+  };
+
+  return (
+    <div ref={containerRef} style={{ position: "relative", width: "100%", maxWidth: 300 }}>
+      <input
+        className="pixel-input"
+        maxLength={50}
+        style={{
+          width: "100%",
+          fontSize: "var(--text-pixel-md)",
+          padding: "12px 16px",
+          boxSizing: "border-box",
+        }}
+        placeholder="¿Qué estás estudiando?"
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setIsOpen(false);
+            onSubmit();
+          }
+          if (e.key === "Escape") setIsOpen(false);
+        }}
+      />
+
+      {isOpen && (
+        <div
+          className="pixel-border"
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            marginTop: 8,
+            backgroundColor: "var(--color-panel)",
+            zIndex: 20,
+            maxHeight: 200,
+            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Create new option */}
+          {showCreateOption && (
+            <button
+              className="pixel-dropdown-item"
+              style={{
+                borderBottom: "2px solid var(--color-border)",
+                fontSize: "var(--text-pixel-sm)",
+                color: "var(--color-accent-hover)",
+              }}
+              onClick={() => handleSelect(capitalize(value.trim()))}
+            >
+              + Crear &quot;{value.trim()}&quot;
+            </button>
+          )}
+
+          {/* Empty state hint */}
+          {!value.trim() && (
+            <div
+              style={{
+                padding: "12px 16px",
+                textAlign: "left",
+                background: "transparent",
+                borderBottom: "2px solid var(--color-border)",
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-sm)",
+                color: "var(--color-accent-hover)",
+              }}
+            >
+              Escribe para crear...
+            </div>
+          )}
+
+          {/* Filtered subject list */}
+          {filtered.map((s) => (
+            <button
+              key={s.id}
+              className="pixel-dropdown-item"
+              style={{ fontSize: "var(--text-pixel-sm)" }}
+              onClick={() => handleSelect(s.name)}
+            >
+              {s.name}
+            </button>
+          ))}
+
+          {/* No results */}
+          {filtered.length === 0 && !showCreateOption && value.trim() && (
+            <div
+              style={{
+                padding: "12px 16px",
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-sm)",
+                color: "var(--color-text-muted)",
+              }}
+            >
+              No hay materias
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

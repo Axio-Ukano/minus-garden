@@ -1,0 +1,153 @@
+/* ── Primary button ─────────────────────────────────────────────────────────── */
+.pixel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-accent);
+  color: #fff;
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  border-radius: 0;
+  user-select: none;
+  transition:
+    transform var(--hover-speed) ease,
+    box-shadow var(--hover-speed) ease,
+    background-color var(--hover-speed) ease,
+    filter var(--hover-speed) ease;
+}
+
+.pixel-btn:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 4px 4px 0 var(--color-pixel-shadow);
+  filter: brightness(1.1);
+}
+
+.pixel-btn:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+  filter: brightness(0.95);
+}
+
+.pixel-btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.3) opacity(0.6);
+}
+
+.pixel-btn:disabled:hover {
+  transform: none;
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  filter: grayscale(0.3) opacity(0.6);
+}
+
+/* ── Secondary button ───────────────────────────────────────────────────────── */
+.pixel-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-panel);
+  color: var(--color-text);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  border-radius: 0;
+  user-select: none;
+  transition:
+    transform var(--hover-speed) ease,
+    box-shadow var(--hover-speed) ease,
+    background-color var(--hover-speed) ease,
+    color var(--hover-speed) ease,
+    filter var(--hover-speed) ease;
+}
+
+.pixel-btn-secondary:hover {
+  background: var(--color-accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 4px 4px 0 var(--color-pixel-shadow);
+}
+
+.pixel-btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+}
+
+/* ── Icon-style button (X, arrows) ──────────────────────────────────────────── */
+.pixel-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  font-family: var(--font-pixel);
+  color: var(--color-text);
+  line-height: 1;
+  border-radius: 0;
+  user-select: none;
+  transition:
+    transform var(--hover-speed) ease,
+    box-shadow var(--hover-speed) ease,
+    background-color var(--hover-speed) ease,
+    color var(--hover-speed) ease;
+}
+
+.pixel-btn-icon:hover {
+  background: var(--color-accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 4px 4px 0 var(--color-pixel-shadow);
+}
+
+.pixel-btn-icon:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+}
+
+.pixel-btn-icon:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.pixel-btn-icon:disabled:hover {
+  background: transparent;
+  color: var(--color-text-muted);
+  transform: none;
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+}
+
+/* ── Text-style link button (VER ETAPAS ›) ──────────────────────────────────── */
+.pixel-btn-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-pixel);
+  color: var(--color-accent-pink);
+  padding: 0;
+  letter-spacing: 0.05em;
+  text-align: center;
+  user-select: none;
+  transition:
+    color var(--hover-speed) ease,
+    transform var(--hover-speed) ease,
+    filter var(--hover-speed) ease;
+}
+
+.pixel-btn-link:hover {
+  color: var(--color-accent-hover);
+  transform: translateY(-1px);
+  filter: brightness(1.15);
+}
+
+.pixel-btn-link:active {
+  transform: translateY(1px);
+}

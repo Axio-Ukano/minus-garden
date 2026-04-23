@@ -1,0 +1,15 @@
+/* ── Panel card (history items, stage cards) ─────────────────────────────────── */
+.pixel-panel {
+  background: var(--color-panel);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  padding: 16px;
+  transition:
+    transform var(--hover-speed) ease,
+    box-shadow var(--hover-speed) ease;
+}
+
+.pixel-border {
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+}
