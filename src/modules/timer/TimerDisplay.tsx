@@ -7,7 +7,7 @@ import { PlantDisplay } from "../plant/PlantDisplay";
 import { DAISY_SPECIES, getStageName } from "../plant/plantService";
 import { useSubjectStore } from "../subjects/subjectStore";
 
-const RADIUS = 80;
+const RADIUS = 70;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 const DURATION_MIN = 5;
@@ -137,16 +137,16 @@ function TimerCircle({
         opacity: faded ? 0.6 : 1,
       }}
     >
-      <svg width="200" height="200" style={{ transform: "rotate(-90deg)" }}>
+      <svg width="160" height="160" style={{ transform: "rotate(-90deg)" }}>
         <circle
-          cx="100" cy="100" r={RADIUS}
+          cx="80" cy="80" r={RADIUS}
           fill="none"
           stroke="var(--color-heart)"
           strokeWidth="10"
           opacity="0.25"
         />
         <circle
-          cx="100" cy="100" r={RADIUS}
+          cx="80" cy="80" r={RADIUS}
           fill="none"
           stroke="var(--color-accent)"
           strokeWidth="10"
@@ -273,12 +273,13 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
 
         <PlantDisplay stage={growthState.currentStage} size="lg" />
 
-        <div className="pixel-panel" style={{ textAlign: "center", padding: "16px 24px" }}>
+        <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 8 }}>
           <div
             style={{
               fontFamily: "var(--font-pixel)",
               fontSize: "var(--text-pixel-sm)",
               color: "var(--color-text)",
+              letterSpacing: "0.05em",
             }}
           >
             ETAPA {growthState.currentStage} — {stageName.toUpperCase()}
@@ -288,7 +289,6 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
               fontFamily: "var(--font-pixel)",
               fontSize: "var(--text-pixel-xs)",
               color: "var(--color-text-muted)",
-              marginTop: 4,
             }}
           >
             MARGARITA · {durationMinutes} MIN
@@ -371,7 +371,7 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
           flex: 1,
           overflow: "hidden",
           display: "grid",
-          gridTemplateColumns: "2fr 3fr",
+          gridTemplateColumns: "1fr 1fr",
           gap: 0,
           height: "100%",
         }}
@@ -448,6 +448,8 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
                 className="pixel-btn"
                 style={{
                   width: "100%",
+                  padding: "12px 16px",
+                  justifyContent: "center",
                   opacity: !subject.trim() ? 0.5 : 1,
                   cursor: !subject.trim() ? "not-allowed" : "pointer",
                 }}
@@ -460,19 +462,30 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
           )}
 
           {(isRunning || isPaused) && (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <span style={{ ...labelStyle, color: "var(--color-text)" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-pixel)",
+                  fontSize: "var(--text-pixel-sm)",
+                  color: "var(--color-text)",
+                  letterSpacing: "0.1em",
+                }}
+              >
                 {subject.toUpperCase()}
               </span>
               {isPaused && (
                 <span
                   style={{
-                    ...labelStyle,
+                    fontFamily: "var(--font-pixel)",
+                    fontSize: "var(--text-pixel-xs)",
                     color: "var(--color-heart)",
-                    letterSpacing: "0.15em",
+                    border: "2px solid var(--color-heart)",
+                    padding: "3px 8px",
+                    display: "inline-block",
+                    letterSpacing: "0.1em",
                   }}
                 >
-                  — PAUSADO —
+                  PAUSADO
                 </span>
               )}
               <TimerCircle
@@ -493,14 +506,12 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
             justifyContent: "center",
             alignItems: "center",
             gap: 16,
-            borderLeft: "3px solid var(--color-border)",
             overflow: "hidden",
           }}
         >
           {isIdle && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <span style={labelStyle}>PLANTA DE SESIÓN</span>
-              <PlantDisplay stage={1} size="md" />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+              <PlantDisplay stage={1} size="lg" />
               <span
                 style={{
                   fontFamily: "var(--font-pixel)",
@@ -511,7 +522,10 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
               >
                 MARGARITA
               </span>
-              <span style={labelStyle}>5 ETAPAS · HASTA 120 MIN</span>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                <span style={labelStyle}>5 ETAPAS</span>
+                <span style={labelStyle}>HASTA 120 MIN</span>
+              </div>
               <button
                 style={{
                   background: "none",
@@ -522,7 +536,7 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
                   color: "var(--color-accent-pink)",
                   padding: 0,
                   letterSpacing: "0.05em",
-                  textAlign: "left",
+                  textAlign: "center",
                 }}
               >
                 VER ETAPAS ›
@@ -553,6 +567,10 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
                       fontFamily: "var(--font-pixel)",
                       fontSize: "var(--text-pixel-xs)",
                       color: "var(--color-heart)",
+                      border: "2px solid var(--color-heart)",
+                      padding: "3px 8px",
+                      display: "inline-block",
+                      letterSpacing: "0.1em",
                     }}
                   >
                     EN PAUSA
@@ -576,7 +594,7 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
                 const elapsedMin = elapsedSeconds / 60;
                 const minsLeft = Math.ceil(nextThreshold - elapsedMin);
                 return (
-                  <div style={{ width: "100%", maxWidth: 180, display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 6 }}>
                     <span style={labelStyle}>PRÓXIMA ETAPA</span>
                     <div
                       style={{
@@ -609,7 +627,7 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
       {showBottomBar && (
         <div
           style={{
-            height: 72,
+            minHeight: 72,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -622,20 +640,20 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
         >
           {isRunning && (
             <>
-              <button className="pixel-btn-secondary" onClick={pause} style={{ flex: 1 }}>
+              <button className="pixel-btn" onClick={pause} style={{ flex: 1, justifyContent: "center" }}>
                 PAUSAR
               </button>
-              <button className="pixel-btn-secondary" onClick={reset} style={{ flex: 1 }}>
+              <button className="pixel-btn-secondary" onClick={reset} style={{ flex: 1, justifyContent: "center" }}>
                 REINICIAR
               </button>
             </>
           )}
           {isPaused && (
             <>
-              <button className="pixel-btn" onClick={resume} style={{ flex: 1 }}>
+              <button className="pixel-btn" onClick={resume} style={{ flex: 1, justifyContent: "center" }}>
                 REANUDAR
               </button>
-              <button className="pixel-btn-secondary" onClick={reset} style={{ flex: 1 }}>
+              <button className="pixel-btn-secondary" onClick={reset} style={{ flex: 1, justifyContent: "center" }}>
                 REINICIAR
               </button>
             </>
