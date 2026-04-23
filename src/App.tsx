@@ -41,17 +41,19 @@ function App() {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
       }}
     >
       {/* Content area */}
-      <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
-        {activeTab === "timer"
-          ? <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
-          : <HistoryView />}
+      <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", minHeight: 0 }}>
+        {activeTab === "timer" ? (
+          <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
+        ) : (
+          <HistoryView />
+        )}
       </div>
 
       {/* Pixel art bottom navigation */}
@@ -62,6 +64,8 @@ function App() {
           borderTop: "3px solid var(--color-border)",
           boxShadow: "0 -3px 0 var(--color-pixel-shadow)",
           flexShrink: 0,
+          position: "relative",
+          zIndex: 10,
         }}
       >
         {(["timer", "history"] as Tab[]).map((tab) => {
@@ -69,29 +73,19 @@ function App() {
           return (
             <button
               key={tab}
+              className={`pixel-nav-btn ${active ? "active" : ""}`}
               onClick={() => setActiveTab(tab)}
               style={{
                 flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "6px",
-                padding: "10px 0",
-                background: active ? "var(--color-accent)" : "transparent",
                 color: active ? "#fff" : "var(--color-text-muted)",
-                border: "none",
                 borderRight: tab === "timer" ? "3px solid var(--color-border)" : "none",
-                cursor: "pointer",
-                fontFamily: "var(--font-pixel)",
-                fontSize: "var(--text-pixel-xs)",
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
               }}
             >
-              {tab === "timer"
-                ? <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
-                : <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
-              }
+              {tab === "timer" ? (
+                <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+              ) : (
+                <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+              )}
               {tab === "timer" ? "ESTUDIAR" : "HISTORIAL"}
             </button>
           );

@@ -1,0 +1,23 @@
+/* ── Input ───────────────────────────────────────────────────────────────────── */
+.pixel-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-panel);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  border-radius: 0;
+  color: var(--color-text);
+  outline: none;
+  transition:
+    border-color var(--hover-speed) ease,
+    box-shadow var(--hover-speed) ease;
+}
+
+.pixel-input:focus {
+  border-color: var(--color-accent);
+  box-shadow:
+    3px 3px 0 var(--color-accent),
+    0 0 0 1px var(--color-accent);
+}

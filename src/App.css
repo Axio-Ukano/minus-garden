@@ -1,11 +1,29 @@
-@import './styles/pixel-theme.css';
+/* ── Custom Pixel Scrollbar ── */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+  border-left: 3px solid var(--color-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-left: 3px solid var(--color-border);
+  border-top: 3px solid var(--color-border);
+  border-bottom: 3px solid var(--color-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-hover);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--color-accent) var(--color-surface);
   image-rendering: pixelated;
   user-select: none;
 }
@@ -15,15 +33,37 @@ textarea {
   user-select: text;
 }
 
-html,
-body {
-  height: 100%;
-  background: var(--color-bg);
+/* ── Navigation Bar button ───────────────────────────────────────────────────── */
+.pixel-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+  border: none;
+  cursor: pointer;
   font-family: var(--font-pixel);
-  color: var(--color-text);
-  font-size: var(--text-pixel-md);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background-color var(--hover-speed) ease,
+    color var(--hover-speed) ease;
 }
 
-#root {
-  height: 100%;
+.pixel-nav-btn:hover {
+  background-color: var(--color-hearts);
+}
+
+.pixel-nav-btn:active {
+  /* No transform for nav buttons */
+}
+
+.pixel-nav-btn.active {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.pixel-nav-btn.active:hover {
+  background: var(--color-accent-hover);
 }

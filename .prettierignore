@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-tauri
+build
+.eslintcache
+public
+*.html
