@@ -134,11 +134,10 @@ export function HistoryView() {
 
   return (
     <div
-      className="pixel-panel"
       style={{
         minHeight: "100vh",
         backgroundColor: "var(--color-bg)",
-        padding: "24px 16px",
+        padding: "24px 16px 80px",
         display: "flex",
         flexDirection: "column",
         gap: "20px",
