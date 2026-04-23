@@ -21,6 +21,10 @@
   /* ── typography ── */
   --font-pixel: 'Press Start 2P', monospace;
 
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
   --text-pixel-xs: 7px;
   --text-pixel-sm: 8px;
   --text-pixel-md: 10px;

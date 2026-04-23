@@ -4,7 +4,7 @@ interface PlantDisplayProps {
   size?: 'sm' | 'md' | 'lg'
 }
 
-const SIZE_PX = { sm: 32, md: 64, lg: 96 } as const
+const SIZE_PX = { sm: 32, md: 64, lg: 80 } as const
 
 // ── palette ─────────────────────────────────────────────────────────────────
 const C = {
