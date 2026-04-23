@@ -49,7 +49,9 @@ function App() {
     >
       {/* Content area */}
       <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
-        {activeTab === "timer" ? <TimerDisplay /> : <HistoryView />}
+        {activeTab === "timer"
+          ? <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
+          : <HistoryView />}
       </div>
 
       {/* Pixel art bottom navigation */}
