@@ -1,46 +1,268 @@
-# Logs
-logs
+# ============================================================
+# minu-garden — .gitignore
+# Stack: Tauri 2 + Rust + React + TypeScript + Tailwind + SQLite
+# ============================================================
+
+
+# ───────────────────────────────────────────
+# DEPENDENCIES
+# ───────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+
+# ───────────────────────────────────────────
+# BUILD OUTPUT — FRONTEND
+# ───────────────────────────────────────────
+dist/
+dist-ssr/
+build/
+out/
+.vite/
+*.tsbuildinfo
+
+
+# ───────────────────────────────────────────
+# BUILD OUTPUT — RUST / TAURI
+# ───────────────────────────────────────────
+src-tauri/target/
+src-tauri/gen/
+*.exe
+*.msi
+*.app
+*.dmg
+*.deb
+*.rpm
+*.AppImage
+
+
+# ───────────────────────────────────────────
+# TAURI SPECIFIC
+# ───────────────────────────────────────────
+# Tauri build artifacts and generated files
+src-tauri/WixTools/
+src-tauri/Cargo.lock.bak
+
+# Dev watcher ignore file (local only)
+.taurignore
+
+
+# ───────────────────────────────────────────
+# RUST
+# ───────────────────────────────────────────
+# Keep Cargo.lock for binary crates (apps), not libraries
+# For a Tauri app (binary), Cargo.lock SHOULD be committed
+# Uncomment below only if this becomes a library crate:
+# src-tauri/Cargo.lock
+
+# Rust incremental compilation cache
+src-tauri/target/
+
+
+# ───────────────────────────────────────────
+# DATABASE — SQLite
+# ───────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+
+# Database backups
+*.db.bak
+*.db.backup
+
+
+# ───────────────────────────────────────────
+# ENVIRONMENT & SECRETS
+# ───────────────────────────────────────────
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+secrets/
+.secrets
+
+
+# ───────────────────────────────────────────
+# CLAUDE CODE & AI TOOLS
+# ───────────────────────────────────────────
+# Claude Code settings (keep CLAUDE.md, ignore local state)
+.claude/settings.local.json
+
+# Ruflo / Claude Flow agent state (local only)
+.claude-flow/
+.agents/
+.swarm/
+.hive/
+*.agent-state
+ruflo.lock
+
+# AI context caches
+.context/
+.ai-cache/
+
+
+# ───────────────────────────────────────────
+# EDITOR — VS CODE
+# ───────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/*.code-snippets
+.vscode/extensions.json
+# Keep: .vscode/ shared workspace config if exists
+# Track .code-workspace if it's shared config:
+# !*.code-workspace
+
+# VS Code history plugin
+.history/
+*.vshistory
+
+
+# ───────────────────────────────────────────
+# EDITOR — JETBRAINS (por si acaso)
+# ───────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+
+# ───────────────────────────────────────────
+# OS — WINDOWS
+# ───────────────────────────────────────────
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.stackdump
+
+
+# ───────────────────────────────────────────
+# OS — MACOS (por si acaso en el futuro)
+# ───────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+
+
+# ───────────────────────────────────────────
+# OS — LINUX
+# ───────────────────────────────────────────
+*~
+.nfs*
+
+
+# ───────────────────────────────────────────
+# LOGS
+# ───────────────────────────────────────────
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+*.log.*
 
-# Dependencies
-node_modules
 
-# Build output
-dist
-dist-ssr
+# ───────────────────────────────────────────
+# TESTING
+# ───────────────────────────────────────────
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+playwright/.cache/
+.vitest/
+*.snap
+
+
+# ───────────────────────────────────────────
+# CACHE — TOOLING
+# ───────────────────────────────────────────
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+.turbo/
+.nx/
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+
+# ───────────────────────────────────────────
+# PACKAGE MANAGERS
+# ───────────────────────────────────────────
+# pnpm
+.pnpm-store/
+.pnpm-debug.log
+
+# npm
+package-lock.json
+# (usamos pnpm, no npm ni yarn)
+yarn.lock
+
+
+# ───────────────────────────────────────────
+# ASSETS GENERADOS / TEMPORALES
+# ───────────────────────────────────────────
+# Sprites o assets generados automáticamente
+src/assets/generated/
+public/generated/
+
+# Fuentes descargadas localmente (si algún día se cachean)
+src/assets/fonts/cache/
+
+# Screenshots de prueba (Playwright los genera aquí)
+test-screenshots/
+screenshots/
+
+
+# ───────────────────────────────────────────
+# RELEASES Y DISTRIBUCIÓN
+# ───────────────────────────────────────────
+releases/
+bundles/
+installers/
+# Los instaladores generados por Tauri van aquí ↑
+src-tauri/target/release/bundle/
+
+
+# ───────────────────────────────────────────
+# MISCELÁNEOS
+# ───────────────────────────────────────────
 *.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Rust / Tauri
-src-tauri/target/
-*.pdb
-*.rs.bk
-
-# Tauri generated
-src-tauri/gen/
-
-# Claude Code (local AI tooling — not project code)
-.claude/
-
-# Ruflo / claude-flow (local orchestration runtime)
-.claude-flow/
-
-# Environment secrets
-.env
-.env.*
-!.env.example
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+.temp/
+tmp/
+temp/
