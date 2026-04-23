@@ -34,8 +34,11 @@ function DurationSelector({
   const [inputVal, setInputVal] = useState(String(value));
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Only sync from outside when the input is not focused
   useEffect(() => {
-    setInputVal(String(value));
+    if (document.activeElement !== inputRef.current) {
+      setInputVal(String(value));
+    }
   }, [value]);
 
   const commit = (raw: string) => {
@@ -49,7 +52,7 @@ function DurationSelector({
   const increment = () => onChange(clampDuration(value + DURATION_STEP));
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
       <button
         className="pixel-btn-secondary"
         onClick={decrement}
@@ -61,7 +64,7 @@ function DurationSelector({
         ref={inputRef}
         className="pixel-input"
         style={{
-          width: 52,
+          width: 56,
           textAlign: "center",
           padding: "8px 4px",
           borderLeft: "none",
@@ -89,7 +92,7 @@ function DurationSelector({
           fontFamily: "var(--font-pixel)",
           fontSize: "var(--text-pixel-xs)",
           color: "var(--color-text-muted)",
-          marginLeft: 8,
+          marginLeft: 10,
         }}
       >
         MIN
@@ -136,7 +139,7 @@ export function TimerDisplay() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "100dvh",
+        height: "100%",
         overflow: "hidden",
         backgroundColor: "var(--color-bg)",
         gap: "var(--space-md)",
@@ -146,7 +149,13 @@ export function TimerDisplay() {
     >
       {/* Hearts */}
       {totalHearts > 0 && (
-        <div style={{ fontSize: 20, color: "var(--color-heart)", letterSpacing: 2 }}>
+        <div
+          style={{
+            fontSize: 18,
+            color: "var(--color-hearts)",
+            letterSpacing: 3,
+          }}
+        >
           {"♥".repeat(Math.min(totalHearts, 10))}
           {totalHearts > 10 && (
             <span
@@ -166,22 +175,24 @@ export function TimerDisplay() {
       {/* Circular timer */}
       <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <svg width="200" height="200" style={{ transform: "rotate(-90deg)" }}>
+          {/* Track */}
           <circle
             cx="100" cy="100" r={RADIUS}
             fill="none"
-            stroke="var(--color-accent-pink)"
+            stroke="var(--color-hearts)"
             strokeWidth="10"
-            opacity="0.3"
+            opacity="0.35"
           />
+          {/* Progress arc */}
           <circle
             cx="100" cy="100" r={RADIUS}
             fill="none"
-            stroke="var(--color-accent-green)"
+            stroke={isFinished ? "var(--color-success)" : "var(--color-accent)"}
             strokeWidth="10"
-            strokeLinecap="square"
+            strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
             strokeDashoffset={isFinished ? 0 : dashOffset}
-            style={{ transition: "stroke-dashoffset 0.8s linear" }}
+            style={{ transition: "stroke-dashoffset 0.6s ease, stroke 0.4s ease" }}
           />
         </svg>
 
@@ -191,11 +202,11 @@ export function TimerDisplay() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 4,
+            gap: 6,
           }}
         >
           {isFinished ? (
-            <span style={{ fontSize: 36 }}>💗</span>
+            <span style={{ fontSize: 40 }}>💗</span>
           ) : (
             <span
               style={{
@@ -227,14 +238,14 @@ export function TimerDisplay() {
       </div>
 
       {/* Plant */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-sm)" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
         <PlantDisplay stage={growthState.currentStage} size="lg" />
         <span
           style={{
             fontFamily: "var(--font-pixel)",
             fontSize: "var(--text-pixel-xs)",
             color: "var(--color-text-muted)",
-            letterSpacing: "0.08em",
+            letterSpacing: "0.05em",
           }}
         >
           {`ETAPA ${growthState.currentStage} — ${stageName.toUpperCase()}`}
@@ -245,29 +256,24 @@ export function TimerDisplay() {
       {/* Finished banner */}
       {isFinished && (
         <div
-          style={{
-            background: "var(--color-surface)",
-            border: "3px solid var(--color-border)",
-            boxShadow: "3px 3px 0 var(--color-pixel-shadow)",
-            padding: "12px 24px",
-            textAlign: "center",
-          }}
+          className="pixel-panel"
+          style={{ textAlign: "center" }}
         >
           <div
             style={{
               fontFamily: "var(--font-pixel)",
               fontSize: "var(--text-pixel-sm)",
-              color: "var(--color-accent-green)",
+              color: "var(--color-accent)",
             }}
           >
-            ¡LO LOGRASTE!
+            ¡LO LOGRASTE! 💗
           </div>
           {Math.floor(durationMinutes / 5) > 0 && (
             <div
               style={{
                 fontFamily: "var(--font-pixel)",
                 fontSize: "var(--text-pixel-xs)",
-                color: "var(--color-heart)",
+                color: "var(--color-text-muted)",
                 marginTop: 8,
               }}
             >

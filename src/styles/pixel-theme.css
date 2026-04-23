@@ -1,24 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
-  /* ── pixel art palette ── */
-  --color-bg: #f5f0e8;
-  --color-surface: #fdf8f0;
-  --color-border: #3d2b1f;
+  /* ── paleta principal (rosa/cozy original) ── */
+  --color-bg: #fceaf8;
+  --color-panel: #fdf2fa;
+  --color-surface: #fdf2fa;
+  --color-accent: #ff6bb5;
+  --color-accent-hover: #ff1492;
+  --color-text: #3b2f3f;
+  --color-text-muted: #bf8d8e;
+  --color-hearts: #ffb8c1;
+  --color-heart: #ff6bb5;
+  --color-success: #7acb8a;
+  --color-error: #f295be;
+
+  /* ── pixel art extras ── */
+  --color-border: #3b2f3f;
+  --color-pixel-shadow: #2a1f20;
+
+  /* ── colores de la planta (solo para PlantDisplay) ── */
   --color-accent-green: #5a8a3c;
-  --color-accent-pink: #e8a0b4;
-  --color-text: #3d2b1f;
-  --color-text-muted: #7a5c4a;
-  --color-heart: #e05050;
-  --color-pixel-shadow: #2a1f15;
+  --color-accent-pink: #ff6bb5;
 
-  /* ── aliases for legacy variables still used in components ── */
-  --color-panel: var(--color-surface);
-  --color-accent: var(--color-accent-green);
-  --color-hearts: var(--color-accent-pink);
-  --color-success: var(--color-accent-green);
-
-  /* ── typography ── */
+  /* ── tipografía pixel ── */
   --font-pixel: 'Press Start 2P', monospace;
 
   --space-sm: 8px;
@@ -37,11 +41,6 @@
   box-shadow: 3px 3px 0 var(--color-pixel-shadow);
 }
 
-.pixel-border-green {
-  border: 3px solid var(--color-accent-green);
-  box-shadow: 3px 3px 0 var(--color-accent-green);
-}
-
 .pixel-btn {
   display: inline-flex;
   align-items: center;
@@ -49,7 +48,7 @@
   padding: 8px 16px;
   font-family: var(--font-pixel);
   font-size: var(--text-pixel-sm);
-  background: var(--color-accent-green);
+  background: var(--color-accent);
   color: #fff;
   border: 3px solid var(--color-border);
   box-shadow: 3px 3px 0 var(--color-pixel-shadow);
@@ -70,7 +69,7 @@
   padding: 8px 16px;
   font-family: var(--font-pixel);
   font-size: var(--text-pixel-sm);
-  background: var(--color-surface);
+  background: var(--color-panel);
   color: var(--color-text);
   border: 3px solid var(--color-border);
   box-shadow: 3px 3px 0 var(--color-pixel-shadow);
@@ -85,7 +84,7 @@
 }
 
 .pixel-panel {
-  background: var(--color-surface);
+  background: var(--color-panel);
   border: 3px solid var(--color-border);
   box-shadow: 3px 3px 0 var(--color-pixel-shadow);
   padding: 16px;
@@ -96,7 +95,7 @@
   padding: 8px 12px;
   font-family: var(--font-pixel);
   font-size: var(--text-pixel-sm);
-  background: var(--color-surface);
+  background: var(--color-panel);
   border: 3px solid var(--color-border);
   border-radius: 0;
   color: var(--color-text);
@@ -104,5 +103,5 @@
 }
 
 .pixel-input:focus {
-  border-color: var(--color-accent-green);
+  border-color: var(--color-accent);
 }

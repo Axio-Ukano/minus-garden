@@ -46,7 +46,7 @@ function App() {
       }}
     >
       {/* Content area */}
-      <div style={{ flex: 1, overflowY: "auto" }}>
+      <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
         {activeTab === "timer" ? <TimerDisplay /> : <HistoryView />}
       </div>
 
@@ -73,7 +73,7 @@ function App() {
                 alignItems: "center",
                 gap: "6px",
                 padding: "10px 0",
-                background: active ? "var(--color-accent-green)" : "transparent",
+                background: active ? "var(--color-accent)" : "transparent",
                 color: active ? "#fff" : "var(--color-text-muted)",
                 border: "none",
                 borderRight: tab === "timer" ? "3px solid var(--color-border)" : "none",
