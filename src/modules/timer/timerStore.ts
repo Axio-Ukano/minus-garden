@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { useHistoryStore } from "../history/historyStore";
+import type { Session } from "../history/historyStore";
 
 export type TimerStatus = "idle" | "running" | "paused" | "finished";
 
@@ -7,7 +9,7 @@ interface TimerState {
   secondsLeft: number;
   status: TimerStatus;
   subject: string;
-  hearts: number;
+  startedAt: string | null;
 
   start: () => void;
   pause: () => void;
@@ -17,7 +19,6 @@ interface TimerState {
   tick: () => void;
   setDuration: (minutes: number) => void;
   setSubject: (subject: string) => void;
-  addHearts: (count: number) => void;
 }
 
 export const useTimerStore = create<TimerState>((set, get) => ({
@@ -25,12 +26,13 @@ export const useTimerStore = create<TimerState>((set, get) => ({
   secondsLeft: 25 * 60,
   status: "idle",
   subject: "",
-  hearts: 0,
+  startedAt: null,
 
   start: () =>
     set((s) => ({
       status: "running",
       secondsLeft: s.durationMinutes * 60,
+      startedAt: new Date().toISOString(),
     })),
 
   pause: () => set({ status: "paused" }),
@@ -41,9 +43,26 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     set((s) => ({
       status: "idle",
       secondsLeft: s.durationMinutes * 60,
+      startedAt: null,
     })),
 
-  finish: () => set({ status: "finished", secondsLeft: 0 }),
+  finish: () => {
+    const heartsEarned = Math.floor(get().durationMinutes / 5);
+    const session: Session = {
+      id: crypto.randomUUID(),
+      start_time: get().startedAt ?? new Date().toISOString(),
+      end_time: new Date().toISOString(),
+      duration_minutes: get().durationMinutes,
+      subject: get().subject,
+      completed: true,
+      hearts_earned: heartsEarned,
+    };
+    useHistoryStore.getState().saveSession(session);
+    useHistoryStore.getState().syncHearts(
+      useHistoryStore.getState().totalHearts + heartsEarned
+    );
+    set({ status: "finished", secondsLeft: 0, startedAt: null });
+  },
 
   tick: () => {
     const { secondsLeft, finish } = get();
@@ -58,6 +77,4 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     set({ durationMinutes: minutes, secondsLeft: minutes * 60, status: "idle" }),
 
   setSubject: (subject: string) => set({ subject }),
-
-  addHearts: (count: number) => set((s) => ({ hearts: s.hearts + count })),
 }));
