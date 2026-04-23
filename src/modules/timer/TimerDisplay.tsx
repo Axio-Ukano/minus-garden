@@ -1,14 +1,115 @@
+import { useEffect, useRef, useState } from "react";
 import { useTimerStore } from "./timerStore";
 import { useTimer } from "./useTimer";
 import { useHistoryStore } from "../history/historyStore";
+import { usePlantGrowth } from "../plant/usePlantGrowth";
+import { PlantDisplay } from "../plant/PlantDisplay";
+import { DAISY_SPECIES, getStageName } from "../plant/plantService";
 
-const RADIUS = 90;
+const RADIUS = 80;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
+const DURATION_MIN = 5;
+const DURATION_MAX = 300;
+const DURATION_STEP = 5;
+
+// Used by − / + buttons: snaps to nearest multiple of step
+function stepDuration(v: number) {
+  const snapped = Math.round(v / DURATION_STEP) * DURATION_STEP;
+  return Math.max(DURATION_MIN, Math.min(DURATION_MAX, snapped));
+}
+
+// Used by manual input: only clamps to range, no snapping
+function clampDuration(v: number) {
+  return Math.max(DURATION_MIN, Math.min(DURATION_MAX, v));
+}
+
 function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function DurationSelector({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  const [inputVal, setInputVal] = useState(String(value));
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Only sync from outside when the input is not focused
+  useEffect(() => {
+    if (document.activeElement !== inputRef.current) {
+      setInputVal(String(value));
+    }
+  }, [value]);
+
+  const commit = (raw: string) => {
+    const n = parseInt(raw.trim(), 10);
+    // Empty or invalid → clamp 0 → DURATION_MIN
+    const clamped = clampDuration(isNaN(n) ? 0 : n);
+    setInputVal(String(clamped));
+    onChange(clamped);
+  };
+
+  const decrement = () => onChange(stepDuration(value - DURATION_STEP));
+  const increment = () => onChange(stepDuration(value + DURATION_STEP));
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <button
+          className="pixel-btn-secondary"
+          onClick={decrement}
+          style={{ padding: "8px 16px", justifyContent: "center" }}
+        >
+          −
+        </button>
+        <input
+          ref={inputRef}
+          className="pixel-input"
+          style={{
+            width: 64,
+            textAlign: "center",
+            padding: "8px 4px",
+          }}
+          value={inputVal}
+          onChange={(e) => setInputVal(e.target.value)}
+          onBlur={(e) => commit(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              commit(inputVal);
+              inputRef.current?.blur();
+            }
+          }}
+        />
+        <button
+          className="pixel-btn-secondary"
+          onClick={increment}
+          style={{ padding: "8px 16px", justifyContent: "center" }}
+        >
+          +
+        </button>
+      </div>
+      <span
+        style={{
+          fontFamily: "var(--font-pixel)",
+          fontSize: "var(--text-pixel-xs)",
+          color: "var(--color-text-muted)",
+          letterSpacing: "0.1em",
+        }}
+      >
+        MINUTOS
+      </span>
+    </div>
+  );
 }
 
 export function TimerDisplay() {
@@ -30,8 +131,12 @@ export function TimerDisplay() {
   const totalHearts = useHistoryStore((s) => s.totalHearts);
 
   const totalSeconds = durationMinutes * 60;
+  const elapsedSeconds = totalSeconds - secondsLeft;
   const progress = secondsLeft / totalSeconds;
   const dashOffset = CIRCUMFERENCE * (1 - progress);
+
+  const growthState = usePlantGrowth(elapsedSeconds, DAISY_SPECIES);
+  const stageName = getStageName(growthState.currentStage, DAISY_SPECIES.id);
 
   const isIdle = status === "idle";
   const isRunning = status === "running";
@@ -40,67 +145,102 @@ export function TimerDisplay() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen gap-6"
-      style={{ backgroundColor: "var(--color-bg)", fontFamily: "'Nunito', sans-serif" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        overflow: "hidden",
+        backgroundColor: "var(--color-bg)",
+        gap: "var(--space-md)",
+        padding: "16px",
+        boxSizing: "border-box",
+      }}
     >
-      {/* Hearts display */}
-      <div className="flex items-center gap-1" style={{ color: "var(--color-hearts)" }}>
-        {totalHearts > 0 && (
-          <>
-            <span className="text-2xl">{"♥".repeat(Math.min(totalHearts, 10))}</span>
-            {totalHearts > 10 && (
-              <span className="text-sm font-bold" style={{ color: "var(--color-text-muted)" }}>
-                +{totalHearts - 10}
-              </span>
-            )}
-          </>
-        )}
-      </div>
+      {/* Hearts */}
+      {totalHearts > 0 && (
+        <div
+          style={{
+            fontSize: 18,
+            color: "var(--color-hearts)",
+            letterSpacing: 3,
+          }}
+        >
+          {"♥".repeat(Math.min(totalHearts, 10))}
+          {totalHearts > 10 && (
+            <span
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                color: "var(--color-text-muted)",
+                marginLeft: 6,
+              }}
+            >
+              +{totalHearts - 10}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Circular timer */}
-      <div className="relative flex items-center justify-center">
-        <svg width="220" height="220" className="-rotate-90">
-          {/* Background ring */}
+      <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <svg width="200" height="200" style={{ transform: "rotate(-90deg)" }}>
+          {/* Track */}
           <circle
-            cx="110"
-            cy="110"
-            r={RADIUS}
+            cx="100" cy="100" r={RADIUS}
             fill="none"
             stroke="var(--color-hearts)"
             strokeWidth="10"
             opacity="0.35"
           />
-          {/* Progress ring */}
+          {/* Progress arc */}
           <circle
-            cx="110"
-            cy="110"
-            r={RADIUS}
+            cx="100" cy="100" r={RADIUS}
             fill="none"
             stroke={isFinished ? "var(--color-success)" : "var(--color-accent)"}
             strokeWidth="10"
             strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
-            strokeDashoffset={isFinished ? CIRCUMFERENCE : dashOffset}
+            strokeDashoffset={isFinished ? 0 : dashOffset}
             style={{ transition: "stroke-dashoffset 0.6s ease, stroke 0.4s ease" }}
           />
         </svg>
 
-        {/* Center text */}
-        <div className="absolute flex flex-col items-center">
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
           {isFinished ? (
-            <span className="text-4xl">💗</span>
+            <span style={{ fontSize: 40 }}>💗</span>
           ) : (
             <span
-              className="text-5xl font-extrabold tracking-tight"
-              style={{ color: "var(--color-text)" }}
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xl)",
+                color: "var(--color-text)",
+              }}
             >
               {formatTime(secondsLeft)}
             </span>
           )}
           {subject && !isFinished && (
             <span
-              className="text-xs font-semibold mt-1 max-w-[120px] text-center truncate"
-              style={{ color: "var(--color-text-muted)" }}
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                color: "var(--color-text-muted)",
+                maxWidth: 110,
+                textAlign: "center",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
             >
               {subject}
             </span>
@@ -108,21 +248,48 @@ export function TimerDisplay() {
         </div>
       </div>
 
-      {/* Finished message */}
-      {isFinished && (
-        <div
-          className="text-xl font-bold text-center px-6 py-3 rounded-2xl"
+      {/* Plant */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+        <PlantDisplay stage={growthState.currentStage} size="lg" />
+        <span
           style={{
-            backgroundColor: "var(--color-panel)",
-            color: "var(--color-accent)",
-            border: "2px solid var(--color-hearts)",
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            color: "var(--color-text-muted)",
+            letterSpacing: "0.05em",
           }}
         >
-          ¡Lo lograste! 💗
+          {`ETAPA ${growthState.currentStage} — ${stageName.toUpperCase()}`}
+          {growthState.isMaxStage && " ✦ MAX"}
+        </span>
+      </div>
+
+      {/* Finished banner */}
+      {isFinished && (
+        <div
+          className="pixel-panel"
+          style={{ textAlign: "center" }}
+        >
+          <div
+            style={{
+              fontFamily: "var(--font-pixel)",
+              fontSize: "var(--text-pixel-sm)",
+              color: "var(--color-accent)",
+            }}
+          >
+            ¡LO LOGRASTE! 💗
+          </div>
           {Math.floor(durationMinutes / 5) > 0 && (
-            <p className="text-sm font-semibold mt-1" style={{ color: "var(--color-text-muted)" }}>
-              +{Math.floor(durationMinutes / 5)} ♥ ganados
-            </p>
+            <div
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                color: "var(--color-text-muted)",
+                marginTop: 8,
+              }}
+            >
+              +{Math.floor(durationMinutes / 5)} ♥ GANADOS
+            </div>
           )}
         </div>
       )}
@@ -134,92 +301,29 @@ export function TimerDisplay() {
           placeholder="¿Qué estás estudiando?"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="px-4 py-2 rounded-full text-sm font-semibold outline-none w-64 text-center"
-          style={{
-            backgroundColor: "var(--color-panel)",
-            color: "var(--color-text)",
-            border: "2px solid var(--color-hearts)",
-          }}
+          className="pixel-input"
+          style={{ width: 260, textAlign: "center" }}
         />
       )}
 
-      {/* Duration selector — only when idle */}
-      {isIdle && (
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold" style={{ color: "var(--color-text-muted)" }}>
-            Duración:
-          </span>
-          {[5, 10, 15, 25, 50].map((min) => (
-            <button
-              key={min}
-              onClick={() => setDuration(min)}
-              className="w-10 h-10 rounded-full text-sm font-bold transition-all"
-              style={{
-                backgroundColor:
-                  durationMinutes === min ? "var(--color-accent)" : "var(--color-panel)",
-                color:
-                  durationMinutes === min ? "#fff" : "var(--color-text-muted)",
-                border: "2px solid var(--color-hearts)",
-              }}
-            >
-              {min}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Duration selector — idle only */}
+      {isIdle && <DurationSelector value={durationMinutes} onChange={setDuration} />}
 
       {/* Control buttons */}
-      <div className="flex gap-3">
+      <div style={{ display: "flex", gap: 12 }}>
         {isIdle && (
-          <ActionButton onClick={start} accent>
-            Iniciar
-          </ActionButton>
+          <button className="pixel-btn" onClick={start}>INICIAR</button>
         )}
         {isRunning && (
-          <ActionButton onClick={pause}>Pausar</ActionButton>
+          <button className="pixel-btn-secondary" onClick={pause}>PAUSAR</button>
         )}
         {isPaused && (
-          <ActionButton onClick={resume} accent>
-            Reanudar
-          </ActionButton>
+          <button className="pixel-btn" onClick={resume}>REANUDAR</button>
         )}
         {(isRunning || isPaused || isFinished) && (
-          <ActionButton onClick={reset} muted>
-            Reiniciar
-          </ActionButton>
+          <button className="pixel-btn-secondary" onClick={reset}>REINICIAR</button>
         )}
       </div>
     </div>
-  );
-}
-
-function ActionButton({
-  children,
-  onClick,
-  accent,
-  muted,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  accent?: boolean;
-  muted?: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="px-6 py-2 rounded-full font-bold text-sm transition-all active:scale-95"
-      style={{
-        backgroundColor: accent
-          ? "var(--color-accent)"
-          : muted
-          ? "var(--color-panel)"
-          : "var(--color-panel)",
-        color: accent ? "#fff" : muted ? "var(--color-text-muted)" : "var(--color-text)",
-        border: `2px solid ${accent ? "var(--color-accent)" : "var(--color-hearts)"}`,
-        boxShadow: accent ? "0 2px 10px rgba(255,107,181,0.35)" : "none",
-      }}
-    >
-      {children}
-    </button>
   );
 }

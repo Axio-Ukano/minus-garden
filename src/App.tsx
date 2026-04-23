@@ -5,6 +5,29 @@ import { useHistoryStore } from "./modules/history/historyStore";
 
 type Tab = "timer" | "history";
 
+function ClockIcon({ bg }: { bg: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="14" height="14" fill="currentColor" />
+      <rect x="2" y="2" width="12" height="12" fill={bg} />
+      <rect x="7" y="4" width="2" height="5" fill="currentColor" />
+      <rect x="7" y="8" width="4" height="2" fill="currentColor" />
+    </svg>
+  );
+}
+
+function BookIcon({ bg }: { bg: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="1" width="12" height="14" fill="currentColor" />
+      <rect x="3" y="2" width="10" height="12" fill={bg} />
+      <rect x="4" y="4" width="8" height="2" fill="currentColor" />
+      <rect x="4" y="7" width="8" height="2" fill="currentColor" />
+      <rect x="4" y="10" width="5" height="2" fill="currentColor" />
+    </svg>
+  );
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>("timer");
 
@@ -17,19 +40,24 @@ function App() {
     <div
       style={{
         height: "100vh",
-        backgroundColor: "var(--color-bg)",
-        fontFamily: "'Nunito', sans-serif",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
       }}
     >
-      {/* Tab bar */}
-      <div
+      {/* Content area */}
+      <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
+        {activeTab === "timer" ? <TimerDisplay /> : <HistoryView />}
+      </div>
+
+      {/* Pixel art bottom navigation */}
+      <nav
         style={{
           display: "flex",
-          borderBottom: "1px solid var(--color-hearts)",
-          backgroundColor: "var(--color-panel)",
+          background: "var(--color-surface)",
+          borderTop: "3px solid var(--color-border)",
+          boxShadow: "0 -3px 0 var(--color-pixel-shadow)",
+          flexShrink: 0,
         }}
       >
         {(["timer", "history"] as Tab[]).map((tab) => {
@@ -40,28 +68,31 @@ function App() {
               onClick={() => setActiveTab(tab)}
               style={{
                 flex: 1,
-                padding: "12px 0",
-                background: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "6px",
+                padding: "10px 0",
+                background: active ? "var(--color-accent)" : "transparent",
+                color: active ? "#fff" : "var(--color-text-muted)",
                 border: "none",
-                borderBottom: active ? "2px solid var(--color-accent)" : "2px solid transparent",
+                borderRight: tab === "timer" ? "3px solid var(--color-border)" : "none",
                 cursor: "pointer",
-                fontFamily: "'Nunito', sans-serif",
-                fontWeight: 700,
-                fontSize: "14px",
-                color: active ? "var(--color-accent)" : "var(--color-text-muted)",
-                transition: "color 0.2s, border-color 0.2s",
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
               }}
             >
-              {tab === "timer" ? "⏱ Estudiar" : "📋 Historial"}
+              {tab === "timer"
+                ? <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+                : <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+              }
+              {tab === "timer" ? "ESTUDIAR" : "HISTORIAL"}
             </button>
           );
         })}
-      </div>
-
-      {/* Content */}
-      <div style={{ flex: 1, overflowY: "auto" }}>
-        {activeTab === "timer" ? <TimerDisplay /> : <HistoryView />}
-      </div>
+      </nav>
     </div>
   );
 }

@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  /* ── paleta principal (rosa/cozy original) ── */
+  --color-bg: #fceaf8;
+  --color-panel: #fdf2fa;
+  --color-surface: #fdf2fa;
+  --color-accent: #ff6bb5;
+  --color-accent-hover: #ff1492;
+  --color-text: #3b2f3f;
+  --color-text-muted: #bf8d8e;
+  --color-hearts: #ffb8c1;
+  --color-heart: #ff6bb5;
+  --color-success: #7acb8a;
+  --color-error: #f295be;
+
+  /* ── pixel art extras ── */
+  --color-border: #3b2f3f;
+  --color-pixel-shadow: #2a1f20;
+
+  /* ── colores de la planta (solo para PlantDisplay) ── */
+  --color-accent-green: #5a8a3c;
+  --color-accent-pink: #ff6bb5;
+
+  /* ── tipografía pixel ── */
+  --font-pixel: 'Press Start 2P', monospace;
+
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  --text-pixel-xs: 7px;
+  --text-pixel-sm: 8px;
+  --text-pixel-md: 10px;
+  --text-pixel-lg: 12px;
+  --text-pixel-xl: 16px;
+}
+
+.pixel-border {
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+}
+
+.pixel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-accent);
+  color: #fff;
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  border-radius: 0;
+  user-select: none;
+}
+
+.pixel-btn:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+}
+
+.pixel-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-panel);
+  color: var(--color-text);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  cursor: pointer;
+  border-radius: 0;
+  user-select: none;
+}
+
+.pixel-btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0 var(--color-pixel-shadow);
+}
+
+.pixel-panel {
+  background: var(--color-panel);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  padding: 16px;
+}
+
+.pixel-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  background: var(--color-panel);
+  border: 3px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  border-radius: 0;
+  color: var(--color-text);
+  outline: none;
+}
+
+.pixel-input:focus {
+  border-color: var(--color-accent);
+}

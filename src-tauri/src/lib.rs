@@ -4,7 +4,7 @@ mod commands;
 use tauri::Manager;
 use db::init_db;
 use commands::{save_session, get_sessions, delete_session,
-               get_user_state, update_hearts};
+               get_user_state, update_hearts, get_plant_species};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -21,6 +21,7 @@ pub fn run() {
             delete_session,
             get_user_state,
             update_hearts,
+            get_plant_species,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
