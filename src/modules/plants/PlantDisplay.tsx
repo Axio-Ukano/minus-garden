@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   DaisyStage1,
   DaisyStage2,
@@ -99,7 +100,7 @@ export type PlantSize = "sm" | "md" | "lg" | "xl";
 const SIZE_PX = { sm: 32, md: 64, lg: 80, xl: 120 } as const;
 
 // ── Species → Stages map ─────────────────────────────────────────────────────
-const SPECIES_STAGES: Record<string, Array<() => React.JSX.Element>> = {
+const SPECIES_STAGES: Record<string, Array<() => JSX.Element>> = {
   daisy: DAISY_STAGES,
   sunflower: SUNFLOWER_STAGES,
   gerbera: [GerberaStage1, GerberaStage2, GerberaStage3, GerberaStage4, GerberaStage5],
