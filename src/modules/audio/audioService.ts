@@ -16,7 +16,12 @@ export type SfxId =
   | "timer_finish"
   | "session_saved";
 
-export type ClickSfxId = "button_click" | "button_click_soft" | "button_click_hard" | "button_click_pop" | "none";
+export type ClickSfxId =
+  | "button_click"
+  | "button_click_soft"
+  | "button_click_hard"
+  | "button_click_pop"
+  | "none";
 export type TypingSfxId = "none" | "type_soft" | "type_tick" | "type_mechanical";
 
 const SFX_SRCS: Record<SfxId, string> = {

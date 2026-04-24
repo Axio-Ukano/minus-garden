@@ -23,7 +23,7 @@ function computePos(
   anchor: DOMRect,
   bubble: DOMRect,
   position: string,
-  align: string,
+  align: string
 ): { top: number; left: number } {
   const vw = window.innerWidth;
   let top = 0;

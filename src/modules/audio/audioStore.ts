@@ -42,15 +42,20 @@ interface AudioState {
 
 function getSettings() {
   const s = useSettingsStore.getState();
-  return { 
-    master: s.masterMuted ? 0 : s.masterVolume, 
-    sfx: s.sfxMuted ? 0 : s.sfxVolume, 
-    ambient: s.ambientMuted ? 0 : s.ambientVolume, 
-    music: s.musicMuted ? 0 : s.musicVolume 
+  return {
+    master: s.masterMuted ? 0 : s.masterVolume,
+    sfx: s.sfxMuted ? 0 : s.sfxVolume,
+    ambient: s.ambientMuted ? 0 : s.ambientVolume,
+    music: s.musicMuted ? 0 : s.musicVolume,
   };
 }
 
-function resolveNextIndex(current: number, total: number, shuffle: boolean, repeat: RepeatMode): number | null {
+function resolveNextIndex(
+  current: number,
+  total: number,
+  shuffle: boolean,
+  repeat: RepeatMode
+): number | null {
   if (repeat === "one") return current;
   if (shuffle) {
     let next = Math.floor(Math.random() * total);
@@ -106,7 +111,12 @@ export const useAudioStore = create<AudioState>((set, get) => {
       const track = PLAYLIST[index];
       if (!track) return;
       audioService.playMusic(track.src, master, music);
-      set({ currentTrackIndex: index, isPlaying: true, progressSeconds: 0, isMiniPlayerDismissed: false });
+      set({
+        currentTrackIndex: index,
+        isPlaying: true,
+        progressSeconds: 0,
+        isMiniPlayerDismissed: false,
+      });
     },
 
     togglePlayPause: () => {
@@ -126,7 +136,10 @@ export const useAudioStore = create<AudioState>((set, get) => {
 
     skipNext: () => {
       const { currentTrackIndex, isShuffle, repeatMode } = get();
-      if (currentTrackIndex === null) { get().playTrack(0); return; }
+      if (currentTrackIndex === null) {
+        get().playTrack(0);
+        return;
+      }
       const next = resolveNextIndex(currentTrackIndex, PLAYLIST.length, isShuffle, repeatMode);
       if (next !== null) get().playTrack(next);
     },
@@ -162,20 +175,27 @@ export const useAudioStore = create<AudioState>((set, get) => {
       set({ isMiniPlayerDismissed: true });
     },
 
-    syncAmbientRandomizer: ({ ambientRandomize, ambientRandomizeMinutes, ambientRandomizePool }) => {
+    syncAmbientRandomizer: ({
+      ambientRandomize,
+      ambientRandomizeMinutes,
+      ambientRandomizePool,
+    }) => {
       const { _ambientRandomizerInterval } = get();
       if (_ambientRandomizerInterval !== null) {
         clearInterval(_ambientRandomizerInterval);
         set({ _ambientRandomizerInterval: null });
       }
       if (!ambientRandomize || ambientRandomizePool.length === 0) return;
-      const interval = setInterval(() => {
-        const { activeAmbient } = get();
-        const pool = ambientRandomizePool.filter((id) => id !== activeAmbient);
-        const candidates = pool.length > 0 ? pool : ambientRandomizePool;
-        const newId = candidates[Math.floor(Math.random() * candidates.length)];
-        get().setAmbient(newId);
-      }, ambientRandomizeMinutes * 60 * 1000);
+      const interval = setInterval(
+        () => {
+          const { activeAmbient } = get();
+          const pool = ambientRandomizePool.filter((id) => id !== activeAmbient);
+          const candidates = pool.length > 0 ? pool : ambientRandomizePool;
+          const newId = candidates[Math.floor(Math.random() * candidates.length)];
+          get().setAmbient(newId);
+        },
+        ambientRandomizeMinutes * 60 * 1000
+      );
       set({ _ambientRandomizerInterval: interval });
     },
   };

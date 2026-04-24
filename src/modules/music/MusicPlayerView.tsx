@@ -38,8 +38,16 @@ function RecordIcon() {
 
 // ─── Controls ────────────────────────────────────────────────────────────────
 function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
-  const { isPlaying, isShuffle, repeatMode, togglePlayPause, skipNext, skipPrev, toggleShuffle, cycleRepeat } =
-    useAudioStore();
+  const {
+    isPlaying,
+    isShuffle,
+    repeatMode,
+    togglePlayPause,
+    skipNext,
+    skipPrev,
+    toggleShuffle,
+    cycleRepeat,
+  } = useAudioStore();
   const { musicVolume, setMusicVolume, musicMuted, setMusicMuted } = useSettingsStore();
   // Remember the volume before muting so we can restore it on unmute
   const premuteVolumeRef = useRef(musicVolume > 0 ? musicVolume : 0.7);
@@ -68,7 +76,11 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
   return (
     <div className="music-controls">
       <Tooltip text={isShuffle ? "Desactivar aleatorio" : "Aleatorio"} position="top">
-        <button data-no-sfx className={`music-ctrl-btn ${isShuffle ? "active" : ""}`} onClick={toggleShuffle}>
+        <button
+          data-no-sfx
+          className={`music-ctrl-btn ${isShuffle ? "active" : ""}`}
+          onClick={toggleShuffle}
+        >
           ⇌ MIX
         </button>
       </Tooltip>
@@ -78,7 +90,11 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
         </button>
       </Tooltip>
       <Tooltip text={isPlaying ? "Pausar" : "Reproducir"} position="top">
-        <button data-no-sfx className="music-ctrl-btn music-ctrl-btn--play" onClick={togglePlayPause}>
+        <button
+          data-no-sfx
+          className="music-ctrl-btn music-ctrl-btn--play"
+          onClick={togglePlayPause}
+        >
           {isPlaying ? "❙❙" : "▶"}
         </button>
       </Tooltip>
@@ -87,13 +103,31 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
           ►►
         </button>
       </Tooltip>
-      <Tooltip text={repeatMode === "none" ? "Repetir todo" : repeatMode === "all" ? "Repetir una" : "No repetir"} position="top">
-        <button data-no-sfx className={`music-ctrl-btn ${repeatActive ? "active" : ""}`} onClick={cycleRepeat}>
+      <Tooltip
+        text={
+          repeatMode === "none"
+            ? "Repetir todo"
+            : repeatMode === "all"
+              ? "Repetir una"
+              : "No repetir"
+        }
+        position="top"
+      >
+        <button
+          data-no-sfx
+          className={`music-ctrl-btn ${repeatActive ? "active" : ""}`}
+          onClick={cycleRepeat}
+        >
           {repeatLabel}
         </button>
       </Tooltip>
       <Tooltip text="Ver controles" position="top">
-        <button data-no-sfx className="music-ctrl-btn" onClick={onOpenLegend} aria-label="Ver leyenda de controles">
+        <button
+          data-no-sfx
+          className="music-ctrl-btn"
+          onClick={onOpenLegend}
+          aria-label="Ver leyenda de controles"
+        >
           ⓘ
         </button>
       </Tooltip>
@@ -107,7 +141,11 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
             style={{ width: "24px", height: "24px" }}
             onClick={handleMuteToggle}
           >
-            {musicMuted || musicVolume === 0 ? <SpeakerMutedIcon size={14} /> : <SpeakerIcon size={14} />}
+            {musicMuted || musicVolume === 0 ? (
+              <SpeakerMutedIcon size={14} />
+            ) : (
+              <SpeakerIcon size={14} />
+            )}
           </button>
         </Tooltip>
         <PixelSlider

@@ -101,26 +101,43 @@ export const useSettingsStore = create<SettingsState>()(
       setSfxVolume: (sfxVolume) => set({ sfxVolume }),
       setAmbientVolume: (ambientVolume) => set({ ambientVolume }),
       setMusicVolume: (musicVolume) => set({ musicVolume }),
-      setMasterMuted: (masterMuted) => set((s) => ({
-        masterMuted,
-        _premuteMaster: !masterMuted ? s._premuteMaster : (s.masterVolume > 0 ? s.masterVolume : s._premuteMaster),
-        masterVolume: !masterMuted && s.masterVolume === 0 ? s._premuteMaster : s.masterVolume,
-      })),
-      setMusicMuted: (musicMuted) => set((s) => ({
-        musicMuted,
-        _premuteMusic: !musicMuted ? s._premuteMusic : (s.musicVolume > 0 ? s.musicVolume : s._premuteMusic),
-        musicVolume: !musicMuted && s.musicVolume === 0 ? s._premuteMusic : s.musicVolume,
-      })),
-      setAmbientMuted: (ambientMuted) => set((s) => ({
-        ambientMuted,
-        _premuteAmbient: !ambientMuted ? s._premuteAmbient : (s.ambientVolume > 0 ? s.ambientVolume : s._premuteAmbient),
-        ambientVolume: !ambientMuted && s.ambientVolume === 0 ? s._premuteAmbient : s.ambientVolume,
-      })),
-      setSfxMuted: (sfxMuted) => set((s) => ({
-        sfxMuted,
-        _premuteSfx: !sfxMuted ? s._premuteSfx : (s.sfxVolume > 0 ? s.sfxVolume : s._premuteSfx),
-        sfxVolume: !sfxMuted && s.sfxVolume === 0 ? s._premuteSfx : s.sfxVolume,
-      })),
+      setMasterMuted: (masterMuted) =>
+        set((s) => ({
+          masterMuted,
+          _premuteMaster: !masterMuted
+            ? s._premuteMaster
+            : s.masterVolume > 0
+              ? s.masterVolume
+              : s._premuteMaster,
+          masterVolume: !masterMuted && s.masterVolume === 0 ? s._premuteMaster : s.masterVolume,
+        })),
+      setMusicMuted: (musicMuted) =>
+        set((s) => ({
+          musicMuted,
+          _premuteMusic: !musicMuted
+            ? s._premuteMusic
+            : s.musicVolume > 0
+              ? s.musicVolume
+              : s._premuteMusic,
+          musicVolume: !musicMuted && s.musicVolume === 0 ? s._premuteMusic : s.musicVolume,
+        })),
+      setAmbientMuted: (ambientMuted) =>
+        set((s) => ({
+          ambientMuted,
+          _premuteAmbient: !ambientMuted
+            ? s._premuteAmbient
+            : s.ambientVolume > 0
+              ? s.ambientVolume
+              : s._premuteAmbient,
+          ambientVolume:
+            !ambientMuted && s.ambientVolume === 0 ? s._premuteAmbient : s.ambientVolume,
+        })),
+      setSfxMuted: (sfxMuted) =>
+        set((s) => ({
+          sfxMuted,
+          _premuteSfx: !sfxMuted ? s._premuteSfx : s.sfxVolume > 0 ? s.sfxVolume : s._premuteSfx,
+          sfxVolume: !sfxMuted && s.sfxVolume === 0 ? s._premuteSfx : s.sfxVolume,
+        })),
       setAmbientAutoplay: (ambientAutoplay) => set({ ambientAutoplay }),
       setMusicAutoplay: (musicAutoplay) => set({ musicAutoplay }),
       setAmbientRandomize: (ambientRandomize) => set({ ambientRandomize }),
@@ -131,7 +148,7 @@ export const useSettingsStore = create<SettingsState>()(
       setLastSettingsSection: (lastSettingsSection) => set({ lastSettingsSection }),
     }),
     {
-      name: "minu-garden-settings",
+      name: "minus-garden-settings",
       partialize: (s) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { _premuteMusic, _premuteAmbient, _premuteSfx, _premuteMaster, ...rest } = s;

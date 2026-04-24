@@ -1,4 +1,4 @@
-# minu-garden — Requirements
+# Minu's Garden - Requirements
 
 ## MVP v0.1 — Funcionalidad base
 

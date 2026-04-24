@@ -67,7 +67,10 @@ export function TimerSetupView() {
 
           <div className="timer-view__controls-inner">
             <div className="timer-view__field">
-              <span className="timer-view__field-label" style={{ fontSize: "var(--text-pixel-md)" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
                 MATERIA
               </span>
               <SubjectCombobox
@@ -78,7 +81,10 @@ export function TimerSetupView() {
               />
             </div>
             <div className="timer-view__field" style={{ width: "auto" }}>
-              <span className="timer-view__field-label" style={{ fontSize: "var(--text-pixel-md)" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
                 DURACIÓN
               </span>
               <DurationSelector value={durationMinutes} onChange={setDuration} />
@@ -145,10 +151,16 @@ export function TimerSetupView() {
               className="timer-view__plant-meta"
               style={{ animation: slideAnimation }}
             >
-              <span className="timer-view__field-label" style={{ fontSize: "var(--text-pixel-md)" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
                 {species.maxStages} ETAPAS
               </span>
-              <span className="timer-view__field-label" style={{ fontSize: "var(--text-pixel-md)" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
                 HASTA {species.stageThresholds[species.maxStages - 1]} MIN
               </span>
             </div>

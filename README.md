@@ -1,4 +1,4 @@
-# minu-garden 🌸
+# Minu's Garden 🌸
 
 App de escritorio para sesiones de estudio con jardín virtual.
 

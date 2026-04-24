@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "minu-garden",
+  "productName": "Minu's Garden",
   "version": "0.1.0",
-  "identifier": "com.ogaxi.minu-garden",
+  "identifier": "com.minusgarden.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "minu-garden",
+        "title": "Minu's Garden",
         "width": 800,
         "height": 600
       }
