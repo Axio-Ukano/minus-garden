@@ -85,7 +85,6 @@ export function DurationSelector({
             textAlign: "center",
             padding: "14px 8px",
             fontSize: "var(--text-pixel-md)",
-            marginLeft: 3,
           }}
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}

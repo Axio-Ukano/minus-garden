@@ -2,6 +2,13 @@ import { create } from "zustand";
 import { useHistoryStore } from "../history/historyStore";
 import type { Session } from "../history/historyStore";
 import { calculateFinalStage, getSpeciesById } from "../plants/plantService";
+import { audioService } from "../audio/audioService";
+import { useSettingsStore } from "../settings/settingsStore";
+
+function sfxVols() {
+  const s = useSettingsStore.getState();
+  return { master: s.masterVolume, sfx: s.sfxVolume };
+}
 
 export type TimerStatus = "idle" | "running" | "paused" | "finished";
 
@@ -32,16 +39,27 @@ export const useTimerStore = create<TimerState>((set, get) => ({
   startedAt: null,
   plantSpeciesId: "daisy",
 
-  start: () =>
+  start: () => {
+    const { master, sfx } = sfxVols();
+    audioService.playSfx("timer_start", master, sfx);
     set((s) => ({
       status: "running",
       secondsLeft: s.durationMinutes * 60,
       startedAt: new Date().toISOString(),
-    })),
+    }));
+  },
 
-  pause: () => set({ status: "paused" }),
+  pause: () => {
+    const { master, sfx } = sfxVols();
+    audioService.playSfx("timer_pause", master, sfx);
+    set({ status: "paused" });
+  },
 
-  resume: () => set({ status: "running" }),
+  resume: () => {
+    const { master, sfx } = sfxVols();
+    audioService.playSfx("timer_start", master, sfx);
+    set({ status: "running" });
+  },
 
   reset: () =>
     set((s) => ({
@@ -68,6 +86,9 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     };
     useHistoryStore.getState().saveSession(session);
     useHistoryStore.getState().syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
+    const { master, sfx } = sfxVols();
+    audioService.playSfx("timer_finish", master, sfx);
+    setTimeout(() => audioService.playSfx("session_saved", master, sfx), 800);
     set({ status: "finished", secondsLeft: 0, startedAt: null });
   },
 

@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useTimerStore } from "../timerStore";
-import { useHistoryStore } from "../../history/historyStore";
 import { useSubjectStore } from "../../subjects/subjectStore";
 import { ALL_SPECIES, getSpeciesById } from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
 import { PixelArrowButton } from "../../../components/PixelArrowButton";
+import { useSettingsStore } from "../../settings/settingsStore";
 
 import { TimerCircle } from "../components/TimerCircle";
 import { DurationSelector } from "../components/DurationSelector";
 import { SubjectCombobox, capitalize } from "../components/SubjectCombobox";
-import { TimerHeader } from "../components/TimerHeader";
 import { PlantStagesModal } from "../components/PlantStagesModal";
 
 // ─── Shared label style ───────────────────────────────────────────────────────
@@ -27,8 +26,8 @@ export function TimerSetupView() {
   const { durationMinutes, subject, plantSpeciesId, setDuration, setSubject, setPlantSpecies } =
     useTimerStore();
 
-  const totalHearts = useHistoryStore((s) => s.totalHearts);
   const { subjects, addSubject, markUsed } = useSubjectStore();
+  const plantSide = useSettingsStore((s) => s.plantSide);
 
   const species = getSpeciesById(plantSpeciesId);
   const speciesIndex = ALL_SPECIES.findIndex((s) => s.id === plantSpeciesId);
@@ -65,8 +64,6 @@ export function TimerSetupView() {
         boxSizing: "border-box",
       }}
     >
-      <TimerHeader totalHearts={totalHearts} />
-
       <div
         style={{
           flex: 1,
@@ -76,7 +73,7 @@ export function TimerSetupView() {
           paddingTop: 16,
         }}
       >
-        {/* ── Left column ── */}
+        {/* ── Controls column ── */}
         <div
           style={{
             padding: "16px 32px",
@@ -85,6 +82,7 @@ export function TimerSetupView() {
             alignItems: "center",
             justifyContent: "flex-start",
             gap: 20,
+            order: plantSide === "left" ? 2 : 1,
           }}
         >
           <div style={{ opacity: 0.8 }}>
@@ -143,7 +141,7 @@ export function TimerSetupView() {
           </div>
         </div>
 
-        {/* ── Right column ── */}
+        {/* ── Plant column ── */}
         <div
           style={{
             display: "flex",
@@ -152,6 +150,7 @@ export function TimerSetupView() {
             alignItems: "center",
             padding: "16px 32px",
             gap: 20,
+            order: plantSide === "left" ? 1 : 2,
           }}
         >
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>

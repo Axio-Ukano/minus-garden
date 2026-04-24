@@ -4,12 +4,14 @@
   padding: 8px 12px;
   font-family: var(--font-pixel);
   font-size: var(--text-pixel-sm);
-  background: var(--color-panel);
-  border: 3px solid var(--color-border);
+  background: var(--color-input-bg, var(--color-bg));
+  border: 3px solid var(--color-input-border, var(--color-border));
   box-shadow: 3px 3px 0 var(--color-pixel-shadow);
   border-radius: 0;
   color: var(--color-text);
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
   transition:
     border-color var(--hover-speed) ease,
     box-shadow var(--hover-speed) ease;
@@ -20,4 +22,22 @@
   box-shadow:
     3px 3px 0 var(--color-accent),
     0 0 0 1px var(--color-accent);
+}
+
+.pixel-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+html[data-theme="dark"] .pixel-input,
+body[data-theme="dark"] .pixel-input {
+  background: var(--color-input-bg);
+  border-color: var(--color-input-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+}
+
+html[data-theme="dark"] .pixel-input:focus,
+body[data-theme="dark"] .pixel-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 3px 3px 0 var(--color-accent), 0 0 0 1px var(--color-accent);
 }
