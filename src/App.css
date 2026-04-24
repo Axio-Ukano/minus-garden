@@ -38,8 +38,8 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 0;
+  gap: 5px;
+  padding: 10px 0;
   border: none;
   cursor: pointer;
   font-family: var(--font-pixel);
@@ -49,6 +49,66 @@ textarea {
   transition:
     background-color var(--hover-speed) ease,
     color var(--hover-speed) ease;
+}
+
+/* ── Bottom dock collapse toggle ─────────────────────────────────────────── */
+.bottom-dock {
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* The actual button fills the Tooltip wrap (positioned via wrapStyle in JSX) */
+.bottom-dock__toggle {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface);
+  border: 3px solid var(--color-border);
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: color var(--hover-speed) ease, background var(--hover-speed) ease;
+}
+
+.bottom-dock__toggle:hover {
+  background: var(--color-hearts);
+  color: var(--color-text);
+}
+
+/* When collapsed, close the tab shape with a bottom border */
+.bottom-dock__toggle--closed {
+  border-bottom: 3px solid var(--color-border);
+}
+
+.bottom-dock__content {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.22s ease;
+}
+
+.bottom-dock__content.bottom-dock--collapsed {
+  grid-template-rows: 0fr;
+}
+
+.bottom-dock__content-inner {
+  overflow: hidden;
+}
+
+/* Mini player independent collapse */
+.bottom-dock__miniplayer {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.2s ease;
+}
+
+.bottom-dock__miniplayer--collapsed {
+  grid-template-rows: 0fr;
+}
+
+.bottom-dock__miniplayer-inner {
+  overflow: hidden;
 }
 
 .pixel-nav-btn:hover {
@@ -62,8 +122,34 @@ textarea {
 .pixel-nav-btn.active {
   background: var(--color-accent);
   color: #fff;
+  box-shadow: inset 0 3px 0 rgba(0,0,0,0.15);
 }
 
 .pixel-nav-btn.active:hover {
   background: var(--color-accent-hover);
+}
+
+/* Dark mode nav */
+html[data-theme="dark"] .pixel-nav-btn,
+body[data-theme="dark"] .pixel-nav-btn {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+html[data-theme="dark"] .pixel-nav-btn:hover:not(.active),
+body[data-theme="dark"] .pixel-nav-btn:hover:not(.active) {
+  background: rgba(255, 107, 181, 0.07);
+  color: var(--color-text);
+}
+
+html[data-theme="dark"] .pixel-nav-btn.active,
+body[data-theme="dark"] .pixel-nav-btn.active {
+  background: var(--color-nav-active-bg);
+  color: #fff;
+  box-shadow: inset 0 3px 0 var(--color-nav-active-border);
+}
+
+html[data-theme="dark"] .pixel-nav-btn.active:hover,
+body[data-theme="dark"] .pixel-nav-btn.active:hover {
+  background: rgba(255, 107, 181, 0.18);
 }
