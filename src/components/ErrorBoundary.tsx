@@ -39,7 +39,13 @@ export class ErrorBoundary extends Component<Props, State> {
           }}
         >
           <span style={{ fontSize: "var(--text-pixel-lg)" }}>ERROR</span>
-          <span style={{ fontSize: "var(--text-pixel-xs)", color: "var(--color-text-muted)", textAlign: "center" }}>
+          <span
+            style={{
+              fontSize: "var(--text-pixel-xs)",
+              color: "var(--color-text-muted)",
+              textAlign: "center",
+            }}
+          >
             {this.state.message}
           </span>
           <button

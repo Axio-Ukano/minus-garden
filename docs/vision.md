@@ -1,8 +1,8 @@
-# minu-garden — Vision
+# Minu's Garden — Vision
 
 ## Descripción
 
-**minu-garden** es una app de escritorio offline diseñada para acompañar sesiones de estudio de Minu. Combina un timer de estudio con una economía de corazones 💗 y un jardín virtual que crece a medida que se estudia.
+**Minu's Garden** es una app de escritorio offline diseñada para acompañar sesiones de estudio de Minu. Combina un timer de estudio con una economía de corazones 💗 y un jardín virtual que crece a medida que se estudia.
 
 ## Concepto central
 

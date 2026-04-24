@@ -1,5 +1,6 @@
 {
-  "name": "minu-garden",
+  "name": "minus-garden",
+  "description": "Minu's Garden",
   "private": true,
   "version": "0.1.0",
   "type": "module",

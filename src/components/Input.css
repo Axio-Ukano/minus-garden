@@ -39,5 +39,7 @@ body[data-theme="dark"] .pixel-input {
 html[data-theme="dark"] .pixel-input:focus,
 body[data-theme="dark"] .pixel-input:focus {
   border-color: var(--color-accent);
-  box-shadow: 3px 3px 0 var(--color-accent), 0 0 0 1px var(--color-accent);
+  box-shadow:
+    3px 3px 0 var(--color-accent),
+    0 0 0 1px var(--color-accent);
 }

@@ -50,7 +50,6 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
 
   return (
     <div className="mini-player" data-no-sfx>
-
       {/* LEFT — track info */}
       <div className="mini-player__left">
         <div className="mini-player__track-info">
@@ -72,7 +71,11 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
             </button>
           </Tooltip>
           <Tooltip text="Anterior" position="top">
-            <button className="mini-player__btn mini-player__btn--ghost" onClick={skipPrev} aria-label="Anterior">
+            <button
+              className="mini-player__btn mini-player__btn--ghost"
+              onClick={skipPrev}
+              aria-label="Anterior"
+            >
               ◄◄
             </button>
           </Tooltip>
@@ -86,12 +89,22 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
             </button>
           </Tooltip>
           <Tooltip text="Siguiente" position="top">
-            <button className="mini-player__btn mini-player__btn--ghost" onClick={skipNext} aria-label="Siguiente">
+            <button
+              className="mini-player__btn mini-player__btn--ghost"
+              onClick={skipNext}
+              aria-label="Siguiente"
+            >
               ►►
             </button>
           </Tooltip>
           <Tooltip
-            text={repeatMode === "none" ? "Repetir todo" : repeatMode === "all" ? "Repetir una" : "No repetir"}
+            text={
+              repeatMode === "none"
+                ? "Repetir todo"
+                : repeatMode === "all"
+                  ? "Repetir una"
+                  : "No repetir"
+            }
             position="top"
           >
             <button
@@ -112,12 +125,24 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
       {/* RIGHT — volume + window actions */}
       <div className="mini-player__right">
         <Tooltip text={musicMuted ? "Desilenciar" : "Silenciar"} position="top">
-          <button className="mini-player__btn mini-player__btn--ghost" onClick={handleMuteToggle} aria-label="Volumen">
-            {musicMuted || musicVolume === 0 ? <SpeakerMutedIcon size={13} /> : <SpeakerIcon size={13} />}
+          <button
+            className="mini-player__btn mini-player__btn--ghost"
+            onClick={handleMuteToggle}
+            aria-label="Volumen"
+          >
+            {musicMuted || musicVolume === 0 ? (
+              <SpeakerMutedIcon size={13} />
+            ) : (
+              <SpeakerIcon size={13} />
+            )}
           </button>
         </Tooltip>
         <div className="mini-player__volume">
-          <PixelSlider value={musicMuted ? 0 : musicVolume} onChange={handleVolumeChange} width={72} />
+          <PixelSlider
+            value={musicMuted ? 0 : musicVolume}
+            onChange={handleVolumeChange}
+            width={72}
+          />
         </div>
 
         <div className="mini-player__window-actions">
@@ -141,7 +166,6 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
           </Tooltip>
         </div>
       </div>
-
     </div>
   );
 }

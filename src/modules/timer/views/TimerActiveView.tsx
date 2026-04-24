@@ -65,13 +65,21 @@ export function TimerActiveView() {
       <div className="timer-view__bottom-bar">
         {isPaused ? (
           <>
-            <button className="pixel-btn" onClick={resume}>REANUDAR</button>
-            <button className="pixel-btn-secondary" onClick={reset}>CANCELAR</button>
+            <button className="pixel-btn" onClick={resume}>
+              REANUDAR
+            </button>
+            <button className="pixel-btn-secondary" onClick={reset}>
+              CANCELAR
+            </button>
           </>
         ) : (
           <>
-            <button className="pixel-btn" onClick={pause}>PAUSAR</button>
-            <button className="pixel-btn-secondary" onClick={reset}>CANCELAR</button>
+            <button className="pixel-btn" onClick={pause}>
+              PAUSAR
+            </button>
+            <button className="pixel-btn-secondary" onClick={reset}>
+              CANCELAR
+            </button>
           </>
         )}
       </div>

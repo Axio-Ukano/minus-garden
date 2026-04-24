@@ -9,7 +9,7 @@ import "./App.css";
 
 // Apply saved theme before first paint to prevent flash of wrong theme
 try {
-  const saved = localStorage.getItem("minu-garden-settings");
+  const saved = localStorage.getItem("minus-garden-settings");
   if (saved) {
     const parsed = JSON.parse(saved) as { state?: { theme?: string } };
     const theme = parsed?.state?.theme;

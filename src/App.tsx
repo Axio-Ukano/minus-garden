@@ -87,18 +87,26 @@ function App() {
 
       {/* Bottom dock — two independent collapse toggles */}
       <div className="bottom-dock">
-
         {/* Toggle 1: collapse nav bar */}
         <Tooltip
           text={isNavCollapsed ? "Mostrar nav" : "Ocultar nav"}
           position="top"
           align="start"
-          wrapStyle={{ position: "absolute", top: -26, left: 12, width: 36, height: 26, zIndex: 11 }}
+          wrapStyle={{
+            position: "absolute",
+            top: -26,
+            left: 12,
+            width: 36,
+            height: 26,
+            zIndex: 11,
+          }}
         >
           <button
             className={`bottom-dock__toggle${isNavCollapsed ? " bottom-dock__toggle--closed" : ""}`}
             onClick={() => setIsNavCollapsed((v) => !v)}
-            aria-label={isNavCollapsed ? "Mostrar barra de navegación" : "Ocultar barra de navegación"}
+            aria-label={
+              isNavCollapsed ? "Mostrar barra de navegación" : "Ocultar barra de navegación"
+            }
             data-no-sfx
           >
             <ChevronIcon size={12} direction={isNavCollapsed ? "up" : "down"} />
@@ -111,7 +119,14 @@ function App() {
             text={isMiniCollapsed ? "Mostrar reproductor" : "Ocultar reproductor"}
             position="top"
             align="start"
-            wrapStyle={{ position: "absolute", top: -20, left: 52, width: 26, height: 20, zIndex: 11 }}
+            wrapStyle={{
+              position: "absolute",
+              top: -20,
+              left: 52,
+              width: 26,
+              height: 20,
+              zIndex: 11,
+            }}
           >
             <button
               className={`bottom-dock__toggle bottom-dock__toggle--mini${isMiniCollapsed ? " bottom-dock__toggle--closed" : ""}`}
@@ -126,7 +141,9 @@ function App() {
 
         {/* Mini player — collapses independently */}
         {showMiniPlayer && (
-          <div className={`bottom-dock__miniplayer${isMiniCollapsed ? " bottom-dock__miniplayer--collapsed" : ""}`}>
+          <div
+            className={`bottom-dock__miniplayer${isMiniCollapsed ? " bottom-dock__miniplayer--collapsed" : ""}`}
+          >
             <div className="bottom-dock__miniplayer-inner">
               <MiniPlayer onNavigateToMusic={() => setActiveTab("music")} />
             </div>
@@ -163,9 +180,15 @@ function App() {
                       borderRight: !isLast ? "3px solid var(--color-border)" : "none",
                     }}
                   >
-                    {tab.id === "timer" && <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />}
-                    {tab.id === "history" && <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />}
-                    {tab.id === "music" && <MusicIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />}
+                    {tab.id === "timer" && (
+                      <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+                    )}
+                    {tab.id === "history" && (
+                      <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+                    )}
+                    {tab.id === "music" && (
+                      <MusicIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+                    )}
                     {tab.label}
                   </button>
                 );
@@ -173,7 +196,6 @@ function App() {
             </nav>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-# minu-garden — Paleta de colores
+# Minu's Garden - Paleta de colores
 
 ## Colores principales
 

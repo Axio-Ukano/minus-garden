@@ -46,8 +46,13 @@ function AmbientSelector() {
     <div>
       <hr className="settings-sep" />
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <span className="settings-sub-label" style={{ marginBottom: 0 }}>SONIDO AMBIENTE</span>
-        <InfoTooltip text="Reproduce un sonido de fondo en bucle mientras estudias." align="start" />
+        <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+          SONIDO AMBIENTE
+        </span>
+        <InfoTooltip
+          text="Reproduce un sonido de fondo en bucle mientras estudias."
+          align="start"
+        />
       </div>
       <div className="ambient-grid">
         {AMBIENT_TRACKS.map((track, i) => (
@@ -60,7 +65,11 @@ function AmbientSelector() {
             <span className="ambient-btn__emoji">{track.emoji}</span>
             {track.label}
             <span className="ambient-btn__tooltip">
-              <InfoTooltip text={track.description} position="bottom" align={i % 3 === 2 ? "end" : "center"} />
+              <InfoTooltip
+                text={track.description}
+                position="bottom"
+                align={i % 3 === 2 ? "end" : "center"}
+              />
             </span>
           </button>
         ))}
@@ -106,31 +115,58 @@ function AmbientRandomizer() {
         >
           {ambientRandomize ? "✓" : "○"} ALEATORIZAR
         </button>
-        <InfoTooltip text={"Cambia automáticamente el sonido\nde ambiente cada N minutos."} align="start" />
+        <InfoTooltip
+          text={"Cambia automáticamente el sonido\nde ambiente cada N minutos."}
+          align="start"
+        />
       </div>
 
       {ambientRandomize && (
         <div style={{ paddingLeft: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-            <span className="settings-sub-label" style={{ marginBottom: 0 }}>CADA</span>
+            <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+              CADA
+            </span>
             <button
               className="pixel-btn-secondary"
-              style={{ width: 28, height: 28, padding: 0, justifyContent: "center", fontSize: "var(--text-pixel-sm)" }}
+              style={{
+                width: 28,
+                height: 28,
+                padding: 0,
+                justifyContent: "center",
+                fontSize: "var(--text-pixel-sm)",
+              }}
               onClick={() => setAmbientRandomizeMinutes(Math.max(1, ambientRandomizeMinutes - 1))}
             >
               −
             </button>
-            <span style={{ fontFamily: "var(--font-pixel)", fontSize: "var(--text-pixel-xs)", color: "var(--color-text)", minWidth: 20, textAlign: "center" }}>
+            <span
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-xs)",
+                color: "var(--color-text)",
+                minWidth: 20,
+                textAlign: "center",
+              }}
+            >
               {ambientRandomizeMinutes}
             </span>
             <button
               className="pixel-btn-secondary"
-              style={{ width: 28, height: 28, padding: 0, justifyContent: "center", fontSize: "var(--text-pixel-sm)" }}
+              style={{
+                width: 28,
+                height: 28,
+                padding: 0,
+                justifyContent: "center",
+                fontSize: "var(--text-pixel-sm)",
+              }}
               onClick={() => setAmbientRandomizeMinutes(Math.min(60, ambientRandomizeMinutes + 1))}
             >
               +
             </button>
-            <span className="settings-sub-label" style={{ marginBottom: 0 }}>MIN</span>
+            <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+              MIN
+            </span>
           </div>
 
           <div className="ambient-grid" style={{ marginTop: 0 }}>
@@ -143,7 +179,19 @@ function AmbientRandomizer() {
                   className={`ambient-btn ${inPool ? "active" : ""}`}
                   onClick={() => togglePool(track.id)}
                 >
-                  {inPool && <span style={{ position: "absolute", top: 4, left: 6, fontFamily: "var(--font-pixel)", fontSize: "var(--text-pixel-xs)" }}>✓</span>}
+                  {inPool && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: 4,
+                        left: 6,
+                        fontFamily: "var(--font-pixel)",
+                        fontSize: "var(--text-pixel-xs)",
+                      }}
+                    >
+                      ✓
+                    </span>
+                  )}
                   <span className="ambient-btn__emoji">{track.emoji}</span>
                   {track.label}
                 </button>
@@ -179,7 +227,9 @@ function CustomSfxPickers() {
     <div>
       <hr className="settings-sep" />
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <span className="settings-sub-label" style={{ marginBottom: 0 }}>SONIDO DE CLICK</span>
+        <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+          SONIDO DE CLICK
+        </span>
         <InfoTooltip text="Sonido que se reproduce al hacer clic en botones." align="start" />
       </div>
       <div className="sfx-picker-row">
@@ -197,7 +247,9 @@ function CustomSfxPickers() {
 
       <hr className="settings-sep" />
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <span className="settings-sub-label" style={{ marginBottom: 0 }}>SONIDO DE TECLADO</span>
+        <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+          SONIDO DE TECLADO
+        </span>
         <InfoTooltip text="Sonido al escribir en campos de texto." align="start" />
       </div>
       <div className="sfx-picker-row">
@@ -250,10 +302,12 @@ function InterfaceSection() {
   return (
     <div>
       <div className="settings-section__title">INTERFAZ</div>
-      
+
       {/* Theme */}
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <span className="settings-sub-label" style={{ marginBottom: 0 }}>TEMA</span>
+        <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+          TEMA
+        </span>
         <InfoTooltip text="Cambia entre modo claro y oscuro." align="start" />
       </div>
       <div className="theme-toggle-row">
@@ -275,8 +329,13 @@ function InterfaceSection() {
 
       {/* Plant side */}
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-        <span className="settings-sub-label" style={{ marginBottom: 0 }}>LADO DE LA PLANTA</span>
-        <InfoTooltip text="Coloca la planta a la izquierda o derecha del temporizador." align="start" />
+        <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+          LADO DE LA PLANTA
+        </span>
+        <InfoTooltip
+          text="Coloca la planta a la izquierda o derecha del temporizador."
+          align="start"
+        />
       </div>
       <div className="layout-option-row">
         <button
@@ -292,7 +351,6 @@ function InterfaceSection() {
           DERECHA ►
         </button>
       </div>
-
     </div>
   );
 }
@@ -302,19 +360,36 @@ function WipSection({ title }: { title: string }) {
   return (
     <div>
       <div className="settings-section__title">{title}</div>
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "40px 20px",
-        gap: 16,
-        color: "var(--color-text-muted)",
-        textAlign: "center"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "40px 20px",
+          gap: 16,
+          color: "var(--color-text-muted)",
+          textAlign: "center",
+        }}
+      >
         <div style={{ fontSize: 40, opacity: 0.5 }}>🚧</div>
-        <div style={{ fontFamily: "var(--font-pixel)", fontSize: "var(--text-pixel-sm)", letterSpacing: "0.05em" }}>EN CONSTRUCCIÓN</div>
-        <p style={{ fontFamily: "var(--font-pixel)", fontSize: "var(--text-pixel-xs)", lineHeight: 1.6, maxWidth: 300 }}>
+        <div
+          style={{
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-sm)",
+            letterSpacing: "0.05em",
+          }}
+        >
+          EN CONSTRUCCIÓN
+        </div>
+        <p
+          style={{
+            fontFamily: "var(--font-pixel)",
+            fontSize: "var(--text-pixel-xs)",
+            lineHeight: 1.6,
+            maxWidth: 300,
+          }}
+        >
           Estamos trabajando para traer estos ajustes muy pronto.
         </p>
       </div>
@@ -323,13 +398,7 @@ function WipSection({ title }: { title: string }) {
 }
 
 // ─── Main modal ───────────────────────────────────────────────────────────────
-export function SettingsModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { lastSettingsSection, setLastSettingsSection } = useSettingsStore();
   const [activeSection, setActiveSection] = useState<Section>(lastSettingsSection);
 

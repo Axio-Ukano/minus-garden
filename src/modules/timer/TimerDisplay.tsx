@@ -5,11 +5,7 @@ import { TimerSetupView } from "./views/TimerSetupView";
 import { TimerActiveView } from "./views/TimerActiveView";
 import { TimerFinishedView } from "./views/TimerFinishedView";
 
-export function TimerDisplay({
-  onNavigateToHistory,
-}: {
-  onNavigateToHistory: () => void;
-}) {
+export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () => void }) {
   useTimer();
 
   const { status } = useTimerStore();

@@ -1,4 +1,4 @@
-# minu-garden — Architecture
+# Minu's Garden — Architecture
 
 ## Stack
 
@@ -32,7 +32,7 @@
 ## Estructura de carpetas
 
 ```
-minu-garden/
+minus-garden/
 ├── src/                        # Frontend React
 │   ├── components/             # Componentes reutilizables
 │   ├── modules/

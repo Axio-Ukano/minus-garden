@@ -47,17 +47,17 @@ export function useAudio() {
   }, [ambientRandomize, ambientRandomizeMinutes, ambientRandomizePool]);
 
   // Global button-click SFX via mousedown delegation
-  const sfxRef = useRef({ 
-    master: masterMuted ? 0 : masterVolume, 
-    sfx: sfxMuted ? 0 : sfxVolume, 
-    clickSfxId, 
-    typingSfxId 
+  const sfxRef = useRef({
+    master: masterMuted ? 0 : masterVolume,
+    sfx: sfxMuted ? 0 : sfxVolume,
+    clickSfxId,
+    typingSfxId,
   });
-  sfxRef.current = { 
-    master: masterMuted ? 0 : masterVolume, 
-    sfx: sfxMuted ? 0 : sfxVolume, 
-    clickSfxId, 
-    typingSfxId 
+  sfxRef.current = {
+    master: masterMuted ? 0 : masterVolume,
+    sfx: sfxMuted ? 0 : sfxVolume,
+    clickSfxId,
+    typingSfxId,
   };
 
   useEffect(() => {
