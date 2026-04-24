@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { HeartIcon } from "./HeartIcon";
-import { GearIcon, SpeakerIcon, SpeakerMutedIcon, CloudIcon, MusicNoteIcon, BellIcon } from "./PixelIcons";
+import {
+  GearIcon,
+  SpeakerIcon,
+  SpeakerMutedIcon,
+  CloudIcon,
+  MusicNoteIcon,
+  BellIcon,
+} from "./PixelIcons";
 import { useHistoryStore } from "../modules/history/historyStore";
 import { useSettingsStore } from "../modules/settings/settingsStore";
 import { Tooltip } from "./Tooltip";
@@ -8,10 +15,14 @@ import { Tooltip } from "./Tooltip";
 export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
   const totalHearts = useHistoryStore((s) => s.totalHearts);
   const {
-    masterMuted, setMasterMuted,
-    ambientMuted, setAmbientMuted,
-    musicMuted, setMusicMuted,
-    sfxMuted, setSfxMuted,
+    masterMuted,
+    setMasterMuted,
+    ambientMuted,
+    setAmbientMuted,
+    musicMuted,
+    setMusicMuted,
+    sfxMuted,
+    setSfxMuted,
   } = useSettingsStore();
 
   const [isAudioMenuExpanded, setIsAudioMenuExpanded] = useState(false);
@@ -41,7 +52,14 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
           </button>
         </Tooltip>
 
-        <div style={{ width: "2px", height: "24px", background: "var(--color-border)", margin: "0 12px" }} />
+        <div
+          style={{
+            width: "2px",
+            height: "24px",
+            background: "var(--color-border)",
+            margin: "0 12px",
+          }}
+        />
 
         {/*
           overflow:visible so box-shadows and tooltip bubbles are NOT clipped.
@@ -64,12 +82,15 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
               opacity: isAudioMenuExpanded ? 1 : 0,
               pointerEvents: isAudioMenuExpanded ? "auto" : "none",
               transition: isAudioMenuExpanded
-                ? "opacity 0.2s ease 0.2s"   // expand: wait for space, then fade in
-                : "opacity 0.15s ease",       // collapse: fade out first
+                ? "opacity 0.2s ease 0.2s" // expand: wait for space, then fade in
+                : "opacity 0.15s ease", // collapse: fade out first
               whiteSpace: "nowrap",
             }}
           >
-            <Tooltip text={masterMuted ? "Activar sonido maestro" : "Silenciar todo"} position="bottom">
+            <Tooltip
+              text={masterMuted ? "Activar sonido maestro" : "Silenciar todo"}
+              position="bottom"
+            >
               <button
                 data-no-sfx
                 className="pixel-btn-icon"
@@ -80,7 +101,10 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
               </button>
             </Tooltip>
 
-            <Tooltip text={ambientMuted ? "Activar ambiente" : "Silenciar ambiente"} position="bottom">
+            <Tooltip
+              text={ambientMuted ? "Activar ambiente" : "Silenciar ambiente"}
+              position="bottom"
+            >
               <button
                 data-no-sfx
                 className="pixel-btn-icon"
@@ -102,7 +126,10 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
               </button>
             </Tooltip>
 
-            <Tooltip text={sfxMuted ? "Activar efectos de sonido" : "Silenciar efectos"} position="bottom">
+            <Tooltip
+              text={sfxMuted ? "Activar efectos de sonido" : "Silenciar efectos"}
+              position="bottom"
+            >
               <button
                 data-no-sfx
                 className="pixel-btn-icon"
@@ -115,13 +142,19 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
           </div>
         </div>
 
-        <Tooltip text={isAudioMenuExpanded ? "Ocultar controles de audio" : "Mostrar controles de audio"} position="bottom" align="start">
+        <Tooltip
+          text={isAudioMenuExpanded ? "Ocultar controles de audio" : "Mostrar controles de audio"}
+          position="bottom"
+          align="start"
+        >
           <button
             data-no-sfx
             className="pixel-btn-icon"
             onClick={() => setIsAudioMenuExpanded(!isAudioMenuExpanded)}
             style={{ width: 36, height: 36, flexShrink: 0, fontSize: "var(--text-pixel-lg)" }}
-            aria-label={isAudioMenuExpanded ? "Ocultar controles de audio" : "Mostrar controles de audio"}
+            aria-label={
+              isAudioMenuExpanded ? "Ocultar controles de audio" : "Mostrar controles de audio"
+            }
           >
             {isAudioMenuExpanded ? "\u2039" : "\u203a"}
           </button>

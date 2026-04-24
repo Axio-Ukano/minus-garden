@@ -1,77 +1,52 @@
-# minu-garden — Requirements
+# Minu's Garden - Requirements
 
 ## MVP v0.1 — Funcionalidad base
 
 ### Timer de estudio
 
-- [ ] Timer configurable (25 min default, editable)
-- [ ] Inicio, pausa y reset
-- [ ] Registro automático de sesión al completar
-- [ ] Campo opcional de materia/tema
+- [x] Timer configurable (Duraciones: 5, 10, 15, 25, 50 min)
+- [x] Inicio, pausa y reset
+- [x] Registro automático de sesión al completar
+- [x] Campo de materia/tema con autocompletado y colores
 
 ### Economía de corazones 💗
 
-- [ ] Ganar corazones al completar sesiones de estudio
-- [ ] Fórmula base: 1 corazón por cada 25 min completados
-- [ ] Balance de corazones visible en todo momento
-- [ ] Persistencia en SQLite
+- [x] Ganar corazones al completar sesiones de estudio
+- [x] Fórmula base: 1 corazón por cada 5 min completados
+- [x] Balance de corazones visible en todo momento
+- [x] Persistencia en SQLite (User State)
 
 ### Jardín virtual
 
 - [ ] Vista de jardín con slots fijos (ej. 6–9 posiciones)
-- [ ] Pocas plantas disponibles (3–5 tipos)
+- [x] Plantas disponibles (Margarita, Girasol)
 - [ ] Comprar plantas con corazones
-- [ ] Las plantas tienen niveles de crecimiento (semilla → brote → planta)
-- [ ] Crecer con el tiempo / sesiones completadas
+- [x] Las plantas tienen niveles de crecimiento (semilla → brote → planta)
+- [x] Crecer con el tiempo / sesiones completadas
 
 ### Historial
 
-- [ ] Lista de sesiones completadas
-- [ ] Fecha, duración, materia y corazones ganados por sesión
+- [x] Lista de sesiones completadas
+- [x] Fecha, duración, materia y corazones ganados por sesión
+- [x] Eliminación de sesiones individuales
 
 ---
 
 ## v0.2 — Mejoras y contenido
 
-### Métricas y estadísticas
+### Sonidos y Ambiente
 
-- [ ] Horas totales estudiadas
-- [ ] Racha de días consecutivos
-- [ ] Gráfico semanal de sesiones
-- [ ] Corazones ganados esta semana
+- [x] Sonidos ambientes (Lluvia, Bosque, Café, Chimenea, Ruido Blanco)
+- [x] Música Lofi integrada con playlist (6 tracks)
+- [x] Efectos de sonido (SFX) para botones y timer
+- [x] Mezclador de volumen independiente para Master, Música, Ambiente y SFX
 
-### Tienda
+### Personalización y UX
 
-- [ ] Más variedad de plantas y flores (10+)
-- [ ] Items decorativos para el jardín
-- [ ] Preview de items antes de comprar
-
-### UX
-
-- [ ] Animaciones suaves en el jardín
+- [x] Modo Oscuro (Dark Mode) nativo
+- [x] Posicionamiento de la planta (Izquierda / Derecha)
+- [x] Cursores pixel-art personalizados
+- [x] Error Boundary para manejo de fallos
 - [ ] Notificaciones de escritorio al terminar sesión
-- [ ] Sonido de campana al finalizar (configurable)
 - [ ] Modo compacto (ventana pequeña solo con timer)
 
----
-
-## v0.3+ — Mini-juegos y personalización
-
-### Mini-juegos estilo Adorable Home
-
-- [ ] Regar plantas (mini-tarea corta con animación)
-- [ ] Organizar objetos en el jardín (drag & drop)
-- [ ] Cuidar una mascota del jardín
-- [ ] Mini-puzzle de flores
-
-### Personalización avanzada
-
-- [ ] Temas de color alternativos
-- [ ] Música de fondo (lofi integrado o archivos locales)
-- [ ] Fondos de jardín intercambiables
-- [ ] Nombre personalizable para el jardín
-
-### Sonidos
-
-- [ ] Sonidos ambientes (lluvia, pájaros)
-- [ ] Efectos de sonido para acciones del jardín

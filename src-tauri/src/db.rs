@@ -9,11 +9,11 @@ pub fn init_db(app_handle: &AppHandle) -> DbState {
         .path()
         .app_data_dir()
         .expect("failed to resolve app_data_dir");
-    let db_dir = app_data_dir.join("minu-garden");
+    let db_dir = app_data_dir.join("minus-garden");
 
     std::fs::create_dir_all(&db_dir).expect("failed to create db directory");
 
-    let db_path = db_dir.join("minu-garden.db");
+    let db_path = db_dir.join("minus-garden.db");
     let conn = Connection::open(&db_path).expect("failed to open SQLite connection");
 
     conn.execute_batch(

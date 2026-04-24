@@ -1,8 +1,8 @@
-# minu-garden — Vision
+# Minu's Garden — Vision
 
 ## Descripción
 
-**minu-garden** es una app de escritorio offline diseñada para acompañar sesiones de estudio de Minu. Combina un timer de estudio con una economía de corazones 💗 y un jardín virtual que crece a medida que se estudia.
+**Minu's Garden** es una app de escritorio offline diseñada para acompañar sesiones de estudio de Minu. Combina un timer de estudio con una economía de corazones 💗 y un jardín virtual que crece a medida que se estudia.
 
 ## Concepto central
 
@@ -12,12 +12,12 @@ Estudiar → ganar corazones → comprar plantas y flores → ver el jardín cre
 
 | Capa           | Tecnología                |
 | -------------- | ------------------------- |
-| UI             | React + TypeScript        |
-| Estilos        | Tailwind CSS v4           |
+| UI             | React 19 + TypeScript     |
+| Estilos        | CSS Vanilla               |
 | Desktop shell  | Tauri 2                   |
 | Backend nativo | Rust                      |
-| Base de datos  | SQLite (via Tauri plugin) |
-| Estado         | Zustand                   |
+| Base de datos  | SQLite (via rusqlite)     |
+| Estado         | Zustand 5                 |
 
 ## Plataforma
 

@@ -24,13 +24,16 @@ export function PixelSlider({
   const [tooltipLeft, setTooltipLeft] = useState<number>(0);
   const trackRef = useRef<HTMLInputElement>(null);
 
-  const updateTooltipPosition = useCallback((input: HTMLInputElement) => {
-    const pct = (Number(input.value) - min) / (max - min);
-    const thumbSize = 16;
-    const trackWidth = input.offsetWidth;
-    const px = pct * (trackWidth - thumbSize) + thumbSize / 2;
-    setTooltipLeft(px);
-  }, [min, max]);
+  const updateTooltipPosition = useCallback(
+    (input: HTMLInputElement) => {
+      const pct = (Number(input.value) - min) / (max - min);
+      const thumbSize = 16;
+      const trackWidth = input.offsetWidth;
+      const px = pct * (trackWidth - thumbSize) + thumbSize / 2;
+      setTooltipLeft(px);
+    },
+    [min, max]
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(parseFloat(e.target.value));
