@@ -1,0 +1,138 @@
+.history-view {
+  min-height: 100%;
+  background-color: var(--color-bg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.history-view__hearts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-lg);
+  color: var(--color-heart);
+}
+
+.history-view__hearts span {
+  padding-top: 4px;
+}
+
+.history-view__loading {
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+  margin-top: 32px;
+}
+
+.history-view__empty {
+  text-align: center;
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-view__empty-title {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  color: var(--color-text);
+}
+
+.history-view__empty-sub {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+}
+
+.history-view__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* ── Session card ── */
+.session-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.session-card__plant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.session-card__stage-name {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.session-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.session-card__subject {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.session-card__date {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+}
+
+.session-card__stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.session-card__duration {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+}
+
+.session-card__hearts {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-heart);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.session-card__delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--color-text-muted);
+  line-height: 1;
+  padding: 2px 4px;
+  font-family: 'Nunito', sans-serif;
+}

@@ -99,7 +99,7 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
       </Tooltip>
 
       {/* Volume Control */}
-      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginLeft: "8px", borderLeft: "2px solid var(--color-border)", paddingLeft: "16px" }}>
+      <div className="music-volume-section">
         <Tooltip text={musicMuted ? "Desilenciar música" : "Silenciar música"} position="top">
           <button
             data-no-sfx
@@ -146,28 +146,10 @@ export function MusicPlayerView() {
             {currentTrack ? currentTrack.artist : "elige una canción"}
           </span>
           {currentTrack && isPlaying && (
-            <span
-              style={{
-                fontFamily: "var(--font-pixel)",
-                fontSize: "var(--text-pixel-xs)",
-                color: "var(--color-accent)",
-                letterSpacing: "0.08em",
-                marginTop: 4,
-              }}
-            >
-              ♪ REPRODUCIENDO
-            </span>
+            <span className="music-status-playing">♪ REPRODUCIENDO</span>
           )}
           {ambientMeta && (
-            <span
-              style={{
-                fontFamily: "var(--font-pixel)",
-                fontSize: "var(--text-pixel-xs)",
-                color: "var(--color-text-muted)",
-                letterSpacing: "0.06em",
-                marginTop: 4,
-              }}
-            >
+            <span className="music-status-ambient">
               {ambientMeta.emoji} {ambientMeta.label} · ACTIVO
             </span>
           )}

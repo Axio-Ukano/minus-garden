@@ -58,6 +58,7 @@ let ambientVolume = 0.5;
 
 let musicHowl: Howl | null = null;
 let musicVolume = 0.7;
+// Single-subscriber callbacks — only audioStore registers these.
 let musicEndedCb: (() => void) | null = null;
 let musicTimeUpdateCb: ((t: number) => void) | null = null;
 let timeUpdateInterval: ReturnType<typeof setInterval> | null = null;

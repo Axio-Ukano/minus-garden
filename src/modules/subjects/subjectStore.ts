@@ -40,6 +40,8 @@ export const useSubjectStore = create<SubjectState>((set, get) => ({
   },
 
   markUsed: (id: string) => {
-    invoke("update_subject_usage", { id }).catch(() => {});
+    invoke("update_subject_usage", { id }).catch((e) => {
+      console.warn("[subjectStore] markUsed failed:", e);
+    });
   },
 }));

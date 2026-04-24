@@ -4,14 +4,13 @@ import type { AmbientTrackId } from "./audioService";
 import { PLAYLIST } from "./audioRegistry";
 import { useSettingsStore } from "../settings/settingsStore";
 
-let ambientRandomizerInterval: ReturnType<typeof setInterval> | null = null;
-
 export type RepeatMode = "none" | "one" | "all";
 
 interface AudioState {
   // Ambient
   activeAmbient: AmbientTrackId | null;
   isAmbientPlaying: boolean;
+  _ambientRandomizerInterval: ReturnType<typeof setInterval> | null;
 
   // Music player
   currentTrackIndex: number | null;
@@ -83,6 +82,7 @@ export const useAudioStore = create<AudioState>((set, get) => {
   return {
     activeAmbient: null,
     isAmbientPlaying: false,
+    _ambientRandomizerInterval: null,
     currentTrackIndex: null,
     isPlaying: false,
     isShuffle: false,
@@ -163,18 +163,20 @@ export const useAudioStore = create<AudioState>((set, get) => {
     },
 
     syncAmbientRandomizer: ({ ambientRandomize, ambientRandomizeMinutes, ambientRandomizePool }) => {
-      if (ambientRandomizerInterval !== null) {
-        clearInterval(ambientRandomizerInterval);
-        ambientRandomizerInterval = null;
+      const { _ambientRandomizerInterval } = get();
+      if (_ambientRandomizerInterval !== null) {
+        clearInterval(_ambientRandomizerInterval);
+        set({ _ambientRandomizerInterval: null });
       }
       if (!ambientRandomize || ambientRandomizePool.length === 0) return;
-      ambientRandomizerInterval = setInterval(() => {
+      const interval = setInterval(() => {
         const { activeAmbient } = get();
         const pool = ambientRandomizePool.filter((id) => id !== activeAmbient);
         const candidates = pool.length > 0 ? pool : ambientRandomizePool;
         const newId = candidates[Math.floor(Math.random() * candidates.length)];
         get().setAmbient(newId);
       }, ambientRandomizeMinutes * 60 * 1000);
+      set({ _ambientRandomizerInterval: interval });
     },
   };
 });
