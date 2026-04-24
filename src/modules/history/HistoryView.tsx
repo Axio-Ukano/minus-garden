@@ -6,6 +6,7 @@ import { getStageName, getSpeciesById } from "../plants/plantService";
 import { HeartIcon } from "../../components/HeartIcon";
 import "../../components/Panel.css";
 import "../../components/Button.css";
+import "./HistoryView.css";
 
 function formatDate(isoString: string): string {
   const date = new Date(isoString);
@@ -30,102 +31,23 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
   const stageName = getStageName(session.plant_stage, getSpeciesById(session.plant_species));
 
   return (
-    <div
-      className="pixel-panel"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 12,
-        padding: "12px 16px",
-      }}
-    >
-      {/* Plant thumbnail */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 4,
-          flexShrink: 0,
-        }}
-      >
+    <div className="pixel-panel session-card">
+      <div className="session-card__plant">
         <PlantDisplay stage={session.plant_stage} speciesId={session.plant_species} size="sm" />
-        <span
-          style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-xs)",
-            color: "var(--color-text-muted)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {stageName.toUpperCase()}
-        </span>
+        <span className="session-card__stage-name">{stageName.toUpperCase()}</span>
       </div>
 
-      {/* Session info */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-sm)",
-            color: "var(--color-text)",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            marginBottom: 6,
-          }}
-        >
-          {session.subject || "Sin materia"}
-        </div>
-        <div
-          style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-xs)",
-            color: "var(--color-text-muted)",
-          }}
-        >
-          {formatDate(session.start_time)}
-        </div>
+      <div className="session-card__info">
+        <div className="session-card__subject">{session.subject || "Sin materia"}</div>
+        <div className="session-card__date">{formatDate(session.start_time)}</div>
       </div>
 
-      {/* Stats + delete */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-        <span
-          style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-xs)",
-            color: "var(--color-text-muted)",
-          }}
-        >
-          {session.duration_minutes}m
-        </span>
-        <span
-          style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-xs)",
-            color: "var(--color-heart)",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
-        >
+      <div className="session-card__stats">
+        <span className="session-card__duration">{session.duration_minutes}m</span>
+        <span className="session-card__hearts">
           +{session.hearts_earned} <HeartIcon size={12} color="currentColor" />
         </span>
-        <button
-          onClick={onDelete}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "18px",
-            color: "var(--color-text-muted)",
-            lineHeight: 1,
-            padding: "2px 4px",
-            fontFamily: "'Nunito', sans-serif",
-          }}
-          aria-label="Borrar sesión"
-        >
+        <button className="session-card__delete" onClick={onDelete} aria-label="Borrar sesión">
           ×
         </button>
       </div>
@@ -147,86 +69,22 @@ export function HistoryView() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100%",
-        backgroundColor: "var(--color-bg)",
-        padding: "32px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "24px",
-        width: "100%",
-        maxWidth: "900px",
-        margin: "0 auto",
-        boxSizing: "border-box",
-      }}
-    >
-      {/* Hearts header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 12,
-          fontFamily: "var(--font-pixel)",
-          fontSize: "var(--text-pixel-lg)",
-          color: "var(--color-heart)",
-        }}
-      >
+    <div className="history-view">
+      <div className="history-view__hearts">
         <HeartIcon size={20} color="currentColor" />
-        <span style={{ paddingTop: 4 }}>{totalHearts} CORAZONES</span>
+        <span>{totalHearts} CORAZONES</span>
       </div>
 
       {loading ? (
-        <div
-          style={{
-            textAlign: "center",
-            fontFamily: "var(--font-pixel)",
-            fontSize: "var(--text-pixel-xs)",
-            color: "var(--color-text-muted)",
-            marginTop: 32,
-          }}
-        >
-          CARGANDO...
-        </div>
+        <div className="history-view__loading">CARGANDO...</div>
       ) : sessions.length === 0 ? (
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: 48,
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-          }}
-        >
+        <div className="history-view__empty">
           <PlantDisplay stage={1} size="md" />
-          <span
-            style={{
-              fontFamily: "var(--font-pixel)",
-              fontSize: "var(--text-pixel-sm)",
-              color: "var(--color-text)",
-            }}
-          >
-            SIN SESIONES AÚN
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-pixel)",
-              fontSize: "var(--text-pixel-xs)",
-              color: "var(--color-text-muted)",
-            }}
-          >
-            ¡Empieza a estudiar!
-          </span>
+          <span className="history-view__empty-title">SIN SESIONES AÚN</span>
+          <span className="history-view__empty-sub">¡Empieza a estudiar!</span>
         </div>
       ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: 16,
-          }}
-        >
+        <div className="history-view__grid">
           {sessions.map((session) => (
             <SessionCard
               key={session.id}

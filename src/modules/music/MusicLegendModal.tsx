@@ -3,20 +3,18 @@ import { PixelCloseButton } from "../../components/PixelCloseButton";
 import "./MusicLegendModal.css";
 
 const LEGEND_ROWS = [
-  { glyph: "◄◄", name: "ANTERIOR", desc: "Vuelve al inicio de la canción. Si llevas menos de 3s, va a la anterior." },
+  {
+    glyph: "◄◄",
+    name: "ANTERIOR",
+    desc: "Vuelve al inicio de la canción. Si llevas menos de 3s, va a la anterior.",
+  },
   { glyph: "▶ / ❙❙", name: "REPRODUCIR / PAUSAR", desc: "Inicia o pausa la reproducción." },
   { glyph: "►►", name: "SIGUIENTE", desc: "Avanza a la siguiente canción en la lista." },
   { glyph: "⇌", name: "MEZCLA", desc: "Reproduce canciones en orden aleatorio." },
   { glyph: "⟳", name: "REPETIR", desc: "Cicla entre: Sin repetir → Repetir todo → Repetir una." },
 ];
 
-export function MusicLegendModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+export function MusicLegendModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   useEffect(() => {
     if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => {

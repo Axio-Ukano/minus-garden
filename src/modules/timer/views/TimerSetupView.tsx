@@ -10,14 +10,7 @@ import { TimerCircle } from "../components/TimerCircle";
 import { DurationSelector } from "../components/DurationSelector";
 import { SubjectCombobox, capitalize } from "../components/SubjectCombobox";
 import { PlantStagesModal } from "../components/PlantStagesModal";
-
-// ─── Shared label style ───────────────────────────────────────────────────────
-const labelStyle: React.CSSProperties = {
-  fontFamily: "var(--font-pixel)",
-  fontSize: "var(--text-pixel-xs)",
-  color: "var(--color-text-muted)",
-  letterSpacing: "0.1em",
-};
+import "./TimerViews.css";
 
 export function TimerSetupView() {
   const [isStagesModalOpen, setIsStagesModalOpen] = useState(false);
@@ -31,7 +24,6 @@ export function TimerSetupView() {
 
   const species = getSpeciesById(plantSpeciesId);
   const speciesIndex = ALL_SPECIES.findIndex((s) => s.id === plantSpeciesId);
-
   const totalSeconds = durationMinutes * 60;
 
   const cyclePlant = (dir: -1 | 1) => {
@@ -54,61 +46,33 @@ export function TimerSetupView() {
     useTimerStore.getState().start();
   };
 
+  const slideAnimation =
+    slideDirection === "right"
+      ? "slideInRight 0.25s ease-out"
+      : slideDirection === "left"
+        ? "slideInLeft 0.25s ease-out"
+        : "none";
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100%",
-        backgroundColor: "var(--color-bg)",
-        boxSizing: "border-box",
-      }}
-    >
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-          gap: 32,
-          paddingTop: 16,
-        }}
-      >
+    <div className="timer-view">
+      <div className="timer-view__grid">
         {/* ── Controls column ── */}
         <div
-          style={{
-            padding: "16px 32px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: 20,
-            order: plantSide === "left" ? 2 : 1,
-          }}
+          className="timer-view__col timer-view__col--controls"
+          style={{ order: plantSide === "left" ? 2 : 1 }}
         >
           <div style={{ opacity: 0.8 }}>
             <TimerCircle secondsLeft={totalSeconds} totalSeconds={totalSeconds} faded={false} />
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 32,
-              width: "100%",
-              marginTop: 16,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 12,
-                width: "100%",
-              }}
-            >
-              <span style={{ ...labelStyle, fontSize: "var(--text-pixel-md)" }}>MATERIA</span>
+          <div className="timer-view__controls-inner">
+            <div className="timer-view__field">
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
+                MATERIA
+              </span>
               <SubjectCombobox
                 value={subject}
                 onChange={setSubject}
@@ -116,10 +80,13 @@ export function TimerSetupView() {
                 subjects={subjects}
               />
             </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}
-            >
-              <span style={{ ...labelStyle, fontSize: "var(--text-pixel-md)" }}>DURACIÓN</span>
+            <div className="timer-view__field" style={{ width: "auto" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
+                DURACIÓN
+              </span>
               <DurationSelector value={durationMinutes} onChange={setDuration} />
             </div>
 
@@ -143,27 +110,11 @@ export function TimerSetupView() {
 
         {/* ── Plant column ── */}
         <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "16px 32px",
-            gap: 20,
-            order: plantSide === "left" ? 1 : 2,
-          }}
+          className="timer-view__col timer-view__col--plant"
+          style={{ order: plantSide === "left" ? 1 : 2 }}
         >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
-            <div
-              style={{
-                position: "relative",
-                width: 400,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 48,
-              }}
-            >
+          <div className="timer-view__plant-inner">
+            <div className="timer-view__plant-name-row">
               <div style={{ position: "absolute", left: 0 }}>
                 <PixelArrowButton direction="left" onClick={() => cyclePlant(-1)} />
               </div>
@@ -176,12 +127,7 @@ export function TimerSetupView() {
                   color: "var(--color-text)",
                   letterSpacing: "0.1em",
                   textAlign: "center",
-                  animation:
-                    slideDirection === "right"
-                      ? "slideInRight 0.25s ease-out"
-                      : slideDirection === "left"
-                        ? "slideInLeft 0.25s ease-out"
-                        : "none",
+                  animation: slideAnimation,
                 }}
               >
                 {species.name.toUpperCase()}
@@ -191,46 +137,34 @@ export function TimerSetupView() {
                 <PixelArrowButton direction="right" onClick={() => cyclePlant(1)} />
               </div>
             </div>
+
             <div
               key={`sprite-${species.id}`}
-              style={{
-                width: 140,
-                height: 140,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                animation:
-                  slideDirection === "right"
-                    ? "slideInRight 0.25s ease-out"
-                    : slideDirection === "left"
-                      ? "slideInLeft 0.25s ease-out"
-                      : "none",
-              }}
+              className="timer-view__plant-sprite"
+              style={{ animation: slideAnimation }}
             >
               <PlantDisplay stage={species.maxStages} speciesId={plantSpeciesId} size="xl" />
             </div>
+
             <div
               key={`data-${species.id}`}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 14,
-                animation:
-                  slideDirection === "right"
-                    ? "slideInRight 0.25s ease-out"
-                    : slideDirection === "left"
-                      ? "slideInLeft 0.25s ease-out"
-                      : "none",
-              }}
+              className="timer-view__plant-meta"
+              style={{ animation: slideAnimation }}
             >
-              <span style={{ ...labelStyle, fontSize: "var(--text-pixel-md)" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
                 {species.maxStages} ETAPAS
               </span>
-              <span style={{ ...labelStyle, fontSize: "var(--text-pixel-md)" }}>
+              <span
+                className="timer-view__field-label"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+              >
                 HASTA {species.stageThresholds[species.maxStages - 1]} MIN
               </span>
             </div>
+
             <button
               className="pixel-btn-link"
               style={{ fontSize: "var(--text-pixel-md)" }}

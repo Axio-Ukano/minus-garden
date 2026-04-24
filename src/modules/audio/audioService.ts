@@ -16,7 +16,12 @@ export type SfxId =
   | "timer_finish"
   | "session_saved";
 
-export type ClickSfxId = "button_click" | "button_click_soft" | "button_click_hard" | "button_click_pop" | "none";
+export type ClickSfxId =
+  | "button_click"
+  | "button_click_soft"
+  | "button_click_hard"
+  | "button_click_pop"
+  | "none";
 export type TypingSfxId = "none" | "type_soft" | "type_tick" | "type_mechanical";
 
 const SFX_SRCS: Record<SfxId, string> = {
@@ -58,6 +63,7 @@ let ambientVolume = 0.5;
 
 let musicHowl: Howl | null = null;
 let musicVolume = 0.7;
+// Single-subscriber callbacks — only audioStore registers these.
 let musicEndedCb: (() => void) | null = null;
 let musicTimeUpdateCb: ((t: number) => void) | null = null;
 let timeUpdateInterval: ReturnType<typeof setInterval> | null = null;

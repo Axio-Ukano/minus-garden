@@ -225,3 +225,30 @@
   color: var(--color-text-muted);
   flex-shrink: 0;
 }
+
+/* ── Now playing status badges ── */
+.music-status-playing {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+.music-status-ambient {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* ── Volume section in controls ── */
+.music-volume-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  border-left: 2px solid var(--color-border);
+  padding-left: 16px;
+}

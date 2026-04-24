@@ -1,94 +1,100 @@
-# minu-garden — Architecture
+# Minu's Garden — Architecture
 
 ## Stack
 
-| Capa              | Tecnología   | Versión              |
-| ----------------- | ------------ | -------------------- |
-| UI Framework      | React        | 19                   |
-| Lenguaje frontend | TypeScript   | 5.8                  |
-| Estilos           | Tailwind CSS | 4                    |
-| Bundler           | Vite         | 7                    |
-| Desktop shell     | Tauri        | 2                    |
-| Backend nativo    | Rust         | 1.95                 |
-| Base de datos     | SQLite       | via tauri-plugin-sql |
-| Estado global     | Zustand      | (v0.2+)              |
+| Capa              | Tecnología   | Versión |
+| ----------------- | ------------ | ------- |
+| UI Framework      | React        | 19      |
+| Lenguaje frontend | TypeScript   | 5.8     |
+| Estilos           | CSS Vanilla  | -       |
+| Bundler           | Vite         | 7       |
+| Desktop shell     | Tauri        | 2       |
+| Backend nativo    | Rust         | 1.95    |
+| Base de datos     | SQLite       | via rusqlite (Rust-side) |
+| Estado global     | Zustand      | 5       |
 
 ## Arquitectura en capas
 
 ```
 ┌─────────────────────────────────────┐
-│           UI — React + TSX          │  Componentes, páginas, vistas
+│           UI — React + TSX          │  Componentes, páginas, módulos
 ├─────────────────────────────────────┤
-│        State — Zustand stores       │  Estado global de la app
+│        State — Zustand stores       │  Estado global (Zustand + Persist)
 ├─────────────────────────────────────┤
 │       Tauri Bridge — invoke()       │  Comandos Rust ↔ JS
 ├─────────────────────────────────────┤
-│    Rust backend — src-tauri/src/    │  Lógica de negocio, queries SQL
+│    Rust backend — src-tauri/src/    │  Manejo de DB (Rusqlite), migraciones
 ├─────────────────────────────────────┤
-│         SQLite — app.db             │  Persistencia local
+│         SQLite — app.db             │  Persistencia local (AppData)
 └─────────────────────────────────────┘
 ```
 
 ## Estructura de carpetas
 
 ```
-minu-garden/
+minus-garden/
 ├── src/                        # Frontend React
-│   ├── components/             # Componentes reutilizables
+│   ├── components/             # Componentes comunes (Botones, Sliders, Modales)
 │   ├── modules/
-│   │   ├── timer/              # Timer de estudio
-│   │   ├── garden/             # Jardín virtual
-│   │   ├── economy/            # Corazones y tienda
-│   │   ├── history/            # Historial de sesiones
-│   │   └── minigames/          # Mini-juegos (v0.3+)
-│   └── styles/
-│       └── theme.css           # Variables CSS custom
+│   │   ├── timer/              # Lógica y vistas del cronómetro
+│   │   ├── audio/              # Servicio de sonido (Howler) y playlist
+│   │   ├── history/            # Historial de sesiones y corazones
+│   │   ├── plants/             # Especies, crecimiento y visualización
+│   │   ├── subjects/           # Gestión de materias y colores
+│   │   └── settings/           # Configuración global y preferencias
+│   ├── styles/                 # Variables CSS y estilos globales
+│   └── main.tsx                # Punto de entrada y Error Boundary
 ├── src-tauri/                  # Backend Rust (Tauri)
 │   ├── src/
-│   │   ├── main.rs
-│   │   └── lib.rs              # Comandos Tauri
-│   └── tauri.conf.json
+│   │   ├── main.rs             # Punto de entrada
+│   │   ├── lib.rs              # Definición de comandos y registro
+│   │   └── db.rs               # Gestión de SQLite y migraciones
+│   └── tauri.conf.json         # Configuración del empaquetado
 └── docs/                       # Documentación del proyecto
 ```
 
 ## Tablas de base de datos
 
-### `Session`
+### `sessions`
 
-| Campo             | Tipo       | Descripción                    |
-| ----------------- | ---------- | ------------------------------ |
-| `id`              | INTEGER PK | ID autoincremental             |
-| `startTime`       | TEXT       | ISO 8601 timestamp             |
-| `endTime`         | TEXT       | ISO 8601 timestamp             |
-| `durationMinutes` | INTEGER    | Duración en minutos            |
-| `subject`         | TEXT NULL  | Materia/tema (opcional)        |
-| `completed`       | BOOLEAN    | Si se completó o se canceló    |
-| `heartsEarned`    | INTEGER    | Corazones ganados en la sesión |
+| Campo              | Tipo       | Descripción                           |
+| ------------------ | ---------- | ------------------------------------- |
+| `id`               | TEXT PK    | UUID de la sesión                     |
+| `start_time`       | TEXT       | ISO 8601 timestamp                    |
+| `end_time`         | TEXT       | ISO 8601 timestamp                    |
+| `duration_minutes` | INTEGER    | Duración en minutos                   |
+| `subject`          | TEXT       | Nombre de la materia                  |
+| `completed`        | INTEGER    | 1 si se completó, 0 si no             |
+| `hearts_earned`    | INTEGER    | Corazones ganados                     |
+| `plant_species`    | TEXT       | ID de la especie (daisy, sunflower)   |
+| `plant_stage`      | INTEGER    | Etapa final alcanzada                 |
 
-### `Plant`
+### `user_state`
 
-| Campo          | Tipo       | Descripción                                         |
-| -------------- | ---------- | --------------------------------------------------- |
-| `id`           | INTEGER PK | ID autoincremental                                  |
-| `type`         | TEXT       | Tipo de planta (rose, daisy, etc.)                  |
-| `level`        | INTEGER    | Nivel de crecimiento (0=semilla, 1=brote, 2=planta) |
-| `positionSlot` | INTEGER    | Slot en el jardín (0–8)                             |
-| `createdAt`    | TEXT       | ISO 8601 timestamp                                  |
+| Campo           | Tipo    | Descripción                         |
+| --------------- | ------- | ----------------------------------- |
+| `id`            | INTEGER | ID único (1)                        |
+| `total_hearts`  | INTEGER | Balance total de corazones 💗       |
+| `updated_at`    | TEXT    | Timestamp de última actualización   |
 
-### `InventoryItem`
+### `subjects`
 
-| Campo        | Tipo       | Descripción         |
-| ------------ | ---------- | ------------------- |
-| `id`         | INTEGER PK | ID autoincremental  |
-| `type`       | TEXT       | Tipo de item        |
-| `costHearts` | INTEGER    | Precio en corazones |
+| Campo          | Tipo    | Descripción                     |
+| -------------- | ------- | ------------------------------- |
+| `id`           | TEXT PK | UUID de la materia              |
+| `name`         | TEXT    | Nombre único                    |
+| `color`        | TEXT    | Color hexadecimal asociado      |
+| `last_used_at` | TEXT    | Timestamp de último uso         |
+| `use_count`    | INTEGER | Veces que se ha seleccionado    |
 
-### `UserState`
+### `plant_species`
 
-| Campo         | Tipo    | Descripción                       |
-| ------------- | ------- | --------------------------------- |
-| `totalHearts` | INTEGER | Balance total de corazones 💗     |
-| `settings`    | TEXT    | JSON con preferencias del usuario |
+| Campo              | Tipo    | Descripción                    |
+| ------------------ | ------- | ------------------------------ |
+| `id`               | TEXT PK | ID de la planta                |
+| `name`             | TEXT    | Nombre visual                  |
+| `max_stages`       | INTEGER | Cantidad de etapas             |
+| `stage_thresholds` | TEXT    | JSON con minutos por etapa     |
 
 ## Flujo principal
 
