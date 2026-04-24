@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { TimerDisplay } from "./modules/timer/TimerDisplay";
 import { HistoryView } from "./modules/history/HistoryView";
+import { MusicPlayerView } from "./modules/music/MusicPlayerView";
+import { MiniPlayer } from "./modules/music/MiniPlayer";
 import { useHistoryStore } from "./modules/history/historyStore";
 import { useSubjectStore } from "./modules/subjects/subjectStore";
+import { SettingsModal } from "./modules/settings/SettingsModal";
+import { useAudio } from "./modules/audio/useAudio";
+import { useAudioStore } from "./modules/audio/audioStore";
+import { AppShellHeader } from "./components/AppShellHeader";
+import { ChevronIcon } from "./components/PixelIcons";
+import { Tooltip } from "./components/Tooltip";
 
-type Tab = "timer" | "history";
+type Tab = "timer" | "history" | "music";
 
 function ClockIcon({ bg }: { bg: string }) {
   return (
@@ -29,8 +37,33 @@ function BookIcon({ bg }: { bg: string }) {
   );
 }
 
+function MusicIcon({ bg }: { bg: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="1" width="2" height="9" fill="currentColor" />
+      <rect x="10" y="1" width="4" height="2" fill="currentColor" />
+      <rect x="5" y="8" width="5" height="4" fill="currentColor" />
+      <rect x="4" y="9" width="7" height="2" fill={bg} />
+      <rect x="5" y="9" width="5" height="2" fill="currentColor" />
+    </svg>
+  );
+}
+
+const NAV_TABS: { id: Tab; label: string }[] = [
+  { id: "timer", label: "ESTUDIAR" },
+  { id: "history", label: "HISTORIAL" },
+  { id: "music", label: "MÚSICA" },
+];
+
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>("timer");
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+  const [isMiniCollapsed, setIsMiniCollapsed] = useState(false);
+  useAudio();
+
+  const currentTrackIndex = useAudioStore((s) => s.currentTrackIndex);
+  const showMiniPlayer = currentTrackIndex !== null && activeTab !== "music";
 
   useEffect(() => {
     useHistoryStore.getState().loadSessions();
@@ -39,58 +72,109 @@ function App() {
   }, []);
 
   return (
-    <div
-      style={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-      }}
-    >
-      {/* Content area */}
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <AppShellHeader onOpenSettings={() => setIsSettingsOpen(true)} />
+
       <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", minHeight: 0 }}>
-        {activeTab === "timer" ? (
+        {activeTab === "timer" && (
           <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
-        ) : (
-          <HistoryView />
         )}
+        {activeTab === "history" && <HistoryView />}
+        {activeTab === "music" && <MusicPlayerView />}
       </div>
 
-      {/* Pixel art bottom navigation */}
-      <nav
-        style={{
-          display: "flex",
-          background: "var(--color-surface)",
-          borderTop: "3px solid var(--color-border)",
-          boxShadow: "0 -3px 0 var(--color-pixel-shadow)",
-          flexShrink: 0,
-          position: "relative",
-          zIndex: 10,
-        }}
-      >
-        {(["timer", "history"] as Tab[]).map((tab) => {
-          const active = activeTab === tab;
-          return (
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+
+      {/* Bottom dock — two independent collapse toggles */}
+      <div className="bottom-dock">
+
+        {/* Toggle 1: collapse nav bar */}
+        <Tooltip
+          text={isNavCollapsed ? "Mostrar nav" : "Ocultar nav"}
+          position="top"
+          align="start"
+          wrapStyle={{ position: "absolute", top: -26, left: 12, width: 36, height: 26, zIndex: 11 }}
+        >
+          <button
+            className={`bottom-dock__toggle${isNavCollapsed ? " bottom-dock__toggle--closed" : ""}`}
+            onClick={() => setIsNavCollapsed((v) => !v)}
+            aria-label={isNavCollapsed ? "Mostrar barra de navegación" : "Ocultar barra de navegación"}
+            data-no-sfx
+          >
+            <ChevronIcon size={12} direction={isNavCollapsed ? "up" : "down"} />
+          </button>
+        </Tooltip>
+
+        {/* Toggle 2: collapse mini player — only when mini player is present */}
+        {showMiniPlayer && (
+          <Tooltip
+            text={isMiniCollapsed ? "Mostrar reproductor" : "Ocultar reproductor"}
+            position="top"
+            align="start"
+            wrapStyle={{ position: "absolute", top: -20, left: 52, width: 26, height: 20, zIndex: 11 }}
+          >
             <button
-              key={tab}
-              className={`pixel-nav-btn ${active ? "active" : ""}`}
-              onClick={() => setActiveTab(tab)}
+              className={`bottom-dock__toggle bottom-dock__toggle--mini${isMiniCollapsed ? " bottom-dock__toggle--closed" : ""}`}
+              onClick={() => setIsMiniCollapsed((v) => !v)}
+              aria-label={isMiniCollapsed ? "Mostrar mini reproductor" : "Ocultar mini reproductor"}
+              data-no-sfx
+            >
+              <ChevronIcon size={9} direction={isMiniCollapsed ? "up" : "down"} />
+            </button>
+          </Tooltip>
+        )}
+
+        {/* Mini player — collapses independently */}
+        {showMiniPlayer && (
+          <div className={`bottom-dock__miniplayer${isMiniCollapsed ? " bottom-dock__miniplayer--collapsed" : ""}`}>
+            <div className="bottom-dock__miniplayer-inner">
+              <MiniPlayer onNavigateToMusic={() => setActiveTab("music")} />
+            </div>
+          </div>
+        )}
+
+        {/* Nav — collapses independently */}
+        <div className={`bottom-dock__content${isNavCollapsed ? " bottom-dock--collapsed" : ""}`}>
+          <div className="bottom-dock__content-inner">
+            <nav
               style={{
-                flex: 1,
-                color: active ? "#fff" : "var(--color-text-muted)",
-                borderRight: tab === "timer" ? "3px solid var(--color-border)" : "none",
+                display: "flex",
+                background: "var(--color-surface)",
+                borderTop: "3px solid var(--color-border)",
+                boxShadow: "0 -3px 0 var(--color-pixel-shadow)",
+                position: "relative",
+                zIndex: 10,
               }}
             >
-              {tab === "timer" ? (
-                <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
-              ) : (
-                <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
-              )}
-              {tab === "timer" ? "ESTUDIAR" : "HISTORIAL"}
-            </button>
-          );
-        })}
-      </nav>
+              {NAV_TABS.map((tab, idx) => {
+                const active = activeTab === tab.id;
+                const isLast = idx === NAV_TABS.length - 1;
+                return (
+                  <button
+                    key={tab.id}
+                    className={`pixel-nav-btn ${active ? "active" : ""}`}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      if (isNavCollapsed) setIsNavCollapsed(false);
+                    }}
+                    style={{
+                      flex: 1,
+                      color: active ? "#fff" : "var(--color-text-muted)",
+                      borderRight: !isLast ? "3px solid var(--color-border)" : "none",
+                    }}
+                  >
+                    {tab.id === "timer" && <ClockIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />}
+                    {tab.id === "history" && <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />}
+                    {tab.id === "music" && <MusicIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />}
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }

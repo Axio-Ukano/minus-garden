@@ -6,6 +6,21 @@ import "./styles/global.css";
 import "./styles/cursors.css";
 import "./App.css";
 
+// Apply saved theme before first paint to prevent flash of wrong theme
+try {
+  const saved = localStorage.getItem("minu-garden-settings");
+  if (saved) {
+    const parsed = JSON.parse(saved) as { state?: { theme?: string } };
+    const theme = parsed?.state?.theme;
+    if (theme === "dark" || theme === "light") {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.body.setAttribute("data-theme", theme);
+    }
+  }
+} catch {
+  // ignore parse errors
+}
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />

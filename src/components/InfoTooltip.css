@@ -1,0 +1,42 @@
+.info-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.info-tooltip-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text);
+  line-height: 1;
+  padding: 0 2px;
+  cursor: help;
+  outline: none;
+}
+
+.info-tooltip-btn:hover {
+  color: var(--color-accent);
+}
+
+.info-tooltip-bubble {
+  pointer-events: none;
+  background: var(--color-panel);
+  border: 2px solid var(--color-border);
+  box-shadow: 3px 3px 0 var(--color-pixel-shadow);
+  padding: 6px 8px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  width: max-content;
+}
+
+/* Portal variant — positioned via JS, rendered in body */
+.info-tooltip-bubble--portal {
+  position: fixed;
+  z-index: 99999;
+  opacity: 1;
+}

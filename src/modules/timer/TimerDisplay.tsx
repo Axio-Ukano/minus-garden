@@ -5,8 +5,11 @@ import { TimerSetupView } from "./views/TimerSetupView";
 import { TimerActiveView } from "./views/TimerActiveView";
 import { TimerFinishedView } from "./views/TimerFinishedView";
 
-export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () => void }) {
-  // Inicializa la lógica del temporizador de fondo
+export function TimerDisplay({
+  onNavigateToHistory,
+}: {
+  onNavigateToHistory: () => void;
+}) {
   useTimer();
 
   const { status } = useTimerStore();
@@ -19,6 +22,5 @@ export function TimerDisplay({ onNavigateToHistory }: { onNavigateToHistory: () 
     return <TimerSetupView />;
   }
 
-  // status === "running" || status === "paused"
   return <TimerActiveView />;
 }
