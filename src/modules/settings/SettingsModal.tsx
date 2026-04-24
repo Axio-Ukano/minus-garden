@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PixelCloseButton } from "../../components/PixelCloseButton";
 import { InfoTooltip } from "../../components/InfoTooltip";
-import { GearIcon } from "../../components/PixelIcons";
 import { PixelSlider } from "../../components/PixelSlider";
 import { useSettingsStore } from "./settingsStore";
 import { useAudioStore } from "../audio/audioStore";
