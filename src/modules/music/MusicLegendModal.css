@@ -1,0 +1,39 @@
+.music-legend-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-pixel);
+}
+
+.music-legend-table th {
+  font-size: var(--text-pixel-xs);
+  color: var(--color-accent-purple);
+  letter-spacing: 0.08em;
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.music-legend-table td {
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text);
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.music-legend-glyph {
+  color: var(--color-accent);
+  white-space: nowrap;
+  min-width: 48px;
+}
+
+.music-legend-name {
+  color: var(--color-text);
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.music-legend-desc {
+  color: var(--color-text-muted);
+}

@@ -1,23 +1,33 @@
+import { useEffect, useRef } from "react";
 import { useTimerStore } from "../timerStore";
-import { useHistoryStore } from "../../history/historyStore";
 import { getSpeciesById } from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
 import { usePlantGrowth } from "../../plants/usePlantGrowth";
+import { useSettingsStore } from "../../settings/settingsStore";
+import { audioService } from "../../audio/audioService";
 
 import { TimerCircle } from "../components/TimerCircle";
-import { TimerHeader } from "../components/TimerHeader";
 
 export function TimerActiveView() {
   const { status, durationMinutes, secondsLeft, subject, plantSpeciesId, pause, resume, reset } =
     useTimerStore();
-
-  const totalHearts = useHistoryStore((s) => s.totalHearts);
 
   const species = getSpeciesById(plantSpeciesId);
   const totalSeconds = durationMinutes * 60;
   const elapsedSeconds = totalSeconds - secondsLeft;
 
   const growthState = usePlantGrowth(elapsedSeconds, species);
+  const plantSide = useSettingsStore((s) => s.plantSide);
+  const { masterVolume, sfxVolume } = useSettingsStore();
+
+  // Fire SFX when plant advances to a new stage
+  const prevStageRef = useRef(growthState.currentStage);
+  useEffect(() => {
+    if (growthState.currentStage > prevStageRef.current) {
+      audioService.playSfx("plant_grow", masterVolume, sfxVolume);
+    }
+    prevStageRef.current = growthState.currentStage;
+  }, [growthState.currentStage, masterVolume, sfxVolume]);
 
   const isPaused = status === "paused";
 
@@ -31,8 +41,6 @@ export function TimerActiveView() {
         boxSizing: "border-box",
       }}
     >
-      <TimerHeader totalHearts={totalHearts} />
-
       <div
         style={{
           flex: 1,
@@ -42,7 +50,7 @@ export function TimerActiveView() {
           paddingTop: 16,
         }}
       >
-        {/* ── Left column ── */}
+        {/* ── Controls column ── */}
         <div
           style={{
             padding: "16px 32px",
@@ -51,6 +59,7 @@ export function TimerActiveView() {
             alignItems: "center",
             justifyContent: "flex-start",
             gap: 20,
+            order: plantSide === "left" ? 2 : 1,
           }}
         >
           <div>
@@ -88,7 +97,7 @@ export function TimerActiveView() {
           </div>
         </div>
 
-        {/* ── Right column ── */}
+        {/* ── Plant column ── */}
         <div
           style={{
             display: "flex",
@@ -97,6 +106,7 @@ export function TimerActiveView() {
             alignItems: "center",
             padding: "16px 32px",
             gap: 20,
+            order: plantSide === "left" ? 1 : 2,
           }}
         >
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>

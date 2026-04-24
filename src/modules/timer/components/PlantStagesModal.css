@@ -29,3 +29,7 @@
 .stage-card--final:hover {
   background-color: #ffa8b8;
 }
+
+[data-theme="dark"] .stage-card--final:hover {
+  background-color: #5c2a45;
+}
