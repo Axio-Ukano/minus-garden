@@ -1,20 +1,11 @@
 import { useEffect } from "react";
 import { PixelCloseButton } from "../../components/PixelCloseButton";
+import { useTranslation } from "../../i18n";
 import "./MusicLegendModal.css";
 
-const LEGEND_ROWS = [
-  {
-    glyph: "◄◄",
-    name: "ANTERIOR",
-    desc: "Vuelve al inicio de la canción. Si llevas menos de 3s, va a la anterior.",
-  },
-  { glyph: "▶ / ❙❙", name: "REPRODUCIR / PAUSAR", desc: "Inicia o pausa la reproducción." },
-  { glyph: "►►", name: "SIGUIENTE", desc: "Avanza a la siguiente canción en la lista." },
-  { glyph: "⇌", name: "MEZCLA", desc: "Reproduce canciones en orden aleatorio." },
-  { glyph: "⟳", name: "REPETIR", desc: "Cicla entre: Sin repetir → Repetir todo → Repetir una." },
-];
-
 export function MusicLegendModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -25,6 +16,14 @@ export function MusicLegendModal({ isOpen, onClose }: { isOpen: boolean; onClose
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  const LEGEND_ROWS = [
+    { glyph: "◄◄", name: t.music.legend_prev_name, desc: t.music.legend_prev_desc },
+    { glyph: "▶ / ❙❙", name: t.music.legend_playpause_name, desc: t.music.legend_playpause_desc },
+    { glyph: "►►", name: t.music.legend_next_name, desc: t.music.legend_next_desc },
+    { glyph: "⇌", name: t.music.legend_shuffle_name, desc: t.music.legend_shuffle_desc },
+    { glyph: "⟳", name: t.music.legend_repeat_name, desc: t.music.legend_repeat_desc },
+  ];
 
   return (
     <div
@@ -74,7 +73,7 @@ export function MusicLegendModal({ isOpen, onClose }: { isOpen: boolean; onClose
               letterSpacing: "0.1em",
             }}
           >
-            CONTROLES
+            {t.music.controls}
           </span>
           <PixelCloseButton onClick={onClose} />
         </div>
@@ -84,9 +83,9 @@ export function MusicLegendModal({ isOpen, onClose }: { isOpen: boolean; onClose
           <table className="music-legend-table">
             <thead>
               <tr>
-                <th>BOTÓN</th>
-                <th>NOMBRE</th>
-                <th>DESCRIPCIÓN</th>
+                <th>{t.music.legend_btn}</th>
+                <th>{t.music.legend_name}</th>
+                <th>{t.music.legend_desc}</th>
               </tr>
             </thead>
             <tbody>
@@ -118,7 +117,7 @@ export function MusicLegendModal({ isOpen, onClose }: { isOpen: boolean; onClose
               letterSpacing: "0.05em",
             }}
           >
-            Presiona ESC o haz clic fuera para cerrar
+            {t.music.close_hint}
           </span>
         </div>
       </div>

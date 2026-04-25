@@ -1,31 +1,31 @@
 :root {
-  /* ── paleta principal (rosa/cozy original) ── */
+  /* ── main palette (pink/cozy original) ── */
   --color-bg: #fceaf8;
   --color-panel: #fdf2fa;
   --color-surface: #fdf2fa;
   --color-accent: #ff6bb5;
   --color-accent-hover: #ff1492;
   --color-text: #2a1f20;
-  --color-text-muted: #6b3d4a; /* marrón-morado más oscuro — legible en fondos pastel claros */
+  --color-text-muted: #6b3d4a; /* dark purple-brown — readable on light pastel backgrounds */
   --color-hearts: #ffb8c1;
   --color-heart: #ff6bb5;
   --color-success: #7acb8a;
   --color-error: #f295be;
 
   /* ── inputs light ── */
-  --color-input-bg: #fdf5fb; /* blanco con tinte rosado — no blanco puro */
-  --color-input-border: #c87aaa; /* borde rosa-morado notorio, on-palette */
+  --color-input-bg: #fdf5fb; /* white with pink tint — not pure white */
+  --color-input-border: #c87aaa; /* noticeable pink-purple border, on-palette */
 
   /* ── pixel art extras ── */
   --color-border: #3b2f3f;
   --color-pixel-shadow: #2a1f20;
 
-  /* ── colores de la planta (solo para PlantDisplay) ── */
+  /* ── plant colors (PlantDisplay only) ── */
   --color-accent-green: #5a8a3c;
   --color-accent-pink: #ff6bb5;
   --color-accent-purple: #9b6dbd;
 
-  /* ── tipografía pixel ── */
+  /* ── pixel typography ── */
   --font-pixel: "Press Start 2P", monospace;
 
   --space-xs: 4px;
@@ -50,28 +50,28 @@ html[data-theme="dark"],
 body[data-theme="dark"] {
   color-scheme: dark;
 
-  /* ── fondos escalonados ── */
-  --color-bg: #0e0a1a; /* fondo base */
-  --color-panel: #1d1535; /* paneles, inputs, botones */
-  --color-surface: #120e22; /* nav bar — más oscura que el fondo para anclarla */
+  /* ── layered backgrounds ── */
+  --color-bg: #0e0a1a; /* base background */
+  --color-panel: #1d1535; /* panels, inputs, buttons */
+  --color-surface: #120e22; /* nav bar — darker than bg to anchor it */
 
-  /* ── texto ── */
+  /* ── text ── */
   --color-text: #ede4ff;
-  --color-text-muted: #8a7db5; /* secundario legible en pantallas menos brillantes */
+  --color-text-muted: #8a7db5; /* secondary — readable on less bright screens */
 
-  /* ── nav activa ── */
+  /* ── active nav ── */
   --color-nav-active-bg: rgba(255, 107, 181, 0.12);
   --color-nav-active-border: #ff6bb5;
 
   /* ── inputs dark ── */
-  --color-input-bg: #1a1230; /* más oscuro que panel, borde morado lo define */
+  --color-input-bg: #1a1230; /* darker than panel, purple border defines it */
   --color-input-border: #4a3478;
 
-  /* ── acento de color sistema ── */
+  /* ── system color accent ── */
   --color-hearts: #2d1425;
   --color-heart: #ff6bb5;
 
-  /* Rosa ligeramente más apagado — menos candy, más premium */
+  /* slightly muted pink — less candy, more premium */
   --color-accent: #e85fa3;
   --color-accent-hover: #d4107e;
   --color-nav-active-border: #e85fa3;

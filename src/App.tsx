@@ -11,6 +11,7 @@ import { useAudioStore } from "./modules/audio/audioStore";
 import { AppShellHeader } from "./components/AppShellHeader";
 import { ChevronIcon } from "./components/PixelIcons";
 import { Tooltip } from "./components/Tooltip";
+import { useTranslation } from "./i18n";
 
 type Tab = "timer" | "history" | "music";
 
@@ -49,21 +50,22 @@ function MusicIcon({ bg }: { bg: string }) {
   );
 }
 
-const NAV_TABS: { id: Tab; label: string }[] = [
-  { id: "timer", label: "ESTUDIAR" },
-  { id: "history", label: "HISTORIAL" },
-  { id: "music", label: "MÚSICA" },
-];
-
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>("timer");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isNavCollapsed, setIsNavCollapsed] = useState(false);
   const [isMiniCollapsed, setIsMiniCollapsed] = useState(false);
+  const { t } = useTranslation();
   useAudio();
 
   const currentTrackIndex = useAudioStore((s) => s.currentTrackIndex);
   const showMiniPlayer = currentTrackIndex !== null && activeTab !== "music";
+
+  const NAV_TABS: { id: Tab; label: string }[] = [
+    { id: "timer", label: t.nav.study },
+    { id: "history", label: t.nav.history },
+    { id: "music", label: t.nav.music },
+  ];
 
   useEffect(() => {
     useHistoryStore.getState().loadSessions();
@@ -89,7 +91,7 @@ function App() {
       <div className="bottom-dock">
         {/* Toggle 1: collapse nav bar */}
         <Tooltip
-          text={isNavCollapsed ? "Mostrar nav" : "Ocultar nav"}
+          text={isNavCollapsed ? t.nav_tooltip.show_nav : t.nav_tooltip.hide_nav}
           position="top"
           align="start"
           wrapStyle={{
@@ -105,7 +107,7 @@ function App() {
             className={`bottom-dock__toggle${isNavCollapsed ? " bottom-dock__toggle--closed" : ""}`}
             onClick={() => setIsNavCollapsed((v) => !v)}
             aria-label={
-              isNavCollapsed ? "Mostrar barra de navegación" : "Ocultar barra de navegación"
+              isNavCollapsed ? t.nav_tooltip.show_nav_aria : t.nav_tooltip.hide_nav_aria
             }
             data-no-sfx
           >
@@ -116,7 +118,7 @@ function App() {
         {/* Toggle 2: collapse mini player — only when mini player is present */}
         {showMiniPlayer && (
           <Tooltip
-            text={isMiniCollapsed ? "Mostrar reproductor" : "Ocultar reproductor"}
+            text={isMiniCollapsed ? t.nav_tooltip.show_player : t.nav_tooltip.hide_player}
             position="top"
             align="start"
             wrapStyle={{
@@ -131,7 +133,9 @@ function App() {
             <button
               className={`bottom-dock__toggle bottom-dock__toggle--mini${isMiniCollapsed ? " bottom-dock__toggle--closed" : ""}`}
               onClick={() => setIsMiniCollapsed((v) => !v)}
-              aria-label={isMiniCollapsed ? "Mostrar mini reproductor" : "Ocultar mini reproductor"}
+              aria-label={
+                isMiniCollapsed ? t.nav_tooltip.show_player_aria : t.nav_tooltip.hide_player_aria
+              }
               data-no-sfx
             >
               <ChevronIcon size={9} direction={isMiniCollapsed ? "up" : "down"} />

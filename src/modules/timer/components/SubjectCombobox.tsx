@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import type { Subject } from "../../subjects/subjectStore";
+import { useTranslation } from "../../../i18n";
 import "./SubjectCombobox.css";
 
 /** Capitalize the first letter of a string */
@@ -22,6 +23,7 @@ export function SubjectCombobox({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -60,7 +62,7 @@ export function SubjectCombobox({
           padding: "12px 16px",
           boxSizing: "border-box",
         }}
-        placeholder="¿Qué estás estudiando?"
+        placeholder={t.subjects.placeholder}
         value={value}
         onChange={(e) => {
           onChange(e.target.value);
@@ -104,7 +106,7 @@ export function SubjectCombobox({
               }}
               onClick={() => handleSelect(capitalize(value.trim()))}
             >
-              + Crear &quot;{value.trim()}&quot;
+              + {t.subjects.create} &quot;{value.trim()}&quot;
             </button>
           )}
 
@@ -121,7 +123,7 @@ export function SubjectCombobox({
                 color: "var(--color-accent-hover)",
               }}
             >
-              Escribe para crear...
+              {t.subjects.type_to_create}
             </div>
           )}
 
@@ -147,7 +149,7 @@ export function SubjectCombobox({
                 color: "var(--color-text-muted)",
               }}
             >
-              No hay materias
+              {t.subjects.no_subjects}
             </div>
           )}
         </div>

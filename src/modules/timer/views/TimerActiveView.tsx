@@ -6,6 +6,7 @@ import { usePlantGrowth } from "../../plants/usePlantGrowth";
 import { useSettingsStore } from "../../settings/settingsStore";
 import { audioService } from "../../audio/audioService";
 import { TimerCircle } from "../components/TimerCircle";
+import { useTranslation } from "../../../i18n";
 import "./TimerViews.css";
 
 export function TimerActiveView() {
@@ -19,6 +20,7 @@ export function TimerActiveView() {
   const growthState = usePlantGrowth(elapsedSeconds, species);
   const plantSide = useSettingsStore((s) => s.plantSide);
   const { masterVolume, sfxVolume } = useSettingsStore();
+  const { t } = useTranslation();
 
   const prevStageRef = useRef(growthState.currentStage);
   useEffect(() => {
@@ -44,7 +46,7 @@ export function TimerActiveView() {
             {subject.trim() && (
               <span className="timer-view__subject-label">{subject.toUpperCase()}</span>
             )}
-            {isPaused && <span className="timer-view__paused-badge">PAUSADO</span>}
+            {isPaused && <span className="timer-view__paused-badge">{t.timer.paused_badge}</span>}
           </div>
         </div>
 
@@ -66,19 +68,19 @@ export function TimerActiveView() {
         {isPaused ? (
           <>
             <button className="pixel-btn" onClick={resume}>
-              REANUDAR
+              {t.timer.resume}
             </button>
             <button className="pixel-btn-secondary" onClick={reset}>
-              CANCELAR
+              {t.timer.cancel}
             </button>
           </>
         ) : (
           <>
             <button className="pixel-btn" onClick={pause}>
-              PAUSAR
+              {t.timer.pause}
             </button>
             <button className="pixel-btn-secondary" onClick={reset}>
-              CANCELAR
+              {t.timer.cancel}
             </button>
           </>
         )}
