@@ -33,9 +33,9 @@ export const en = {
     nav: {
       sound: "SOUND",
       interface: "INTERFACE",
-      timer: "POMODORO",
+      timer: "TIMER",
       general: "GENERAL",
-      shortcuts: "SHORTCUTS",
+      shortcuts: "KEYS",
     },
     sound: {
       title: "SOUND",
