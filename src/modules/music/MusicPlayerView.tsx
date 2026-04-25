@@ -167,7 +167,9 @@ export function MusicPlayerView() {
   const duration = currentTrack
     ? audioService.getMusicDuration() || currentTrack.durationSeconds
     : 0;
-  const ambientMeta = activeAmbient ? AMBIENT_TRACKS.find((track) => track.id === activeAmbient) : null;
+  const ambientMeta = activeAmbient
+    ? AMBIENT_TRACKS.find((track) => track.id === activeAmbient)
+    : null;
   const ambientLabelKey = ambientMeta ? (`${ambientMeta.id}_label` as keyof typeof t.audio) : null;
 
   return (

@@ -106,9 +106,7 @@ function App() {
           <button
             className={`bottom-dock__toggle${isNavCollapsed ? " bottom-dock__toggle--closed" : ""}`}
             onClick={() => setIsNavCollapsed((v) => !v)}
-            aria-label={
-              isNavCollapsed ? t.nav_tooltip.show_nav_aria : t.nav_tooltip.hide_nav_aria
-            }
+            aria-label={isNavCollapsed ? t.nav_tooltip.show_nav_aria : t.nav_tooltip.hide_nav_aria}
             data-no-sfx
           >
             <ChevronIcon size={12} direction={isNavCollapsed ? "up" : "down"} />

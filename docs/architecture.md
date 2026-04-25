@@ -2,16 +2,16 @@
 
 ## Stack
 
-| Capa              | Tecnología   | Versión |
-| ----------------- | ------------ | ------- |
-| UI Framework      | React        | 19      |
-| Lenguaje frontend | TypeScript   | 5.8     |
-| Estilos           | CSS Vanilla  | -       |
-| Bundler           | Vite         | 7       |
-| Desktop shell     | Tauri        | 2       |
-| Backend nativo    | Rust         | 1.95    |
-| Base de datos     | SQLite       | via rusqlite (Rust-side) |
-| Estado global     | Zustand      | 5       |
+| Capa              | Tecnología  | Versión                  |
+| ----------------- | ----------- | ------------------------ |
+| UI Framework      | React       | 19                       |
+| Lenguaje frontend | TypeScript  | 5.8                      |
+| Estilos           | CSS Vanilla | -                        |
+| Bundler           | Vite        | 7                        |
+| Desktop shell     | Tauri       | 2                        |
+| Backend nativo    | Rust        | 1.95                     |
+| Base de datos     | SQLite      | via rusqlite (Rust-side) |
+| Estado global     | Zustand     | 5                        |
 
 ## Arquitectura en capas
 
@@ -57,44 +57,44 @@ minus-garden/
 
 ### `sessions`
 
-| Campo              | Tipo       | Descripción                           |
-| ------------------ | ---------- | ------------------------------------- |
-| `id`               | TEXT PK    | UUID de la sesión                     |
-| `start_time`       | TEXT       | ISO 8601 timestamp                    |
-| `end_time`         | TEXT       | ISO 8601 timestamp                    |
-| `duration_minutes` | INTEGER    | Duración en minutos                   |
-| `subject`          | TEXT       | Nombre de la materia                  |
-| `completed`        | INTEGER    | 1 si se completó, 0 si no             |
-| `hearts_earned`    | INTEGER    | Corazones ganados                     |
-| `plant_species`    | TEXT       | ID de la especie (daisy, sunflower)   |
-| `plant_stage`      | INTEGER    | Etapa final alcanzada                 |
+| Campo              | Tipo    | Descripción                         |
+| ------------------ | ------- | ----------------------------------- |
+| `id`               | TEXT PK | UUID de la sesión                   |
+| `start_time`       | TEXT    | ISO 8601 timestamp                  |
+| `end_time`         | TEXT    | ISO 8601 timestamp                  |
+| `duration_minutes` | INTEGER | Duración en minutos                 |
+| `subject`          | TEXT    | Nombre de la materia                |
+| `completed`        | INTEGER | 1 si se completó, 0 si no           |
+| `hearts_earned`    | INTEGER | Corazones ganados                   |
+| `plant_species`    | TEXT    | ID de la especie (daisy, sunflower) |
+| `plant_stage`      | INTEGER | Etapa final alcanzada               |
 
 ### `user_state`
 
-| Campo           | Tipo    | Descripción                         |
-| --------------- | ------- | ----------------------------------- |
-| `id`            | INTEGER | ID único (1)                        |
-| `total_hearts`  | INTEGER | Balance total de corazones 💗       |
-| `updated_at`    | TEXT    | Timestamp de última actualización   |
+| Campo          | Tipo    | Descripción                       |
+| -------------- | ------- | --------------------------------- |
+| `id`           | INTEGER | ID único (1)                      |
+| `total_hearts` | INTEGER | Balance total de corazones 💗     |
+| `updated_at`   | TEXT    | Timestamp de última actualización |
 
 ### `subjects`
 
-| Campo          | Tipo    | Descripción                     |
-| -------------- | ------- | ------------------------------- |
-| `id`           | TEXT PK | UUID de la materia              |
-| `name`         | TEXT    | Nombre único                    |
-| `color`        | TEXT    | Color hexadecimal asociado      |
-| `last_used_at` | TEXT    | Timestamp de último uso         |
-| `use_count`    | INTEGER | Veces que se ha seleccionado    |
+| Campo          | Tipo    | Descripción                  |
+| -------------- | ------- | ---------------------------- |
+| `id`           | TEXT PK | UUID de la materia           |
+| `name`         | TEXT    | Nombre único                 |
+| `color`        | TEXT    | Color hexadecimal asociado   |
+| `last_used_at` | TEXT    | Timestamp de último uso      |
+| `use_count`    | INTEGER | Veces que se ha seleccionado |
 
 ### `plant_species`
 
-| Campo              | Tipo    | Descripción                    |
-| ------------------ | ------- | ------------------------------ |
-| `id`               | TEXT PK | ID de la planta                |
-| `name`             | TEXT    | Nombre visual                  |
-| `max_stages`       | INTEGER | Cantidad de etapas             |
-| `stage_thresholds` | TEXT    | JSON con minutos por etapa     |
+| Campo              | Tipo    | Descripción                |
+| ------------------ | ------- | -------------------------- |
+| `id`               | TEXT PK | ID de la planta            |
+| `name`             | TEXT    | Nombre visual              |
+| `max_stages`       | INTEGER | Cantidad de etapas         |
+| `stage_thresholds` | TEXT    | JSON con minutos por etapa |
 
 ## Flujo principal
 

@@ -49,4 +49,3 @@
 - [x] Error Boundary para manejo de fallos
 - [ ] Notificaciones de escritorio al terminar sesión
 - [ ] Modo compacto (ventana pequeña solo con timer)
-
