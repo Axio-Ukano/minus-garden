@@ -280,9 +280,17 @@ function SoundSection() {
   return (
     <div>
       <div className="settings-section__title">{t.settings.sound.title}</div>
-      <VolumeSlider label={t.settings.sound.master} value={masterVolume} onChange={setMasterVolume} />
+      <VolumeSlider
+        label={t.settings.sound.master}
+        value={masterVolume}
+        onChange={setMasterVolume}
+      />
       <VolumeSlider label={t.settings.sound.effects} value={sfxVolume} onChange={setSfxVolume} />
-      <VolumeSlider label={t.settings.sound.ambient} value={ambientVolume} onChange={setAmbientVolume} />
+      <VolumeSlider
+        label={t.settings.sound.ambient}
+        value={ambientVolume}
+        onChange={setAmbientVolume}
+      />
       <VolumeSlider label={t.settings.sound.music} value={musicVolume} onChange={setMusicVolume} />
       <AmbientSelector />
       <AmbientRandomizer />

@@ -131,10 +131,7 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
               </button>
             </Tooltip>
 
-            <Tooltip
-              text={sfxMuted ? t.header.unmute_sfx : t.header.mute_sfx}
-              position="bottom"
-            >
+            <Tooltip text={sfxMuted ? t.header.unmute_sfx : t.header.mute_sfx} position="bottom">
               <button
                 data-no-sfx
                 className="pixel-btn-icon"

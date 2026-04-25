@@ -99,16 +99,7 @@ export const ORCHID_SPECIES: PlantSpecies = {
   id: "orquidea",
   maxStages: 8,
   stageThresholds: [0, 10, 22, 36, 52, 70, 88, 110],
-  stageKeys: [
-    "seed",
-    "sprout",
-    "roots",
-    "stem",
-    "bud",
-    "partial_orchid",
-    "orchid",
-    "full_orchid",
-  ],
+  stageKeys: ["seed", "sprout", "roots", "stem", "bud", "partial_orchid", "orchid", "full_orchid"],
   unlockThreshold: 0.8,
 };
 
@@ -191,11 +182,7 @@ export function calculateFinalStage(durationMinutes: number, species: PlantSpeci
   return Math.min(currentStage, maxStages);
 }
 
-export function getStageName(
-  stage: number,
-  species: PlantSpecies,
-  t: Translations,
-): string {
+export function getStageName(stage: number, species: PlantSpecies, t: Translations): string {
   const key = species.stageKeys[stage - 1];
   return key ? t.plants.stages[key] : `Stage ${stage}`;
 }

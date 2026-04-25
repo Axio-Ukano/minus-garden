@@ -28,13 +28,7 @@ function formatDate(isoString: string, t: ReturnType<typeof useTranslation>["t"]
   return `${dd}/${mo} ${t.history.date_at} ${time}`;
 }
 
-function SessionCard({
-  session,
-  onDelete,
-}: {
-  session: Session;
-  onDelete: () => void;
-}) {
+function SessionCard({ session, onDelete }: { session: Session; onDelete: () => void }) {
   const { t } = useTranslation();
   const species = getSpeciesById(session.plant_species);
   const stageName = getStageName(session.plant_stage, species, t);
