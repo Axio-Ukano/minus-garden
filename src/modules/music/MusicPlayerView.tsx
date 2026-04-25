@@ -8,6 +8,7 @@ import { MusicLegendModal } from "./MusicLegendModal";
 import { SpeakerIcon, SpeakerMutedIcon } from "../../components/PixelIcons";
 import { Tooltip } from "../../components/Tooltip";
 import { PixelSlider } from "../../components/PixelSlider";
+import { useTranslation } from "../../i18n";
 import "./MusicPlayerView.css";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -49,16 +50,14 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
     cycleRepeat,
   } = useAudioStore();
   const { musicVolume, setMusicVolume, musicMuted, setMusicMuted } = useSettingsStore();
-  // Remember the volume before muting so we can restore it on unmute
+  const { t } = useTranslation();
   const premuteVolumeRef = useRef(musicVolume > 0 ? musicVolume : 0.7);
 
   const handleMuteToggle = () => {
     if (musicMuted) {
-      // Unmuting: restore previous volume
       setMusicMuted(false);
       if (musicVolume === 0) setMusicVolume(premuteVolumeRef.current);
     } else {
-      // Muting: save current volume
       premuteVolumeRef.current = musicVolume || premuteVolumeRef.current;
       setMusicMuted(true);
     }
@@ -75,7 +74,7 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
 
   return (
     <div className="music-controls">
-      <Tooltip text={isShuffle ? "Desactivar aleatorio" : "Aleatorio"} position="top">
+      <Tooltip text={isShuffle ? t.music.shuffle_on : t.music.shuffle_off} position="top">
         <button
           data-no-sfx
           className={`music-ctrl-btn ${isShuffle ? "active" : ""}`}
@@ -84,12 +83,12 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
           ⇌ MIX
         </button>
       </Tooltip>
-      <Tooltip text="Anterior" position="top">
+      <Tooltip text={t.music.prev} position="top">
         <button data-no-sfx className="music-ctrl-btn" onClick={skipPrev}>
           ◄◄
         </button>
       </Tooltip>
-      <Tooltip text={isPlaying ? "Pausar" : "Reproducir"} position="top">
+      <Tooltip text={isPlaying ? t.music.pause : t.music.play} position="top">
         <button
           data-no-sfx
           className="music-ctrl-btn music-ctrl-btn--play"
@@ -98,7 +97,7 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
           {isPlaying ? "❙❙" : "▶"}
         </button>
       </Tooltip>
-      <Tooltip text="Siguiente" position="top">
+      <Tooltip text={t.music.next} position="top">
         <button data-no-sfx className="music-ctrl-btn" onClick={skipNext}>
           ►►
         </button>
@@ -106,10 +105,10 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
       <Tooltip
         text={
           repeatMode === "none"
-            ? "Repetir todo"
+            ? t.music.repeat_all
             : repeatMode === "all"
-              ? "Repetir una"
-              : "No repetir"
+              ? t.music.repeat_one
+              : t.music.repeat_none
         }
         position="top"
       >
@@ -121,12 +120,12 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
           {repeatLabel}
         </button>
       </Tooltip>
-      <Tooltip text="Ver controles" position="top">
+      <Tooltip text={t.music.view_controls} position="top">
         <button
           data-no-sfx
           className="music-ctrl-btn"
           onClick={onOpenLegend}
-          aria-label="Ver leyenda de controles"
+          aria-label={t.music.controls_legend_aria}
         >
           ⓘ
         </button>
@@ -134,7 +133,7 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
 
       {/* Volume Control */}
       <div className="music-volume-section">
-        <Tooltip text={musicMuted ? "Desilenciar música" : "Silenciar música"} position="top">
+        <Tooltip text={musicMuted ? t.music.unmute : t.music.mute} position="top">
           <button
             data-no-sfx
             className="pixel-btn-icon"
@@ -162,12 +161,16 @@ function Controls({ onOpenLegend }: { onOpenLegend: () => void }) {
 export function MusicPlayerView() {
   const [isLegendOpen, setIsLegendOpen] = useState(false);
   const { currentTrackIndex, isPlaying, progressSeconds, activeAmbient } = useAudioStore();
+  const { t } = useTranslation();
 
   const currentTrack = currentTrackIndex !== null ? PLAYLIST[currentTrackIndex] : null;
   const duration = currentTrack
     ? audioService.getMusicDuration() || currentTrack.durationSeconds
     : 0;
-  const ambientMeta = activeAmbient ? AMBIENT_TRACKS.find((t) => t.id === activeAmbient) : null;
+  const ambientMeta = activeAmbient
+    ? AMBIENT_TRACKS.find((track) => track.id === activeAmbient)
+    : null;
+  const ambientLabelKey = ambientMeta ? (`${ambientMeta.id}_label` as keyof typeof t.audio) : null;
 
   return (
     <div className="music-player">
@@ -178,17 +181,17 @@ export function MusicPlayerView() {
         </div>
         <div className="music-track-info">
           <span className="music-track-title">
-            {currentTrack ? currentTrack.title.toUpperCase() : "SIN SELECCIÓN"}
+            {currentTrack ? currentTrack.title.toUpperCase() : t.music.no_selection}
           </span>
           <span className="music-track-artist">
-            {currentTrack ? currentTrack.artist : "elige una canción"}
+            {currentTrack ? currentTrack.artist : t.music.choose_song}
           </span>
           {currentTrack && isPlaying && (
-            <span className="music-status-playing">♪ REPRODUCIENDO</span>
+            <span className="music-status-playing">{t.music.playing}</span>
           )}
-          {ambientMeta && (
+          {ambientMeta && ambientLabelKey && (
             <span className="music-status-ambient">
-              {ambientMeta.emoji} {ambientMeta.label} · ACTIVO
+              {ambientMeta.emoji} {t.audio[ambientLabelKey]} · {t.music.active}
             </span>
           )}
         </div>

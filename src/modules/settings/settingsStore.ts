@@ -6,10 +6,12 @@ import type { ClickSfxId, TypingSfxId } from "../audio/audioService";
 export type Theme = "light" | "dark";
 export type PlantSide = "left" | "right";
 export type Section = "sound" | "interface" | "timer" | "general" | "shortcuts";
+export type Language = "en" | "es";
 
 interface SettingsState {
   theme: Theme;
   plantSide: PlantSide;
+  language: Language;
   masterVolume: number;
   sfxVolume: number;
   ambientVolume: number;
@@ -43,6 +45,7 @@ interface SettingsState {
 
   setTheme: (theme: Theme) => void;
   setPlantSide: (side: PlantSide) => void;
+  setLanguage: (language: Language) => void;
   setMasterVolume: (v: number) => void;
   setSfxVolume: (v: number) => void;
   setAmbientVolume: (v: number) => void;
@@ -71,6 +74,7 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       theme: "light",
       plantSide: "right",
+      language: "en",
       masterVolume: 1,
       sfxVolume: 1,
       ambientVolume: 0.5,
@@ -97,6 +101,7 @@ export const useSettingsStore = create<SettingsState>()(
         set({ theme });
       },
       setPlantSide: (plantSide) => set({ plantSide }),
+      setLanguage: (language) => set({ language }),
       setMasterVolume: (masterVolume) => set({ masterVolume }),
       setSfxVolume: (sfxVolume) => set({ sfxVolume }),
       setAmbientVolume: (ambientVolume) => set({ ambientVolume }),

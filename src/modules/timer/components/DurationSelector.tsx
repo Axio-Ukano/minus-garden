@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Toast } from "../../../components/Toast";
+import { useTranslation } from "../../../i18n";
 
 const DURATION_MIN = 5;
 const DURATION_MAX = 300;
@@ -21,6 +22,7 @@ export function DurationSelector({
   const [inputVal, setInputVal] = useState(String(value));
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (document.activeElement !== inputRef.current) {
@@ -30,11 +32,11 @@ export function DurationSelector({
 
   const handleClampAndToast = (rawNumber: number) => {
     if (rawNumber < DURATION_MIN) {
-      setToastMessage(`El tiempo mínimo es de ${DURATION_MIN} minutos`);
+      setToastMessage(`${t.timer.min_duration} ${DURATION_MIN} ${t.timer.minutes}`);
       return DURATION_MIN;
     }
     if (rawNumber > DURATION_MAX) {
-      setToastMessage(`El tiempo máximo es de ${DURATION_MAX} minutos`);
+      setToastMessage(`${t.timer.max_duration} ${DURATION_MAX} ${t.timer.minutes}`);
       return DURATION_MAX;
     }
     return rawNumber;
@@ -117,7 +119,7 @@ export function DurationSelector({
           textAlign: "center",
         }}
       >
-        MINUTOS
+        {t.timer.minutes_label}
       </span>
     </div>
   );

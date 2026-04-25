@@ -4,11 +4,12 @@ import type { Session } from "./historyStore";
 import { PlantDisplay } from "../plants/PlantDisplay";
 import { getStageName, getSpeciesById } from "../plants/plantService";
 import { HeartIcon } from "../../components/HeartIcon";
+import { useTranslation } from "../../i18n";
 import "../../components/Panel.css";
 import "../../components/Button.css";
 import "./HistoryView.css";
 
-function formatDate(isoString: string): string {
+function formatDate(isoString: string, t: ReturnType<typeof useTranslation>["t"]): string {
   const date = new Date(isoString);
   const now = new Date();
   const hh = String(date.getHours()).padStart(2, "0");
@@ -19,16 +20,18 @@ function formatDate(isoString: string): string {
   const yesterday = new Date(today.getTime() - 86400000);
   const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-  if (dateOnly.getTime() === today.getTime()) return `Hoy a las ${time}`;
-  if (dateOnly.getTime() === yesterday.getTime()) return `Ayer a las ${time}`;
+  if (dateOnly.getTime() === today.getTime()) return `${t.history.date_today} ${time}`;
+  if (dateOnly.getTime() === yesterday.getTime()) return `${t.history.date_yesterday} ${time}`;
 
   const dd = String(date.getDate()).padStart(2, "0");
   const mo = String(date.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mo} a las ${time}`;
+  return `${dd}/${mo} ${t.history.date_at} ${time}`;
 }
 
 function SessionCard({ session, onDelete }: { session: Session; onDelete: () => void }) {
-  const stageName = getStageName(session.plant_stage, getSpeciesById(session.plant_species));
+  const { t } = useTranslation();
+  const species = getSpeciesById(session.plant_species);
+  const stageName = getStageName(session.plant_stage, species, t);
 
   return (
     <div className="pixel-panel session-card">
@@ -38,8 +41,8 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
       </div>
 
       <div className="session-card__info">
-        <div className="session-card__subject">{session.subject || "Sin materia"}</div>
-        <div className="session-card__date">{formatDate(session.start_time)}</div>
+        <div className="session-card__subject">{session.subject || t.history.no_subject}</div>
+        <div className="session-card__date">{formatDate(session.start_time, t)}</div>
       </div>
 
       <div className="session-card__stats">
@@ -47,7 +50,11 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
         <span className="session-card__hearts">
           +{session.hearts_earned} <HeartIcon size={12} color="currentColor" />
         </span>
-        <button className="session-card__delete" onClick={onDelete} aria-label="Borrar sesión">
+        <button
+          className="session-card__delete"
+          onClick={onDelete}
+          aria-label={t.history.delete_aria}
+        >
           ×
         </button>
       </div>
@@ -58,6 +65,7 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
 export function HistoryView() {
   const { sessions, totalHearts, loading, loadSessions, loadUserState, deleteSession } =
     useHistoryStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     loadSessions();
@@ -65,23 +73,25 @@ export function HistoryView() {
   }, [loadSessions, loadUserState]);
 
   const handleDelete = (id: string) => {
-    if (confirm("¿Borrar esta sesión?")) deleteSession(id);
+    if (confirm(t.history.delete_confirm)) deleteSession(id);
   };
 
   return (
     <div className="history-view">
       <div className="history-view__hearts">
         <HeartIcon size={20} color="currentColor" />
-        <span>{totalHearts} CORAZONES</span>
+        <span>
+          {totalHearts} {t.history.hearts_label}
+        </span>
       </div>
 
       {loading ? (
-        <div className="history-view__loading">CARGANDO...</div>
+        <div className="history-view__loading">{t.history.loading}</div>
       ) : sessions.length === 0 ? (
         <div className="history-view__empty">
           <PlantDisplay stage={1} size="md" />
-          <span className="history-view__empty-title">SIN SESIONES AÚN</span>
-          <span className="history-view__empty-sub">¡Empieza a estudiar!</span>
+          <span className="history-view__empty-title">{t.history.empty_title}</span>
+          <span className="history-view__empty-sub">{t.history.empty_sub}</span>
         </div>
       ) : (
         <div className="history-view__grid">

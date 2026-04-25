@@ -6,18 +6,11 @@ import { useSettingsStore } from "./settingsStore";
 import { useAudioStore } from "../audio/audioStore";
 import { AMBIENT_TRACKS } from "../audio/audioRegistry";
 import type { ClickSfxId, TypingSfxId } from "../audio/audioService";
+import { useTranslation } from "../../i18n";
 import "./SettingsModal.css";
 
 // ─── Section types ────────────────────────────────────────────────────────────
 type Section = "sound" | "interface" | "timer" | "general" | "shortcuts";
-
-const NAV_ITEMS: { id: Section; label: string; emoji: string }[] = [
-  { id: "sound", label: "SONIDO", emoji: "♪" },
-  { id: "interface", label: "INTERFAZ", emoji: "◈" },
-  { id: "timer", label: "POMODORO", emoji: "⏱" },
-  { id: "general", label: "GENERAL", emoji: "⚙" },
-  { id: "shortcuts", label: "ATAJOS", emoji: "⌨" },
-];
 
 // ─── Volume slider ─────────────────────────────────────────────────────────────
 function VolumeSlider({
@@ -41,45 +34,47 @@ function VolumeSlider({
 // ─── Ambient selector ─────────────────────────────────────────────────────────
 function AmbientSelector() {
   const { activeAmbient, setAmbient } = useAudioStore();
+  const { t } = useTranslation();
 
   return (
     <div>
       <hr className="settings-sep" />
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
         <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-          SONIDO AMBIENTE
+          {t.settings.sound.ambient_label}
         </span>
-        <InfoTooltip
-          text="Reproduce un sonido de fondo en bucle mientras estudias."
-          align="start"
-        />
+        <InfoTooltip text={t.settings.sound.ambient_tooltip} align="start" />
       </div>
       <div className="ambient-grid">
-        {AMBIENT_TRACKS.map((track, i) => (
-          <button
-            key={track.id}
-            data-no-sfx
-            className={`ambient-btn ${activeAmbient === track.id ? "active" : ""}`}
-            onClick={() => setAmbient(activeAmbient === track.id ? null : track.id)}
-          >
-            <span className="ambient-btn__emoji">{track.emoji}</span>
-            {track.label}
-            <span className="ambient-btn__tooltip">
-              <InfoTooltip
-                text={track.description}
-                position="bottom"
-                align={i % 3 === 2 ? "end" : "center"}
-              />
-            </span>
-          </button>
-        ))}
+        {AMBIENT_TRACKS.map((track, i) => {
+          const labelKey = `${track.id}_label` as keyof typeof t.audio;
+          const descKey = `${track.id}_desc` as keyof typeof t.audio;
+          return (
+            <button
+              key={track.id}
+              data-no-sfx
+              className={`ambient-btn ${activeAmbient === track.id ? "active" : ""}`}
+              onClick={() => setAmbient(activeAmbient === track.id ? null : track.id)}
+            >
+              <span className="ambient-btn__emoji">{track.emoji}</span>
+              {t.audio[labelKey]}
+              <span className="ambient-btn__tooltip">
+                <InfoTooltip
+                  text={t.audio[descKey]}
+                  position="bottom"
+                  align={i % 3 === 2 ? "end" : "center"}
+                />
+              </span>
+            </button>
+          );
+        })}
         <button
           data-no-sfx
           className={`ambient-btn ${activeAmbient === null ? "active" : ""}`}
           onClick={() => setAmbient(null)}
         >
           <span className="ambient-btn__emoji">✕</span>
-          APAGAR
+          {t.settings.sound.ambient_off}
         </button>
       </div>
     </div>
@@ -96,6 +91,7 @@ function AmbientRandomizer() {
     setAmbientRandomizeMinutes,
     setAmbientRandomizePool,
   } = useSettingsStore();
+  const { t } = useTranslation();
 
   const togglePool = (id: string) => {
     const pool = ambientRandomizePool as string[];
@@ -113,19 +109,16 @@ function AmbientRandomizer() {
           style={{ fontSize: "var(--text-pixel-xs)", padding: "6px 10px" }}
           onClick={() => setAmbientRandomize(!ambientRandomize)}
         >
-          {ambientRandomize ? "✓" : "○"} ALEATORIZAR
+          {ambientRandomize ? "✓" : "○"} {t.settings.sound.randomize}
         </button>
-        <InfoTooltip
-          text={"Cambia automáticamente el sonido\nde ambiente cada N minutos."}
-          align="start"
-        />
+        <InfoTooltip text={t.settings.sound.randomize_tooltip} align="start" />
       </div>
 
       {ambientRandomize && (
         <div style={{ paddingLeft: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
             <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-              CADA
+              {t.settings.sound.every}
             </span>
             <button
               className="pixel-btn-secondary"
@@ -165,13 +158,14 @@ function AmbientRandomizer() {
               +
             </button>
             <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-              MIN
+              {t.settings.sound.min_abbr}
             </span>
           </div>
 
           <div className="ambient-grid" style={{ marginTop: 0 }}>
             {AMBIENT_TRACKS.map((track) => {
               const inPool = (ambientRandomizePool as string[]).includes(track.id);
+              const labelKey = `${track.id}_label` as keyof typeof t.audio;
               return (
                 <button
                   key={track.id}
@@ -193,7 +187,7 @@ function AmbientRandomizer() {
                     </span>
                   )}
                   <span className="ambient-btn__emoji">{track.emoji}</span>
-                  {track.label}
+                  {t.audio[labelKey]}
                 </button>
               );
             })}
@@ -205,32 +199,33 @@ function AmbientRandomizer() {
 }
 
 // ─── Custom SFX pickers ───────────────────────────────────────────────────────
-const CLICK_OPTIONS: { id: ClickSfxId; label: string }[] = [
-  { id: "button_click", label: "NORMAL" },
-  { id: "button_click_soft", label: "SUAVE" },
-  { id: "button_click_hard", label: "DURO" },
-  { id: "button_click_pop", label: "POP" },
-  { id: "none", label: "NINGUNO" },
-];
-
-const TYPING_OPTIONS: { id: TypingSfxId; label: string }[] = [
-  { id: "type_soft", label: "SUAVE" },
-  { id: "type_tick", label: "TICK" },
-  { id: "type_mechanical", label: "MECÁNICO" },
-  { id: "none", label: "NINGUNO" },
-];
-
 function CustomSfxPickers() {
   const { clickSfxId, typingSfxId, setClickSfxId, setTypingSfxId } = useSettingsStore();
+  const { t } = useTranslation();
+
+  const CLICK_OPTIONS: { id: ClickSfxId; label: string }[] = [
+    { id: "button_click", label: t.settings.sound.click_normal },
+    { id: "button_click_soft", label: t.settings.sound.click_soft },
+    { id: "button_click_hard", label: t.settings.sound.click_hard },
+    { id: "button_click_pop", label: t.settings.sound.click_pop },
+    { id: "none", label: t.settings.sound.click_none },
+  ];
+
+  const TYPING_OPTIONS: { id: TypingSfxId; label: string }[] = [
+    { id: "type_soft", label: t.settings.sound.type_soft },
+    { id: "type_tick", label: t.settings.sound.type_tick },
+    { id: "type_mechanical", label: t.settings.sound.type_mechanical },
+    { id: "none", label: t.settings.sound.type_none },
+  ];
 
   return (
     <div>
       <hr className="settings-sep" />
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
         <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-          SONIDO DE CLICK
+          {t.settings.sound.click_sound}
         </span>
-        <InfoTooltip text="Sonido que se reproduce al hacer clic en botones." align="start" />
+        <InfoTooltip text={t.settings.sound.click_tooltip} align="start" />
       </div>
       <div className="sfx-picker-row">
         {CLICK_OPTIONS.map((opt) => (
@@ -248,9 +243,9 @@ function CustomSfxPickers() {
       <hr className="settings-sep" />
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
         <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-          SONIDO DE TECLADO
+          {t.settings.sound.keyboard_sound}
         </span>
-        <InfoTooltip text="Sonido al escribir en campos de texto." align="start" />
+        <InfoTooltip text={t.settings.sound.keyboard_tooltip} align="start" />
       </div>
       <div className="sfx-picker-row">
         {TYPING_OPTIONS.map((opt) => (
@@ -280,14 +275,23 @@ function SoundSection() {
     setAmbientVolume,
     setMusicVolume,
   } = useSettingsStore();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <div className="settings-section__title">SONIDO</div>
-      <VolumeSlider label="MASTER" value={masterVolume} onChange={setMasterVolume} />
-      <VolumeSlider label="EFECTOS" value={sfxVolume} onChange={setSfxVolume} />
-      <VolumeSlider label="AMBIENTE" value={ambientVolume} onChange={setAmbientVolume} />
-      <VolumeSlider label="MÚSICA" value={musicVolume} onChange={setMusicVolume} />
+      <div className="settings-section__title">{t.settings.sound.title}</div>
+      <VolumeSlider
+        label={t.settings.sound.master}
+        value={masterVolume}
+        onChange={setMasterVolume}
+      />
+      <VolumeSlider label={t.settings.sound.effects} value={sfxVolume} onChange={setSfxVolume} />
+      <VolumeSlider
+        label={t.settings.sound.ambient}
+        value={ambientVolume}
+        onChange={setAmbientVolume}
+      />
+      <VolumeSlider label={t.settings.sound.music} value={musicVolume} onChange={setMusicVolume} />
       <AmbientSelector />
       <AmbientRandomizer />
       <CustomSfxPickers />
@@ -297,31 +301,32 @@ function SoundSection() {
 
 // ─── Interface section ────────────────────────────────────────────────────────
 function InterfaceSection() {
-  const { theme, setTheme, plantSide, setPlantSide } = useSettingsStore();
+  const { theme, setTheme, plantSide, setPlantSide, language, setLanguage } = useSettingsStore();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <div className="settings-section__title">INTERFAZ</div>
+      <div className="settings-section__title">{t.settings.interface.title}</div>
 
       {/* Theme */}
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
         <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-          TEMA
+          {t.settings.interface.theme}
         </span>
-        <InfoTooltip text="Cambia entre modo claro y oscuro." align="start" />
+        <InfoTooltip text={t.settings.interface.theme_tooltip} align="start" />
       </div>
       <div className="theme-toggle-row">
         <button
           className={theme === "light" ? "pixel-btn" : "pixel-btn-secondary"}
           onClick={() => setTheme("light")}
         >
-          ☀ CLARO
+          {t.settings.interface.theme_light}
         </button>
         <button
           className={theme === "dark" ? "pixel-btn" : "pixel-btn-secondary"}
           onClick={() => setTheme("dark")}
         >
-          ☽ OSCURO
+          {t.settings.interface.theme_dark}
         </button>
       </div>
 
@@ -330,25 +335,46 @@ function InterfaceSection() {
       {/* Plant side */}
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
         <span className="settings-sub-label" style={{ marginBottom: 0 }}>
-          LADO DE LA PLANTA
+          {t.settings.interface.plant_side}
         </span>
-        <InfoTooltip
-          text="Coloca la planta a la izquierda o derecha del temporizador."
-          align="start"
-        />
+        <InfoTooltip text={t.settings.interface.plant_side_tooltip} align="start" />
       </div>
       <div className="layout-option-row">
         <button
           className={plantSide === "left" ? "pixel-btn" : "pixel-btn-secondary"}
           onClick={() => setPlantSide("left")}
         >
-          ◄ IZQUIERDA
+          {t.settings.interface.plant_left}
         </button>
         <button
           className={plantSide === "right" ? "pixel-btn" : "pixel-btn-secondary"}
           onClick={() => setPlantSide("right")}
         >
-          DERECHA ►
+          {t.settings.interface.plant_right}
+        </button>
+      </div>
+
+      <hr className="settings-sep" />
+
+      {/* Language */}
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <span className="settings-sub-label" style={{ marginBottom: 0 }}>
+          {t.settings.interface.language}
+        </span>
+        <InfoTooltip text={t.settings.interface.language_tooltip} align="start" />
+      </div>
+      <div className="layout-option-row">
+        <button
+          className={language === "en" ? "pixel-btn" : "pixel-btn-secondary"}
+          onClick={() => setLanguage("en")}
+        >
+          {t.settings.interface.language_en}
+        </button>
+        <button
+          className={language === "es" ? "pixel-btn" : "pixel-btn-secondary"}
+          onClick={() => setLanguage("es")}
+        >
+          {t.settings.interface.language_es}
         </button>
       </div>
     </div>
@@ -357,6 +383,8 @@ function InterfaceSection() {
 
 // ─── WIP section ──────────────────────────────────────────────────────────────
 function WipSection({ title }: { title: string }) {
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="settings-section__title">{title}</div>
@@ -380,7 +408,7 @@ function WipSection({ title }: { title: string }) {
             letterSpacing: "0.05em",
           }}
         >
-          EN CONSTRUCCIÓN
+          {t.settings.wip.badge}
         </div>
         <p
           style={{
@@ -390,7 +418,7 @@ function WipSection({ title }: { title: string }) {
             maxWidth: 300,
           }}
         >
-          Estamos trabajando para traer estos ajustes muy pronto.
+          {t.settings.wip.body}
         </p>
       </div>
     </div>
@@ -401,6 +429,15 @@ function WipSection({ title }: { title: string }) {
 export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { lastSettingsSection, setLastSettingsSection } = useSettingsStore();
   const [activeSection, setActiveSection] = useState<Section>(lastSettingsSection);
+  const { t } = useTranslation();
+
+  const NAV_ITEMS: { id: Section; label: string; emoji: string; wip?: true }[] = [
+    { id: "general", label: t.settings.nav.general, emoji: "⚙" },
+    { id: "sound", label: t.settings.nav.sound, emoji: "♪" },
+    { id: "interface", label: t.settings.nav.interface, emoji: "◈" },
+    { id: "timer", label: t.settings.nav.timer, emoji: "⏱", wip: true },
+    { id: "shortcuts", label: t.settings.nav.shortcuts, emoji: "⌨", wip: true },
+  ];
 
   const handleSetSection = (s: Section) => {
     setActiveSection(s);
@@ -467,7 +504,7 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
               letterSpacing: "0.1em",
             }}
           >
-            AJUSTES
+            {t.settings.title}
           </span>
           <PixelCloseButton onClick={onClose} />
         </div>
@@ -479,10 +516,10 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
-                className={`settings-nav-item ${activeSection === item.id ? "active" : ""}`}
+                className={`settings-nav-item ${item.wip ? "settings-nav-item--wip" : ""} ${activeSection === item.id ? "active" : ""}`}
                 onClick={() => handleSetSection(item.id)}
               >
-                <span style={{ fontSize: 14 }}>{item.emoji}</span>
+                <span style={{ fontSize: 13, flexShrink: 0 }}>{item.emoji}</span>
                 {item.label}
               </button>
             ))}
@@ -492,9 +529,9 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
           <div className="settings-modal__content">
             {activeSection === "sound" && <SoundSection />}
             {activeSection === "interface" && <InterfaceSection />}
-            {activeSection === "timer" && <WipSection title="AJUSTES POMODORO" />}
-            {activeSection === "general" && <WipSection title="GENERALES" />}
-            {activeSection === "shortcuts" && <WipSection title="ATAJOS DE TECLADO" />}
+            {activeSection === "timer" && <WipSection title={t.settings.wip.timer_title} />}
+            {activeSection === "general" && <WipSection title={t.settings.wip.general_title} />}
+            {activeSection === "shortcuts" && <WipSection title={t.settings.wip.shortcuts_title} />}
           </div>
         </div>
       </div>

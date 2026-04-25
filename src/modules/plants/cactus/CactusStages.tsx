@@ -6,10 +6,12 @@ const C = {
   bodyDark: "#2d7a3a",
   bodyMid: "#3a9a48",
   bodyLight: "#5ab858",
-  spine: "#f5f0e0",
-  flowerRed: "#e83a3a",
+  spine: "#1f4d1a",
+  spineHighlight: "#2d6b22",
+  flowerPink: "#e85fa3",
   flowerYellow: "#f5c842",
-  ribLine: "#1d5a2a",
+  flowerWhite: "#fff8f0",
+  ribLine: "#246030",
 } as const;
 
 type Color = (typeof C)[keyof typeof C];
@@ -32,8 +34,37 @@ function Pot() {
   );
 }
 
+// Barrel body: wide (6px), flat top with 1px corner cut for roundness
+function BarrelBody(y: number, h: number) {
+  return (
+    <>
+      {/* body fill */}
+      {px(5, y + 1, 6, h - 1, C.bodyMid)}
+      {/* top row — inset 1px each side for rounded look */}
+      {px(6, y, 4, 1, C.bodyMid)}
+      {/* left highlight strip */}
+      {px(6, y, 2, h, C.bodyLight)}
+      {/* rib lines */}
+      {px(5, y + 1, 1, h - 1, C.ribLine)}
+      {px(10, y + 1, 1, h - 1, C.ribLine)}
+      {px(8, y, 1, h, C.ribLine)}
+    </>
+  );
+}
+
+// Single spine pair at row y
+function SpinePair(y: number) {
+  return (
+    <>
+      {px(4, y, 1, 1, C.spine)}
+      {px(11, y, 1, 1, C.spine)}
+    </>
+  );
+}
+
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function CactusStage1() {
+  // Tiny nub just out of soil
   return (
     <>
       <Pot />
@@ -43,108 +74,111 @@ export function CactusStage1() {
 }
 
 export function CactusStage2() {
+  // Small round barrel — 4px tall, 4px wide, already showing roundness
   return (
     <>
       <Pot />
-      {/* small round body */}
       {px(6, 8, 4, 3, C.bodyMid)}
       {px(7, 8, 2, 3, C.bodyLight)}
       {px(6, 8, 1, 3, C.ribLine)}
       {px(9, 8, 1, 3, C.ribLine)}
+      {px(7, 7, 2, 1, C.bodyMid)}
     </>
   );
 }
 
 export function CactusStage3() {
+  // Taller barrel (6px wide) with first visible spines
   return (
     <>
       <Pot />
-      {/* taller body */}
-      {px(6, 6, 4, 4, C.bodyMid)}
-      {px(7, 6, 2, 4, C.bodyLight)}
-      {px(6, 6, 1, 4, C.ribLine)}
-      {px(9, 6, 1, 4, C.ribLine)}
-      {/* first spines */}
-      {px(5, 7, 1, 1, C.spine)}
-      {px(10, 7, 1, 1, C.spine)}
+      {BarrelBody(6, 4)}
+      {SpinePair(7)}
+      {SpinePair(9)}
     </>
   );
 }
 
 export function CactusStage4() {
+  // Full barrel + small arm stubs bending upward
   return (
     <>
       <Pot />
-      {/* taller body with arm stubs */}
-      {px(6, 4, 4, 6, C.bodyMid)}
-      {px(7, 4, 2, 6, C.bodyLight)}
-      {px(6, 4, 1, 6, C.ribLine)}
-      {px(9, 4, 1, 6, C.ribLine)}
-      {px(5, 5, 1, 1, C.spine)}
-      {px(10, 5, 1, 1, C.spine)}
-      {px(5, 7, 1, 1, C.spine)}
-      {px(10, 7, 1, 1, C.spine)}
-      {/* arm stubs */}
-      {px(4, 6, 2, 1, C.bodyDark)}
-      {px(10, 6, 2, 1, C.bodyDark)}
+      {BarrelBody(4, 6)}
+      {SpinePair(5)}
+      {SpinePair(7)}
+      {SpinePair(9)}
+      {/* left arm stub — horizontal then up */}
+      {px(3, 7, 2, 2, C.bodyDark)}
+      {px(3, 6, 1, 1, C.bodyDark)}
+      {px(4, 7, 1, 2, C.ribLine)}
+      {/* right arm stub */}
+      {px(11, 7, 2, 2, C.bodyDark)}
+      {px(12, 6, 1, 1, C.bodyDark)}
+      {px(11, 7, 1, 2, C.ribLine)}
+      {/* arm tip spines */}
+      {px(2, 7, 1, 1, C.spine)}
+      {px(13, 7, 1, 1, C.spine)}
     </>
   );
 }
 
 export function CactusStage5() {
+  // Full saguaro — arms rise to mid-height then go up
   return (
     <>
       <Pot />
-      {/* full-height body */}
-      {px(6, 3, 4, 7, C.bodyMid)}
-      {px(7, 3, 2, 7, C.bodyLight)}
-      {px(6, 3, 1, 7, C.ribLine)}
-      {px(9, 3, 1, 7, C.ribLine)}
-      {/* spines */}
-      {px(5, 4, 1, 1, C.spine)}
-      {px(10, 4, 1, 1, C.spine)}
-      {px(5, 6, 1, 1, C.spine)}
-      {px(10, 6, 1, 1, C.spine)}
-      {px(5, 8, 1, 1, C.spine)}
-      {px(10, 8, 1, 1, C.spine)}
-      {/* arms — classic saguaro silhouette */}
-      {px(3, 5, 3, 2, C.bodyDark)}
-      {px(10, 5, 3, 2, C.bodyDark)}
-      {px(3, 5, 1, 2, C.ribLine)}
-      {px(12, 5, 1, 2, C.ribLine)}
-      {/* arm tip spines */}
-      {px(2, 5, 1, 1, C.spine)}
-      {px(13, 5, 1, 1, C.spine)}
+      {BarrelBody(3, 7)}
+      {SpinePair(4)}
+      {SpinePair(6)}
+      {SpinePair(8)}
+      {/* left arm: out at row 7, elbow up at row 5 */}
+      {px(3, 6, 2, 2, C.bodyDark)}
+      {px(3, 4, 1, 2, C.bodyDark)}
+      {px(4, 6, 1, 2, C.ribLine)}
+      {px(3, 4, 1, 1, C.ribLine)}
+      {/* right arm */}
+      {px(11, 6, 2, 2, C.bodyDark)}
+      {px(12, 4, 1, 2, C.bodyDark)}
+      {px(11, 6, 1, 2, C.ribLine)}
+      {px(12, 4, 1, 1, C.ribLine)}
+      {/* arm spines */}
+      {px(2, 6, 1, 1, C.spine)}
+      {px(13, 6, 1, 1, C.spine)}
+      {px(3, 3, 1, 1, C.spine)}
+      {px(12, 3, 1, 1, C.spine)}
     </>
   );
 }
 
 export function CactusStage6() {
+  // Full saguaro + crown bloom (3 flowers in a cluster)
   return (
     <>
       <Pot />
-      {/* same body as stage 5 */}
-      {px(6, 3, 4, 7, C.bodyMid)}
-      {px(7, 3, 2, 7, C.bodyLight)}
-      {px(6, 3, 1, 7, C.ribLine)}
-      {px(9, 3, 1, 7, C.ribLine)}
-      {px(5, 4, 1, 1, C.spine)}
-      {px(10, 4, 1, 1, C.spine)}
-      {px(5, 6, 1, 1, C.spine)}
-      {px(10, 6, 1, 1, C.spine)}
-      {px(5, 8, 1, 1, C.spine)}
-      {px(10, 8, 1, 1, C.spine)}
-      {px(3, 5, 3, 2, C.bodyDark)}
-      {px(10, 5, 3, 2, C.bodyDark)}
-      {px(3, 5, 1, 2, C.ribLine)}
-      {px(12, 5, 1, 2, C.ribLine)}
-      {px(2, 5, 1, 1, C.spine)}
-      {px(13, 5, 1, 1, C.spine)}
-      {/* bloom on top */}
-      {px(7, 1, 2, 2, C.flowerRed)}
-      {px(6, 2, 1, 1, C.flowerRed)}
-      {px(9, 2, 1, 1, C.flowerRed)}
-      {px(7, 2, 2, 1, C.flowerYellow)}
+      {BarrelBody(3, 7)}
+      {SpinePair(4)}
+      {SpinePair(6)}
+      {SpinePair(8)}
+      {px(3, 6, 2, 2, C.bodyDark)}
+      {px(3, 4, 1, 2, C.bodyDark)}
+      {px(4, 6, 1, 2, C.ribLine)}
+      {px(3, 4, 1, 1, C.ribLine)}
+      {px(11, 6, 2, 2, C.bodyDark)}
+      {px(12, 4, 1, 2, C.bodyDark)}
+      {px(11, 6, 1, 2, C.ribLine)}
+      {px(12, 4, 1, 1, C.ribLine)}
+      {px(2, 6, 1, 1, C.spine)}
+      {px(13, 6, 1, 1, C.spine)}
+      {px(3, 3, 1, 1, C.spine)}
+      {px(12, 3, 1, 1, C.spine)}
+      {/* crown bloom — 3-petal cluster on top */}
+      {px(6, 2, 1, 1, C.flowerPink)}
+      {px(9, 2, 1, 1, C.flowerPink)}
+      {px(7, 1, 2, 2, C.flowerPink)}
+      {px(7, 0, 2, 1, C.flowerWhite)}
+      {px(7, 1, 2, 1, C.flowerYellow)}
+      {px(6, 2, 4, 1, C.flowerYellow)}
     </>
   );
 }

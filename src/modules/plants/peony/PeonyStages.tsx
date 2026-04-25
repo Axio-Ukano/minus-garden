@@ -1,4 +1,4 @@
-// ── Peonía palette ───────────────────────────────────────────────────────────
+// ── Peony palette ─────────────────────────────────────────────────────────────
 const C = {
   soil: "#7a5c4a",
   pot: "#c8956a",
@@ -35,7 +35,7 @@ function Pot() {
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
-export function PeoniaStage1() {
+export function PeonyStage1() {
   return (
     <>
       <Pot />
@@ -44,7 +44,7 @@ export function PeoniaStage1() {
   );
 }
 
-export function PeoniaStage2() {
+export function PeonyStage2() {
   return (
     <>
       <Pot />
@@ -55,7 +55,7 @@ export function PeoniaStage2() {
   );
 }
 
-export function PeoniaStage3() {
+export function PeonyStage3() {
   return (
     <>
       <Pot />
@@ -66,7 +66,7 @@ export function PeoniaStage3() {
   );
 }
 
-export function PeoniaStage4() {
+export function PeonyStage4() {
   return (
     <>
       <Pot />
@@ -80,7 +80,7 @@ export function PeoniaStage4() {
   );
 }
 
-export function PeoniaStage5() {
+export function PeonyStage5() {
   return (
     <>
       <Pot />
@@ -98,7 +98,7 @@ export function PeoniaStage5() {
   );
 }
 
-export function PeoniaStage6() {
+export function PeonyStage6() {
   return (
     <>
       <Pot />
@@ -115,7 +115,7 @@ export function PeoniaStage6() {
   );
 }
 
-export function PeoniaStage7() {
+export function PeonyStage7() {
   return (
     <>
       <Pot />
