@@ -519,7 +519,11 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
                 className={`settings-nav-item ${activeSection === item.id ? "active" : ""}`}
                 onClick={() => handleSetSection(item.id)}
               >
-                <span style={{ fontSize: 14 }}>{item.emoji}</span>
+                <span
+                  style={{ fontSize: 14, flexShrink: 0, alignSelf: "flex-start", marginTop: 1 }}
+                >
+                  {item.emoji}
+                </span>
                 {item.label}
               </button>
             ))}

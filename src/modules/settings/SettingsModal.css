@@ -9,7 +9,7 @@
 
 /* ── Sidebar nav ── */
 .settings-modal__sidebar {
-  width: 148px;
+  width: 152px;
   flex-shrink: 0;
   border-right: 3px solid var(--color-border);
   display: flex;
@@ -23,10 +23,11 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 9px 12px;
   font-family: var(--font-pixel);
   font-size: var(--text-pixel-xs);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
   cursor: pointer;
   border: 3px solid transparent;
   box-shadow: none;
@@ -35,6 +36,9 @@
   border-radius: 0;
   user-select: none;
   text-align: left;
+  word-break: break-word;
+  white-space: normal;
+  min-height: 40px;
   transition:
     background var(--hover-speed) ease,
     color var(--hover-speed) ease,
