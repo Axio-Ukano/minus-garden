@@ -2,13 +2,16 @@
 // All plant-related configuration lives here. Adding a new plant means
 // adding one entry to ALL_SPECIES and creating its stage renderer under plants/<species>/.
 
+import type { Translations } from "../../i18n/en";
+
+export type StageKey = keyof Translations["plants"]["stages"];
+
 export interface PlantSpecies {
   id: string;
-  name: string;
   maxStages: number;
   /** Minutes elapsed required to *enter* each stage (0-indexed, length === maxStages) */
   stageThresholds: number[];
-  stageNames: string[];
+  stageKeys: StageKey[];
   /** Fraction of a stage's threshold required to unlock it at session completion (e.g. 0.8 = 80%) */
   unlockThreshold: number;
 }
@@ -19,121 +22,102 @@ export interface PlantGrowthState {
   isMaxStage: boolean;
 }
 
-// ─── Margarita ───────────────────────────────────────────────────────────────
+// ─── Daisy ───────────────────────────────────────────────────────────────────
 export const DAISY_SPECIES: PlantSpecies = {
   id: "daisy",
-  name: "Margarita",
   maxStages: 5,
   stageThresholds: [0, 1, 2, 3, 4], // Test mode: 1 minute per stage
-  stageNames: ["Semilla", "Brote", "Tallo", "Botón", "Margarita"],
+  stageKeys: ["seed", "sprout", "stem", "bud", "daisy"],
   unlockThreshold: 0.8,
 };
 
-// ─── Girasol ─────────────────────────────────────────────────────────────────
+// ─── Sunflower ────────────────────────────────────────────────────────────────
 export const SUNFLOWER_SPECIES: PlantSpecies = {
   id: "sunflower",
-  name: "Girasol",
   maxStages: 7,
   stageThresholds: [0, 10, 20, 35, 50, 70, 90],
-  stageNames: ["Semilla", "Brote", "Tallo", "Tallo Alto", "Capullo", "Flor Parcial", "Girasol"],
+  stageKeys: ["seed", "sprout", "stem", "tall_stem", "bud", "partial_flower", "sunflower"],
   unlockThreshold: 0.8,
 };
 
 // ─── Gerbera ─────────────────────────────────────────────────────────────────
 export const GERBERA_SPECIES: PlantSpecies = {
   id: "gerbera",
-  name: "Gerbera",
   maxStages: 5,
   stageThresholds: [0, 8, 16, 25, 35],
-  stageNames: ["Semilla", "Brote", "Tallo", "Botón", "Gerbera"],
+  stageKeys: ["seed", "sprout", "stem", "bud", "gerbera"],
   unlockThreshold: 0.8,
 };
 
-// ─── Lavanda ─────────────────────────────────────────────────────────────────
-export const LAVANDA_SPECIES: PlantSpecies = {
+// ─── Lavender ─────────────────────────────────────────────────────────────────
+export const LAVENDER_SPECIES: PlantSpecies = {
   id: "lavanda",
-  name: "Lavanda",
   maxStages: 5,
   stageThresholds: [0, 10, 20, 35, 50],
-  stageNames: ["Semilla", "Brote", "Tallo", "Espiga", "Lavanda"],
+  stageKeys: ["seed", "sprout", "stem", "spike", "lavender"],
   unlockThreshold: 0.8,
 };
 
-// ─── Clavel ──────────────────────────────────────────────────────────────────
-export const CLAVEL_SPECIES: PlantSpecies = {
+// ─── Carnation ───────────────────────────────────────────────────────────────
+export const CARNATION_SPECIES: PlantSpecies = {
   id: "clavel",
-  name: "Clavel",
   maxStages: 6,
   stageThresholds: [0, 10, 20, 30, 45, 60],
-  stageNames: ["Semilla", "Brote", "Tallo", "Botón", "Clavel Parcial", "Clavel"],
+  stageKeys: ["seed", "sprout", "stem", "bud", "partial_carnation", "carnation"],
   unlockThreshold: 0.8,
 };
 
-// ─── Lirio ───────────────────────────────────────────────────────────────────
-export const LIRIO_SPECIES: PlantSpecies = {
+// ─── Iris ────────────────────────────────────────────────────────────────────
+export const IRIS_SPECIES: PlantSpecies = {
   id: "lirio",
-  name: "Lirio",
   maxStages: 6,
   stageThresholds: [0, 12, 25, 40, 55, 70],
-  stageNames: ["Semilla", "Brote", "Tallo", "Botón", "Flor Parcial", "Lirio"],
+  stageKeys: ["seed", "sprout", "stem", "bud", "partial_iris", "iris"],
   unlockThreshold: 0.8,
 };
 
-// ─── Peonía ──────────────────────────────────────────────────────────────────
-export const PEONIA_SPECIES: PlantSpecies = {
+// ─── Peony ───────────────────────────────────────────────────────────────────
+export const PEONY_SPECIES: PlantSpecies = {
   id: "peonia",
-  name: "Peonía",
   maxStages: 7,
   stageThresholds: [0, 10, 20, 35, 50, 65, 80],
-  stageNames: ["Semilla", "Brote", "Tallo", "Botón", "Apertura", "Flor Parcial", "Peonía"],
+  stageKeys: ["seed", "sprout", "stem", "bud", "opening", "partial_flower", "peony"],
   unlockThreshold: 0.8,
 };
 
 // ─── Cactus ──────────────────────────────────────────────────────────────────
 export const CACTUS_SPECIES: PlantSpecies = {
   id: "cactus",
-  name: "Cactus",
   maxStages: 6,
   stageThresholds: [0, 15, 35, 55, 75, 90],
-  stageNames: ["Semilla", "Brote", "Plántula", "Cactus Joven", "Cactus", "Cactus Florido"],
+  stageKeys: ["seed", "sprout", "seedling", "young_cactus", "cactus", "blooming_cactus"],
   unlockThreshold: 0.75,
 };
 
-// ─── Orquídea ─────────────────────────────────────────────────────────────────
-export const ORQUIDEA_SPECIES: PlantSpecies = {
+// ─── Orchid ──────────────────────────────────────────────────────────────────
+export const ORCHID_SPECIES: PlantSpecies = {
   id: "orquidea",
-  name: "Orquídea",
   maxStages: 8,
   stageThresholds: [0, 10, 22, 36, 52, 70, 88, 110],
-  stageNames: [
-    "Semilla",
-    "Brote",
-    "Raíces",
-    "Tallo",
-    "Botón",
-    "Flor Parcial",
-    "Orquídea",
-    "Orquídea Plena",
-  ],
+  stageKeys: ["seed", "sprout", "roots", "stem", "bud", "partial_orchid", "orchid", "full_orchid"],
   unlockThreshold: 0.8,
 };
 
-// ─── Flor de Loto ─────────────────────────────────────────────────────────────
+// ─── Lotus Flower ─────────────────────────────────────────────────────────────
 export const LOTUS_SPECIES: PlantSpecies = {
   id: "lotus",
-  name: "Flor de Loto",
   maxStages: 9,
   stageThresholds: [0, 10, 25, 40, 55, 70, 85, 100, 120],
-  stageNames: [
-    "Semilla",
-    "Brote",
-    "Raíces",
-    "Tallo Acuático",
-    "Botón",
-    "Apertura",
-    "Loto Parcial",
-    "Loto",
-    "Loto Sagrado",
+  stageKeys: [
+    "seed",
+    "sprout",
+    "roots",
+    "aquatic_stem",
+    "bud",
+    "opening",
+    "partial_lotus",
+    "lotus",
+    "sacred_lotus",
   ],
   unlockThreshold: 0.8,
 };
@@ -143,12 +127,12 @@ export const ALL_SPECIES: PlantSpecies[] = [
   DAISY_SPECIES,
   SUNFLOWER_SPECIES,
   GERBERA_SPECIES,
-  LAVANDA_SPECIES,
-  CLAVEL_SPECIES,
-  LIRIO_SPECIES,
-  PEONIA_SPECIES,
+  LAVENDER_SPECIES,
+  CARNATION_SPECIES,
+  IRIS_SPECIES,
+  PEONY_SPECIES,
   CACTUS_SPECIES,
-  ORQUIDEA_SPECIES,
+  ORCHID_SPECIES,
   LOTUS_SPECIES,
 ];
 
@@ -198,6 +182,13 @@ export function calculateFinalStage(durationMinutes: number, species: PlantSpeci
   return Math.min(currentStage, maxStages);
 }
 
-export function getStageName(stage: number, species: PlantSpecies): string {
-  return species.stageNames[stage - 1] ?? `Etapa ${stage}`;
+export function getStageName(stage: number, species: PlantSpecies, t: Translations): string {
+  const key = species.stageKeys[stage - 1];
+  return key ? t.plants.stages[key] : `Stage ${stage}`;
+}
+
+type PlantNameKey = keyof Omit<Translations["plants"], "stages">;
+
+export function getPlantName(species: PlantSpecies, t: Translations): string {
+  return t.plants[species.id as PlantNameKey] ?? species.id;
 }

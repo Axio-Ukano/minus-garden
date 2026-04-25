@@ -1,4 +1,4 @@
-// ── Orquídea palette ─────────────────────────────────────────────────────────
+// ── Orchid palette ────────────────────────────────────────────────────────────
 const C = {
   soil: "#7a5c4a",
   pot: "#c8956a",
@@ -37,7 +37,7 @@ function Pot() {
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
-export function OrquideaStage1() {
+export function OrchidStage1() {
   return (
     <>
       <Pot />
@@ -46,7 +46,7 @@ export function OrquideaStage1() {
   );
 }
 
-export function OrquideaStage2() {
+export function OrchidStage2() {
   return (
     <>
       <Pot />
@@ -58,7 +58,7 @@ export function OrquideaStage2() {
   );
 }
 
-export function OrquideaStage3() {
+export function OrchidStage3() {
   return (
     <>
       <Pot />
@@ -72,7 +72,7 @@ export function OrquideaStage3() {
   );
 }
 
-export function OrquideaStage4() {
+export function OrchidStage4() {
   return (
     <>
       <Pot />
@@ -88,7 +88,7 @@ export function OrquideaStage4() {
   );
 }
 
-export function OrquideaStage5() {
+export function OrchidStage5() {
   return (
     <>
       <Pot />
@@ -104,7 +104,7 @@ export function OrquideaStage5() {
   );
 }
 
-export function OrquideaStage6() {
+export function OrchidStage6() {
   return (
     <>
       <Pot />
@@ -123,7 +123,7 @@ export function OrquideaStage6() {
   );
 }
 
-export function OrquideaStage7() {
+export function OrchidStage7() {
   return (
     <>
       <Pot />
@@ -150,7 +150,7 @@ export function OrquideaStage7() {
   );
 }
 
-export function OrquideaStage8() {
+export function OrchidStage8() {
   return (
     <>
       <Pot />

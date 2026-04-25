@@ -1,4 +1,4 @@
-// ── Lirio palette ────────────────────────────────────────────────────────────
+// ── Iris palette ──────────────────────────────────────────────────────────────
 const C = {
   soil: "#7a5c4a",
   pot: "#c8956a",
@@ -33,7 +33,7 @@ function Pot() {
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
-export function LirioStage1() {
+export function IrisStage1() {
   return (
     <>
       <Pot />
@@ -42,7 +42,7 @@ export function LirioStage1() {
   );
 }
 
-export function LirioStage2() {
+export function IrisStage2() {
   return (
     <>
       <Pot />
@@ -54,7 +54,7 @@ export function LirioStage2() {
   );
 }
 
-export function LirioStage3() {
+export function IrisStage3() {
   return (
     <>
       <Pot />
@@ -66,7 +66,7 @@ export function LirioStage3() {
   );
 }
 
-export function LirioStage4() {
+export function IrisStage4() {
   return (
     <>
       <Pot />
@@ -80,7 +80,7 @@ export function LirioStage4() {
   );
 }
 
-export function LirioStage5() {
+export function IrisStage5() {
   return (
     <>
       <Pot />
@@ -97,7 +97,7 @@ export function LirioStage5() {
   );
 }
 
-export function LirioStage6() {
+export function IrisStage6() {
   return (
     <>
       <Pot />

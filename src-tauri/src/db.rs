@@ -46,9 +46,9 @@ pub fn init_db(app_handle: &AppHandle) -> DbState {
 
         INSERT OR IGNORE INTO subjects (id, name, color)
         VALUES
-            ('11111111-1111-1111-1111-111111111111', 'Matemáticas', '#e8a0b4'),
-            ('22222222-2222-2222-2222-222222222222', 'Historia',    '#a0c4e8'),
-            ('33333333-3333-3333-3333-333333333333', 'Ciencias',    '#a0e8b4');",
+            ('11111111-1111-1111-1111-111111111111', 'Mathematics', '#e8a0b4'),
+            ('22222222-2222-2222-2222-222222222222', 'History',     '#a0c4e8'),
+            ('33333333-3333-3333-3333-333333333333', 'Science',     '#a0e8b4');",
     )
     .expect("failed to run migrations");
 

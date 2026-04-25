@@ -1,4 +1,4 @@
-// ── Clavel palette ───────────────────────────────────────────────────────────
+// ── Carnation palette ─────────────────────────────────────────────────────────
 const C = {
   soil: "#7a5c4a",
   pot: "#c8956a",
@@ -33,7 +33,7 @@ function Pot() {
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
-export function ClavelStage1() {
+export function CarnationStage1() {
   return (
     <>
       <Pot />
@@ -42,7 +42,7 @@ export function ClavelStage1() {
   );
 }
 
-export function ClavelStage2() {
+export function CarnationStage2() {
   return (
     <>
       <Pot />
@@ -53,7 +53,7 @@ export function ClavelStage2() {
   );
 }
 
-export function ClavelStage3() {
+export function CarnationStage3() {
   return (
     <>
       <Pot />
@@ -64,7 +64,7 @@ export function ClavelStage3() {
   );
 }
 
-export function ClavelStage4() {
+export function CarnationStage4() {
   return (
     <>
       <Pot />
@@ -78,7 +78,7 @@ export function ClavelStage4() {
   );
 }
 
-export function ClavelStage5() {
+export function CarnationStage5() {
   return (
     <>
       <Pot />
@@ -96,7 +96,7 @@ export function ClavelStage5() {
   );
 }
 
-export function ClavelStage6() {
+export function CarnationStage6() {
   return (
     <>
       <Pot />

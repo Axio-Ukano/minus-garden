@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import type { PlantSpecies } from "../../plants/plantService";
+import { getStageName, getPlantName } from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
 import { PixelCloseButton } from "../../../components/PixelCloseButton";
+import { useTranslation } from "../../../i18n";
 import "./PlantStagesModal.css";
 
 // ─── Stage card ───────────────────────────────────────────────────────────────
@@ -18,6 +20,8 @@ function StageCard({
   isLast: boolean;
   speciesId: string;
 }) {
+  const { t } = useTranslation();
+
   return (
     <div
       className={`stage-card ${isLast ? "stage-card--final" : ""}`}
@@ -71,7 +75,7 @@ function StageCard({
           letterSpacing: "0.05em",
         }}
       >
-        {minutes === 0 ? "INICIO" : `${minutes} MIN`}
+        {minutes === 0 ? t.timer.stage_start : `${minutes} ${t.timer.min_abbr}`}
       </span>
     </div>
   );
@@ -87,6 +91,8 @@ export function PlantStagesModal({
   onClose: () => void;
   species: PlantSpecies;
 }) {
+  const { t } = useTranslation();
+
   // Close on Escape key
   useEffect(() => {
     if (!isOpen) return;
@@ -98,6 +104,8 @@ export function PlantStagesModal({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  const plantName = getPlantName(species, t);
 
   return (
     // Backdrop
@@ -150,7 +158,7 @@ export function PlantStagesModal({
                 letterSpacing: "0.1em",
               }}
             >
-              {species.name.toUpperCase()}
+              {plantName.toUpperCase()}
             </span>
             <span
               style={{
@@ -160,7 +168,7 @@ export function PlantStagesModal({
                 letterSpacing: "0.05em",
               }}
             >
-              {species.maxStages} ETAPAS DE CRECIMIENTO
+              {species.maxStages} {t.timer.growth_stages}
             </span>
           </div>
           <PixelCloseButton onClick={onClose} />
@@ -177,11 +185,11 @@ export function PlantStagesModal({
             justifyContent: "center",
           }}
         >
-          {species.stageNames.map((name, i) => (
+          {species.stageKeys.map((_, i) => (
             <StageCard
               key={i}
               stage={i + 1}
-              name={name}
+              name={getStageName(i + 1, species, t)}
               minutes={species.stageThresholds[i]}
               isLast={i === species.maxStages - 1}
               speciesId={species.id}
@@ -206,7 +214,7 @@ export function PlantStagesModal({
               letterSpacing: "0.05em",
             }}
           >
-            Presiona ESC o haz clic fuera para cerrar
+            {t.timer.close_hint}
           </span>
         </div>
       </div>

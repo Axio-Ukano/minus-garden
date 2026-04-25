@@ -11,6 +11,7 @@ import {
 import { useHistoryStore } from "../modules/history/historyStore";
 import { useSettingsStore } from "../modules/settings/settingsStore";
 import { Tooltip } from "./Tooltip";
+import { useTranslation } from "../i18n";
 
 export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
   const totalHearts = useHistoryStore((s) => s.totalHearts);
@@ -24,6 +25,7 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
     sfxMuted,
     setSfxMuted,
   } = useSettingsStore();
+  const { t } = useTranslation();
 
   const [isAudioMenuExpanded, setIsAudioMenuExpanded] = useState(false);
 
@@ -40,13 +42,13 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
     >
       {/* Settings & Quick Audio Toggles */}
       <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-        <Tooltip text="Ajustes" position="bottom" align="start">
+        <Tooltip text={t.header.settings_tooltip} position="bottom" align="start">
           <button
             data-no-sfx
             className="pixel-btn-icon"
             onClick={onOpenSettings}
             style={{ width: 36, height: 36 }}
-            aria-label="Abrir ajustes"
+            aria-label={t.header.settings_aria}
           >
             <GearIcon size={16} />
           </button>
@@ -88,7 +90,7 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
             }}
           >
             <Tooltip
-              text={masterMuted ? "Activar sonido maestro" : "Silenciar todo"}
+              text={masterMuted ? t.header.unmute_master : t.header.mute_master}
               position="bottom"
             >
               <button
@@ -102,7 +104,7 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
             </Tooltip>
 
             <Tooltip
-              text={ambientMuted ? "Activar ambiente" : "Silenciar ambiente"}
+              text={ambientMuted ? t.header.unmute_ambient : t.header.mute_ambient}
               position="bottom"
             >
               <button
@@ -115,7 +117,10 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
               </button>
             </Tooltip>
 
-            <Tooltip text={musicMuted ? "Activar música" : "Silenciar música"} position="bottom">
+            <Tooltip
+              text={musicMuted ? t.header.unmute_music : t.header.mute_music}
+              position="bottom"
+            >
               <button
                 data-no-sfx
                 className="pixel-btn-icon"
@@ -126,10 +131,7 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
               </button>
             </Tooltip>
 
-            <Tooltip
-              text={sfxMuted ? "Activar efectos de sonido" : "Silenciar efectos"}
-              position="bottom"
-            >
+            <Tooltip text={sfxMuted ? t.header.unmute_sfx : t.header.mute_sfx} position="bottom">
               <button
                 data-no-sfx
                 className="pixel-btn-icon"
@@ -143,7 +145,7 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
         </div>
 
         <Tooltip
-          text={isAudioMenuExpanded ? "Ocultar controles de audio" : "Mostrar controles de audio"}
+          text={isAudioMenuExpanded ? t.header.hide_audio : t.header.show_audio}
           position="bottom"
           align="start"
         >
@@ -152,11 +154,9 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
             className="pixel-btn-icon"
             onClick={() => setIsAudioMenuExpanded(!isAudioMenuExpanded)}
             style={{ width: 36, height: 36, flexShrink: 0, fontSize: "var(--text-pixel-lg)" }}
-            aria-label={
-              isAudioMenuExpanded ? "Ocultar controles de audio" : "Mostrar controles de audio"
-            }
+            aria-label={isAudioMenuExpanded ? t.header.hide_audio : t.header.show_audio}
           >
-            {isAudioMenuExpanded ? "\u2039" : "\u203a"}
+            {isAudioMenuExpanded ? "‹" : "›"}
           </button>
         </Tooltip>
       </div>
