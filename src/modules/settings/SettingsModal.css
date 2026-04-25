@@ -9,7 +9,7 @@
 
 /* ── Sidebar nav ── */
 .settings-modal__sidebar {
-  width: 152px;
+  width: 140px;
   flex-shrink: 0;
   border-right: 3px solid var(--color-border);
   display: flex;
@@ -22,12 +22,11 @@
 .settings-nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
+  gap: 8px;
+  padding: 10px 10px;
   font-family: var(--font-pixel);
-  font-size: var(--text-pixel-xs);
-  letter-spacing: 0.04em;
-  line-height: 1.5;
+  font-size: 8px;
+  letter-spacing: 0.05em;
   cursor: pointer;
   border: 3px solid transparent;
   box-shadow: none;
@@ -36,14 +35,32 @@
   border-radius: 0;
   user-select: none;
   text-align: left;
-  word-break: break-word;
-  white-space: normal;
-  min-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
   transition:
     background var(--hover-speed) ease,
     color var(--hover-speed) ease,
     border-color var(--hover-speed) ease,
     box-shadow var(--hover-speed) ease;
+}
+
+.settings-nav-item--wip {
+  opacity: 0.5;
+}
+
+.settings-nav-item--wip:hover {
+  opacity: 0.75;
+}
+
+.settings-nav-item--wip.active {
+  opacity: 1;
+}
+
+.settings-nav-divider {
+  height: 2px;
+  background: var(--color-border);
+  opacity: 0.4;
+  margin: 6px 4px;
 }
 
 .settings-nav-item:hover {

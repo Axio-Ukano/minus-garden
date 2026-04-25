@@ -36,7 +36,7 @@ export const es: DeepTranslation<Translations> = {
     nav: {
       sound: "SONIDO",
       interface: "INTERFAZ",
-      timer: "POMODORO",
+      timer: "TIMER",
       general: "GENERAL",
       shortcuts: "ATAJOS",
     },

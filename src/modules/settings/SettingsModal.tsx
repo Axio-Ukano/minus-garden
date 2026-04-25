@@ -431,9 +431,12 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
   const [activeSection, setActiveSection] = useState<Section>(lastSettingsSection);
   const { t } = useTranslation();
 
-  const NAV_ITEMS: { id: Section; label: string; emoji: string }[] = [
+  const NAV_ACTIVE: { id: Section; label: string; emoji: string }[] = [
     { id: "sound", label: t.settings.nav.sound, emoji: "♪" },
     { id: "interface", label: t.settings.nav.interface, emoji: "◈" },
+  ];
+
+  const NAV_WIP: { id: Section; label: string; emoji: string }[] = [
     { id: "timer", label: t.settings.nav.timer, emoji: "⏱" },
     { id: "general", label: t.settings.nav.general, emoji: "⚙" },
     { id: "shortcuts", label: t.settings.nav.shortcuts, emoji: "⌨" },
@@ -513,17 +516,24 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
         <div className="settings-modal__body">
           {/* Sidebar */}
           <nav className="settings-modal__sidebar">
-            {NAV_ITEMS.map((item) => (
+            {NAV_ACTIVE.map((item) => (
               <button
                 key={item.id}
                 className={`settings-nav-item ${activeSection === item.id ? "active" : ""}`}
                 onClick={() => handleSetSection(item.id)}
               >
-                <span
-                  style={{ fontSize: 14, flexShrink: 0, alignSelf: "flex-start", marginTop: 1 }}
-                >
-                  {item.emoji}
-                </span>
+                <span style={{ fontSize: 13, flexShrink: 0 }}>{item.emoji}</span>
+                {item.label}
+              </button>
+            ))}
+            <div className="settings-nav-divider" />
+            {NAV_WIP.map((item) => (
+              <button
+                key={item.id}
+                className={`settings-nav-item settings-nav-item--wip ${activeSection === item.id ? "active" : ""}`}
+                onClick={() => handleSetSection(item.id)}
+              >
+                <span style={{ fontSize: 13, flexShrink: 0 }}>{item.emoji}</span>
                 {item.label}
               </button>
             ))}
