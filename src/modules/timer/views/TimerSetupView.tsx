@@ -147,7 +147,7 @@ export function TimerSetupView() {
               className="timer-view__plant-sprite"
               style={{ animation: slideAnimation }}
             >
-              <PlantDisplay stage={species.maxStages} speciesId={plantSpeciesId} size="xl" />
+              <PlantDisplay stage={species.maxStages} speciesId={plantSpeciesId} size="xl" natural />
             </div>
 
             <div
@@ -167,15 +167,14 @@ export function TimerSetupView() {
               >
                 {t.timer.up_to} {species.stageThresholds[species.maxStages - 1]} {t.timer.min_abbr}
               </span>
+              <button
+                className="pixel-btn-link"
+                style={{ fontSize: "var(--text-pixel-md)" }}
+                onClick={() => setIsStagesModalOpen(true)}
+              >
+                {t.timer.view_stages}
+              </button>
             </div>
-
-            <button
-              className="pixel-btn-link"
-              style={{ fontSize: "var(--text-pixel-md)" }}
-              onClick={() => setIsStagesModalOpen(true)}
-            >
-              {t.timer.view_stages}
-            </button>
           </div>
         </div>
       </div>

@@ -1,37 +1,117 @@
 // ── Orchid palette ────────────────────────────────────────────────────────────
 const C = {
-  soil: "#7a5c4a",
+  soil: "#6b4e38",
+  soilDark: "#4a3326",
   pot: "#c8956a",
-  potBorder: "#3d2b1f",
-  stem: "#5a8a3c",
-  leafThick: "#3d8a3c",
-  leafLight: "#5ab050",
-  rootAerial: "#8ab878",
-  petalDeep: "#8b1fa0",
-  petalMid: "#b040c8",
-  petalLight: "#d880e8",
-  petalPale: "#f0c0f5",
-  lip: "#f5c842",
-  lipAccent: "#e87820",
-  bud: "#c060d0",
+  potMid: "#b07850",
+  potDark: "#3d2b1f",
+  potShine: "#e0b48a",
+  stem: "#4a7030",
+  stemDark: "#2d4e20",
+  stemLight: "#6a9048",
+  leaf: "#3a6828",
+  leafLight: "#5a8840",
+  leafDark: "#204818",
+  leafShine: "#78a858",
+  aerial: "#5a7040",
+  aerialDark: "#3a4e28",
+  petalWhite: "#f8f0ff",
+  petalLilac: "#d0a8e8",
+  petalPurple: "#9060c0",
+  petalPurpleDark: "#6040a0",
+  petalVein: "#b080d8",
+  petalPink: "#e880c0",
+  lip: "#f040a0",
+  lipYellow: "#f8c040",
+  lipDark: "#c02080",
+  column: "#f0d060",
+  columnDark: "#c0a030",
+  bud: "#c890e0",
+  budDark: "#9060b0",
+  spike: "#5a7838",
 } as const;
 
 type Color = (typeof C)[keyof typeof C];
 
 function px(x: number, y: number, w: number, h: number, fill: Color) {
-  return <rect key={`${x}-${y}-${w}-${h}`} x={x} y={y} width={w} height={h} fill={fill} />;
+  return <rect key={`${x}-${y}-${w}-${h}-${fill}`} x={x} y={y} width={w} height={h} fill={fill} />;
 }
 
 function Pot() {
   return (
     <>
-      {px(4, 11, 8, 3, C.pot)}
-      {px(3, 10, 10, 1, C.pot)}
-      {px(3, 10, 10, 1, C.potBorder)}
-      {px(4, 11, 1, 3, C.potBorder)}
-      {px(11, 11, 1, 3, C.potBorder)}
-      {px(4, 13, 8, 1, C.potBorder)}
-      {px(2, 14, 12, 1, C.soil)}
+      {px(3,  22, 14, 1, C.potShine)}
+      {px(4,  22, 12, 1, C.pot)}
+      {px(3,  22, 1,  1, C.potDark)}
+      {px(16, 22, 1,  1, C.potDark)}
+      {px(4,  23, 12, 3, C.pot)}
+      {px(4,  23, 1,  3, C.potDark)}
+      {px(15, 23, 1,  3, C.potDark)}
+      {px(5,  23, 4,  3, C.potMid)}
+      {px(4,  25, 12, 1, C.potDark)}
+      {px(3,  26, 14, 1, C.soil)}
+      {px(5,  26, 2,  1, C.soilDark)}
+      {px(13, 26, 2,  1, C.soilDark)}
+    </>
+  );
+}
+
+// Hoja de orquídea — ancha, gruesa, brillante
+function OrchidLeaf(x: number, y: number, w: number, h: number, flip: boolean) {
+  return (
+    <>
+      {px(x, y, w, h, C.leaf)}
+      {px(x, y, w, 1, C.leafLight)}
+      {px(flip ? x+w-1 : x, y, 1, h, C.leafDark)}
+      {px(flip ? x+1 : x+w-2, y, 2, 1, C.leafShine)}
+      {px(x + Math.floor(w/2), y, 1, h, C.leafLight)}
+    </>
+  );
+}
+
+// Flor de orquídea completa — 5 pétalos + labelo
+function OrchidFlower(cx: number, cy: number) {
+  return (
+    <>
+      {/* sépalos dorsales (arriba) */}
+      {px(cx-1, cy-4, 4, 3, C.petalLilac)}
+      {px(cx-1, cy-4, 1, 3, C.petalPurpleDark)}
+      {px(cx+2, cy-4, 1, 3, C.petalPurpleDark)}
+      {px(cx,   cy-5, 2, 1, C.petalWhite)}
+      {/* pétalos laterales */}
+      {px(cx-4, cy-2, 3, 4, C.petalWhite)}
+      {px(cx-4, cy-2, 1, 4, C.petalPurple)}
+      {px(cx-3, cy-1, 3, 1, C.petalVein)}
+      {px(cx+3, cy-2, 3, 4, C.petalWhite)}
+      {px(cx+5, cy-2, 1, 4, C.petalPurple)}
+      {px(cx+3, cy-1, 3, 1, C.petalVein)}
+      {/* sépalos laterales (abajo) */}
+      {px(cx-3, cy+1, 3, 3, C.petalLilac)}
+      {px(cx-3, cy+1, 1, 3, C.petalPurpleDark)}
+      {px(cx+2, cy+1, 3, 3, C.petalLilac)}
+      {px(cx+4, cy+1, 1, 3, C.petalPurpleDark)}
+      {/* labelo (lip) — el pétalo más llamativo */}
+      {px(cx-1, cy-1, 4, 4, C.lip)}
+      {px(cx,   cy-1, 2, 1, C.lipYellow)}
+      {px(cx-1, cy,   4, 1, C.petalPink)}
+      {px(cx-1, cy+2, 4, 1, C.lipDark)}
+      {px(cx,   cy+3, 2, 1, C.lipDark)}
+      {/* columna central */}
+      {px(cx,   cy-2, 2, 2, C.column)}
+      {px(cx,   cy-2, 1, 1, C.columnDark)}
+    </>
+  );
+}
+
+// Capullo de orquídea
+function OrchidBud(x: number, y: number, size: number) {
+  return (
+    <>
+      {px(x, y, size+2, size*2, C.bud)}
+      {px(x, y, 1, size*2, C.budDark)}
+      {px(x+size+1, y, 1, size*2, C.budDark)}
+      {px(x, y+size*2-1, size+2, 1, C.budDark)}
+      {px(x+1, y, size, 1, C.petalWhite)}
     </>
   );
 }
@@ -41,7 +121,8 @@ export function OrchidStage1() {
   return (
     <>
       <Pot />
-      {px(7, 10, 2, 1, C.stem)}
+      {px(9, 21, 2, 1, C.stem)}
+      {px(8, 20, 4, 1, C.stemLight)}
     </>
   );
 }
@@ -50,10 +131,8 @@ export function OrchidStage2() {
   return (
     <>
       <Pot />
-      {px(7, 8, 2, 2, C.stem)}
-      {/* thick flat seed leaves */}
-      {px(5, 9, 3, 1, C.leafThick)}
-      {px(8, 9, 3, 1, C.leafThick)}
+      {OrchidLeaf(5, 17, 6, 4, false)}
+      {OrchidLeaf(9, 18, 5, 3, true)}
     </>
   );
 }
@@ -62,12 +141,12 @@ export function OrchidStage3() {
   return (
     <>
       <Pot />
-      {px(7, 6, 2, 4, C.stem)}
-      {px(4, 8, 3, 2, C.leafThick)}
-      {px(9, 8, 3, 2, C.leafThick)}
-      {/* aerial roots */}
-      {px(5, 10, 1, 1, C.rootAerial)}
-      {px(10, 10, 1, 1, C.rootAerial)}
+      {OrchidLeaf(3, 16, 7, 5, false)}
+      {OrchidLeaf(10,17, 7, 4, true)}
+      {OrchidLeaf(5, 19, 5, 3, false)}
+      {/* raíz aérea */}
+      {px(2, 19, 1, 4, C.aerial)}
+      {px(1, 22, 2, 1, C.aerialDark)}
     </>
   );
 }
@@ -76,14 +155,18 @@ export function OrchidStage4() {
   return (
     <>
       <Pot />
-      {px(7, 5, 2, 5, C.stem)}
-      {/* wide waxy leaves */}
-      {px(3, 7, 4, 3, C.leafThick)}
-      {px(9, 7, 4, 3, C.leafThick)}
-      {px(3, 7, 1, 3, C.leafLight)}
-      {px(12, 7, 1, 3, C.leafLight)}
-      {px(5, 10, 1, 1, C.rootAerial)}
-      {px(10, 10, 1, 1, C.rootAerial)}
+      {OrchidLeaf(3, 16, 7, 5, false)}
+      {OrchidLeaf(10,17, 7, 4, true)}
+      {OrchidLeaf(5, 19, 5, 3, false)}
+      {px(2, 19, 1, 4, C.aerial)}
+      {px(1, 22, 2, 1, C.aerialDark)}
+      {/* vara floral arqueada */}
+      {px(10, 15, 1, 4, C.spike)}
+      {px(11, 11, 1, 4, C.spike)}
+      {px(12,  8, 1, 3, C.spike)}
+      {px(13,  6, 2, 2, C.spike)}
+      {OrchidBud(14, 3, 1)}
+      {OrchidBud(12, 5, 1)}
     </>
   );
 }
@@ -92,14 +175,19 @@ export function OrchidStage5() {
   return (
     <>
       <Pot />
-      {px(7, 4, 2, 6, C.stem)}
-      {px(3, 7, 4, 3, C.leafThick)}
-      {px(9, 7, 4, 3, C.leafThick)}
-      {px(5, 10, 1, 1, C.rootAerial)}
-      {px(10, 10, 1, 1, C.rootAerial)}
-      {/* single pointed bud */}
-      {px(6, 2, 4, 2, C.bud)}
-      {px(7, 1, 2, 1, C.bud)}
+      {OrchidLeaf(3, 16, 7, 5, false)}
+      {OrchidLeaf(10,17, 7, 4, true)}
+      {OrchidLeaf(4, 19, 6, 3, false)}
+      {px(2, 18, 1, 5, C.aerial)}
+      {px(17,20, 1, 4, C.aerial)}
+      {/* vara floral con 3 capullos */}
+      {px(10, 15, 1, 4, C.spike)}
+      {px(11, 11, 1, 4, C.spike)}
+      {px(12,  7, 1, 4, C.spike)}
+      {px(13,  5, 2, 2, C.spike)}
+      {OrchidBud(14, 1, 2)}
+      {OrchidBud(12, 4, 1)}
+      {OrchidBud(10, 7, 1)}
     </>
   );
 }
@@ -108,17 +196,20 @@ export function OrchidStage6() {
   return (
     <>
       <Pot />
-      {px(7, 4, 2, 6, C.stem)}
-      {px(3, 7, 4, 3, C.leafThick)}
-      {px(9, 7, 4, 3, C.leafThick)}
-      {px(5, 10, 1, 1, C.rootAerial)}
-      {px(10, 10, 1, 1, C.rootAerial)}
-      {/* half-open */}
-      {px(4, 2, 3, 2, C.petalMid)}
-      {px(9, 2, 3, 2, C.petalMid)}
-      {px(6, 0, 4, 2, C.petalMid)}
-      {px(6, 4, 4, 1, C.lip)}
-      {px(7, 2, 2, 2, C.petalDeep)}
+      {OrchidLeaf(2, 16, 8, 5, false)}
+      {OrchidLeaf(10,17, 8, 4, true)}
+      {OrchidLeaf(4, 19, 6, 3, false)}
+      {px(1, 18, 1, 5, C.aerial)}
+      {px(18,19, 1, 5, C.aerial)}
+      {/* vara floral */}
+      {px(10, 15, 1, 4, C.spike)}
+      {px(11, 11, 1, 4, C.spike)}
+      {px(12,  7, 1, 4, C.spike)}
+      {px(13,  5, 2, 2, C.spike)}
+      {/* primera flor abierta + capullos */}
+      {OrchidFlower(14, 4)}
+      {OrchidBud(11, 6, 1)}
+      {OrchidBud(9,  9, 1)}
     </>
   );
 }
@@ -127,25 +218,20 @@ export function OrchidStage7() {
   return (
     <>
       <Pot />
-      {px(7, 4, 2, 6, C.stem)}
-      {px(3, 7, 4, 3, C.leafThick)}
-      {px(9, 7, 4, 3, C.leafThick)}
-      {px(5, 10, 1, 1, C.rootAerial)}
-      {px(10, 10, 1, 1, C.rootAerial)}
-      {/* dorsal sepal top */}
-      {px(6, 0, 4, 2, C.petalLight)}
-      {px(7, 0, 2, 1, C.petalPale)}
-      {/* lateral petals */}
-      {px(3, 2, 4, 2, C.petalMid)}
-      {px(9, 2, 4, 2, C.petalMid)}
-      {/* lateral sepals */}
-      {px(4, 3, 3, 1, C.petalDeep)}
-      {px(9, 3, 3, 1, C.petalDeep)}
-      {/* labellum (lip) */}
-      {px(5, 4, 6, 2, C.lip)}
-      {px(6, 5, 4, 1, C.lipAccent)}
-      {/* column */}
-      {px(7, 2, 2, 2, C.petalDeep)}
+      {OrchidLeaf(2, 16, 8, 5, false)}
+      {OrchidLeaf(10,17, 8, 4, true)}
+      {OrchidLeaf(3, 20, 7, 3, false)}
+      {px(1, 17, 1, 6, C.aerial)}
+      {px(18,18, 1, 6, C.aerial)}
+      {/* vara curvada */}
+      {px(10, 15, 1, 4, C.spike)}
+      {px(11, 10, 1, 5, C.spike)}
+      {px(12,  6, 2, 4, C.spike)}
+      {px(13,  4, 2, 2, C.spike)}
+      {/* dos flores abiertas + 1 capullo */}
+      {OrchidFlower(14, 3)}
+      {OrchidFlower(11, 9)}
+      {OrchidBud(9, 12, 1)}
     </>
   );
 }
@@ -154,28 +240,21 @@ export function OrchidStage8() {
   return (
     <>
       <Pot />
-      {px(7, 4, 2, 6, C.stem)}
-      {px(3, 7, 4, 3, C.leafThick)}
-      {px(9, 7, 4, 3, C.leafThick)}
-      {px(5, 10, 1, 1, C.rootAerial)}
-      {px(10, 10, 1, 1, C.rootAerial)}
-      {/* dorsal sepal — wider */}
-      {px(5, 0, 6, 2, C.petalLight)}
-      {px(6, 0, 4, 1, C.petalPale)}
-      {/* lateral petals — extended */}
-      {px(2, 1, 5, 3, C.petalMid)}
-      {px(9, 1, 5, 3, C.petalMid)}
-      {/* lateral sepals — wider */}
-      {px(3, 3, 4, 2, C.petalDeep)}
-      {px(9, 3, 4, 2, C.petalDeep)}
-      {/* labellum — wider with rounded edges */}
-      {px(5, 4, 6, 2, C.lip)}
-      {px(6, 5, 4, 1, C.lipAccent)}
-      {px(5, 5, 1, 1, C.lip)}
-      {px(10, 5, 1, 1, C.lip)}
-      {/* column with pale highlight */}
-      {px(7, 2, 2, 2, C.petalDeep)}
-      {px(7, 3, 2, 1, C.petalPale)}
+      {OrchidLeaf(1, 16, 9, 5, false)}
+      {OrchidLeaf(10,17, 9, 4, true)}
+      {OrchidLeaf(3, 20, 7, 3, false)}
+      {px(0, 17, 1, 7, C.aerial)}
+      {px(19,18, 1, 6, C.aerial)}
+      {px(18,16, 1, 3, C.aerial)}
+      {/* vara floral completa */}
+      {px(10, 15, 1, 4, C.spike)}
+      {px(11, 10, 1, 5, C.spike)}
+      {px(12,  5, 2, 5, C.spike)}
+      {px(13,  3, 3, 2, C.spike)}
+      {/* tres flores abiertas en cascada */}
+      {OrchidFlower(14, 1)}
+      {OrchidFlower(13, 7)}
+      {OrchidFlower(11, 12)}
     </>
   );
 }
