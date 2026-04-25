@@ -7,6 +7,7 @@ import { ProgressBar } from "../../components/music/ProgressBar";
 import { Tooltip } from "../../components/Tooltip";
 import { PixelSlider } from "../../components/PixelSlider";
 import { SpeakerIcon, SpeakerMutedIcon } from "../../components/PixelIcons";
+import { useTranslation } from "../../i18n";
 import "./MiniPlayer.css";
 
 export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => void }) {
@@ -23,6 +24,7 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
     cycleRepeat,
   } = useAudioStore();
   const { musicVolume, setMusicVolume, musicMuted, setMusicMuted } = useSettingsStore();
+  const { t } = useTranslation();
   const premuteRef = useRef(musicVolume > 0 ? musicVolume : 0.7);
 
   const handleVolumeChange = (v: number) => {
@@ -61,38 +63,38 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
       {/* CENTER — seek + controls */}
       <div className="mini-player__center">
         <div className="mini-player__controls">
-          <Tooltip text={isShuffle ? "Desactivar aleatorio" : "Aleatorio"} position="top">
+          <Tooltip text={isShuffle ? t.music.shuffle_on : t.music.shuffle_off} position="top">
             <button
               className={`mini-player__btn mini-player__btn--ghost ${isShuffle ? "mini-player__btn--active" : ""}`}
               onClick={toggleShuffle}
-              aria-label="Aleatorio"
+              aria-label={isShuffle ? t.music.shuffle_on : t.music.shuffle_off}
             >
               ⇌
             </button>
           </Tooltip>
-          <Tooltip text="Anterior" position="top">
+          <Tooltip text={t.music.prev} position="top">
             <button
               className="mini-player__btn mini-player__btn--ghost"
               onClick={skipPrev}
-              aria-label="Anterior"
+              aria-label={t.music.prev}
             >
               ◄◄
             </button>
           </Tooltip>
-          <Tooltip text={isPlaying ? "Pausar" : "Reproducir"} position="top">
+          <Tooltip text={isPlaying ? t.music.pause : t.music.play} position="top">
             <button
               className="mini-player__btn mini-player__btn--play"
               onClick={togglePlayPause}
-              aria-label={isPlaying ? "Pausar" : "Reproducir"}
+              aria-label={isPlaying ? t.music.pause : t.music.play}
             >
               {isPlaying ? "❙❙" : "▶"}
             </button>
           </Tooltip>
-          <Tooltip text="Siguiente" position="top">
+          <Tooltip text={t.music.next} position="top">
             <button
               className="mini-player__btn mini-player__btn--ghost"
               onClick={skipNext}
-              aria-label="Siguiente"
+              aria-label={t.music.next}
             >
               ►►
             </button>
@@ -100,17 +102,17 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
           <Tooltip
             text={
               repeatMode === "none"
-                ? "Repetir todo"
+                ? t.music.repeat_all
                 : repeatMode === "all"
-                  ? "Repetir una"
-                  : "No repetir"
+                  ? t.music.repeat_one
+                  : t.music.repeat_none
             }
             position="top"
           >
             <button
               className={`mini-player__btn mini-player__btn--ghost ${repeatActive ? "mini-player__btn--active" : ""}`}
               onClick={cycleRepeat}
-              aria-label="Repetir"
+              aria-label={t.music.legend_repeat_name}
             >
               {repeatLabel}
             </button>
@@ -124,11 +126,11 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
 
       {/* RIGHT — volume + window actions */}
       <div className="mini-player__right">
-        <Tooltip text={musicMuted ? "Desilenciar" : "Silenciar"} position="top">
+        <Tooltip text={musicMuted ? t.music.unmute : t.music.mute} position="top">
           <button
             className="mini-player__btn mini-player__btn--ghost"
             onClick={handleMuteToggle}
-            aria-label="Volumen"
+            aria-label={t.music.mute_aria}
           >
             {musicMuted || musicVolume === 0 ? (
               <SpeakerMutedIcon size={13} />
@@ -146,20 +148,20 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
         </div>
 
         <div className="mini-player__window-actions">
-          <Tooltip text="Ventana flotante (próximamente)" position="top" align="end">
+          <Tooltip text={t.music.float_soon} position="top" align="end">
             <button
               className="mini-player__btn mini-player__btn--ghost mini-player__btn--disabled"
-              aria-label="Ventana flotante"
+              aria-label={t.music.float_aria}
               disabled
             >
               ⧉
             </button>
           </Tooltip>
-          <Tooltip text="Abrir MÚSICA" position="top" align="end">
+          <Tooltip text={t.music.open_music} position="top" align="end">
             <button
               className="mini-player__btn mini-player__btn--ghost"
               onClick={onNavigateToMusic}
-              aria-label="Abrir MÚSICA"
+              aria-label={t.music.open_music}
             >
               ⛶
             </button>

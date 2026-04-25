@@ -10,9 +10,7 @@ export interface TrackMeta {
 
 export interface AmbientMeta {
   id: AmbientTrackId;
-  label: string;
   emoji: string;
-  description: string;
 }
 
 export const PLAYLIST: TrackMeta[] = [
@@ -61,24 +59,9 @@ export const PLAYLIST: TrackMeta[] = [
 ];
 
 export const AMBIENT_TRACKS: AmbientMeta[] = [
-  {
-    id: "rain",
-    label: "LLUVIA",
-    emoji: "🌧",
-    description: "Sonido de lluvia suave sobre ventanas",
-  },
-  { id: "forest", label: "BOSQUE", emoji: "🌿", description: "Pájaros y viento entre árboles" },
-  { id: "cafe", label: "CAFÉ", emoji: "☕", description: "Murmullo de cafetería y tazas" },
-  {
-    id: "fireplace",
-    label: "CHIMENEA",
-    emoji: "🔥",
-    description: "Crepitar de leña en la chimenea",
-  },
-  {
-    id: "white_noise",
-    label: "RUIDO",
-    emoji: "〜",
-    description: "Ruido blanco para concentración",
-  },
+  { id: "rain", emoji: "🌧" },
+  { id: "forest", emoji: "🌿" },
+  { id: "cafe", emoji: "☕" },
+  { id: "fireplace", emoji: "🔥" },
+  { id: "white_noise", emoji: "〜" },
 ];

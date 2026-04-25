@@ -1,4 +1,4 @@
-// ── Lavanda palette ──────────────────────────────────────────────────────────
+// ── Lavender palette ──────────────────────────────────────────────────────────
 const C = {
   soil: "#7a5c4a",
   pot: "#c8956a",
@@ -32,7 +32,7 @@ function Pot() {
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
-export function LavandaStage1() {
+export function LavenderStage1() {
   return (
     <>
       <Pot />
@@ -41,7 +41,7 @@ export function LavandaStage1() {
   );
 }
 
-export function LavandaStage2() {
+export function LavenderStage2() {
   return (
     <>
       <Pot />
@@ -52,7 +52,7 @@ export function LavandaStage2() {
   );
 }
 
-export function LavandaStage3() {
+export function LavenderStage3() {
   return (
     <>
       <Pot />
@@ -63,7 +63,7 @@ export function LavandaStage3() {
   );
 }
 
-export function LavandaStage4() {
+export function LavenderStage4() {
   return (
     <>
       <Pot />
@@ -77,7 +77,7 @@ export function LavandaStage4() {
   );
 }
 
-export function LavandaStage5() {
+export function LavenderStage5() {
   return (
     <>
       <Pot />

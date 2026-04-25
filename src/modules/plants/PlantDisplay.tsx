@@ -23,37 +23,37 @@ import {
   GerberaStage5,
 } from "./gerbera/GerberaStages";
 import {
-  LavandaStage1,
-  LavandaStage2,
-  LavandaStage3,
-  LavandaStage4,
-  LavandaStage5,
-} from "./lavanda/LavandaStages";
+  LavenderStage1,
+  LavenderStage2,
+  LavenderStage3,
+  LavenderStage4,
+  LavenderStage5,
+} from "./lavender/LavenderStages";
 import {
-  ClavelStage1,
-  ClavelStage2,
-  ClavelStage3,
-  ClavelStage4,
-  ClavelStage5,
-  ClavelStage6,
-} from "./clavel/ClavelStages";
+  CarnationStage1,
+  CarnationStage2,
+  CarnationStage3,
+  CarnationStage4,
+  CarnationStage5,
+  CarnationStage6,
+} from "./carnation/CarnationStages";
 import {
-  LirioStage1,
-  LirioStage2,
-  LirioStage3,
-  LirioStage4,
-  LirioStage5,
-  LirioStage6,
-} from "./lirio/LirioStages";
+  IrisStage1,
+  IrisStage2,
+  IrisStage3,
+  IrisStage4,
+  IrisStage5,
+  IrisStage6,
+} from "./iris/IrisStages";
 import {
-  PeoniaStage1,
-  PeoniaStage2,
-  PeoniaStage3,
-  PeoniaStage4,
-  PeoniaStage5,
-  PeoniaStage6,
-  PeoniaStage7,
-} from "./peonia/PeoniaStages";
+  PeonyStage1,
+  PeonyStage2,
+  PeonyStage3,
+  PeonyStage4,
+  PeonyStage5,
+  PeonyStage6,
+  PeonyStage7,
+} from "./peony/PeonyStages";
 import {
   CactusStage1,
   CactusStage2,
@@ -63,15 +63,15 @@ import {
   CactusStage6,
 } from "./cactus/CactusStages";
 import {
-  OrquideaStage1,
-  OrquideaStage2,
-  OrquideaStage3,
-  OrquideaStage4,
-  OrquideaStage5,
-  OrquideaStage6,
-  OrquideaStage7,
-  OrquideaStage8,
-} from "./orquidea/OrquideaStages";
+  OrchidStage1,
+  OrchidStage2,
+  OrchidStage3,
+  OrchidStage4,
+  OrchidStage5,
+  OrchidStage6,
+  OrchidStage7,
+  OrchidStage8,
+} from "./orchid/OrchidStages";
 import {
   LotusStage1,
   LotusStage2,
@@ -99,33 +99,40 @@ export type PlantSize = "sm" | "md" | "lg" | "xl";
 
 const SIZE_PX = { sm: 32, md: 64, lg: 80, xl: 120 } as const;
 
-// ── Species → Stages map ─────────────────────────────────────────────────────
+// ── Species → Stages map — IDs match DB values, do not change ────────────────
 const SPECIES_STAGES: Record<string, Array<() => JSX.Element>> = {
   daisy: DAISY_STAGES,
   sunflower: SUNFLOWER_STAGES,
   gerbera: [GerberaStage1, GerberaStage2, GerberaStage3, GerberaStage4, GerberaStage5],
-  lavanda: [LavandaStage1, LavandaStage2, LavandaStage3, LavandaStage4, LavandaStage5],
-  clavel: [ClavelStage1, ClavelStage2, ClavelStage3, ClavelStage4, ClavelStage5, ClavelStage6],
-  lirio: [LirioStage1, LirioStage2, LirioStage3, LirioStage4, LirioStage5, LirioStage6],
+  lavanda: [LavenderStage1, LavenderStage2, LavenderStage3, LavenderStage4, LavenderStage5],
+  clavel: [
+    CarnationStage1,
+    CarnationStage2,
+    CarnationStage3,
+    CarnationStage4,
+    CarnationStage5,
+    CarnationStage6,
+  ],
+  lirio: [IrisStage1, IrisStage2, IrisStage3, IrisStage4, IrisStage5, IrisStage6],
   peonia: [
-    PeoniaStage1,
-    PeoniaStage2,
-    PeoniaStage3,
-    PeoniaStage4,
-    PeoniaStage5,
-    PeoniaStage6,
-    PeoniaStage7,
+    PeonyStage1,
+    PeonyStage2,
+    PeonyStage3,
+    PeonyStage4,
+    PeonyStage5,
+    PeonyStage6,
+    PeonyStage7,
   ],
   cactus: [CactusStage1, CactusStage2, CactusStage3, CactusStage4, CactusStage5, CactusStage6],
   orquidea: [
-    OrquideaStage1,
-    OrquideaStage2,
-    OrquideaStage3,
-    OrquideaStage4,
-    OrquideaStage5,
-    OrquideaStage6,
-    OrquideaStage7,
-    OrquideaStage8,
+    OrchidStage1,
+    OrchidStage2,
+    OrchidStage3,
+    OrchidStage4,
+    OrchidStage5,
+    OrchidStage6,
+    OrchidStage7,
+    OrchidStage8,
   ],
   lotus: [
     LotusStage1,

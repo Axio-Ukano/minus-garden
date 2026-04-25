@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useTimerStore } from "../timerStore";
 import { useSubjectStore } from "../../subjects/subjectStore";
-import { ALL_SPECIES, getSpeciesById } from "../../plants/plantService";
+import { ALL_SPECIES, getSpeciesById, getPlantName } from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
 import { PixelArrowButton } from "../../../components/PixelArrowButton";
 import { useSettingsStore } from "../../settings/settingsStore";
+import { useTranslation } from "../../../i18n";
 
 import { TimerCircle } from "../components/TimerCircle";
 import { DurationSelector } from "../components/DurationSelector";
@@ -21,6 +22,7 @@ export function TimerSetupView() {
 
   const { subjects, addSubject, markUsed } = useSubjectStore();
   const plantSide = useSettingsStore((s) => s.plantSide);
+  const { t } = useTranslation();
 
   const species = getSpeciesById(plantSpeciesId);
   const speciesIndex = ALL_SPECIES.findIndex((s) => s.id === plantSpeciesId);
@@ -53,6 +55,8 @@ export function TimerSetupView() {
         ? "slideInLeft 0.25s ease-out"
         : "none";
 
+  const plantName = getPlantName(species, t);
+
   return (
     <div className="timer-view">
       <div className="timer-view__grid">
@@ -71,7 +75,7 @@ export function TimerSetupView() {
                 className="timer-view__field-label"
                 style={{ fontSize: "var(--text-pixel-md)" }}
               >
-                MATERIA
+                {t.timer.subject_label}
               </span>
               <SubjectCombobox
                 value={subject}
@@ -85,7 +89,7 @@ export function TimerSetupView() {
                 className="timer-view__field-label"
                 style={{ fontSize: "var(--text-pixel-md)" }}
               >
-                DURACIÓN
+                {t.timer.duration_label}
               </span>
               <DurationSelector value={durationMinutes} onChange={setDuration} />
             </div>
@@ -103,7 +107,7 @@ export function TimerSetupView() {
               disabled={!subject.trim()}
               onClick={handleStart}
             >
-              COMENZAR
+              {t.timer.start}
             </button>
           </div>
         </div>
@@ -130,7 +134,7 @@ export function TimerSetupView() {
                   animation: slideAnimation,
                 }}
               >
-                {species.name.toUpperCase()}
+                {plantName.toUpperCase()}
               </span>
 
               <div style={{ position: "absolute", right: 3 }}>
@@ -155,13 +159,13 @@ export function TimerSetupView() {
                 className="timer-view__field-label"
                 style={{ fontSize: "var(--text-pixel-md)" }}
               >
-                {species.maxStages} ETAPAS
+                {species.maxStages} {t.timer.stages_count}
               </span>
               <span
                 className="timer-view__field-label"
                 style={{ fontSize: "var(--text-pixel-md)" }}
               >
-                HASTA {species.stageThresholds[species.maxStages - 1]} MIN
+                {t.timer.up_to} {species.stageThresholds[species.maxStages - 1]} {t.timer.min_abbr}
               </span>
             </div>
 
@@ -170,7 +174,7 @@ export function TimerSetupView() {
               style={{ fontSize: "var(--text-pixel-md)" }}
               onClick={() => setIsStagesModalOpen(true)}
             >
-              VER ETAPAS ›
+              {t.timer.view_stages}
             </button>
           </div>
         </div>
