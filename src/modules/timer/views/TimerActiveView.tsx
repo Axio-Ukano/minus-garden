@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useTimerStore } from "../timerStore";
-import { getSpeciesById } from "../../plants/plantService";
-import { PlantDisplay } from "../../plants/PlantDisplay";
-import { usePlantGrowth } from "../../plants/usePlantGrowth";
-import { useSettingsStore } from "../../settings/settingsStore";
-import { audioService } from "../../audio/audioService";
+import { getSpeciesById, PlantDisplay, usePlantGrowth } from "@/modules/plants";
+import { useSettingsStore } from "@/modules/settings";
+import { audioService } from "@/modules/audio";
 import { TimerCircle } from "../components/TimerCircle";
 import { useTranslation } from "../../../i18n";
 import "./TimerViews.css";
