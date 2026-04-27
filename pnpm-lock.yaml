@@ -14,9 +14,6 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: ^2
         version: 2.5.3
-      '@types/howler':
-        specifier: ^2.2.12
-        version: 2.2.12
       howler:
         specifier: ^2.2.4
         version: 2.2.4
@@ -36,6 +33,9 @@ importers:
       '@tauri-apps/cli':
         specifier: ^2
         version: 2.10.1
+      '@types/howler':
+        specifier: ^2.2.12
+        version: 2.2.12
       '@types/react':
         specifier: ^19.1.8
         version: 19.2.14
