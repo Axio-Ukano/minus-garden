@@ -1,4 +1,4 @@
-import { useAudioStore } from "../../modules/audio/audioStore";
+import { useAudioStore } from "@/modules/audio";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);

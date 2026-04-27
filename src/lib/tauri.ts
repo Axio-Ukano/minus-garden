@@ -1,5 +1,5 @@
 import { invoke, type InvokeArgs } from "@tauri-apps/api/core";
-import { useSettingsStore } from "@/modules/settings/settingsStore";
+import { useSettingsStore } from "@/modules/settings";
 import { en } from "@/i18n/en";
 import { es } from "@/i18n/es";
 import type { Translations } from "@/i18n";
