@@ -3,7 +3,7 @@ import { useAudioStore } from "../audio/audioStore";
 import { useSettingsStore } from "../settings/settingsStore";
 import { audioService } from "../audio/audioService";
 import { PLAYLIST } from "../audio/audioRegistry";
-import { ProgressBar } from "../../components/music/ProgressBar";
+import { ProgressBar } from "./ProgressBar";
 import { Tooltip } from "../../components/Tooltip";
 import { PixelSlider } from "../../components/PixelSlider";
 import { SpeakerIcon, SpeakerMutedIcon } from "../../components/PixelIcons";

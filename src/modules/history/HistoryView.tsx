@@ -3,9 +3,9 @@ import { useHistoryStore } from "./historyStore";
 import type { Session } from "./historyStore";
 import { PlantDisplay } from "../plants/PlantDisplay";
 import { getStageName, getSpeciesById } from "../plants/plantService";
-import { HeartIcon } from "../../components/HeartIcon";
+import { HeartIcon } from "@/components/PixelIcons";
+import { Panel } from "@/components/Panel";
 import { useTranslation } from "../../i18n";
-import "../../components/Panel.css";
 import "../../components/Button.css";
 import "./HistoryView.css";
 
@@ -34,7 +34,7 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
   const stageName = getStageName(session.plant_stage, species, t);
 
   return (
-    <div className="pixel-panel session-card">
+    <Panel className="session-card">
       <div className="session-card__plant">
         <PlantDisplay stage={session.plant_stage} speciesId={session.plant_species} size="sm" />
         <span className="session-card__stage-name">{stageName.toUpperCase()}</span>
@@ -58,7 +58,7 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
           ×
         </button>
       </div>
-    </div>
+    </Panel>
   );
 }
 

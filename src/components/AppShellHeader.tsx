@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { HeartIcon } from "./HeartIcon";
 import {
   GearIcon,
+  HeartIcon,
   SpeakerIcon,
   SpeakerMutedIcon,
   CloudIcon,

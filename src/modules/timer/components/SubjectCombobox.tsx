@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import type { Subject } from "../../subjects/subjectStore";
+import { Input } from "@/components/Input";
+import "@/components/Panel.css";
 import { useTranslation } from "../../../i18n";
 import "./SubjectCombobox.css";
 
@@ -53,8 +55,7 @@ export function SubjectCombobox({
 
   return (
     <div ref={containerRef} style={{ position: "relative", width: "100%", maxWidth: 300 }}>
-      <input
-        className="pixel-input"
+      <Input
         maxLength={50}
         style={{
           width: "100%",
