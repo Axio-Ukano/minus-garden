@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { useTimerStore } from "../timerStore";
-import { useSubjectStore } from "../../subjects/subjectStore";
-import { ALL_SPECIES, getSpeciesById, getPlantName } from "../../plants/plantService";
-import { PlantDisplay } from "../../plants/PlantDisplay";
+import {
+  ALL_SPECIES,
+  getSpeciesById,
+  getPlantName,
+  PlantDisplay,
+  PlantStagesModal,
+} from "@/modules/plants";
+import { useSubjectStore } from "@/modules/subjects";
+import { useSettingsStore } from "@/modules/settings";
 import { PixelArrowButton } from "../../../components/PixelArrowButton";
-import { useSettingsStore } from "../../settings/settingsStore";
 import { useTranslation } from "../../../i18n";
 
 import { TimerCircle } from "../components/TimerCircle";
 import { DurationSelector } from "../components/DurationSelector";
 import { SubjectCombobox, capitalize } from "../components/SubjectCombobox";
-import { PlantStagesModal } from "../components/PlantStagesModal";
 import "./TimerViews.css";
 
 export function TimerSetupView() {

@@ -5,6 +5,21 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.4.1] — 2026-04-27
+
+### Sprint 7: Refactoring de límites de módulo
+
+- **`PlantStagesModal` reubicado:** Movido de `src/modules/timer/components/` a
+  `src/modules/plants/` y exportado por el barrel de `plants`. El modal muestra
+  etapas de crecimiento de plantas — conceptualmente pertenece al módulo `plants`,
+  no a `timer`.
+- **Imports cruzados corregidos:** `TimerSetupView` y `TimerActiveView` ahora
+  consumen `plants`, `settings`, `audio` y `subjects` a través de sus barrels
+  (`@/modules/*`) en lugar de rutas relativas directas a archivos internos.
+- **Barrel de `src/components/`:** Añadido `src/components/index.ts` para
+  consistencia con la convención de barrels ya establecida en `src/modules/`.
+  Re-exporta `useToastStore` y `pushToast` para cohesionar el feature de Toast.
+
 ## [0.4.0] — 2026-04-27
 
 ### Sprint 6: Architecture Cleanup & Scaling Foundation
