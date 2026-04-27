@@ -11,6 +11,7 @@ import { useAudioStore } from "@/modules/audio/audioStore";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { ChevronIcon } from "@/components/PixelIcons";
 import { Tooltip } from "@/components/Tooltip";
+import { ToastContainer } from "@/components/ToastContainer";
 import { useTranslation } from "@/i18n";
 
 type Tab = "timer" | "history" | "music";
@@ -76,6 +77,7 @@ function App() {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <AppShellHeader onOpenSettings={() => setIsSettingsOpen(true)} />
+      <ToastContainer />
 
       <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", minHeight: 0 }}>
         {activeTab === "timer" && (
