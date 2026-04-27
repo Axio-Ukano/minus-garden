@@ -7,6 +7,12 @@ export const es: DeepTranslation<Translations> = {
     history: "HISTORIAL",
     music: "MÚSICA",
   },
+  common: {
+    close: "Cerrar",
+    prev: "Anterior",
+    next: "Siguiente",
+    info: "Información",
+  },
   nav_tooltip: {
     show_nav: "Mostrar nav",
     hide_nav: "Ocultar nav",
