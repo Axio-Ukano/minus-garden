@@ -5,3 +5,4 @@ build
 .eslintcache
 public
 *.html
+pnpm-lock.yaml
