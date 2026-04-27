@@ -2140,12 +2140,11 @@ dependencies = [
 
 [[package]]
 name = "minus-garden"
-version = "0.1.0"
+version = "0.3.0"
 dependencies = [
  "chrono",
  "rusqlite",
  "serde",
- "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-opener",
