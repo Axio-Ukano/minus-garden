@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import type { PlantSpecies } from "../../plants/plantService";
-import { getStageName, getPlantName } from "../../plants/plantService";
-import { PlantDisplay } from "../../plants/PlantDisplay";
-import { PixelCloseButton } from "../../../components/PixelCloseButton";
-import { useTranslation } from "../../../i18n";
+import type { PlantSpecies } from "./plantService";
+import { getStageName, getPlantName } from "./plantService";
+import { PlantDisplay } from "./PlantDisplay";
+import { PixelCloseButton } from "@/components/PixelCloseButton";
+import { useTranslation } from "@/i18n";
 import "./PlantStagesModal.css";
 
 // ─── Stage card ───────────────────────────────────────────────────────────────
