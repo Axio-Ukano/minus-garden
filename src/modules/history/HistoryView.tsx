@@ -68,12 +68,12 @@ export function HistoryView() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    loadSessions();
-    loadUserState();
+    void loadSessions();
+    void loadUserState();
   }, [loadSessions, loadUserState]);
 
   const handleDelete = (id: string) => {
-    if (confirm(t.history.delete_confirm)) deleteSession(id);
+    if (confirm(t.history.delete_confirm)) void deleteSession(id);
   };
 
   return (
