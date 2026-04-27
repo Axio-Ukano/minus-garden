@@ -1,8 +1,6 @@
 import { useState, useRef } from "react";
-import { useAudioStore } from "../audio/audioStore";
+import { useAudioStore, audioService, PLAYLIST, AMBIENT_TRACKS } from "../audio";
 import { useSettingsStore } from "../settings/settingsStore";
-import { audioService } from "../audio/audioService";
-import { PLAYLIST, AMBIENT_TRACKS } from "../audio/audioRegistry";
 import { ProgressBar } from "./ProgressBar";
 import { formatTime } from "./utils";
 import { MusicLegendModal } from "./MusicLegendModal";

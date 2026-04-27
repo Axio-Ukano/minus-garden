@@ -1,8 +1,6 @@
 import { InfoTooltip } from "@/components/InfoTooltip";
 import { useSettingsStore } from "@/modules/settings/settingsStore";
-import { useAudioStore } from "@/modules/audio/audioStore";
-import { AMBIENT_TRACKS } from "@/modules/audio/audioRegistry";
-import type { ClickSfxId, TypingSfxId } from "@/modules/audio/audioService";
+import { useAudioStore, AMBIENT_TRACKS, type ClickSfxId, type TypingSfxId } from "@/modules/audio";
 import { useTranslation } from "@/i18n";
 import { VolumeSlider } from "@/modules/settings/components/VolumeSlider";
 

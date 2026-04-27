@@ -1,8 +1,7 @@
 import { create } from "zustand";
-import { useHistoryStore } from "../history/historyStore";
-import type { Session } from "../history/historyStore";
+import { useHistoryStore, type Session } from "../history";
 import { calculateFinalStage, getSpeciesById } from "../plants/plantService";
-import { audioService } from "../audio/audioService";
+import { audioService } from "../audio";
 import { useSettingsStore } from "../settings/settingsStore";
 
 function sfxVols() {

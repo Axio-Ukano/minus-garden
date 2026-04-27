@@ -1,8 +1,6 @@
 import { useRef } from "react";
-import { useAudioStore } from "../audio/audioStore";
+import { useAudioStore, audioService, PLAYLIST } from "../audio";
 import { useSettingsStore } from "../settings/settingsStore";
-import { audioService } from "../audio/audioService";
-import { PLAYLIST } from "../audio/audioRegistry";
 import { ProgressBar } from "./ProgressBar";
 import { Tooltip } from "../../components/Tooltip";
 import { PixelSlider } from "../../components/PixelSlider";
