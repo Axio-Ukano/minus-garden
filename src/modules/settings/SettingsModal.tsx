@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { PixelCloseButton } from "@/components/PixelCloseButton";
-import { useSettingsStore, type Section } from "@/modules/settings/settingsStore";
 import { useTranslation } from "@/i18n";
-import { SoundSection } from "@/modules/settings/sections/SoundSection";
-import { InterfaceSection } from "@/modules/settings/sections/InterfaceSection";
-import { WipSection } from "@/modules/settings/sections/WipSection";
+import { useSettingsStore, type Section } from "./settingsStore";
+import { SoundSection } from "./sections/SoundSection";
+import { InterfaceSection } from "./sections/InterfaceSection";
+import { WipSection } from "./sections/WipSection";
 import "./SettingsModal.css";
 
 export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {

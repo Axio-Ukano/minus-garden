@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useHistoryStore } from "./historyStore";
 import type { Session } from "./historyStore";
-import { PlantDisplay } from "../plants/PlantDisplay";
-import { getStageName, getSpeciesById } from "../plants/plantService";
+import { PlantDisplay, getStageName, getSpeciesById } from "@/modules/plants";
 import { HeartIcon } from "@/components/PixelIcons";
 import { Panel } from "@/components/Panel";
 import { useTranslation } from "../../i18n";

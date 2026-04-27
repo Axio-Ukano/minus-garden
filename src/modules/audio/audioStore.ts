@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { audioService } from "./audioService";
 import type { AmbientTrackId } from "./audioService";
 import { PLAYLIST } from "./audioRegistry";
-import { useSettingsStore } from "../settings/settingsStore";
+import { useSettingsStore } from "@/modules/settings";
 
 export type RepeatMode = "none" | "one" | "all";
 

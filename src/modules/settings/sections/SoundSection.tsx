@@ -1,8 +1,8 @@
 import { InfoTooltip } from "@/components/InfoTooltip";
-import { useSettingsStore } from "@/modules/settings/settingsStore";
 import { useAudioStore, AMBIENT_TRACKS, type ClickSfxId, type TypingSfxId } from "@/modules/audio";
 import { useTranslation } from "@/i18n";
-import { VolumeSlider } from "@/modules/settings/components/VolumeSlider";
+import { useSettingsStore } from "../settingsStore";
+import { VolumeSlider } from "../components/VolumeSlider";
 
 function AmbientSelector() {
   const { activeAmbient, setAmbient } = useAudioStore();
