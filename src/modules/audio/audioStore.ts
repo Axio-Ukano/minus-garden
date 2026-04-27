@@ -192,7 +192,7 @@ export const useAudioStore = create<AudioState>((set, get) => {
           const pool = ambientRandomizePool.filter((id) => id !== activeAmbient);
           const candidates = pool.length > 0 ? pool : ambientRandomizePool;
           const newId = candidates[Math.floor(Math.random() * candidates.length)];
-          get().setAmbient(newId);
+          if (newId) get().setAmbient(newId);
         },
         ambientRandomizeMinutes * 60 * 1000
       );
