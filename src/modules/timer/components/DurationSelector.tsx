@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Toast } from "../../../components/Toast";
+import { Toast } from "@/lib/toast";
+import { Input } from "@/components/Input";
 import { useTranslation } from "../../../i18n";
 
 const DURATION_MIN = 5;
@@ -79,9 +80,8 @@ export function DurationSelector({
         >
           -
         </button>
-        <input
+        <Input
           ref={inputRef}
-          className="pixel-input"
           style={{
             width: 88,
             textAlign: "center",
