@@ -10,7 +10,11 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "validate": "pnpm typecheck && pnpm lint && pnpm format:check"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
