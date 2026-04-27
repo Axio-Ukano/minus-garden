@@ -3,7 +3,7 @@ import { useSettingsStore } from "@/modules/settings";
 import { en } from "@/i18n/en";
 import { es } from "@/i18n/es";
 import type { Translations } from "@/i18n";
-import { pushToast } from "./toastStore";
+import { pushToast } from "./toast";
 
 export type TauriCommand =
   | "save_session"

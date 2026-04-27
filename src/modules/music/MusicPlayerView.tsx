@@ -3,20 +3,14 @@ import { useAudioStore } from "../audio/audioStore";
 import { useSettingsStore } from "../settings/settingsStore";
 import { audioService } from "../audio/audioService";
 import { PLAYLIST, AMBIENT_TRACKS } from "../audio/audioRegistry";
-import { ProgressBar } from "../../components/music/ProgressBar";
+import { ProgressBar } from "./ProgressBar";
+import { formatTime } from "./utils";
 import { MusicLegendModal } from "./MusicLegendModal";
 import { SpeakerIcon, SpeakerMutedIcon } from "../../components/PixelIcons";
 import { Tooltip } from "../../components/Tooltip";
 import { PixelSlider } from "../../components/PixelSlider";
 import { useTranslation } from "../../i18n";
 import "./MusicPlayerView.css";
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
 
 // ─── Pixel record SVG ────────────────────────────────────────────────────────
 function RecordIcon() {

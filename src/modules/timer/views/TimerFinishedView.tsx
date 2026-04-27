@@ -1,7 +1,7 @@
 import { useTimerStore } from "../timerStore";
 import { getSpeciesById, getStageName, getPlantName } from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
-import { HeartIcon } from "../../../components/HeartIcon";
+import { HeartIcon } from "@/components/PixelIcons";
 import { usePlantGrowth } from "../../plants/usePlantGrowth";
 import { useTranslation } from "../../../i18n";
 import "./TimerViews.css";
