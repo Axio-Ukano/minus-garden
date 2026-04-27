@@ -4,6 +4,12 @@ export const en = {
     history: "HISTORY",
     music: "MUSIC",
   },
+  common: {
+    close: "Close",
+    prev: "Previous",
+    next: "Next",
+    info: "Information",
+  },
   nav_tooltip: {
     show_nav: "Show nav",
     hide_nav: "Hide nav",
