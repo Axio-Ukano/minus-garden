@@ -23,8 +23,7 @@ export const useToastStore = create<ToastState>((set) => ({
     set((s) => ({ toasts: [...s.toasts, { id, message, kind }] }));
     return id;
   },
-  dismiss: (id) =>
-    set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
+  dismiss: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 }));
 
 export function pushToast(message: string, kind: ToastKind = "info"): void {

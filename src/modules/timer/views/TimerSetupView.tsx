@@ -147,7 +147,12 @@ export function TimerSetupView() {
               className="timer-view__plant-sprite"
               style={{ animation: slideAnimation }}
             >
-              <PlantDisplay stage={species.maxStages} speciesId={plantSpeciesId} size="xl" natural />
+              <PlantDisplay
+                stage={species.maxStages}
+                speciesId={plantSpeciesId}
+                size="xl"
+                natural
+              />
             </div>
 
             <div

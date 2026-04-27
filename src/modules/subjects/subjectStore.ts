@@ -22,9 +22,10 @@ export const useSubjectStore = create<SubjectState>((set, get) => ({
 
   loadSubjects: async () => {
     try {
-      const raw = await tauriInvoke<{ id: string; name: string; color: string; use_count: number }[]>(
-        "get_subjects"
-      );
+      const raw =
+        await tauriInvoke<{ id: string; name: string; color: string; use_count: number }[]>(
+          "get_subjects"
+        );
       const subjects: Subject[] = raw.map((s) => ({
         id: s.id,
         name: s.name,
