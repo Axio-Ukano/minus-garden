@@ -21,14 +21,6 @@ pub struct UserState {
     pub total_hearts: i64,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct PlantSpecies {
-    pub id: String,
-    pub name: String,
-    pub max_stages: i64,
-    pub stage_thresholds: String,
-}
-
 #[tauri::command]
 pub fn save_session(state: tauri::State<'_, DbState>, session: Session) -> Result<(), String> {
     let conn = state.0.lock().map_err(|e| e.to_string())?;
@@ -159,7 +151,7 @@ pub fn save_subject(
     )
     .map_err(|e| {
         if e.to_string().contains("UNIQUE constraint failed") {
-            "Ya existe una materia con ese nombre".to_string()
+            "Subject name already exists".to_string()
         } else {
             e.to_string()
         }
@@ -182,25 +174,3 @@ pub fn update_subject_usage(
     Ok(())
 }
 
-#[tauri::command]
-pub fn get_plant_species(state: tauri::State<'_, DbState>) -> Result<Vec<PlantSpecies>, String> {
-    let conn = state.0.lock().map_err(|e| e.to_string())?;
-    let mut stmt = conn
-        .prepare("SELECT id, name, max_stages, stage_thresholds FROM plant_species")
-        .map_err(|e| e.to_string())?;
-
-    let species = stmt
-        .query_map([], |row| {
-            Ok(PlantSpecies {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                max_stages: row.get(2)?,
-                stage_thresholds: row.get(3)?,
-            })
-        })
-        .map_err(|e| e.to_string())?
-        .collect::<Result<Vec<PlantSpecies>, _>>()
-        .map_err(|e| e.to_string())?;
-
-    Ok(species)
-}
