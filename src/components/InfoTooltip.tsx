@@ -19,12 +19,7 @@ export function InfoTooltip({
 
   return (
     <Tooltip text={text} position={position} align={align} maxWidth={maxWidth}>
-      <button
-        className="info-tooltip-btn"
-        tabIndex={-1}
-        type="button"
-        aria-label={t.common.info}
-      >
+      <button className="info-tooltip-btn" tabIndex={-1} type="button" aria-label={t.common.info}>
         ⓘ
       </button>
     </Tooltip>
