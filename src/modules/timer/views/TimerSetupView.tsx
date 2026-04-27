@@ -35,7 +35,8 @@ export function TimerSetupView() {
   const cyclePlant = (dir: -1 | 1) => {
     setSlideDirection(dir === 1 ? "right" : "left");
     const next = (speciesIndex + dir + ALL_SPECIES.length) % ALL_SPECIES.length;
-    setPlantSpecies(ALL_SPECIES[next].id);
+    const nextSpecies = ALL_SPECIES[next];
+    if (nextSpecies) setPlantSpecies(nextSpecies.id);
   };
 
   const handleStart = async () => {

@@ -177,7 +177,7 @@ export function PlantDisplay({
 }: PlantDisplayProps) {
   const stages = SPECIES_STAGES[speciesId] ?? DAISY_STAGES;
   const clampedStage = Math.max(1, Math.min(stage, stages.length));
-  const StageComponent = stages[clampedStage - 1];
+  const StageComponent = stages[clampedStage - 1] ?? stages[0]!;
 
   const meta = SPECIES_META[speciesId] ?? { vw: 16, vh: 16 };
 
@@ -187,13 +187,13 @@ export function PlantDisplay({
 
   if (natural) {
     // Scale so the longer axis = xl size, preserving aspect ratio
-    const base = SIZE_PX["xl"];
+    const base = SIZE_PX["xl"]!;
     const scale = base / Math.max(meta.vw, meta.vh);
     svgWidth = Math.round(meta.vw * scale);
     svgHeight = Math.round(meta.vh * scale);
     viewBox = `0 0 ${meta.vw} ${meta.vh}`;
   } else {
-    const px_size = SIZE_PX[size];
+    const px_size = SIZE_PX[size]!;
     svgWidth = px_size;
     svgHeight = px_size;
     viewBox = `0 0 ${meta.vw} ${meta.vh}`;

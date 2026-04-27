@@ -190,7 +190,7 @@ export function PlantStagesModal({
               key={i}
               stage={i + 1}
               name={getStageName(i + 1, species, t)}
-              minutes={species.stageThresholds[i]}
+              minutes={species.stageThresholds[i] ?? 0}
               isLast={i === species.maxStages - 1}
               speciesId={species.id}
             />
