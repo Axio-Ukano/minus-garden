@@ -8,7 +8,7 @@ import { useAudio, useAudioStore } from "@/modules/audio";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { ChevronIcon } from "@/components/PixelIcons";
 import { Tooltip } from "@/components/Tooltip";
-import { ToastContainer } from "@/components/ToastContainer";
+import { ToastContainer } from "@/lib/toast";
 import { useTranslation } from "@/i18n";
 
 type Tab = "timer" | "history" | "music";

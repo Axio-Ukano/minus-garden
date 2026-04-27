@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useToastStore } from "@/lib/toastStore";
+import { useToastStore } from "./toastStore";
 import "./Toast.css";
 import "./ToastContainer.css";
 
