@@ -83,8 +83,10 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       plant_species: plantSpeciesId,
       plant_stage: plantStage,
     };
-    useHistoryStore.getState().saveSession(session);
-    useHistoryStore.getState().syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
+    void useHistoryStore.getState().saveSession(session);
+    void useHistoryStore
+      .getState()
+      .syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
     const { master, sfx } = sfxVols();
     audioService.playSfx("timer_finish", master, sfx);
     setTimeout(() => audioService.playSfx("session_saved", master, sfx), 800);
