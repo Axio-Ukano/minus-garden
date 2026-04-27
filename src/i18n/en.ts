@@ -4,6 +4,12 @@ export const en = {
     history: "HISTORY",
     music: "MUSIC",
   },
+  common: {
+    close: "Close",
+    prev: "Previous",
+    next: "Next",
+    info: "Information",
+  },
   nav_tooltip: {
     show_nav: "Show nav",
     hide_nav: "Hide nav",
@@ -179,6 +185,20 @@ export const en = {
     create: "Create",
     type_to_create: "Type to create...",
     no_subjects: "No subjects",
+  },
+  error: {
+    title: "ERROR",
+    retry: "RETRY",
+    subject_name_taken: "Subject name already exists",
+    session_save_failed: "Could not save session",
+    session_load_failed: "Could not load history",
+    session_delete_failed: "Could not delete session",
+    user_state_load_failed: "Could not load progress",
+    hearts_update_failed: "Could not save hearts",
+    subjects_load_failed: "Could not load subjects",
+    subject_save_failed: "Could not save subject",
+    subject_usage_failed: "Could not update subject usage",
+    generic: "Something went wrong",
   },
   plants: {
     daisy: "Daisy",

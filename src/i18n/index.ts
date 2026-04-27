@@ -1,7 +1,6 @@
-import { useSettingsStore } from "../modules/settings/settingsStore";
+import { useSettingsStore, type Language } from "@/modules/settings";
 import { en } from "./en";
 import { es } from "./es";
-import type { Language } from "../modules/settings/settingsStore";
 import type { DeepTranslation } from "./types";
 import type { Translations } from "./en";
 

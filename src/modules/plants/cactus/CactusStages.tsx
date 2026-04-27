@@ -34,18 +34,18 @@ function px(x: number, y: number, w: number, h: number, fill: Color) {
 function Pot() {
   return (
     <>
-      {px(2,  20, 14, 1, C.potShine)}
-      {px(3,  20, 12, 1, C.pot)}
-      {px(2,  20, 1,  1, C.potDark)}
-      {px(15, 20, 1,  1, C.potDark)}
-      {px(3,  21, 12, 3, C.pot)}
-      {px(3,  21, 1,  3, C.potDark)}
-      {px(14, 21, 1,  3, C.potDark)}
-      {px(4,  21, 4,  3, C.potMid)}
-      {px(3,  23, 12, 1, C.potDark)}
-      {px(2,  24, 14, 1, C.soil)}
-      {px(4,  24, 2,  1, C.soilDark)}
-      {px(11, 24, 2,  1, C.soilDark)}
+      {px(2, 20, 14, 1, C.potShine)}
+      {px(3, 20, 12, 1, C.pot)}
+      {px(2, 20, 1, 1, C.potDark)}
+      {px(15, 20, 1, 1, C.potDark)}
+      {px(3, 21, 12, 3, C.pot)}
+      {px(3, 21, 1, 3, C.potDark)}
+      {px(14, 21, 1, 3, C.potDark)}
+      {px(4, 21, 4, 3, C.potMid)}
+      {px(3, 23, 12, 1, C.potDark)}
+      {px(2, 24, 14, 1, C.soil)}
+      {px(4, 24, 2, 1, C.soilDark)}
+      {px(11, 24, 2, 1, C.soilDark)}
     </>
   );
 }
@@ -55,13 +55,13 @@ function Barrel(x: number, y: number, w: number, h: number) {
   const mid = Math.floor(x + w / 2);
   return (
     <>
-      {px(x,       y,     w,     h,     C.bodyMid)}
-      {px(x,       y,     1,     h,     C.ribLine)}
-      {px(x+w-1,   y,     1,     h,     C.ribLine)}
-      {px(mid-1,   y,     2,     h,     C.ribLine)}
-      {px(x+1,     y,     2,     h,     C.bodyLight)}
-      {px(x+1,     y,     1,     2,     C.bodyShine)}
-      {px(x,       y,     w,     1,     C.bodyLight)}
+      {px(x, y, w, h, C.bodyMid)}
+      {px(x, y, 1, h, C.ribLine)}
+      {px(x + w - 1, y, 1, h, C.ribLine)}
+      {px(mid - 1, y, 2, h, C.ribLine)}
+      {px(x + 1, y, 2, h, C.bodyLight)}
+      {px(x + 1, y, 1, 2, C.bodyShine)}
+      {px(x, y, w, 1, C.bodyLight)}
     </>
   );
 }
@@ -69,10 +69,10 @@ function Barrel(x: number, y: number, w: number, h: number) {
 function SpineRow(y: number, xl: number, xr: number) {
   return (
     <>
-      {px(xl-1, y, 2, 1, C.spine)}
-      {px(xl-2, y, 1, 1, C.spineTip)}
-      {px(xr,   y, 2, 1, C.spine)}
-      {px(xr+2, y, 1, 1, C.spineTip)}
+      {px(xl - 1, y, 2, 1, C.spine)}
+      {px(xl - 2, y, 1, 1, C.spineTip)}
+      {px(xr, y, 2, 1, C.spine)}
+      {px(xr + 2, y, 1, 1, C.spineTip)}
     </>
   );
 }
@@ -86,7 +86,7 @@ export function CactusStage1() {
       {px(7, 18, 4, 2, C.bodyMid)}
       {px(8, 18, 2, 2, C.bodyLight)}
       {px(7, 18, 1, 2, C.ribLine)}
-      {px(10,18, 1, 2, C.ribLine)}
+      {px(10, 18, 1, 2, C.ribLine)}
     </>
   );
 }
@@ -120,7 +120,7 @@ export function CactusStage4() {
     <>
       <Pot />
       {Barrel(6, 7, 6, 13)}
-      {SpineRow(8,  6, 11)}
+      {SpineRow(8, 6, 11)}
       {SpineRow(11, 6, 11)}
       {SpineRow(14, 6, 11)}
       {SpineRow(17, 6, 11)}
@@ -130,13 +130,13 @@ export function CactusStage4() {
       {px(2, 12, 4, 1, C.armLight)}
       {px(3, 12, 1, 3, C.ribLine)}
       {/* brazo derecho horizontal */}
-      {px(12,12, 4, 3, C.armMid)}
-      {px(15,12, 1, 3, C.armDark)}
-      {px(12,12, 4, 1, C.armLight)}
-      {px(14,12, 1, 3, C.ribLine)}
+      {px(12, 12, 4, 3, C.armMid)}
+      {px(15, 12, 1, 3, C.armDark)}
+      {px(12, 12, 4, 1, C.armLight)}
+      {px(14, 12, 1, 3, C.ribLine)}
       {/* espinas brazos */}
       {px(1, 13, 1, 1, C.spineTip)}
-      {px(16,13, 1, 1, C.spineTip)}
+      {px(16, 13, 1, 1, C.spineTip)}
     </>
   );
 }
@@ -147,7 +147,7 @@ export function CactusStage5() {
     <>
       <Pot />
       {Barrel(6, 6, 6, 14)}
-      {SpineRow(7,  6, 11)}
+      {SpineRow(7, 6, 11)}
       {SpineRow(10, 6, 11)}
       {SpineRow(13, 6, 11)}
       {SpineRow(16, 6, 11)}
@@ -156,23 +156,23 @@ export function CactusStage5() {
       {px(2, 13, 1, 3, C.armDark)}
       {px(2, 13, 4, 1, C.armLight)}
       {px(3, 13, 1, 3, C.ribLine)}
-      {px(2,  9, 3, 4, C.armMid)}
-      {px(2,  9, 1, 4, C.armDark)}
-      {px(2,  9, 3, 1, C.armLight)}
+      {px(2, 9, 3, 4, C.armMid)}
+      {px(2, 9, 1, 4, C.armDark)}
+      {px(2, 9, 3, 1, C.armLight)}
       {px(3, 10, 1, 3, C.ribLine)}
       {/* brazo derecho: horizontal luego sube */}
-      {px(12,13, 4, 3, C.armMid)}
-      {px(15,13, 1, 3, C.armDark)}
-      {px(12,13, 4, 1, C.armLight)}
-      {px(14,13, 1, 3, C.ribLine)}
+      {px(12, 13, 4, 3, C.armMid)}
+      {px(15, 13, 1, 3, C.armDark)}
+      {px(12, 13, 4, 1, C.armLight)}
+      {px(14, 13, 1, 3, C.ribLine)}
       {px(13, 9, 3, 4, C.armMid)}
       {px(15, 9, 1, 4, C.armDark)}
       {px(13, 9, 3, 1, C.armLight)}
-      {px(14,10, 1, 3, C.ribLine)}
+      {px(14, 10, 1, 3, C.ribLine)}
       {/* espinas brazos */}
       {px(1, 14, 1, 1, C.spineTip)}
-      {px(16,14, 1, 1, C.spineTip)}
-      {px(1,  9, 1, 1, C.spineTip)}
+      {px(16, 14, 1, 1, C.spineTip)}
+      {px(1, 9, 1, 1, C.spineTip)}
       {px(16, 9, 1, 1, C.spineTip)}
     </>
   );
@@ -184,7 +184,7 @@ export function CactusStage6() {
     <>
       <Pot />
       {Barrel(6, 6, 6, 14)}
-      {SpineRow(7,  6, 11)}
+      {SpineRow(7, 6, 11)}
       {SpineRow(10, 6, 11)}
       {SpineRow(13, 6, 11)}
       {SpineRow(16, 6, 11)}
@@ -193,33 +193,33 @@ export function CactusStage6() {
       {px(2, 13, 1, 3, C.armDark)}
       {px(2, 13, 4, 1, C.armLight)}
       {px(3, 13, 1, 3, C.ribLine)}
-      {px(2,  9, 3, 4, C.armMid)}
-      {px(2,  9, 1, 4, C.armDark)}
-      {px(2,  9, 3, 1, C.armLight)}
+      {px(2, 9, 3, 4, C.armMid)}
+      {px(2, 9, 1, 4, C.armDark)}
+      {px(2, 9, 3, 1, C.armLight)}
       {px(3, 10, 1, 3, C.ribLine)}
-      {px(12,13, 4, 3, C.armMid)}
-      {px(15,13, 1, 3, C.armDark)}
-      {px(12,13, 4, 1, C.armLight)}
-      {px(14,13, 1, 3, C.ribLine)}
+      {px(12, 13, 4, 3, C.armMid)}
+      {px(15, 13, 1, 3, C.armDark)}
+      {px(12, 13, 4, 1, C.armLight)}
+      {px(14, 13, 1, 3, C.ribLine)}
       {px(13, 9, 3, 4, C.armMid)}
       {px(15, 9, 1, 4, C.armDark)}
       {px(13, 9, 3, 1, C.armLight)}
-      {px(14,10, 1, 3, C.ribLine)}
+      {px(14, 10, 1, 3, C.ribLine)}
       {px(1, 14, 1, 1, C.spineTip)}
-      {px(16,14, 1, 1, C.spineTip)}
-      {px(1,  9, 1, 1, C.spineTip)}
+      {px(16, 14, 1, 1, C.spineTip)}
+      {px(1, 9, 1, 1, C.spineTip)}
       {px(16, 9, 1, 1, C.spineTip)}
       {/* corona de flores — 3 flores en lo alto */}
       {/* flor central */}
-      {px(8,  1, 2, 2, C.flowerPinkLight)}
-      {px(7,  2, 4, 2, C.flowerPink)}
-      {px(7,  2, 1, 2, C.flowerPinkDark)}
+      {px(8, 1, 2, 2, C.flowerPinkLight)}
+      {px(7, 2, 4, 2, C.flowerPink)}
+      {px(7, 2, 1, 2, C.flowerPinkDark)}
       {px(10, 2, 1, 2, C.flowerPinkDark)}
-      {px(8,  3, 2, 1, C.flowerYellow)}
-      {px(8,  4, 2, 1, C.stamen)}
+      {px(8, 3, 2, 1, C.flowerYellow)}
+      {px(8, 4, 2, 1, C.stamen)}
       {/* flor izquierda */}
-      {px(5,  3, 2, 2, C.flowerPink)}
-      {px(5,  4, 2, 1, C.flowerYellow)}
+      {px(5, 3, 2, 2, C.flowerPink)}
+      {px(5, 4, 2, 1, C.flowerYellow)}
       {/* flor derecha */}
       {px(11, 3, 2, 2, C.flowerPink)}
       {px(11, 4, 2, 1, C.flowerYellow)}

@@ -1,4 +1,5 @@
 import { Tooltip } from "./Tooltip";
+import { useTranslation } from "@/i18n";
 import "./Button.css";
 
 export function PixelArrowButton({
@@ -10,10 +11,11 @@ export function PixelArrowButton({
   onClick: () => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
   const arrow = direction === "left" ? "\u2039" : "\u203a";
 
   return (
-    <Tooltip text={direction === "left" ? "Anterior" : "Siguiente"} position="top">
+    <Tooltip text={direction === "left" ? t.common.prev : t.common.next} position="top">
       <button
         className="pixel-btn-icon"
         onClick={onClick}

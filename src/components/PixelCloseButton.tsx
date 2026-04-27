@@ -1,9 +1,12 @@
 import { Tooltip } from "./Tooltip";
+import { useTranslation } from "@/i18n";
 import "./Button.css";
 
 export function PixelCloseButton({ onClick }: { onClick: () => void }) {
+  const { t } = useTranslation();
+
   return (
-    <Tooltip text="Cerrar" position="bottom">
+    <Tooltip text={t.common.close} position="bottom">
       <button
         className="pixel-btn-icon"
         onClick={onClick}

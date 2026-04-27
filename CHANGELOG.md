@@ -5,6 +5,20 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.4.0] — 2026-04-27
+
+### Sprint 6: Architecture Cleanup & Scaling Foundation
+
+- **Latent bug fix:** Removed the dead `get_plant_species` Tauri command, which queried a `plant_species` table that was never created. Species are static frontend metadata and don't need a SQLite round-trip.
+- **DB schema:** Folded `plant_species` and `plant_stage` columns into the initial `CREATE TABLE sessions` for fresh installs. The post-create `ALTER TABLE` calls remain as idempotent fallback for existing DBs.
+- **Path aliases:** Added `@/*` → `src/*` to tsconfig and `vite.config.ts`. New code uses barrel imports; deep relative imports get rewritten as files are touched.
+- **Typed Tauri error layer:** New `src/lib/tauri.ts` exposes `tauriInvoke<T>(command, args)` with a string-literal command union, localized error messages, console logging, and a typed `TauriError` re-throw. Every persistence call site in `historyStore` and `subjectStore` now goes through it.
+- **Toast UX:** Wired the previously unused `Toast.tsx` component to a new `toastStore` + `ToastContainer`. Tauri command failures now surface to the user instead of failing silently.
+- **i18n:** Localized the `ErrorBoundary` (was hardcoded Spanish "REINTENTAR") and replaced the Spanish duplicate-subject error in Rust with English; frontend localizes via the new `error.*` i18n keys.
+- **Settings refactor:** Split the 540-line `SettingsModal.tsx` into a thin shell + per-section files (`SoundSection`, `InterfaceSection`, `WipSection`) and extracted `VolumeSlider`.
+- **Barrel exports:** Each `src/modules/*` feature now has an `index.ts` exposing its public surface (view + store + types). Cross-module callers go through the barrel.
+- **Hygiene:** Dropped unused `serde_json` Rust dep, fixed placeholder author/version in `Cargo.toml`, reconciled all version strings (`package.json`, `Cargo.toml`, `tauri.conf.json`) to `0.4.0`.
+
 ## [0.3.0] — 2026-04-24
 
 ### Sprint 5: Identidad y Mantenibilidad
