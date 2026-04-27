@@ -36,18 +36,18 @@ function Pot() {
       {/* rim */}
       {px(2, 17, 12, 1, C.potShine)}
       {px(3, 17, 10, 1, C.pot)}
-      {px(2, 17, 1,  1, C.potDark)}
-      {px(13,17, 1,  1, C.potDark)}
+      {px(2, 17, 1, 1, C.potDark)}
+      {px(13, 17, 1, 1, C.potDark)}
       {/* body */}
       {px(3, 18, 10, 3, C.pot)}
-      {px(3, 18, 1,  3, C.potDark)}
-      {px(12,18, 1,  3, C.potDark)}
-      {px(4, 18, 3,  3, C.potMid)}
+      {px(3, 18, 1, 3, C.potDark)}
+      {px(12, 18, 1, 3, C.potDark)}
+      {px(4, 18, 3, 3, C.potMid)}
       {px(3, 20, 10, 1, C.potDark)}
       {/* soil */}
       {px(2, 21, 12, 1, C.soil)}
-      {px(4, 21, 2,  1, C.soilDark)}
-      {px(9, 21, 2,  1, C.soilDark)}
+      {px(4, 21, 2, 1, C.soilDark)}
+      {px(9, 21, 2, 1, C.soilDark)}
     </>
   );
 }
@@ -83,7 +83,7 @@ export function DaisyStage2() {
       {px(4, 14, 3, 2, C.leafLight)}
       {px(4, 14, 1, 2, C.leafDark)}
       {px(9, 14, 3, 2, C.leafLight)}
-      {px(11,14, 1, 2, C.leafDark)}
+      {px(11, 14, 1, 2, C.leafDark)}
     </>
   );
 }
@@ -100,7 +100,7 @@ export function DaisyStage3() {
       {px(5, 12, 2, 1, C.leafLight)}
       {/* hoja derecha */}
       {px(9, 11, 4, 2, C.leaf)}
-      {px(12,11, 1, 2, C.leafDark)}
+      {px(12, 11, 1, 2, C.leafDark)}
       {px(9, 11, 2, 1, C.leafLight)}
     </>
   );
@@ -117,16 +117,16 @@ export function DaisyStage4() {
       {px(3, 12, 1, 2, C.leafDark)}
       {px(5, 12, 2, 1, C.leafLight)}
       {px(9, 11, 4, 2, C.leaf)}
-      {px(12,11, 1, 2, C.leafDark)}
+      {px(12, 11, 1, 2, C.leafDark)}
       {px(9, 11, 2, 1, C.leafLight)}
       {/* capullo */}
-      {px(6,  5, 4, 3, C.budGreen)}
-      {px(6,  5, 1, 3, C.budDark)}
-      {px(9,  5, 1, 3, C.budDark)}
-      {px(7,  4, 2, 1, C.budGreen)}
-      {px(6,  7, 4, 1, C.budDark)}
+      {px(6, 5, 4, 3, C.budGreen)}
+      {px(6, 5, 1, 3, C.budDark)}
+      {px(9, 5, 1, 3, C.budDark)}
+      {px(7, 4, 2, 1, C.budGreen)}
+      {px(6, 7, 4, 1, C.budDark)}
       {/* punta del pétalo asomándose */}
-      {px(7,  3, 2, 1, C.petalCream)}
+      {px(7, 3, 2, 1, C.petalCream)}
     </>
   );
 }
@@ -142,35 +142,35 @@ export function DaisyStage5() {
       {px(3, 12, 1, 2, C.leafDark)}
       {px(5, 12, 2, 1, C.leafLight)}
       {px(9, 11, 4, 2, C.leaf)}
-      {px(12,11, 1, 2, C.leafDark)}
+      {px(12, 11, 1, 2, C.leafDark)}
       {px(9, 11, 2, 1, C.leafLight)}
       {/* pétalos superiores */}
-      {px(6,  0, 4, 2, C.petalWhite)}
-      {px(7,  0, 2, 2, C.petalCream)}
+      {px(6, 0, 4, 2, C.petalWhite)}
+      {px(7, 0, 2, 2, C.petalCream)}
       {/* pétalos inferiores */}
-      {px(6,  7, 4, 2, C.petalWhite)}
-      {px(7,  7, 2, 1, C.petalCream)}
+      {px(6, 7, 4, 2, C.petalWhite)}
+      {px(7, 7, 2, 1, C.petalCream)}
       {/* pétalos izquierdo */}
-      {px(2,  3, 2, 2, C.petalWhite)}
-      {px(3,  3, 2, 1, C.petalCream)}
-      {px(4,  2, 2, 1, C.petalPink)}
-      {px(4,  5, 2, 1, C.petalPink)}
+      {px(2, 3, 2, 2, C.petalWhite)}
+      {px(3, 3, 2, 1, C.petalCream)}
+      {px(4, 2, 2, 1, C.petalPink)}
+      {px(4, 5, 2, 1, C.petalPink)}
       {/* pétalos derecho */}
       {px(12, 3, 2, 2, C.petalWhite)}
       {px(11, 3, 2, 1, C.petalCream)}
       {px(10, 2, 2, 1, C.petalPink)}
       {px(10, 5, 2, 1, C.petalPink)}
       {/* diagonales */}
-      {px(4,  1, 2, 2, C.petalWhite)}
+      {px(4, 1, 2, 2, C.petalWhite)}
       {px(10, 1, 2, 2, C.petalWhite)}
-      {px(4,  5, 2, 2, C.petalWhite)}
+      {px(4, 5, 2, 2, C.petalWhite)}
       {px(10, 5, 2, 2, C.petalWhite)}
       {/* centro */}
-      {px(6,  2, 4, 4, C.center)}
-      {px(7,  2, 2, 1, C.centerSpeck)}
-      {px(6,  4, 1, 1, C.centerDark)}
-      {px(9,  4, 1, 1, C.centerDark)}
-      {px(7,  5, 2, 1, C.centerDark)}
+      {px(6, 2, 4, 4, C.center)}
+      {px(7, 2, 2, 1, C.centerSpeck)}
+      {px(6, 4, 1, 1, C.centerDark)}
+      {px(9, 4, 1, 1, C.centerDark)}
+      {px(7, 5, 2, 1, C.centerDark)}
     </>
   );
 }

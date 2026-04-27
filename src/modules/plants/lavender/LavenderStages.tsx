@@ -32,18 +32,18 @@ function px(x: number, y: number, w: number, h: number, fill: Color) {
 function Pot() {
   return (
     <>
-      {px(1,  21, 12, 1, C.potShine)}
-      {px(2,  21, 10, 1, C.pot)}
-      {px(1,  21, 1,  1, C.potDark)}
-      {px(12, 21, 1,  1, C.potDark)}
-      {px(2,  22, 10, 3, C.pot)}
-      {px(2,  22, 1,  3, C.potDark)}
-      {px(11, 22, 1,  3, C.potDark)}
-      {px(3,  22, 3,  3, C.potMid)}
-      {px(2,  24, 10, 1, C.potDark)}
-      {px(1,  25, 12, 1, C.soil)}
-      {px(3,  25, 2,  1, C.soilDark)}
-      {px(8,  25, 2,  1, C.soilDark)}
+      {px(1, 21, 12, 1, C.potShine)}
+      {px(2, 21, 10, 1, C.pot)}
+      {px(1, 21, 1, 1, C.potDark)}
+      {px(12, 21, 1, 1, C.potDark)}
+      {px(2, 22, 10, 3, C.pot)}
+      {px(2, 22, 1, 3, C.potDark)}
+      {px(11, 22, 1, 3, C.potDark)}
+      {px(3, 22, 3, 3, C.potMid)}
+      {px(2, 24, 10, 1, C.potDark)}
+      {px(1, 25, 12, 1, C.soil)}
+      {px(3, 25, 2, 1, C.soilDark)}
+      {px(8, 25, 2, 1, C.soilDark)}
     </>
   );
 }
@@ -59,9 +59,9 @@ function Stem(topRow: number) {
 function SmallLeaf(x: number, y: number, dir: -1 | 1) {
   return (
     <>
-      {px(x,                    y,   3, 1, dir === 1 ? C.leafLight : C.leafDark)}
-      {px(x,                    y+1, 3, 1, C.leaf)}
-      {px(dir === 1 ? x+2 : x,  y,   1, 2, C.leafDark)}
+      {px(x, y, 3, 1, dir === 1 ? C.leafLight : C.leafDark)}
+      {px(x, y + 1, 3, 1, C.leaf)}
+      {px(dir === 1 ? x + 2 : x, y, 1, 2, C.leafDark)}
     </>
   );
 }
@@ -150,16 +150,16 @@ export function LavenderStage5() {
       {/* espiga central completa */}
       {Spike(6, 1, 12)}
       {/* espigas laterales más cortas */}
-      {px(3,  6, 2, 1, C.bud)}
-      {px(3,  7, 2, 1, C.spikeMid)}
-      {px(2,  8, 2, 1, C.spikeLight)}
-      {px(2,  9, 2, 1, C.spikeMid)}
+      {px(3, 6, 2, 1, C.bud)}
+      {px(3, 7, 2, 1, C.spikeMid)}
+      {px(2, 8, 2, 1, C.spikeLight)}
+      {px(2, 9, 2, 1, C.spikeMid)}
       {px(2, 10, 2, 1, C.spikeDark)}
-      {px(9,  6, 2, 1, C.bud)}
-      {px(9,  7, 2, 1, C.spikeMid)}
+      {px(9, 6, 2, 1, C.bud)}
+      {px(9, 7, 2, 1, C.spikeMid)}
       {px(10, 8, 2, 1, C.spikeLight)}
       {px(10, 9, 2, 1, C.spikeMid)}
-      {px(10,10, 2, 1, C.spikeDark)}
+      {px(10, 10, 2, 1, C.spikeDark)}
     </>
   );
 }

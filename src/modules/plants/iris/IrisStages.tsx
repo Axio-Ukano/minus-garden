@@ -36,18 +36,18 @@ function px(x: number, y: number, w: number, h: number, fill: Color) {
 function Pot() {
   return (
     <>
-      {px(2,  21, 12, 1, C.potShine)}
-      {px(3,  21, 10, 1, C.pot)}
-      {px(2,  21, 1,  1, C.potDark)}
-      {px(13, 21, 1,  1, C.potDark)}
-      {px(3,  22, 10, 3, C.pot)}
-      {px(3,  22, 1,  3, C.potDark)}
-      {px(12, 22, 1,  3, C.potDark)}
-      {px(4,  22, 3,  3, C.potMid)}
-      {px(3,  24, 10, 1, C.potDark)}
-      {px(2,  25, 12, 1, C.soil)}
-      {px(4,  25, 2,  1, C.soilDark)}
-      {px(9,  25, 2,  1, C.soilDark)}
+      {px(2, 21, 12, 1, C.potShine)}
+      {px(3, 21, 10, 1, C.pot)}
+      {px(2, 21, 1, 1, C.potDark)}
+      {px(13, 21, 1, 1, C.potDark)}
+      {px(3, 22, 10, 3, C.pot)}
+      {px(3, 22, 1, 3, C.potDark)}
+      {px(12, 22, 1, 3, C.potDark)}
+      {px(4, 22, 3, 3, C.potMid)}
+      {px(3, 24, 10, 1, C.potDark)}
+      {px(2, 25, 12, 1, C.soil)}
+      {px(4, 25, 2, 1, C.soilDark)}
+      {px(9, 25, 2, 1, C.soilDark)}
     </>
   );
 }
@@ -95,8 +95,8 @@ export function IrisStage3() {
     <>
       <Pot />
       {/* hojas más maduras, más altas */}
-      {IrisLeaf(4,  8, 13, false)}
-      {IrisLeaf(9,  9, 12, true)}
+      {IrisLeaf(4, 8, 13, false)}
+      {IrisLeaf(9, 9, 12, true)}
       {IrisLeaf(6, 11, 10, false)}
     </>
   );
@@ -106,19 +106,19 @@ export function IrisStage4() {
   return (
     <>
       <Pot />
-      {IrisLeaf(4,  8, 13, false)}
-      {IrisLeaf(9,  9, 12, true)}
+      {IrisLeaf(4, 8, 13, false)}
+      {IrisLeaf(9, 9, 12, true)}
       {IrisLeaf(6, 11, 10, false)}
       {/* tallo floral con espata */}
-      {px(7,  5, 2, 7, C.stem)}
-      {px(6,  8, 1, 2, C.sheath)}
-      {px(9,  7, 1, 3, C.sheathDark)}
+      {px(7, 5, 2, 7, C.stem)}
+      {px(6, 8, 1, 2, C.sheath)}
+      {px(9, 7, 1, 3, C.sheathDark)}
       {/* capullo apretado */}
-      {px(6,  2, 4, 3, C.petalPurple)}
-      {px(6,  2, 1, 3, C.petalFallDark)}
-      {px(9,  2, 1, 3, C.petalFallDark)}
-      {px(7,  1, 2, 1, C.petalPurpleMid)}
-      {px(6,  4, 4, 1, C.petalFallDark)}
+      {px(6, 2, 4, 3, C.petalPurple)}
+      {px(6, 2, 1, 3, C.petalFallDark)}
+      {px(9, 2, 1, 3, C.petalFallDark)}
+      {px(7, 1, 2, 1, C.petalPurpleMid)}
+      {px(6, 4, 4, 1, C.petalFallDark)}
     </>
   );
 }
@@ -127,22 +127,22 @@ export function IrisStage5() {
   return (
     <>
       <Pot />
-      {IrisLeaf(3,  8, 13, false)}
+      {IrisLeaf(3, 8, 13, false)}
       {IrisLeaf(10, 9, 12, true)}
       {IrisLeaf(6, 11, 10, false)}
-      {px(7,  6, 2, 6, C.stem)}
-      {px(6,  9, 1, 2, C.sheath)}
-      {px(9,  8, 1, 3, C.sheathDark)}
+      {px(7, 6, 2, 6, C.stem)}
+      {px(6, 9, 1, 2, C.sheath)}
+      {px(9, 8, 1, 3, C.sheathDark)}
       {/* pétalos estándar (falls) cayendo */}
-      {px(4,  8, 3, 2, C.petalFall)}
-      {px(4,  8, 1, 2, C.petalFallDark)}
+      {px(4, 8, 3, 2, C.petalFall)}
+      {px(4, 8, 1, 2, C.petalFallDark)}
       {px(11, 8, 3, 2, C.petalFall)}
       {px(13, 8, 1, 2, C.petalFallDark)}
       {/* pétalos estándar (standards) erigidos */}
-      {px(5,  2, 6, 4, C.petalPurpleLight)}
-      {px(5,  2, 1, 4, C.petalPurple)}
+      {px(5, 2, 6, 4, C.petalPurpleLight)}
+      {px(5, 2, 1, 4, C.petalPurple)}
       {px(10, 2, 1, 4, C.petalPurple)}
-      {px(6,  1, 4, 1, C.petalPurpleTip)}
+      {px(6, 1, 4, 1, C.petalPurpleTip)}
       {/* barba */}
       {px(6, 9, 3, 1, C.beard)}
       {px(9, 9, 3, 1, C.beard)}
@@ -155,34 +155,34 @@ export function IrisStage6() {
   return (
     <>
       <Pot />
-      {IrisLeaf(3,  8, 13, false)}
+      {IrisLeaf(3, 8, 13, false)}
       {IrisLeaf(10, 9, 12, true)}
       {IrisLeaf(5, 10, 11, false)}
       {IrisLeaf(8, 11, 10, true)}
-      {px(7,  6, 2, 6, C.stem)}
-      {px(6,  9, 1, 2, C.sheath)}
-      {px(9,  8, 1, 3, C.sheathDark)}
+      {px(7, 6, 2, 6, C.stem)}
+      {px(6, 9, 1, 2, C.sheath)}
+      {px(9, 8, 1, 3, C.sheathDark)}
       {/* falls completos con venas */}
-      {px(3,  7, 4, 3, C.petalFall)}
-      {px(3,  7, 1, 3, C.petalFallDark)}
-      {px(4,  9, 3, 1, C.petalFallDark)}
+      {px(3, 7, 4, 3, C.petalFall)}
+      {px(3, 7, 1, 3, C.petalFallDark)}
+      {px(4, 9, 3, 1, C.petalFallDark)}
       {px(11, 7, 4, 3, C.petalFall)}
       {px(14, 7, 1, 3, C.petalFallDark)}
       {px(11, 9, 3, 1, C.petalFallDark)}
-      {px(4,  8, 2, 1, C.veins)}
+      {px(4, 8, 2, 1, C.veins)}
       {px(12, 8, 2, 1, C.veins)}
       {/* standards amplios con degradé */}
-      {px(4,  0, 8, 6, C.petalPurpleLight)}
-      {px(4,  0, 1, 6, C.petalPurple)}
+      {px(4, 0, 8, 6, C.petalPurpleLight)}
+      {px(4, 0, 1, 6, C.petalPurple)}
       {px(11, 0, 1, 6, C.petalPurple)}
-      {px(5,  0, 6, 1, C.petalPurpleTip)}
-      {px(5,  1, 6, 2, C.petalPurpleMid)}
-      {px(6,  3, 4, 2, C.center)}
+      {px(5, 0, 6, 1, C.petalPurpleTip)}
+      {px(5, 1, 6, 2, C.petalPurpleMid)}
+      {px(6, 3, 4, 2, C.center)}
       {/* barba prominente */}
       {px(5, 8, 4, 2, C.beard)}
       {px(9, 8, 4, 2, C.beard)}
       {px(6, 8, 1, 1, C.beardTip)}
-      {px(10,8, 1, 1, C.beardTip)}
+      {px(10, 8, 1, 1, C.beardTip)}
     </>
   );
 }
