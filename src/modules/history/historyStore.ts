@@ -45,8 +45,10 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     try {
       const result = await tauriInvoke<{ total_hearts: number }>("get_user_state");
       set({ totalHearts: result.total_hearts });
-    } catch {
+    } catch (e) {
       // Toast already surfaced by tauriInvoke; keep totalHearts at last known value.
+      // Log for developer diagnostics — kept minimal so production console stays clean.
+      console.error("[historyStore.loadUserState]", e);
     }
   },
 
