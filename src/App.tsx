@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { TimerDisplay } from "./modules/timer/TimerDisplay";
-import { HistoryView } from "./modules/history/HistoryView";
-import { MusicPlayerView } from "./modules/music/MusicPlayerView";
-import { MiniPlayer } from "./modules/music/MiniPlayer";
-import { useHistoryStore } from "./modules/history/historyStore";
-import { useSubjectStore } from "./modules/subjects/subjectStore";
-import { SettingsModal } from "./modules/settings/SettingsModal";
-import { useAudio } from "./modules/audio/useAudio";
-import { useAudioStore } from "./modules/audio/audioStore";
-import { AppShellHeader } from "./components/AppShellHeader";
-import { ChevronIcon } from "./components/PixelIcons";
-import { Tooltip } from "./components/Tooltip";
-import { useTranslation } from "./i18n";
+import { TimerDisplay } from "@/modules/timer/TimerDisplay";
+import { HistoryView } from "@/modules/history/HistoryView";
+import { MusicPlayerView } from "@/modules/music/MusicPlayerView";
+import { MiniPlayer } from "@/modules/music/MiniPlayer";
+import { useHistoryStore } from "@/modules/history/historyStore";
+import { useSubjectStore } from "@/modules/subjects/subjectStore";
+import { SettingsModal } from "@/modules/settings/SettingsModal";
+import { useAudio } from "@/modules/audio/useAudio";
+import { useAudioStore } from "@/modules/audio/audioStore";
+import { AppShellHeader } from "@/components/AppShellHeader";
+import { ChevronIcon } from "@/components/PixelIcons";
+import { Tooltip } from "@/components/Tooltip";
+import { useTranslation } from "@/i18n";
 
 type Tab = "timer" | "history" | "music";
 
