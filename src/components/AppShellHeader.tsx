@@ -8,10 +8,10 @@ import {
   MusicNoteIcon,
   BellIcon,
 } from "./PixelIcons";
-import { useHistoryStore } from "../modules/history/historyStore";
-import { useSettingsStore } from "../modules/settings/settingsStore";
+import { useHistoryStore } from "@/modules/history";
+import { useSettingsStore } from "@/modules/settings";
 import { Tooltip } from "./Tooltip";
-import { useTranslation } from "../i18n";
+import { useTranslation } from "@/i18n";
 
 export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
   const totalHearts = useHistoryStore((s) => s.totalHearts);
