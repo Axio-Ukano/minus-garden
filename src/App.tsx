@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
-import { TimerDisplay } from "./modules/timer/TimerDisplay";
-import { HistoryView } from "./modules/history/HistoryView";
-import { MusicPlayerView } from "./modules/music/MusicPlayerView";
-import { MiniPlayer } from "./modules/music/MiniPlayer";
-import { useHistoryStore } from "./modules/history/historyStore";
-import { useSubjectStore } from "./modules/subjects/subjectStore";
-import { SettingsModal } from "./modules/settings/SettingsModal";
-import { useAudio } from "./modules/audio/useAudio";
-import { useAudioStore } from "./modules/audio/audioStore";
-import { AppShellHeader } from "./components/AppShellHeader";
-import { ChevronIcon } from "./components/PixelIcons";
-import { Tooltip } from "./components/Tooltip";
-import { useTranslation } from "./i18n";
+import { TimerDisplay } from "@/modules/timer";
+import { HistoryView, useHistoryStore } from "@/modules/history";
+import { MusicPlayerView, MiniPlayer } from "@/modules/music";
+import { useSubjectStore } from "@/modules/subjects";
+import { SettingsModal } from "@/modules/settings";
+import { useAudio, useAudioStore } from "@/modules/audio";
+import { AppShellHeader } from "@/components/AppShellHeader";
+import { ChevronIcon } from "@/components/PixelIcons";
+import { Tooltip } from "@/components/Tooltip";
+import { ToastContainer } from "@/components/ToastContainer";
+import { useTranslation } from "@/i18n";
 
 type Tab = "timer" | "history" | "music";
 
@@ -76,6 +74,7 @@ function App() {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <AppShellHeader onOpenSettings={() => setIsSettingsOpen(true)} />
+      <ToastContainer />
 
       <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", minHeight: 0 }}>
         {activeTab === "timer" && (

@@ -24,7 +24,9 @@ pub fn init_db(app_handle: &AppHandle) -> DbState {
             duration_minutes INTEGER NOT NULL,
             subject TEXT NOT NULL DEFAULT '',
             completed INTEGER NOT NULL DEFAULT 0,
-            hearts_earned INTEGER NOT NULL DEFAULT 0
+            hearts_earned INTEGER NOT NULL DEFAULT 0,
+            plant_species TEXT NOT NULL DEFAULT 'daisy',
+            plant_stage INTEGER NOT NULL DEFAULT 1
         );
 
         CREATE TABLE IF NOT EXISTS user_state (
@@ -52,7 +54,8 @@ pub fn init_db(app_handle: &AppHandle) -> DbState {
     )
     .expect("failed to run migrations");
 
-    // ALTER TABLE ignores errors for columns that already exist (idempotent)
+    // Idempotent ALTERs for users on pre-Sprint 6 DBs (the columns above were
+    // added later via ALTER). `let _ =` swallows the "duplicate column" error.
     let _ = conn.execute_batch(
         "ALTER TABLE sessions ADD COLUMN plant_species TEXT NOT NULL DEFAULT 'daisy';",
     );

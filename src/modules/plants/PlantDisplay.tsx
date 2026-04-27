@@ -101,16 +101,16 @@ const SIZE_PX = { sm: 32, md: 64, lg: 80, xl: 120 } as const;
 
 // Natural viewBox dimensions per species — drives aspect-ratio-correct rendering
 const SPECIES_META: Record<string, { vw: number; vh: number }> = {
-  daisy:     { vw: 16, vh: 22 },
+  daisy: { vw: 16, vh: 22 },
   sunflower: { vw: 20, vh: 28 },
-  gerbera:   { vw: 18, vh: 22 },
-  lavanda:   { vw: 14, vh: 26 },
-  clavel:    { vw: 18, vh: 24 },
-  lirio:     { vw: 16, vh: 26 },
-  peonia:    { vw: 22, vh: 22 },
-  cactus:    { vw: 18, vh: 26 },
-  orquidea:  { vw: 20, vh: 28 },
-  lotus:     { vw: 24, vh: 18 },
+  gerbera: { vw: 18, vh: 22 },
+  lavanda: { vw: 14, vh: 26 },
+  clavel: { vw: 18, vh: 24 },
+  lirio: { vw: 16, vh: 26 },
+  peonia: { vw: 22, vh: 22 },
+  cactus: { vw: 18, vh: 26 },
+  orquidea: { vw: 20, vh: 28 },
+  lotus: { vw: 24, vh: 18 },
 };
 
 // ── Species → Stages map — IDs match DB values, do not change ────────────────
@@ -169,7 +169,12 @@ interface PlantDisplayProps {
   natural?: boolean;
 }
 
-export function PlantDisplay({ stage, speciesId = "daisy", size = "md", natural = false }: PlantDisplayProps) {
+export function PlantDisplay({
+  stage,
+  speciesId = "daisy",
+  size = "md",
+  natural = false,
+}: PlantDisplayProps) {
   const stages = SPECIES_STAGES[speciesId] ?? DAISY_STAGES;
   const clampedStage = Math.max(1, Math.min(stage, stages.length));
   const StageComponent = stages[clampedStage - 1];

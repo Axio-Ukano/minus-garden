@@ -1,0 +1,34 @@
+.pixel-toast-container {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.pixel-toast-container .pixel-toast {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+.pixel-toast--error {
+  border-color: var(--color-error);
+}
+
+.pixel-toast--error .pixel-toast-progress {
+  background-color: var(--color-error);
+}
+
+.pixel-toast--success {
+  border-color: var(--color-success);
+}
+
+.pixel-toast--success .pixel-toast-progress {
+  background-color: var(--color-success);
+}

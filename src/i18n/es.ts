@@ -7,6 +7,12 @@ export const es: DeepTranslation<Translations> = {
     history: "HISTORIAL",
     music: "MÚSICA",
   },
+  common: {
+    close: "Cerrar",
+    prev: "Anterior",
+    next: "Siguiente",
+    info: "Información",
+  },
   nav_tooltip: {
     show_nav: "Mostrar nav",
     hide_nav: "Ocultar nav",
@@ -182,6 +188,20 @@ export const es: DeepTranslation<Translations> = {
     create: "Crear",
     type_to_create: "Escribe para crear...",
     no_subjects: "No hay materias",
+  },
+  error: {
+    title: "ERROR",
+    retry: "REINTENTAR",
+    subject_name_taken: "Ya existe una materia con ese nombre",
+    session_save_failed: "No se pudo guardar la sesión",
+    session_load_failed: "No se pudo cargar el historial",
+    session_delete_failed: "No se pudo borrar la sesión",
+    user_state_load_failed: "No se pudo cargar el progreso",
+    hearts_update_failed: "No se pudieron guardar los corazones",
+    subjects_load_failed: "No se pudieron cargar las materias",
+    subject_save_failed: "No se pudo guardar la materia",
+    subject_usage_failed: "No se pudo actualizar el uso de la materia",
+    generic: "Algo salió mal",
   },
   plants: {
     daisy: "Margarita",

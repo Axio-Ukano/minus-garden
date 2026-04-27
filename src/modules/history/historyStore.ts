@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { invoke } from "@tauri-apps/api/core";
+import { tauriInvoke, TauriError } from "@/lib/tauri";
 
 export interface Session {
   id: string;
@@ -34,30 +34,34 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   loadSessions: async () => {
     set({ loading: true, error: null });
     try {
-      const sessions = await invoke<Session[]>("get_sessions");
+      const sessions = await tauriInvoke<Session[]>("get_sessions");
       set({ sessions, loading: false });
     } catch (e) {
-      set({ error: String(e), loading: false });
+      set({ error: e instanceof TauriError ? e.raw : String(e), loading: false });
     }
   },
 
   loadUserState: async () => {
-    const result = await invoke<{ total_hearts: number }>("get_user_state");
-    set({ totalHearts: result.total_hearts });
+    try {
+      const result = await tauriInvoke<{ total_hearts: number }>("get_user_state");
+      set({ totalHearts: result.total_hearts });
+    } catch {
+      // Toast already surfaced by tauriInvoke; keep totalHearts at last known value.
+    }
   },
 
   saveSession: async (session: Session) => {
-    await invoke("save_session", { session });
+    await tauriInvoke("save_session", { session });
     await get().loadSessions();
   },
 
   deleteSession: async (id: string) => {
-    await invoke("delete_session", { id });
+    await tauriInvoke("delete_session", { id });
     await get().loadSessions();
   },
 
   syncHearts: async (total: number) => {
-    await invoke("update_hearts", { totalHearts: total });
+    await tauriInvoke("update_hearts", { totalHearts: total });
     set({ totalHearts: total });
   },
 }));
