@@ -1,5 +1,9 @@
 import { Component } from "react";
 import type { ReactNode, ErrorInfo } from "react";
+import { useSettingsStore } from "@/modules/settings/settingsStore";
+import { en } from "@/i18n/en";
+import { es } from "@/i18n/es";
+import type { Translations } from "@/i18n";
 
 interface Props {
   children: ReactNode;
@@ -8,6 +12,12 @@ interface Props {
 interface State {
   hasError: boolean;
   message: string;
+}
+
+function getErrorTable(): Translations["error"] {
+  const language = useSettingsStore.getState().language;
+  const t = (language === "es" ? es : en) as Translations;
+  return t.error;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -23,6 +33,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      const t = getErrorTable();
       return (
         <div
           style={{
@@ -38,7 +49,7 @@ export class ErrorBoundary extends Component<Props, State> {
             color: "var(--color-text)",
           }}
         >
-          <span style={{ fontSize: "var(--text-pixel-lg)" }}>ERROR</span>
+          <span style={{ fontSize: "var(--text-pixel-lg)" }}>{t.title}</span>
           <span
             style={{
               fontSize: "var(--text-pixel-xs)",
@@ -52,7 +63,7 @@ export class ErrorBoundary extends Component<Props, State> {
             className="pixel-btn"
             onClick={() => this.setState({ hasError: false, message: "" })}
           >
-            REINTENTAR
+            {t.retry}
           </button>
         </div>
       );
