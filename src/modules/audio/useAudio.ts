@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useSettingsStore } from "../settings/settingsStore";
+import { useSettingsStore } from "@/modules/settings";
 import { useAudioStore } from "./audioStore";
 import { audioService } from "./audioService";
 import type { SfxId } from "./audioService";

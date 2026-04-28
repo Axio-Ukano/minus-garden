@@ -1,6 +1,6 @@
 import { InfoTooltip } from "@/components/InfoTooltip";
-import { useSettingsStore } from "@/modules/settings/settingsStore";
 import { useTranslation } from "@/i18n";
+import { useSettingsStore } from "../settingsStore";
 
 export function InterfaceSection() {
   const { theme, setTheme, plantSide, setPlantSide, language, setLanguage } = useSettingsStore();

@@ -146,7 +146,8 @@ export function calculateStage(elapsedMinutes: number, species: PlantSpecies): P
   let currentStage = 0;
 
   for (let i = stageThresholds.length - 1; i >= 0; i--) {
-    if (elapsedMinutes >= stageThresholds[i]) {
+    const threshold = stageThresholds[i];
+    if (threshold !== undefined && elapsedMinutes >= threshold) {
       currentStage = i + 1;
       break;
     }
@@ -157,8 +158,8 @@ export function calculateStage(elapsedMinutes: number, species: PlantSpecies): P
 
   let progressToNext = 0;
   if (!isMaxStage) {
-    const currentThreshold = stageThresholds[currentStage - 1];
-    const nextThreshold = stageThresholds[currentStage];
+    const currentThreshold = stageThresholds[currentStage - 1] ?? 0;
+    const nextThreshold = stageThresholds[currentStage] ?? currentThreshold;
     const range = nextThreshold - currentThreshold;
     progressToNext = range > 0 ? Math.min((elapsedMinutes - currentThreshold) / range, 1) : 1;
   }
@@ -173,7 +174,8 @@ export function calculateFinalStage(durationMinutes: number, species: PlantSpeci
   let currentStage = 0;
 
   for (let i = stageThresholds.length - 1; i >= 0; i--) {
-    if (durationMinutes >= stageThresholds[i] * unlockThreshold) {
+    const threshold = stageThresholds[i];
+    if (threshold !== undefined && durationMinutes >= threshold * unlockThreshold) {
       currentStage = i + 1;
       break;
     }

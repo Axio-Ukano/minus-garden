@@ -66,9 +66,9 @@ function App() {
   ];
 
   useEffect(() => {
-    useHistoryStore.getState().loadSessions();
-    useHistoryStore.getState().loadUserState();
-    useSubjectStore.getState().loadSubjects();
+    void useHistoryStore.getState().loadSessions();
+    void useHistoryStore.getState().loadUserState();
+    void useSubjectStore.getState().loadSubjects();
   }, []);
 
   return (

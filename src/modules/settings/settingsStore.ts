@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { AmbientTrackId } from "../audio/audioService";
-import type { ClickSfxId, TypingSfxId } from "../audio/audioService";
+import type { AmbientTrackId, ClickSfxId, TypingSfxId } from "@/modules/audio";
 
 export type Theme = "light" | "dark";
 export type PlantSide = "left" | "right";

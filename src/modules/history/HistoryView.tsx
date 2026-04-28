@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useHistoryStore } from "./historyStore";
 import type { Session } from "./historyStore";
-import { PlantDisplay } from "../plants/PlantDisplay";
-import { getStageName, getSpeciesById } from "../plants/plantService";
+import { PlantDisplay, getStageName, getSpeciesById } from "@/modules/plants";
 import { HeartIcon } from "@/components/PixelIcons";
 import { Panel } from "@/components/Panel";
 import { useTranslation } from "../../i18n";
@@ -68,12 +67,12 @@ export function HistoryView() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    loadSessions();
-    loadUserState();
+    void loadSessions();
+    void loadUserState();
   }, [loadSessions, loadUserState]);
 
   const handleDelete = (id: string) => {
-    if (confirm(t.history.delete_confirm)) deleteSession(id);
+    if (confirm(t.history.delete_confirm)) void deleteSession(id);
   };
 
   return (

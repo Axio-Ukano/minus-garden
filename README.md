@@ -1,28 +1,91 @@
-# Minu's Garden 🌸
+# Minu's Garden
 
 App de escritorio para sesiones de estudio con jardín virtual.
 
+> Proyecto personal privado. No acepta contribuciones externas.
+
 ## Stack
 
-- **Frontend:** React 19 + TypeScript
-- **Estilos:** CSS Vanilla (Custom Properties)
-- **Desktop shell:** Tauri 2 (Rust)
+- **Frontend:** React 19 + TypeScript 5.8
+- **Estilos:** CSS Vanilla (Custom Properties + BEM)
 - **Estado:** Zustand 5
+- **Audio:** Howler 2
+- **Desktop shell:** Tauri 2 (Rust)
 - **Persistencia:** SQLite (via Rusqlite en Rust)
+- **Build:** Vite 7
+- **Tests:** Vitest 4 + @testing-library/react + jsdom
 
-## Dev
+## Estructura
+
+```
+src/
+├── components/       # primitivas UI compartidas (header, iconos, panel, ...)
+├── i18n/             # traducciones EN/ES y tipos
+├── lib/              # infra cross-cutting (bridge Tauri tipado, toasts)
+├── modules/          # features con barrel index.ts en cada una
+│   ├── audio/
+│   ├── history/
+│   ├── music/
+│   ├── plants/
+│   ├── settings/
+│   ├── subjects/
+│   └── timer/
+├── styles/           # variables CSS y estilos globales
+├── App.tsx
+└── main.tsx
+src-tauri/            # backend Rust + comandos IPC + esquema SQLite
+docs/                 # arquitectura, ADRs, requirements, palette, vision
+test/                 # setup global de Vitest
+```
+
+Boundaries: el código fuera de un módulo solo puede importar desde su
+barrel (`@/modules/<name>`). Los imports profundos `@/modules/<name>/<archivo>`
+están prohibidos por ESLint. Imports intra-módulo deben ser relativos.
+
+## Setup
 
 ```bash
 pnpm install
-pnpm tauri dev
 ```
 
-## Build
+`pnpm install` corre `prepare` y activa los hooks de pre-commit
+(simple-git-hooks + lint-staged).
 
-```bash
-pnpm tauri build
-```
+## Scripts
 
----
+| Comando              | Para qué sirve                                       |
+| -------------------- | ---------------------------------------------------- |
+| `pnpm dev`           | Vite dev server (sin Tauri)                          |
+| `pnpm tauri dev`     | App de escritorio con HMR                            |
+| `pnpm build`         | `tsc && vite build` (frontend de producción)         |
+| `pnpm tauri build`   | Bundle nativo (Windows/macOS/Linux)                  |
+| `pnpm typecheck`     | `tsc --noEmit`                                       |
+| `pnpm lint`          | ESLint (flat config, type-aware)                     |
+| `pnpm lint:fix`      | ESLint con autofix                                   |
+| `pnpm format`        | Prettier write                                       |
+| `pnpm format:check`  | Prettier check                                       |
+| `pnpm validate`      | typecheck + lint + format:check                      |
+| `pnpm circular`      | madge — verifica que no haya dependencias circulares |
+| `pnpm test`          | Vitest (run único)                                   |
+| `pnpm test:watch`    | Vitest en modo watch                                 |
+| `pnpm test:coverage` | Vitest con cobertura V8 + thresholds (60%)           |
 
-Proyecto personal privado. No acepta contribuciones externas.
+Antes de abrir un PR: `pnpm validate && pnpm circular && pnpm test:coverage && pnpm build`.
+
+## Convenciones
+
+- **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `build:`, `ci:`).
+- **Ramas:** `feat/<scope>`, `fix/<scope>`, `refactor/<scope>`, `chore/<scope>`, `docs/<scope>`.
+- **Idioma:** documentación, comentarios y CHANGELOG en español; identificadores, mensajes de commit y nombres de archivos en inglés.
+- **PRs:** un objetivo por PR, ≤ 400 LOC netas (excepción: PRs de consolidación con commits atómicos). Plantilla en [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
+- **ADRs:** decisiones arquitectónicas en [docs/adr/](docs/adr/) usando la plantilla MADR.
+
+## Más documentación
+
+- Arquitectura: [docs/architecture.md](docs/architecture.md)
+- Visión: [docs/vision.md](docs/vision.md)
+- Requirements y sprints: [docs/requirements.md](docs/requirements.md)
+- Paleta de diseño: [docs/palette.md](docs/palette.md)
+- Decisiones (ADRs): [docs/adr/](docs/adr/)
+- Cambios: [CHANGELOG.md](CHANGELOG.md)
+- Cómo contribuir (uso interno): [CONTRIBUTING.md](CONTRIBUTING.md)
