@@ -82,6 +82,7 @@ Antes de abrir un PR: `pnpm validate && pnpm circular && pnpm test:coverage && p
 
 ## Más documentación
 
+- **Playbook operativo** (qué hago, en qué orden, con qué comando): [docs/playbook.md](docs/playbook.md)
 - Arquitectura: [docs/architecture.md](docs/architecture.md)
 - Visión: [docs/vision.md](docs/vision.md)
 - Requirements y sprints: [docs/requirements.md](docs/requirements.md)
