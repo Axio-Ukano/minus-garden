@@ -2,6 +2,8 @@
 
 > Documento interno. Este es un proyecto personal privado y no acepta contribuciones externas. Esta guía existe para que el autor (y cualquier colaborador puntual autorizado) trabaje de forma consistente.
 
+> Para el flujo paso a paso (cómo abrir un PR, validar, mergear, taggear, hacer hotfix, rollback) consulta [docs/playbook.md](docs/playbook.md). Este documento solo lista las **reglas**; el playbook lista los **pasos**.
+
 ## Flujo de trabajo
 
 1. Salir de `main` con `git pull`.
