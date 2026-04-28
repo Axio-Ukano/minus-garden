@@ -1,6 +1,6 @@
 [package]
 name = "minus-garden"
-version = "0.4.0"
+version = "0.5.0"
 description = "Minu's Garden — desktop study timer with virtual garden"
 authors = ["pico-carlos"]
 edition = "2021"

@@ -1,8 +1,6 @@
 import { useRef } from "react";
-import { useAudioStore } from "../audio/audioStore";
-import { useSettingsStore } from "../settings/settingsStore";
-import { audioService } from "../audio/audioService";
-import { PLAYLIST } from "../audio/audioRegistry";
+import { useAudioStore, audioService, PLAYLIST } from "@/modules/audio";
+import { useSettingsStore } from "@/modules/settings";
 import { ProgressBar } from "./ProgressBar";
 import { Tooltip } from "../../components/Tooltip";
 import { PixelSlider } from "../../components/PixelSlider";
@@ -46,6 +44,7 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
   if (currentTrackIndex === null) return null;
 
   const track = PLAYLIST[currentTrackIndex];
+  if (!track) return null;
   const duration = audioService.getMusicDuration() || track.durationSeconds;
   const repeatLabel = repeatMode === "one" ? "⟳1" : "⟳";
   const repeatActive = repeatMode !== "none";

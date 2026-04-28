@@ -1,9 +1,8 @@
 import { create } from "zustand";
-import { useHistoryStore } from "../history/historyStore";
-import type { Session } from "../history/historyStore";
-import { calculateFinalStage, getSpeciesById } from "../plants/plantService";
-import { audioService } from "../audio/audioService";
-import { useSettingsStore } from "../settings/settingsStore";
+import { useHistoryStore, type Session } from "@/modules/history";
+import { calculateFinalStage, getSpeciesById } from "@/modules/plants";
+import { audioService } from "@/modules/audio";
+import { useSettingsStore } from "@/modules/settings";
 
 function sfxVols() {
   const s = useSettingsStore.getState();
@@ -84,8 +83,10 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       plant_species: plantSpeciesId,
       plant_stage: plantStage,
     };
-    useHistoryStore.getState().saveSession(session);
-    useHistoryStore.getState().syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
+    void useHistoryStore.getState().saveSession(session);
+    void useHistoryStore
+      .getState()
+      .syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
     const { master, sfx } = sfxVols();
     audioService.playSfx("timer_finish", master, sfx);
     setTimeout(() => audioService.playSfx("session_saved", master, sfx), 800);
