@@ -5,6 +5,47 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.0] — 2026-04-28
+
+### Sprint 9: Tier S consolidation
+
+PR `feat/tier-s-consolidation` — 26 commits atómicos llevando el repo a tier S sin tocar arquitectura.
+
+#### Added
+
+- Scripts `typecheck`, `format:check`, `lint:fix`, `validate`, `test`, `test:watch`, `test:coverage`, `circular`, `prepare`.
+- Vitest 4 + jsdom + @testing-library/react + @testing-library/jest-dom.
+- Suites: `timerStore`, `plantService`, `usePlantGrowth`, `lib/tauri`, `historyStore`, `audioService` — 64 tests, cobertura 95% líneas / 92% funciones sobre los módulos cubiertos (umbral 60%).
+- `madge` (`pnpm circular`), `simple-git-hooks` + `lint-staged` (pre-commit con `eslint --fix --max-warnings=0` + `prettier --write`).
+- `.github/workflows/validate.yml` (typecheck + lint + format + circular + test + build en PR/push a main) y `audit.yml` (semanal, `pnpm audit --prod` + `cargo audit`).
+- `.github/PULL_REQUEST_TEMPLATE.md` (español, con checklist).
+- `CONTRIBUTING.md` interno.
+- 4 ADRs retroactivos en `docs/adr/`: 0001 CSP Tauri, 0002 Zustand flat stores, 0003 SQLite local, 0004 Module boundaries y alias.
+- `docs/adr/0000-template.md` (MADR español).
+- `@types/node` para `vite.config.ts` (retira el `@ts-expect-error`).
+
+#### Changed
+
+- ESLint: `no-explicit-any` y `no-unused-vars` elevados a `error`. Reglas type-aware activadas (`no-floating-promises`, `no-misused-promises` con `checksVoidReturn.attributes=false`). `eslint-plugin-import` con `import/no-cycle` y `no-restricted-imports` bloqueando `@/modules/*/*` (los imports cross-módulo deben ir al barrel `@/modules/<name>`).
+- TypeScript: `noUncheckedIndexedAccess: true`. Fixes de fallout en `plantService`, `PlantDisplay`, `PlantStagesModal`, `TimerSetupView`, `MiniPlayer`, `audioStore`.
+- `vite.config.ts`: alias `@` mantenido; sin Tauri/CSP changes aquí.
+- `tauri.conf.json`: CSP explícita reemplaza `null` (default-src 'self', img/media incluyen asset:/asset.localhost, style permite Google Fonts, font incluye fonts.gstatic.com, connect-src incluye ipc: y http://ipc.localhost).
+- `historyStore.loadUserState`: añade `console.error` en su `catch` para diagnóstico (toast lo cubre el bridge).
+- `.vscode/extensions.json`: recomienda ESLint y Prettier además de Tauri y rust-analyzer.
+- `README.md`: reescrito (estructura, scripts, convenciones, links a docs y ADRs).
+- `docs/architecture.md`: refleja boundaries enforcement, comandos Tauri actuales, sección de tooling/CI.
+- `docs/requirements.md`: añade entradas para v0.3, v0.4 (Sprints 6–8) y v0.5 (Sprint 9 con diferimientos).
+
+#### Removed
+
+- `tailwindcss` y `@tailwindcss/vite` (sin uso real: BEM + Custom Properties son la única vía de estilado). Bundle CSS sin cambio (34.54 KB) confirma el plugin era inerte.
+- `@types/howler` movido de `dependencies` a `devDependencies` (paquete de tipos puro).
+
+#### Fixed
+
+- 8 promesas fire-and-forget en `App.tsx`, `HistoryView.tsx` y `timerStore.ts` ahora explícitas con `void` (detectadas por `no-floating-promises`).
+- `pnpm-lock.yaml` añadido a `.prettierignore` (lockfiles no deben formatearse).
+
 ## [0.4.1] — 2026-04-27
 
 ### Sprint 7: Refactoring de límites de módulo
