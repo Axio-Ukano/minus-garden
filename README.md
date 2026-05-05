@@ -80,6 +80,24 @@ Antes de abrir un PR: `pnpm validate && pnpm circular && pnpm test:coverage && p
 - **PRs:** un objetivo por PR, ≤ 400 LOC netas (excepción: PRs de consolidación con commits atómicos). Plantilla en [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
 - **ADRs:** decisiones arquitectónicas en [docs/adr/](docs/adr/) usando la plantilla MADR.
 
+## Releases y Versionado
+
+Este proyecto usa [release-please](https://github.com/googleapis/release-please) para gestionar el versionado semántico y el changelog automáticamente.
+
+- Cada merge a `main` dispara el workflow [.github/workflows/release-please.yml](.github/workflows/release-please.yml).
+- release-please analiza los commits (formato Conventional Commits) y abre un PR de release titulado `chore(main): release X.Y.Z` con `CHANGELOG.md` actualizado y la versión bumpeada en `package.json`, `src-tauri/Cargo.toml` y `src-tauri/tauri.conf.json`.
+- Al mergear ese PR de release se crea automáticamente el tag `vX.Y.Z` y el GitHub Release correspondiente.
+
+Prefijos de commit relevantes para el versionado (mientras estemos en `0.x`):
+
+| Prefijo                       | Efecto                                                             |
+| ----------------------------- | ------------------------------------------------------------------ |
+| `fix:`                        | Patch bump (`0.0.x`)                                               |
+| `feat:`                       | Minor bump (`0.x.0`)                                               |
+| `feat!:` / `BREAKING CHANGE:` | Minor bump en `0.x`; major bump (`x.0.0`) cuando lleguemos a `1.0` |
+
+Para el flujo paso a paso ver [docs/playbook.md §6 y §10](docs/playbook.md).
+
 ## Más documentación
 
 - **Playbook operativo** (qué hago, en qué orden, con qué comando): [docs/playbook.md](docs/playbook.md)
