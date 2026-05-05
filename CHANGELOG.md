@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.5.1](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.0...minus-garden-v0.5.1) (2026-05-05)
+
+
+### Corregido
+
+* **deps:** update Cargo.lock to patch rand unsoundness (RUSTSEC-2024-0034) ([#23](https://github.com/Axio-Ukano/minus-garden/issues/23)) ([0dd303b](https://github.com/Axio-Ukano/minus-garden/commit/0dd303b9ed44a2b9f62e2708d8861a7bb64cb362))
+
 ## [0.5.0] — 2026-04-28
 
 ### Sprint 9 — Tier S consolidation
