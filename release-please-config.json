@@ -4,7 +4,7 @@
   "include-v-in-tag": true,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": false,
-  "last-release-sha": "e1cf3468c242eddcb845937d5ad0b3f3f736dda5",
+  "last-release-sha": "61176da7814a50a3efdefef950b505ba52b0fa93",
   "packages": {
     ".": {
       "package-name": "minus-garden",
