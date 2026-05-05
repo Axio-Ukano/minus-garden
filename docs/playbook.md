@@ -120,17 +120,17 @@ Si algo de esto rompe, no abres el PR — investigas la causa primero.
 
 ## 5. Documentación que se actualiza dentro del mismo PR
 
-| Cuando cambias…                                | Actualizas…                                                           |
-| ---------------------------------------------- | --------------------------------------------------------------------- |
-| estructura de carpetas o capas                 | `docs/architecture.md`                                                |
-| comandos Tauri o esquema SQLite                | `docs/architecture.md` + ADR si la firma cambia                       |
-| dependencias top-level (frontend o Rust)       | `package.json` / `Cargo.toml` + ADR si la decisión no es obvia        |
-| boundaries entre módulos o reglas de ESLint    | `docs/architecture.md` + ADR                                          |
-| stack visible (React/Vite/Tauri/Tailwind/...)  | `README.md` y `docs/architecture.md`                                  |
-| scripts en `package.json`                      | `README.md`                                                           |
-| el alcance de un sprint                        | `docs/requirements.md`                                                |
-| cualquier cosa que merezca trazabilidad futura | nuevo `docs/adr/NNNN-<slug>.md` basado en `docs/adr/0000-template.md` |
-| comportamiento visible para el usuario         | `CHANGELOG.md` bajo `## [Unreleased]` o la versión nueva              |
+| Cuando cambias…                                | Actualizas…                                                                                          |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| estructura de carpetas o capas                 | `docs/architecture.md`                                                                               |
+| comandos Tauri o esquema SQLite                | `docs/architecture.md` + ADR si la firma cambia                                                      |
+| dependencias top-level (frontend o Rust)       | `package.json` / `Cargo.toml` + ADR si la decisión no es obvia                                       |
+| boundaries entre módulos o reglas de ESLint    | `docs/architecture.md` + ADR                                                                         |
+| stack visible (React/Vite/Tauri/Tailwind/...)  | `README.md` y `docs/architecture.md`                                                                 |
+| scripts en `package.json`                      | `README.md`                                                                                          |
+| el alcance de un sprint                        | `docs/requirements.md`                                                                               |
+| cualquier cosa que merezca trazabilidad futura | nuevo `docs/adr/NNNN-<slug>.md` basado en `docs/adr/0000-template.md`                                |
+| comportamiento visible para el usuario         | mensaje del commit (`feat:` / `fix:`) con descripción legible — release-please lo lleva al CHANGELOG |
 
 ### Cuándo crear un ADR (regla práctica)
 
@@ -148,33 +148,35 @@ Numeración: el siguiente entero libre tras el último ADR.
 
 ## 6. Estrategia de versionado y CHANGELOG
 
-### Versionado SemVer
+El versionado y el `CHANGELOG.md` los gestiona [release-please](https://github.com/googleapis/release-please) automáticamente desde el merge a `main`. La única regla del autor es escribir Conventional Commits **en inglés** correctamente: release-please se encarga de calcular el bump, sincronizar `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` y reescribir `CHANGELOG.md`.
 
-| Tipo de cambio                                        | Bump  |
-| ----------------------------------------------------- | ----- |
-| Romper compatibilidad pública (esquema, comando, IPC) | major |
-| Añadir feature visible sin romper                     | minor |
-| Bug fixes, polish, tooling, docs                      | patch |
+### Tabla de bumps (mientras estemos en `0.x`)
 
-Tres archivos a sincronizar SIEMPRE en el commit `chore(release): bump to X.Y.Z`:
+| Prefijo de commit                                     | Bump                             | Aparece en CHANGELOG bajo |
+| ----------------------------------------------------- | -------------------------------- | ------------------------- |
+| `fix:`                                                | patch                            | Corregido                 |
+| `feat:`                                               | minor                            | Añadido                   |
+| `feat!:` o `BREAKING CHANGE:` en el cuerpo            | minor en `0.x` · major en `1.0+` | Añadido                   |
+| `perf:`, `refactor:`, `deps:`                         | sin bump                         | Cambiado                  |
+| `revert:`                                             | sin bump                         | Eliminado                 |
+| `chore:`, `docs:`, `test:`, `ci:`, `build:`, `style:` | sin bump                         | (oculto)                  |
 
-- `package.json` (`"version"`)
-- `src-tauri/Cargo.toml` (`version = "..."`)
-- `src-tauri/tauri.conf.json` (`"version": "..."`)
+`bump-minor-pre-major: true` y `bump-patch-for-minor-pre-major: false` están definidos en `release-please-config.json`: mientras la versión sea `0.x`, un `feat:` bumpea minor (no patch) y un breaking change bumpea minor (no major). Al pasar a `1.0` se invierte la regla — borrar esa flag entonces.
 
 ### CHANGELOG.md
 
-- Una entrada por release.
-- Idioma: **español** (consistente con el resto de docs).
-- Formato Keep a Changelog 1.1.0 con secciones `Añadido / Cambiado / Corregido / Eliminado` (en ese orden).
-- Mientras desarrollas, opcionalmente acumular notas en `## [Unreleased]` y al cerrar release renombrarlo a `## [X.Y.Z] — YYYY-MM-DD`.
-- Cada entrada debe poder leerse sin abrir el diff: di qué cambió y por qué importa.
+- Generado automáticamente por release-please. Está en `.prettierignore` para no pelearse con el formato del bot.
+- Idioma: **español**. Los labels de sección (`Añadido / Cambiado / Corregido / Eliminado`) vienen de `changelog-sections` en `release-please-config.json`. La cabecera del archivo (todo el texto sobre la primera entrada `## [X.Y.Z]`) se preserva intacta — release-please solo inserta entradas nuevas debajo, nunca sobrescribe esa cabecera. Por eso `# Changelog` y la nota de "basado en Keep a Changelog 1.1.0" siguen en español.
+- Los bullets dentro de cada entrada salen del subject de cada commit y por tanto están en inglés (consistente con la regla de Conventional Commits en inglés del §3). Se acepta esa mezcla.
+- El historial pre-`0.5.0` es manual y queda intacto debajo de las nuevas entradas auto-generadas.
 
-### Cuándo bumpear
+### Flujo de versionado
 
-- Bumpeas en el último commit del PR (`chore(release): bump to X.Y.Z`) cuando ese PR cierra una unidad de trabajo "lanzable".
-- PRs internos puramente de tooling pueden NO bumpear (queda como `[Unreleased]`).
-- Tier S, refactors visibles, features nuevas → sí bumpean.
+1. Mergeas un PR cualquiera a `main` con commits en inglés Conventional Commits.
+2. Si esos commits justifican un bump (`feat:`, `fix:`, breaking change), `release-please.yml` abre o actualiza un PR titulado `chore(main): release X.Y.Z` con todos los archivos sincronizados.
+3. Tú revisas ese PR (es legible: tiene el `CHANGELOG.md` en español listo). Si está bien, lo mergeas.
+4. Al mergear, el workflow crea el tag `vX.Y.Z` y el GitHub Release automáticamente.
+5. Si el PR original solo tenía `chore`/`docs`/`test`/`ci`/`build`/`style`, no pasa nada — el siguiente PR con un `feat`/`fix` recogerá las notas pendientes.
 
 ---
 
@@ -235,22 +237,39 @@ git checkout main
 git pull --ff-only
 ```
 
-### Si el PR bumpeó versión
+### El workflow `release-please` corre solo
+
+Tras el merge a `main`, `.github/workflows/release-please.yml` ejecuta y, si los commits del PR justifican un bump, abre (o actualiza) un PR titulado `chore(main): release X.Y.Z`.
+
+Ese PR ya trae:
+
+- `package.json` bumpeado.
+- `src-tauri/Cargo.toml` bumpeado.
+- `src-tauri/tauri.conf.json` bumpeado.
+- `CHANGELOG.md` con la nueva entrada en español.
+
+Lo único que tienes que hacer:
+
+1. Revisar el PR de release. Si las notas del CHANGELOG no se leen bien, edita los mensajes de los commits originales (vía nuevo PR) — release-please regenerará el CHANGELOG en su próximo run.
+2. `gh pr merge <PR#> --merge --delete-branch` el PR de release.
+3. Al mergearse, el workflow crea automáticamente el tag `vX.Y.Z` y el GitHub Release.
+
+### Refrescar `Cargo.lock` (manual, una vez por release)
+
+`Cargo.lock` no lo toca release-please. Cargo lo refresca solo en el siguiente `pnpm tauri build` local. Si quieres que la lock quede sincronizada en `main` sin esperar al build:
 
 ```bash
-# 1. Tag en el merge commit (HEAD de main)
-git tag -a vX.Y.Z -m "vX.Y.Z — <título corto del release>"
-git push origin vX.Y.Z
-
-# 2. Crear el release en GitHub copiando la sección del CHANGELOG
-gh release create vX.Y.Z --target main --title "vX.Y.Z — <título>" --notes "<contenido>"
-# o más cómodo, leer del CHANGELOG:
-gh release create vX.Y.Z --target main --title "vX.Y.Z — <título>" --notes-file CHANGELOG.md   # cortar luego en GitHub UI
+git checkout main && git pull
+pnpm install   # por si pnpm-lock cambió en el release PR
+cd src-tauri && cargo update -p minus-garden && cd ..
+git add src-tauri/Cargo.lock
+git commit -m "chore: refresh Cargo.lock after release"
+git push origin main
 ```
 
-### Si NO bumpeó versión
+### Si el PR no bumpeó versión
 
-Nada extra. El siguiente PR que cierre una unidad de release recogerá las notas pendientes.
+Nada extra. El siguiente PR que cierre una unidad de release con `feat:` o `fix:` recogerá las notas pendientes.
 
 ---
 
@@ -261,19 +280,15 @@ Si descubres un bug crítico en `main` después de release:
 ```bash
 git checkout main && git pull
 git checkout -b fix/<scope-corto>
-# arreglar + commit + tests
+# arreglar + commit con prefijo `fix:` + tests
 pnpm validate && pnpm test:coverage && pnpm build
 git push -u origin fix/<scope>
 gh pr create --base main --head fix/<scope> --title "fix(scope): ..."
 gh pr checks <PR#> --watch
 gh pr merge <PR#> --merge --delete-branch
-git checkout main && git pull
-# bump patch
-# editar package.json + Cargo.toml + tauri.conf.json a X.Y.(Z+1)
-# editar CHANGELOG con entrada nueva
-git add -A && git commit -m "chore(release): bump to X.Y.Z+1"
-# tag + release igual que en sección 10
 ```
+
+Eso es todo en cuanto al hotfix. release-please verá el `fix:` en `main`, abrirá el PR `chore(main): release X.Y.(Z+1)` con los archivos sincronizados y el CHANGELOG. Mergeas ese PR y el tag/release patch sale solo (ver §10).
 
 ---
 
@@ -304,19 +319,18 @@ gh release delete vX.Y.Z --yes
 Imprime esta lista mentalmente antes de cada PR:
 
 - [ ] Salí de `main` actualizado y creé rama con prefijo correcto.
-- [ ] Commits atómicos, Conventional Commits, en inglés.
+- [ ] Commits atómicos, Conventional Commits, en inglés (release-please clasifica por prefijo).
 - [ ] `pnpm validate` verde.
 - [ ] `pnpm circular` 0 ciclos.
 - [ ] `pnpm test:coverage` ≥ 60% en módulos cubiertos; tests nuevos para lógica nueva.
 - [ ] `pnpm build` verde.
 - [ ] Smoke manual con `pnpm tauri dev` si tocaste UI/IPC/CSP.
 - [ ] Docs actualizados (README/architecture/requirements/ADR según tabla §5).
-- [ ] CHANGELOG actualizado (en español).
 - [ ] PR abierto con plantilla; título Conventional Commits.
 - [ ] CI verde antes de merge.
 - [ ] Merge con `--merge` (no squash) salvo PRs de WIP / fixups.
-- [ ] Si bumpé versión: tag + GitHub release.
 - [ ] `git checkout main && git pull` para cerrar la sesión.
+- [ ] Si release-please abrió `chore(main): release X.Y.Z`, mergearlo cuando esté listo.
 
 ---
 
@@ -359,6 +373,8 @@ pnpm test:coverage      # vitest run --coverage (gating ≥60%)
 gh pr create --base main --head <branch>
 gh pr checks <PR#> --watch
 gh pr merge <PR#> --merge --delete-branch
+
+# Releases: lo hace release-please en CI. Solo para rescate manual:
 gh release create vX.Y.Z --target main --title "..." --notes "..."
 git tag -a vX.Y.Z -m "..."  &&  git push origin vX.Y.Z
 ```
