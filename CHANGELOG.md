@@ -5,6 +5,14 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.5.1](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.0...minus-garden-v0.5.1) (2026-05-05)
+
+
+### Corregido
+
+* **release-please:** pin last-release-sha to skip pre-setup history ([61176da](https://github.com/Axio-Ukano/minus-garden/commit/61176da7814a50a3efdefef950b505ba52b0fa93))
+* **release-please:** set last-release-sha to skip pre-setup history ([71e39d3](https://github.com/Axio-Ukano/minus-garden/commit/71e39d3bf2d1d479db49ac3dcf47961a6931f265))
+
 ## [0.5.0] — 2026-04-28
 
 ### Sprint 9 — Tier S consolidation
