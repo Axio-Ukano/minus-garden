@@ -263,21 +263,9 @@ Lo único que tienes que hacer:
 2. `gh pr merge <PR#> --squash --delete-branch` el PR de release.
 3. Al mergearse, el workflow crea automáticamente el tag `vX.Y.Z` y el GitHub Release.
 
-### Refrescar `Cargo.lock` (manual, una vez por release)
+### `Cargo.lock` se sincroniza solo
 
-`Cargo.lock` no lo toca release-please. Cargo lo refresca solo en el siguiente `pnpm tauri build` local. Si quieres sincronizar la lock en `main`, abre un PR rápido (no se puede push directo):
-
-```bash
-git checkout main && git pull
-git checkout -b chore/refresh-cargo-lock
-cd src-tauri && cargo update -p minus-garden && cd ..
-git add src-tauri/Cargo.lock
-git commit -m "chore: refresh Cargo.lock after release"
-git push -u origin chore/refresh-cargo-lock
-gh pr create --title "chore: refresh Cargo.lock after release" --body "Post-release lock sync."
-gh pr checks <PR#> --watch
-gh pr merge <PR#> --squash --delete-branch
-```
+El workflow `release-please.yml` incluye un step que sincroniza `Cargo.lock` automáticamente dentro del PR de release (usando `sed`, sin necesidad de instalar Rust en CI). Cuando revisas el PR de release, `Cargo.lock` ya está actualizado — no hay que hacer nada manual.
 
 ### Si el PR no bumpeó versión
 
