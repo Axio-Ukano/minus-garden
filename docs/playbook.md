@@ -1,6 +1,8 @@
-# Playbook operativo post tier S
+# Playbook operativo — minus-garden
 
-> Documento canónico de "qué hago, en qué orden, con qué comando" para todo trabajo en el repo a partir de v0.5.0. Vive aquí; `README.md` y `CONTRIBUTING.md` solo enlazan a este archivo.
+> Documento canónico de "qué hago, en qué orden, con qué comando" para todo trabajo en el repo. Vive aquí; `README.md` y `CONTRIBUTING.md` solo enlazan a este archivo.
+>
+> **Desde mayo 2026 el repo es público**, con branch protection en `main`: squash-only merging, checks de CI requeridos, sin push directo ni bypass. Todo cambio pasa por PR.
 
 ---
 
@@ -74,6 +76,8 @@ pnpm typecheck    # verificación rápida del tipado
   1. `eslint --fix --max-warnings=0` sobre archivos `*.ts|*.tsx` staged.
   2. `prettier --write` sobre `*.{ts,tsx,js,json,css,md,yml,yaml}` staged.
 - Si el hook falla: **arreglar la causa**. No usar `--no-verify`.
+
+> **⚠ Con squash merge, el título del PR es lo que llega a `main`** (no los commits individuales). Los commits de la rama son útiles para el review, pero release-please solo ve el commit squasheado — cuyo mensaje es el título del PR. Por eso el título **debe** seguir Conventional Commits: `feat(scope): ...`, `fix(scope): ...`, etc.
 
 ### Reglas no negociables del código
 
@@ -187,6 +191,8 @@ git push -u origin <branch>
 gh pr create --base main --head <branch> --title "<conv-commit-style title>" --body "<resumen>"
 ```
 
+**El título del PR es crítico**: como main usa squash merge, el título se convierte en el único commit en `main`. release-please lo parsea para decidir el bump. Asegúrate de que siga Conventional Commits: `feat(timer): add pause shortcut`, `fix(audio): prevent double-play on unmount`, etc.
+
 El cuerpo debe seguir `.github/PULL_REQUEST_TEMPLATE.md`:
 
 - Resumen 1-3 líneas.
@@ -207,26 +213,29 @@ gh pr checks <PR#> --watch
 
 Workflow `validate.yml` corre: `pnpm install --frozen-lockfile` → `typecheck` → `lint` → `format:check` → `circular` → `test:coverage` → `build`. Tarda ~1 minuto.
 
+**Branch protection exige checks verdes** — el botón de merge estará bloqueado hasta que CI pase. No hay bypass posible, ni siquiera para admins.
+
 Si CI rompe en algo que no falla en local, casi siempre es:
 
 - `pnpm install --frozen-lockfile` rechaza el lockfile (deps drift) → resolver localmente, recommit.
 - Diferencia de plataforma (Windows local vs Ubuntu CI): paths con `\` vs `/`, line endings, case-sensitive resolves.
 - Coverage threshold rota porque el `include` no contempla un archivo nuevo.
 
-Arreglar y re-pushear; **no** mergear hasta verde.
+Arreglar y re-pushear.
 
 ---
 
 ## 9. Merge
 
 ```bash
-gh pr merge <PR#> --merge --delete-branch
+gh pr merge <PR#> --squash --delete-branch
 ```
 
-- `--merge` (no `--squash`, no `--rebase`): preserva los commits atómicos en `main` para que cada uno sea cherry-pickable y revertible con `git revert <hash>`.
-- `--delete-branch`: borra la rama remota y local automáticamente.
+- `--squash` es la **única estrategia habilitada** en el repo. Merge commits y rebase están desactivados en Settings → General.
+- Todos los commits de la rama se comprimen en uno solo cuyo mensaje es el título del PR. El historial de `main` queda lineal: un commit = un PR = una unidad de cambio.
+- `--delete-branch`: borra la rama remota (la rama también se elimina automáticamente por configuración del repo, pero el flag limpia la referencia local).
 
-Casos donde sí usar squash: PRs con commits de "fix prettier", "fix lint", "wip" sin valor histórico. La regla de oro es: si los commits no se merecen vivir en el log de `main`, squashea.
+> **Consecuencia para release-please**: como cada PR produce un solo commit en `main`, el título del PR (que se convierte en el mensaje del commit squasheado) es lo que release-please parsea. Un PR con título `feat(garden): add watering animation` genera un minor bump. Uno con `chore: update deps` no genera bump.
 
 ---
 
@@ -239,7 +248,7 @@ git pull --ff-only
 
 ### El workflow `release-please` corre solo
 
-Tras el merge a `main`, `.github/workflows/release-please.yml` ejecuta y, si los commits del PR justifican un bump, abre (o actualiza) un PR titulado `chore(main): release X.Y.Z`.
+Tras el merge (squash) a `main`, `.github/workflows/release-please.yml` ejecuta y, si el commit squasheado justifica un bump (por su título/prefijo), abre (o actualiza) un PR titulado `chore(main): release X.Y.Z`.
 
 Ese PR ya trae:
 
@@ -250,21 +259,24 @@ Ese PR ya trae:
 
 Lo único que tienes que hacer:
 
-1. Revisar el PR de release. Si las notas del CHANGELOG no se leen bien, edita los mensajes de los commits originales (vía nuevo PR) — release-please regenerará el CHANGELOG en su próximo run.
-2. `gh pr merge <PR#> --merge --delete-branch` el PR de release.
+1. Revisar el PR de release. Si las notas del CHANGELOG no se leen bien, edita el título del PR original (lo que quedó como commit en `main`) — release-please regenerará el CHANGELOG en su próximo run.
+2. `gh pr merge <PR#> --squash --delete-branch` el PR de release.
 3. Al mergearse, el workflow crea automáticamente el tag `vX.Y.Z` y el GitHub Release.
 
 ### Refrescar `Cargo.lock` (manual, una vez por release)
 
-`Cargo.lock` no lo toca release-please. Cargo lo refresca solo en el siguiente `pnpm tauri build` local. Si quieres que la lock quede sincronizada en `main` sin esperar al build:
+`Cargo.lock` no lo toca release-please. Cargo lo refresca solo en el siguiente `pnpm tauri build` local. Si quieres sincronizar la lock en `main`, abre un PR rápido (no se puede push directo):
 
 ```bash
 git checkout main && git pull
-pnpm install   # por si pnpm-lock cambió en el release PR
+git checkout -b chore/refresh-cargo-lock
 cd src-tauri && cargo update -p minus-garden && cd ..
 git add src-tauri/Cargo.lock
 git commit -m "chore: refresh Cargo.lock after release"
-git push origin main
+git push -u origin chore/refresh-cargo-lock
+gh pr create --title "chore: refresh Cargo.lock after release" --body "Post-release lock sync."
+gh pr checks <PR#> --watch
+gh pr merge <PR#> --squash --delete-branch
 ```
 
 ### Si el PR no bumpeó versión
@@ -280,15 +292,15 @@ Si descubres un bug crítico en `main` después de release:
 ```bash
 git checkout main && git pull
 git checkout -b fix/<scope-corto>
-# arreglar + commit con prefijo `fix:` + tests
+# arreglar + commit con prefijo fix: + tests
 pnpm validate && pnpm test:coverage && pnpm build
 git push -u origin fix/<scope>
-gh pr create --base main --head fix/<scope> --title "fix(scope): ..."
+gh pr create --base main --head fix/<scope> --title "fix(scope): describe the fix"
 gh pr checks <PR#> --watch
-gh pr merge <PR#> --merge --delete-branch
+gh pr merge <PR#> --squash --delete-branch
 ```
 
-Eso es todo en cuanto al hotfix. release-please verá el `fix:` en `main`, abrirá el PR `chore(main): release X.Y.(Z+1)` con los archivos sincronizados y el CHANGELOG. Mergeas ese PR y el tag/release patch sale solo (ver §10).
+El título del PR (`fix(scope): ...`) será el commit squasheado en `main`. release-please lo verá como `fix:`, abrirá el PR `chore(main): release X.Y.(Z+1)` con los archivos sincronizados y el CHANGELOG. Mergeas ese PR y el tag/release patch sale solo (ver §10).
 
 ---
 
@@ -296,13 +308,19 @@ Eso es todo en cuanto al hotfix. release-please verá el `fix:` en `main`, abrir
 
 ### Revertir un commit ya en `main`
 
+Como no se puede push directo a `main`, el revert va por PR:
+
 ```bash
 git checkout main && git pull
+git checkout -b revert/<scope>
 git revert <commit-sha>
-git push origin main
+git push -u origin revert/<scope>
+gh pr create --title "revert(scope): undo <descripción>" --body "Reverts <commit-sha>."
+gh pr checks <PR#> --watch
+gh pr merge <PR#> --squash --delete-branch
 ```
 
-Si el commit fue parte de un PR mergeado con merge commit: `git revert -m 1 <merge-sha>`.
+Como main usa squash (no merge commits), todos los commits en `main` son directos — no necesitas `-m 1`.
 
 ### Borrar un tag mal puesto
 
@@ -319,16 +337,16 @@ gh release delete vX.Y.Z --yes
 Imprime esta lista mentalmente antes de cada PR:
 
 - [ ] Salí de `main` actualizado y creé rama con prefijo correcto.
-- [ ] Commits atómicos, Conventional Commits, en inglés (release-please clasifica por prefijo).
+- [ ] Commits atómicos, Conventional Commits, en inglés.
+- [ ] **Título del PR en Conventional Commits** — es el commit que llega a `main` y lo que release-please parsea.
 - [ ] `pnpm validate` verde.
 - [ ] `pnpm circular` 0 ciclos.
 - [ ] `pnpm test:coverage` ≥ 60% en módulos cubiertos; tests nuevos para lógica nueva.
 - [ ] `pnpm build` verde.
 - [ ] Smoke manual con `pnpm tauri dev` si tocaste UI/IPC/CSP.
 - [ ] Docs actualizados (README/architecture/requirements/ADR según tabla §5).
-- [ ] PR abierto con plantilla; título Conventional Commits.
-- [ ] CI verde antes de merge.
-- [ ] Merge con `--merge` (no squash) salvo PRs de WIP / fixups.
+- [ ] CI verde (branch protection bloquea el merge si no).
+- [ ] Merge con `--squash` (única estrategia habilitada).
 - [ ] `git checkout main && git pull` para cerrar la sesión.
 - [ ] Si release-please abrió `chore(main): release X.Y.Z`, mergearlo cuando esté listo.
 
@@ -345,7 +363,6 @@ Estos están registrados como decisiones conscientes en ADRs y `docs/requirement
 - **Puerto `SessionRecorder`** — solo si crece el acoplamiento timer ⇄ history.
 - **Split de `SoundSection.tsx`** — al añadir nueva sub-feature.
 - **Refactor de `App.tsx` a router-map** — al añadir 3ª/4ª vista.
-- **Branch protection en `main`** — bloqueado por plan de GitHub. Activar manualmente cuando el repo pase a Pro o público (Settings → Branches → exigir el check `typecheck + lint + format + circular + test + build`).
 
 Antes de abrir un PR sobre cualquiera de estos, releer el ADR correspondiente y confirmar que la condición de disparo se cumple.
 
@@ -372,7 +389,7 @@ pnpm test:coverage      # vitest run --coverage (gating ≥60%)
 
 gh pr create --base main --head <branch>
 gh pr checks <PR#> --watch
-gh pr merge <PR#> --merge --delete-branch
+gh pr merge <PR#> --squash --delete-branch
 
 # Releases: lo hace release-please en CI. Solo para rescate manual:
 gh release create vX.Y.Z --target main --title "..." --notes "..."

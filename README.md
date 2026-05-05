@@ -2,7 +2,7 @@
 
 App de escritorio para sesiones de estudio con jardín virtual.
 
-> Proyecto personal privado. No acepta contribuciones externas.
+> Proyecto personal. No acepta contribuciones externas.
 
 ## Stack
 
@@ -77,15 +77,15 @@ Antes de abrir un PR: `pnpm validate && pnpm circular && pnpm test:coverage && p
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `build:`, `ci:`).
 - **Ramas:** `feat/<scope>`, `fix/<scope>`, `refactor/<scope>`, `chore/<scope>`, `docs/<scope>`.
 - **Idioma:** documentación, comentarios y CHANGELOG en español; identificadores, mensajes de commit y nombres de archivos en inglés.
-- **PRs:** un objetivo por PR, ≤ 400 LOC netas (excepción: PRs de consolidación con commits atómicos). Plantilla en [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
+- **PRs:** un objetivo por PR, ≤ 400 LOC netas (excepción: PRs de consolidación con commits atómicos). Squash merge obligatorio; **el título del PR es el commit que llega a `main`** y lo que release-please parsea. Plantilla en [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
 - **ADRs:** decisiones arquitectónicas en [docs/adr/](docs/adr/) usando la plantilla MADR.
 
 ## Releases y Versionado
 
 Este proyecto usa [release-please](https://github.com/googleapis/release-please) para gestionar el versionado semántico y el changelog automáticamente.
 
-- Cada merge a `main` dispara el workflow [.github/workflows/release-please.yml](.github/workflows/release-please.yml).
-- release-please analiza los commits (formato Conventional Commits) y abre un PR de release titulado `chore(main): release X.Y.Z` con `CHANGELOG.md` actualizado y la versión bumpeada en `package.json`, `src-tauri/Cargo.toml` y `src-tauri/tauri.conf.json`.
+- Cada squash merge a `main` dispara el workflow [.github/workflows/release-please.yml](.github/workflows/release-please.yml).
+- release-please analiza el commit squasheado (cuyo mensaje es el título del PR, en formato Conventional Commits) y abre un PR de release titulado `chore(main): release X.Y.Z` con `CHANGELOG.md` actualizado y la versión bumpeada en `package.json`, `src-tauri/Cargo.toml` y `src-tauri/tauri.conf.json`.
 - Al mergear ese PR de release se crea automáticamente el tag `vX.Y.Z` y el GitHub Release correspondiente.
 
 Prefijos de commit relevantes para el versionado (mientras estemos en `0.x`):
