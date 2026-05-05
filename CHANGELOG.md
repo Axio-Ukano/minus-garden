@@ -5,6 +5,65 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.6.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.0...minus-garden-v0.6.0) (2026-05-05)
+
+
+### Añadido
+
+* add 8 new plant species with pixel-art sprites and unlock threshold logic ([53fe44e](https://github.com/Axio-Ukano/minus-garden/commit/53fe44e72163e6d74d3c3ad96c26bbe308c87776))
+* complete i18n English refactor with ES/EN language toggle ([8e1852f](https://github.com/Axio-Ukano/minus-garden/commit/8e1852f889d20ceddb1777950392e5b7c7252935))
+* complete plant sprite redesign with variable viewBox ([5b7e4bb](https://github.com/Axio-Ukano/minus-garden/commit/5b7e4bb63af8a03f0e7bebb12fcd81ecc5ded652))
+* complete plant sprite redesign with variable viewBox dimensions ([6fde699](https://github.com/Axio-Ukano/minus-garden/commit/6fde699d7b9148ee6cb98a4c6b4bfe26d05794a5))
+* **history:** Sprint 2 - SQLite + historial de sesiones ([22b4045](https://github.com/Axio-Ukano/minus-garden/commit/22b404596cc5cd3d5f31696622bf9e5a86f73d7f))
+* **history:** SQLite persistence, session history and hearts sync ([c9587de](https://github.com/Axio-Ukano/minus-garden/commit/c9587deab36fdc3f79af0fb011e6ec0f5a424194))
+* i18n English refactor with ES/EN language toggle ([8ded98e](https://github.com/Axio-Ukano/minus-garden/commit/8ded98eae4a4adf3bc6b94bd4de4d1226814610a))
+* plant system expansion — 10 species, pixel-art sprites, unlock threshold ([c42c7bf](https://github.com/Axio-Ukano/minus-garden/commit/c42c7bfa41da27b528281452cedf0b5928e7924e))
+* **plant:** plant growth logic and timer integration ([3ce5b7d](https://github.com/Axio-Ukano/minus-garden/commit/3ce5b7d7b344379e08262fe3e289b803f3f03180))
+* **plant:** PlantDisplay pixel art + timer and history integration ([7f5ca77](https://github.com/Axio-Ukano/minus-garden/commit/7f5ca7798f48cbb3a5cea2f697eba2f57731d958))
+* **sprint4:** UX polish, music player, settings, and new UI components ([43c77ab](https://github.com/Axio-Ukano/minus-garden/commit/43c77ab05a0edc344f7222be4fcd622a22fac850))
+* **sprint4:** UX polish, music player, settings, and new UI components ([cafee1e](https://github.com/Axio-Ukano/minus-garden/commit/cafee1e9f8f512184d9845306119ec354aaaa8c2))
+* **sprint6:** add tauriInvoke wrapper + toast-based error UX ([f3b8f30](https://github.com/Axio-Ukano/minus-garden/commit/f3b8f30e67dae0d3d05620f40dd330ca722cd374))
+* **sprint6:** localize ErrorBoundary copy via settingsStore ([86b9e05](https://github.com/Axio-Ukano/minus-garden/commit/86b9e051a52694a8e1ccd295456b5fa9287264a7))
+* **subjects:** subjects table and Tauri commands ([2cdb869](https://github.com/Axio-Ukano/minus-garden/commit/2cdb869623cdb5e90569c5ea9f79668c79f9c881))
+* **subjects:** subjectStore with load, add and markUsed ([f749082](https://github.com/Axio-Ukano/minus-garden/commit/f749082b75bbc2168d188d68138dd0431b6c817a))
+* **tauri:** define explicit CSP for production ([d55f09e](https://github.com/Axio-Ukano/minus-garden/commit/d55f09eab58c2382411360a3b7be777966f03800))
+* **test:** scaffold Vitest with jsdom and Testing Library ([521552a](https://github.com/Axio-Ukano/minus-garden/commit/521552aff42773b4d3ce4fffbf118080b56c9c7f))
+* tier S consolidation (Sprint 9, v0.5.0) ([4ad68b5](https://github.com/Axio-Ukano/minus-garden/commit/4ad68b5eb74a47ae2308c0c41b035d26912fa52d))
+* **timer:** core timer with Zustand state and session tracking ([2b8f02b](https://github.com/Axio-Ukano/minus-garden/commit/2b8f02b9764c0c4934bf01d34fa9587c95551bf7))
+* **timer:** core timer with Zustand state and session tracking ([cdc3459](https://github.com/Axio-Ukano/minus-garden/commit/cdc3459b166faa22b64e336e7eee3c1e7bb3174c))
+* **timer:** two-column layout with 4 states and subject selector ([614739e](https://github.com/Axio-Ukano/minus-garden/commit/614739e0bbbb4ecf938462e64ebee896d5244f8a))
+* **ui:** pixel art design system base ([de6c162](https://github.com/Axio-Ukano/minus-garden/commit/de6c162c04f0512bf835e6b70fceac25cd39f3f4))
+
+
+### Corregido
+
+* **history:** log silent catch on user state load for diagnostics ([b081915](https://github.com/Axio-Ukano/minus-garden/commit/b0819158ec6672b1e66afb031084e1a2e44067bb))
+* resolve TypeScript JSX type errors with React 19 + moduleResolution bundler ([e12d95c](https://github.com/Axio-Ukano/minus-garden/commit/e12d95c4aa3bcc58dd76437e29265d92fd3094f7))
+* settings nav labels and hierarchy ([9f5ab8d](https://github.com/Axio-Ukano/minus-garden/commit/9f5ab8d5b9687281abc9c688058a7ca0390c9bef))
+* settings nav order, sidebar width, and breathing room ([afa5922](https://github.com/Axio-Ukano/minus-garden/commit/afa592248a4a060369098c64d2d16c0661561c17))
+* settings nav overflow + cactus sprite redesign ([99a2c3f](https://github.com/Axio-Ukano/minus-garden/commit/99a2c3fe6d72204a610193c4e158c5d839e39ade))
+* **timer:** 50/50 layout, cleaner proportions and button hierarchy ([598bcdf](https://github.com/Axio-Ukano/minus-garden/commit/598bcdfc89b1a54d2359442fb85145b51a102dd5))
+* **timer:** idle layout — space-between controls, centered duration, 2x plant ([cc43e27](https://github.com/Axio-Ukano/minus-garden/commit/cc43e277419c13b93b31e2b31e837cee3acf87ed))
+* **timer:** plant column on right, controls on left ([74a55f8](https://github.com/Axio-Ukano/minus-garden/commit/74a55f88da4cc2e43193c760c3b026c478836f33))
+* translate common tooltips and aria-labels ([df7985e](https://github.com/Axio-Ukano/minus-garden/commit/df7985ed7f361a1a7cfd901b407cc853de54d6f8))
+* **ui:** fix input sync, restore palette aliases, clean layout ([e451fa4](https://github.com/Axio-Ukano/minus-garden/commit/e451fa43c0433ad63282f9adde2fb19957e91332))
+* **ui:** polish timer UX — palette, scroll, input, icons, selection ([81d7681](https://github.com/Axio-Ukano/minus-garden/commit/81d7681e1c1de1d33861baca95d954a467f8479f))
+* **ui:** restore pink palette, fix scroll and input sync ([c76128c](https://github.com/Axio-Ukano/minus-garden/commit/c76128c4f4b407c9bceb8b5a6561b1fbbc3e30cb))
+* **ui:** timer layout, palette consistency and duration input sync ([c3cfe1e](https://github.com/Axio-Ukano/minus-garden/commit/c3cfe1e27bf81f4803b2fe7b35fb4c6524ad86c7))
+
+
+### Cambiado
+
+* **core:** mega overhaul of architecture, linting, and UI ([6252294](https://github.com/Axio-Ukano/minus-garden/commit/62522948e7787eae2eea544535e03b7e7ef10fa0))
+* enforce architecture boundaries (sprint 8) ([6bf025c](https://github.com/Axio-Ukano/minus-garden/commit/6bf025ce6956855851b1106d52d79d33947d9712))
+* enforce architecture boundaries across components, lib, and modules ([d33f910](https://github.com/Axio-Ukano/minus-garden/commit/d33f910086ed59617f24655011cb2db690e6ddca))
+* enforce module boundaries and add components barrel ([ced192b](https://github.com/Axio-Ukano/minus-garden/commit/ced192b8138f0c6e3cec3dafc3b4c3fd5943492a))
+* **modules:** import audio and history through barrel files ([9081404](https://github.com/Axio-Ukano/minus-garden/commit/9081404192f70f7491b089c90a89e31990d83919))
+* move inline styles to CSS files and implement ErrorBoundary ([17691d1](https://github.com/Axio-Ukano/minus-garden/commit/17691d192ccc7528a4b2bd637091a5aa7937a860))
+* move inline styles to CSS files and implement ErrorBoundary ([7a91580](https://github.com/Axio-Ukano/minus-garden/commit/7a91580e7afafcaf2be9661cd63cb1e7f73f087d))
+* **sprint6:** add barrel exports per feature module ([6f69ca5](https://github.com/Axio-Ukano/minus-garden/commit/6f69ca53da0f4ae12221abd2e522baf753ba67f7))
+* **sprint6:** split 540-line SettingsModal into per-section files ([dd8a11b](https://github.com/Axio-Ukano/minus-garden/commit/dd8a11b4646cb362b84ba22cafe808a48de9a222))
+
 ## [0.5.0] — 2026-04-28
 
 ### Sprint 9 — Tier S consolidation
