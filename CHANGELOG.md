@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.5.2](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.1...minus-garden-v0.5.2) (2026-05-05)
+
+
+### Corregido
+
+* **ci:** add explicit permissions to validate and audit workflows ([#27](https://github.com/Axio-Ukano/minus-garden/issues/27)) ([bf0485f](https://github.com/Axio-Ukano/minus-garden/commit/bf0485fe26a823b32845b3c9c4fd93b1a74ca48b))
+
 ## [0.5.1](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.0...minus-garden-v0.5.1) (2026-05-05)
 
 
