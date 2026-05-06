@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.5.3](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.2...minus-garden-v0.5.3) (2026-05-06)
+
+
+### Corregido
+
+* **ci:** rewrite Cargo.lock auto-sync with fresh clone approach ([#29](https://github.com/Axio-Ukano/minus-garden/issues/29)) ([42e9d69](https://github.com/Axio-Ukano/minus-garden/commit/42e9d69d7b7b9d19beb1da517d7e79f0bae141dc))
+
 ## [0.5.2](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.1...minus-garden-v0.5.2) (2026-05-05)
 
 
