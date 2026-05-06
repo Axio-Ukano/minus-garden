@@ -22,30 +22,35 @@ jobs:
           manifest-file: .release-please-manifest.json
 
       # release-please bumps Cargo.toml but can't touch Cargo.lock (only cargo can).
-      # This step syncs the lock inside the release PR so it's ready to merge cleanly.
-      - name: Get release PR branch
-        if: ${{ steps.release.outputs.pr }}
-        id: pr-info
+      # This step extracts the version from the PR title and patches Cargo.lock via sed.
+      - name: Sync Cargo.lock in release PR
+        if: ${{ steps.release.outputs.prs_created == 'true' || steps.release.outputs.prs_updated == 'true' }}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: echo "branch=$(gh pr view ${{ steps.release.outputs.pr }} --repo ${{ github.repository }} --json headRefName --jq .headRefName)" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/checkout@v4
-        if: ${{ steps.release.outputs.pr }}
-        with:
-          ref: ${{ steps.pr-info.outputs.branch }}
-          token: ${{ secrets.GH_PAT }}
-
-      - name: Sync Cargo.lock version
-        if: ${{ steps.release.outputs.pr }}
         run: |
+          # Get PR number from the outputs (it's a JSON object, extract .number)
+          PR_NUMBER=$(echo '${{ steps.release.outputs.pr }}' | jq -r '.number')
+          echo "Release PR: #${PR_NUMBER}"
+
+          # Get branch name and new version from the PR
+          PR_BRANCH=$(gh pr view "$PR_NUMBER" --repo "${{ github.repository }}" --json headRefName --jq .headRefName)
+          echo "PR branch: $PR_BRANCH"
+
+          # Clone the PR branch (fresh checkout avoids stale cache issues)
+          git clone --depth=1 --branch "$PR_BRANCH" \
+            "https://x-access-token:${GH_TOKEN}@${{ github.server_url  }}/${{ github.repository }}.git" release-pr 2>/dev/null || \
+            git clone --depth=1 --branch "$PR_BRANCH" \
+            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" release-pr
+          cd release-pr
+
+          # Read version from the already-bumped Cargo.toml
           NEW_VERSION=$(grep -m1 '^version' src-tauri/Cargo.toml | sed 's/.*"\(.*\)".*/\1/')
-          echo "Target version: $NEW_VERSION"
+          LOCK_VERSION=$(awk '/^name = "minus-garden"$/{getline; print}' src-tauri/Cargo.lock | sed 's/.*"\(.*\)".*/\1/' | tr -d ' ')
+          echo "Cargo.toml version: $NEW_VERSION"
+          echo "Cargo.lock version: $LOCK_VERSION"
 
-          # Update the minus-garden package version in Cargo.lock
-          sed -i '/^name = "minus-garden"$/{n;s/version = ".*"/version = "'"$NEW_VERSION"'"/}' src-tauri/Cargo.lock
-
-          if ! git diff --quiet src-tauri/Cargo.lock; then
+          if [ "$NEW_VERSION" != "$LOCK_VERSION" ]; then
+            sed -i '/^name = "minus-garden"$/{n;s/version = ".*"/version = "'"$NEW_VERSION"'"/}' src-tauri/Cargo.lock
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add src-tauri/Cargo.lock
