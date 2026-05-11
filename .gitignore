@@ -101,8 +101,10 @@ secrets/
 # ───────────────────────────────────────────
 # CLAUDE CODE & AI TOOLS
 # ───────────────────────────────────────────
-# Claude Code settings (keep CLAUDE.md, ignore local state)
-.claude/settings.local.json
+# Claude Code project files (regenerable via `ruflo init --force --no-global`)
+.claude/
+CLAUDE.md
+.mcp.json
 
 # Ruflo / Claude Flow agent state (local only)
 .claude-flow/
@@ -111,6 +113,10 @@ secrets/
 .hive/
 *.agent-state
 ruflo.lock
+
+# Ruflo vector store + backups
+ruvector.db
+ruvector.db.bak-*
 
 # AI context caches
 .context/
