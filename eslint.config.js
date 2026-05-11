@@ -11,7 +11,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ["dist", "dist-tauri", "node_modules", "src-tauri"],
+    ignores: ["dist", "dist-tauri", "node_modules", "src-tauri", ".claude", ".claude-flow"],
   },
   {
     files: ["**/*.{ts,tsx}"],
