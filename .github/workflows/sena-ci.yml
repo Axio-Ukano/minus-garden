@@ -1,0 +1,35 @@
+name: SENA CI (backend evidence)
+
+# Workflow exclusivo de la rama `sena/ga7-evidencias` para demostrar
+# integración continua sobre el backend Node/Express de evidencias.
+# Cubre el componente formativo "Integración continua" de la GA7.
+
+on:
+  push:
+    branches:
+      - sena/ga7-evidencias
+  pull_request:
+    branches:
+      - sena/ga7-evidencias
+
+jobs:
+  api-tests:
+    name: Backend API tests (sena-backend)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (>= 22.5 for node:sqlite)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - name: Install backend dependencies
+        working-directory: sena-backend
+        run: npm install --no-audit --no-fund
+
+      - name: Run API test suite
+        working-directory: sena-backend
+        run: node tests/api.test.js
