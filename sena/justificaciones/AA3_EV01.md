@@ -3,7 +3,9 @@
 ## Codificación de módulos con framework (React + Vite)
 
 - **Aprendiz:** Carlos Pico
-- **Programa:** Análisis y desarrollo de software (228118)
+- **Programa:** Análisis y desarrollo de software
+- **Código del programa de formación:** 228118
+- **Número de ficha:** 3070224
 - **Repositorio:** ver `REPO.txt`
 - **Rama de trabajo:** `sena/ga7-evidencias`
 
