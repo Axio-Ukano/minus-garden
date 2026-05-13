@@ -272,3 +272,9 @@ src-tauri/target/release/bundle/
 .temp/
 tmp/
 temp/
+
+# Spurious empty files created occasionally by shell parsing of `>` in
+# markdown blockquotes during pre-commit hooks (lint-staged + prettier).
+# Safe to ignore — they are never tracked.
+/SprintBoot
+/contrario
