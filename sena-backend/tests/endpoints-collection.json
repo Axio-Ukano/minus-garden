@@ -1,0 +1,173 @@
+{
+  "info": {
+    "name": "Minus Garden SENA GA7 - API Collection",
+    "description": "Colección Postman v2.1 con todos los endpoints del backend SENA. Cubre AA5-EV02 y AA5-EV04.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "sena-ga7-minus-garden-2026"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Welcome HTML",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/", "host": ["{{baseUrl}}"], "path": [""] },
+        "description": "Devuelve la página HTML de bienvenida del backend. Equivalente a un JSP."
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "status"]
+        },
+        "description": "Verifica que la API de autenticación esté activa.\nRespuesta esperada (200):\n{ \"status\": \"API de autenticación activa\" }"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"secret123\",\n  \"email\": \"alice@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "register"]
+        },
+        "description": "Crea un nuevo usuario.\nRespuesta exitosa (201): { success: true, message: \"Usuario registrado exitosamente\" }\nErrores: 400 (validación), 409 (usuario ya existe)."
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Login OK",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"secret123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "login"]
+        },
+        "description": "Login exitoso.\nRespuesta (200): { success: true, message: \"Autenticación satisfactoria\", user: { id, username } }"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Login FAIL",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"wrong\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "login"]
+        },
+        "description": "Login con credenciales incorrectas.\nRespuesta (401): { success: false, message: \"Error en la autenticación\" }"
+      },
+      "response": []
+    },
+    {
+      "name": "Plants - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/plants",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "plants"]
+        },
+        "description": "Lista todas las plantas (SELECT).\nRespuesta (200): { success: true, data: SenaPlant[] }"
+      },
+      "response": []
+    },
+    {
+      "name": "Plants - Create",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Girasol\",\n  \"species\": \"sunflower\",\n  \"watering_frequency\": 3,\n  \"notes\": \"Maceta del balcón\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/plants",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "plants"]
+        },
+        "description": "Crea una planta (INSERT).\nRespuesta (201): { success: true, data: SenaPlant }\nError (400): falta name o watering_frequency inválido."
+      },
+      "response": []
+    },
+    {
+      "name": "Plants - Get by id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/plants/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "plants", "1"]
+        },
+        "description": "Obtiene una planta por id.\nRespuesta (200): { success: true, data: SenaPlant }\nError (404): planta no encontrada."
+      },
+      "response": []
+    },
+    {
+      "name": "Plants - Update",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Girasol enano\",\n  \"watering_frequency\": 2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/plants/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "plants", "1"]
+        },
+        "description": "Actualiza campos de una planta (UPDATE).\nRespuesta (200): planta actualizada.\nError (404): no existe."
+      },
+      "response": []
+    },
+    {
+      "name": "Plants - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/plants/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "plants", "1"]
+        },
+        "description": "Elimina una planta (DELETE).\nRespuesta (200): { success: true, message: \"Planta eliminada\" }\nError (404): planta no existe."
+      },
+      "response": []
+    }
+  ]
+}
