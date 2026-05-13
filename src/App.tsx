@@ -10,8 +10,9 @@ import { ChevronIcon } from "@/components/PixelIcons";
 import { Tooltip } from "@/components/Tooltip";
 import { ToastContainer } from "@/lib/toast";
 import { useTranslation } from "@/i18n";
+import SenaDemo from "@/features/sena/SenaDemo";
 
-type Tab = "timer" | "history" | "music";
+type Tab = "timer" | "history" | "music" | "sena";
 
 function ClockIcon({ bg }: { bg: string }) {
   return (
@@ -63,6 +64,7 @@ function App() {
     { id: "timer", label: t.nav.study },
     { id: "history", label: t.nav.history },
     { id: "music", label: t.nav.music },
+    { id: "sena", label: "SENA" },
   ];
 
   useEffect(() => {
@@ -82,6 +84,7 @@ function App() {
         )}
         {activeTab === "history" && <HistoryView />}
         {activeTab === "music" && <MusicPlayerView />}
+        {activeTab === "sena" && <SenaDemo />}
       </div>
 
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
@@ -189,6 +192,9 @@ function App() {
                     )}
                     {tab.id === "music" && (
                       <MusicIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
+                    )}
+                    {tab.id === "sena" && (
+                      <BookIcon bg={active ? "#ff6bb5" : "var(--color-panel)"} />
                     )}
                     {tab.label}
                   </button>

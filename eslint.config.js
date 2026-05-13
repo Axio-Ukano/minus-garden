@@ -11,7 +11,15 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ["dist", "dist-tauri", "node_modules", "src-tauri", ".claude", ".claude-flow"],
+    ignores: [
+      "dist",
+      "dist-tauri",
+      "node_modules",
+      "src-tauri",
+      ".claude",
+      ".claude-flow",
+      "sena-backend",
+    ],
   },
   {
     files: ["**/*.{ts,tsx}"],
