@@ -7,7 +7,7 @@
 - **Código del programa de formación:** 228118
 - **Número de ficha:** 3070224
 - **Repositorio:** ver `REPO.txt`
-- **Rama de trabajo:** `sena/ga7-evidencias`
+- **Rama de trabajo:** `sena/evidencias`
 
 ## 1. Tecnología seleccionada
 
@@ -62,7 +62,7 @@ explícitamente.
 
 ## 5. Versionamiento
 
-Repositorio público en GitHub con rama dedicada `sena/ga7-evidencias` y
+Repositorio público en GitHub con rama dedicada `sena/evidencias` y
 6 commits descriptivos en formato Conventional Commits.
 
 ## 6. Cómo ejecutar el módulo

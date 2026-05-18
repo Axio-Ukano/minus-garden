@@ -7,7 +7,7 @@
 - **Código del programa de formación:** 228118
 - **Número de ficha:** 3070224
 - **Repositorio:** ver `REPO.txt`
-- **Rama de trabajo:** `sena/ga7-evidencias`
+- **Rama de trabajo:** `sena/evidencias`
 
 ## 1. Proyecto formativo
 
@@ -72,7 +72,7 @@ Documentadas en `sena-backend/docs/VALIDATION_TESTS.md`:
 
 ## 6. Versionamiento
 
-Rama `sena/ga7-evidencias` con commits descriptivos.
+Rama `sena/evidencias` con commits descriptivos.
 
 ## 7. Cómo ejecutar
 

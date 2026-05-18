@@ -10,20 +10,20 @@
 - **Git** (local) + **GitHub** (remoto).
 - Repositorio: <https://github.com/Axio-Ukano/minus-garden>
 - Rama principal (estable): `main`
-- Rama de trabajo SENA: `sena/ga7-evidencias`
+- Rama de trabajo SENA: `sena/evidencias`
 
 ## Comandos utilizados en este proyecto
 
-| Comando                               | Descripción                                       |
-| ------------------------------------- | ------------------------------------------------- |
-| `git checkout -b sena/ga7-evidencias` | Crear la rama de trabajo desde `main`             |
-| `git status`                          | Ver el estado del directorio de trabajo y staging |
-| `git diff`                            | Ver cambios no confirmados                        |
-| `git add <ruta>`                      | Agregar archivos al staging                       |
-| `git commit -m "feat(sena): ..."`     | Confirmar cambios con mensaje descriptivo         |
-| `git log --oneline`                   | Ver historial de commits resumido                 |
-| `git remote -v`                       | Ver repositorios remotos configurados             |
-| `git push origin sena/ga7-evidencias` | Subir los cambios al repositorio remoto           |
+| Comando                           | Descripción                                       |
+| --------------------------------- | ------------------------------------------------- |
+| `git checkout -b sena/evidencias` | Crear la rama de trabajo desde `main`             |
+| `git status`                      | Ver el estado del directorio de trabajo y staging |
+| `git diff`                        | Ver cambios no confirmados                        |
+| `git add <ruta>`                  | Agregar archivos al staging                       |
+| `git commit -m "feat(sena): ..."` | Confirmar cambios con mensaje descriptivo         |
+| `git log --oneline`               | Ver historial de commits resumido                 |
+| `git remote -v`                   | Ver repositorios remotos configurados             |
+| `git push origin sena/evidencias` | Subir los cambios al repositorio remoto           |
 
 ## Convención de mensajes de commit
 
@@ -37,19 +37,19 @@ con el prefijo de scope `sena` para distinguir los cambios de evidencia:
 ## Flujo de trabajo seguido
 
 1. Se parte de la rama `main` (estable, ya releasada como v0.5.3).
-2. Se crea la rama `sena/ga7-evidencias` con `git checkout -b`.
+2. Se crea la rama `sena/evidencias` con `git checkout -b`.
 3. Por cada bloque de evidencia (backend, frontend, tests, docs, etc.) se
    ejecuta un commit independiente con mensaje descriptivo.
 4. Al cerrar el trabajo se hace `git push` de la rama al remoto.
 5. La rama `main` **nunca se modifica** en este flujo; el ZIP de entrega
-   se genera a partir de la rama `sena/ga7-evidencias`.
+   se genera a partir de la rama `sena/evidencias`.
 
 ## Historial esperado de la rama
 
 > Para reproducir el historial:
 >
 > ```bash
-> git log --oneline sena/ga7-evidencias ^main
+> git log --oneline sena/evidencias ^main
 > ```
 
 Los commits creados durante esta entrega siguen el patrón:
@@ -65,8 +65,8 @@ Los commits creados durante esta entrega siguen el patrón:
 
 Para complementar el archivo se sugiere adjuntar capturas de pantalla con:
 
-1. La salida de `git log --oneline sena/ga7-evidencias` mostrando los commits.
-2. La vista de la rama `sena/ga7-evidencias` en GitHub.
+1. La salida de `git log --oneline sena/evidencias` mostrando los commits.
+2. La vista de la rama `sena/evidencias` en GitHub.
 3. La salida de `git remote -v` mostrando el remoto correctamente configurado.
 
 Esos elementos completan la evidencia AA1-EV05 (uso de un sistema de control

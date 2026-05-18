@@ -1,16 +1,16 @@
 name: SENA CI (backend evidence)
 
-# Workflow exclusivo de la rama `sena/ga7-evidencias` para demostrar
-# integración continua sobre el backend Node/Express de evidencias.
-# Cubre el componente formativo "Integración continua" de la GA7.
+# Workflow exclusivo de la rama `sena/evidencias` para demostrar
+# integración continua sobre el backend Node/Express de evidencias
+# (cubre el componente formativo "Integración continua" de las guías SENA).
 
 on:
   push:
     branches:
-      - sena/ga7-evidencias
+      - sena/evidencias
   pull_request:
     branches:
-      - sena/ga7-evidencias
+      - sena/evidencias
 
 jobs:
   api-tests:

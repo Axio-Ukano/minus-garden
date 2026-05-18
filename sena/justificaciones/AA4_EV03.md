@@ -7,7 +7,7 @@
 - **Código del programa de formación:** 228118
 - **Número de ficha:** 3070224
 - **Repositorio:** ver `REPO.txt`
-- **Rama de trabajo:** `sena/ga7-evidencias`
+- **Rama de trabajo:** `sena/evidencias`
 
 ## 1. Componentes React entregados
 
@@ -74,7 +74,7 @@ su propia documentación.
 
 ## 5. Versionamiento
 
-Rama `sena/ga7-evidencias` con commits descriptivos en Conventional Commits.
+Rama `sena/evidencias` con commits descriptivos en Conventional Commits.
 
 ## 6. Cómo ejecutar
 

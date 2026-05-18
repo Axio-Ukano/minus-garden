@@ -7,7 +7,7 @@
 - **Código del programa de formación:** 228118
 - **Número de ficha:** 3070224
 - **Repositorio:** ver `REPO.txt`
-- **Rama de trabajo:** `sena/ga7-evidencias`
+- **Rama de trabajo:** `sena/evidencias`
 
 ## 1. Contenido de esta entrega
 
@@ -54,7 +54,7 @@ cd sena-backend && npm install && npm test
 
 ## 5. Versionamiento
 
-Rama `sena/ga7-evidencias` en GitHub con 6 commits descriptivos.
+Rama `sena/evidencias` en GitHub con 6 commits descriptivos.
 
 ## 6. Cómo ejecutar
 

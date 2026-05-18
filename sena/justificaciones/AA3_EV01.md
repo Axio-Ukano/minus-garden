@@ -7,7 +7,7 @@
 - **Código del programa de formación:** 228118
 - **Número de ficha:** 3070224
 - **Repositorio:** ver `REPO.txt`
-- **Rama de trabajo:** `sena/ga7-evidencias`
+- **Rama de trabajo:** `sena/evidencias`
 
 ## 1. Framework seleccionado
 
@@ -65,7 +65,7 @@ TSDoc explicando propósito, parámetros y retorno de cada función/componente.
 
 ## 6. Versionamiento
 
-Rama `sena/ga7-evidencias` con 6 commits estructurados.
+Rama `sena/evidencias` con 6 commits estructurados.
 
 ## 7. Cómo ejecutar
 

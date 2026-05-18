@@ -76,7 +76,7 @@ Levanta la app empaquetada en Tauri. No es requerido para las evidencias.
 ## 3. URL y rama
 
 - Repositorio remoto: <https://github.com/Axio-Ukano/minus-garden>
-- Rama de evidencias: `sena/ga7-evidencias`
+- Rama de evidencias: `sena/evidencias`
 - Rama principal: `main` (no modificada por esta entrega)
 
 ## 4. Preparación del ZIP de entrega
@@ -96,7 +96,7 @@ sena-backend/*.db*
 Comando sugerido (PowerShell):
 
 ```powershell
-# Desde la raíz del repo, con la rama sena/ga7-evidencias activa:
+# Desde la raíz del repo, con la rama sena/evidencias activa:
 $exclude = @(
   "node_modules", "dist", ".git",
   "src-tauri/target", "sena-backend/node_modules",
@@ -110,9 +110,9 @@ Compress-Archive -Path . -DestinationPath ../minus-garden-sena-ga7.zip -Force -E
 
 ## 5. Comprobación rápida pre-entrega
 
-| Item                                         | Comando                                       |
-| -------------------------------------------- | --------------------------------------------- |
-| El frontend tipa-checea y lintea             | `pnpm typecheck && pnpm lint`                 |
-| El backend pasa los 10 tests                 | `cd sena-backend && npm test`                 |
-| Existe la rama y los commits de evidencia    | `git log --oneline sena/ga7-evidencias ^main` |
-| La documentación de evidencias está completa | revisar `sena-backend/docs/` y `sena/`        |
+| Item                                         | Comando                                   |
+| -------------------------------------------- | ----------------------------------------- |
+| El frontend tipa-checea y lintea             | `pnpm typecheck && pnpm lint`             |
+| El backend pasa los 10 tests                 | `cd sena-backend && npm test`             |
+| Existe la rama y los commits de evidencia    | `git log --oneline sena/evidencias ^main` |
+| La documentación de evidencias está completa | revisar `sena-backend/docs/` y `sena/`    |
