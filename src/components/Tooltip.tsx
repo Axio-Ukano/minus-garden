@@ -69,10 +69,7 @@ export function Tooltip({
   const [bubblePos, setBubblePos] = useState<BubblePos>({ top: -9999, left: -9999, ready: false });
 
   useEffect(() => {
-    if (!visible) {
-      setBubblePos({ top: -9999, left: -9999, ready: false });
-      return;
-    }
+    if (!visible) return;
     const id = requestAnimationFrame(() => {
       if (!wrapRef.current || !bubbleRef.current) return;
       const anchor = wrapRef.current.getBoundingClientRect();
@@ -91,7 +88,10 @@ export function Tooltip({
       className="info-tooltip-wrap"
       style={wrapStyle}
       onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
+      onMouseLeave={() => {
+        setVisible(false);
+        setBubblePos({ top: -9999, left: -9999, ready: false });
+      }}
     >
       {children}
       {visible &&

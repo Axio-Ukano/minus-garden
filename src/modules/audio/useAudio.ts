@@ -53,12 +53,14 @@ export function useAudio() {
     clickSfxId,
     typingSfxId,
   });
-  sfxRef.current = {
-    master: masterMuted ? 0 : masterVolume,
-    sfx: sfxMuted ? 0 : sfxVolume,
-    clickSfxId,
-    typingSfxId,
-  };
+  useEffect(() => {
+    sfxRef.current = {
+      master: masterMuted ? 0 : masterVolume,
+      sfx: sfxMuted ? 0 : sfxVolume,
+      clickSfxId,
+      typingSfxId,
+    };
+  }, [masterMuted, masterVolume, sfxMuted, sfxVolume, clickSfxId, typingSfxId]);
 
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
