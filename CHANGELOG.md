@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.5.5](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.4...minus-garden-v0.5.5) (2026-05-20)
+
+
+### Corregido
+
+* nest InfoTooltip outside ambient-btn to avoid button-in-button ([#37](https://github.com/Axio-Ukano/minus-garden/issues/37)) ([22595db](https://github.com/Axio-Ukano/minus-garden/commit/22595dbcc7eaae42d78ef8d8d9070bc5f160e049))
+
 ## [0.5.4](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.3...minus-garden-v0.5.4) (2026-05-20)
 
 
