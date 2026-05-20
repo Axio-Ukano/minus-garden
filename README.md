@@ -6,13 +6,13 @@ App de escritorio para sesiones de estudio con jardín virtual.
 
 ## Stack
 
-- **Frontend:** React 19 + TypeScript 5.8
+- **Frontend:** React 19 + TypeScript 6
 - **Estilos:** CSS Vanilla (Custom Properties + BEM)
 - **Estado:** Zustand 5
 - **Audio:** Howler 2
 - **Desktop shell:** Tauri 2 (Rust)
 - **Persistencia:** SQLite (via Rusqlite en Rust)
-- **Build:** Vite 7
+- **Build:** Vite 8
 - **Tests:** Vitest 4 + @testing-library/react + jsdom
 
 ## Estructura
