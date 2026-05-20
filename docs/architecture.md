@@ -2,18 +2,18 @@
 
 ## Stack
 
-| Capa              | Tecnología                                | Versión                                   |
-| ----------------- | ----------------------------------------- | ----------------------------------------- |
-| UI Framework      | React                                     | 19                                        |
-| Lenguaje frontend | TypeScript                                | 5.8 (strict + `noUncheckedIndexedAccess`) |
-| Estilos           | CSS Vanilla (Custom Properties + BEM)     | -                                         |
-| Bundler           | Vite                                      | 7                                         |
-| Desktop shell     | Tauri                                     | 2                                         |
-| Backend nativo    | Rust                                      | edition 2021                              |
-| Base de datos     | SQLite                                    | via `rusqlite` (`bundled`)                |
-| Estado global     | Zustand                                   | 5                                         |
-| Audio             | Howler                                    | 2                                         |
-| Tests             | Vitest 4 + @testing-library/react + jsdom | -                                         |
+| Capa              | Tecnología                                | Versión                                 |
+| ----------------- | ----------------------------------------- | --------------------------------------- |
+| UI Framework      | React                                     | 19                                      |
+| Lenguaje frontend | TypeScript                                | 6 (strict + `noUncheckedIndexedAccess`) |
+| Estilos           | CSS Vanilla (Custom Properties + BEM)     | -                                       |
+| Bundler           | Vite                                      | 8                                       |
+| Desktop shell     | Tauri                                     | 2                                       |
+| Backend nativo    | Rust                                      | edition 2021                            |
+| Base de datos     | SQLite                                    | via `rusqlite` (`bundled`)              |
+| Estado global     | Zustand                                   | 5                                       |
+| Audio             | Howler                                    | 2                                       |
+| Tests             | Vitest 4 + @testing-library/react + jsdom | -                                       |
 
 ## Arquitectura en capas
 
