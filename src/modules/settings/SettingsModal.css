@@ -123,6 +123,15 @@
   margin-top: 20px;
 }
 
+.ambient-btn-wrap {
+  position: relative;
+  display: flex;
+}
+
+.ambient-btn-wrap > .ambient-btn {
+  flex: 1;
+}
+
 .ambient-btn {
   position: relative;
   display: flex;

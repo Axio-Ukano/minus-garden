@@ -22,14 +22,15 @@ function AmbientSelector() {
           const labelKey = `${track.id}_label` as keyof typeof t.audio;
           const descKey = `${track.id}_desc` as keyof typeof t.audio;
           return (
-            <button
-              key={track.id}
-              data-no-sfx
-              className={`ambient-btn ${activeAmbient === track.id ? "active" : ""}`}
-              onClick={() => setAmbient(activeAmbient === track.id ? null : track.id)}
-            >
-              <span className="ambient-btn__emoji">{track.emoji}</span>
-              {t.audio[labelKey]}
+            <div key={track.id} className="ambient-btn-wrap">
+              <button
+                data-no-sfx
+                className={`ambient-btn ${activeAmbient === track.id ? "active" : ""}`}
+                onClick={() => setAmbient(activeAmbient === track.id ? null : track.id)}
+              >
+                <span className="ambient-btn__emoji">{track.emoji}</span>
+                {t.audio[labelKey]}
+              </button>
               <span className="ambient-btn__tooltip">
                 <InfoTooltip
                   text={t.audio[descKey]}
@@ -37,7 +38,7 @@ function AmbientSelector() {
                   align={i % 3 === 2 ? "end" : "center"}
                 />
               </span>
-            </button>
+            </div>
           );
         })}
         <button
