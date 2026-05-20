@@ -81,6 +81,9 @@ export function PlantManager() {
   }, []);
 
   useEffect(() => {
+    // Fetch-on-mount: sync with the SENA backend. The setState calls happen
+    // inside refresh() but that's the canonical data-fetching pattern.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refresh();
   }, [refresh]);
 
