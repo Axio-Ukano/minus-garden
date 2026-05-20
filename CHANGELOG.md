@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.5.4](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.3...minus-garden-v0.5.4) (2026-05-20)
+
+
+### Cambiado
+
+* comply with react-hooks v7 strict rules ([#35](https://github.com/Axio-Ukano/minus-garden/issues/35)) ([749e34a](https://github.com/Axio-Ukano/minus-garden/commit/749e34a3b68bd151dedc331c5eb6452e84c6ffce))
+
 ## [0.5.3](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.2...minus-garden-v0.5.3) (2026-05-06)
 
 
