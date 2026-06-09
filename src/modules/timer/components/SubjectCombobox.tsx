@@ -56,6 +56,7 @@ export function SubjectCombobox({
   return (
     <div ref={containerRef} style={{ position: "relative", width: "100%", maxWidth: 300 }}>
       <Input
+        data-testid="subject-input"
         maxLength={50}
         style={{
           width: "100%",

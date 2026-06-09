@@ -85,7 +85,8 @@
 
 ### Diferimientos conscientes
 
-- Tests E2E con Playwright (cuando haya 2 vistas críticas).
+- ~~Tests E2E con Playwright~~ — ✅ hecho (ADR-0009): suite `e2e/` sobre el frontend con transporte faked.
+- E2E nativo con `tauri-driver` (cubre IPC→SQLite real; cuando el camino de BD genere regresiones o haya distribución pública).
 - `tauri-plugin-log` (cuando se distribuya fuera de uso personal).
 - `manualChunks` en Vite (si bundle gzip supera 200 KB).
 - Autohospedar la fuente "Press Start 2P" para cerrar `font-src` a `'self'`.

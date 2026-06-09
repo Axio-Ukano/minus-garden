@@ -192,7 +192,9 @@ export function AppShellHeader({ onOpenSettings }: { onOpenSettings: () => void 
           }}
         >
           <HeartIcon size={16} color="var(--color-heart)" />
-          <span style={{ paddingTop: 2 }}>× {totalHearts}</span>
+          <span data-testid="header-hearts" style={{ paddingTop: 2 }}>
+            × {totalHearts}
+          </span>
         </div>
       </div>
     </div>

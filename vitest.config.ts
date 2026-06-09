@@ -28,6 +28,7 @@ export default defineConfig({
         "src/lib/tauri.ts",
         "src/lib/data/index.ts",
         "src/lib/kiosk.ts",
+        "src/modules/timer/components/DurationSelector.tsx",
       ],
       thresholds: {
         lines: 60,

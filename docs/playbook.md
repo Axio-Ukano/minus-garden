@@ -344,7 +344,8 @@ Imprime esta lista mentalmente antes de cada PR:
 
 Estos están registrados como decisiones conscientes en ADRs y `docs/requirements.md`:
 
-- **Tests E2E con Playwright** — cuando haya 2 vistas críticas que se rompen entre sí.
+- **Tests E2E con Playwright** — ✅ HECHO (ADR-0009). Suite en `e2e/` sobre el frontend con transporte Tauri faked; corre en `e2e.yml`. Para añadir specs: reusar el POM de `e2e/support/pages.ts` y `data-testid`.
+- **E2E nativo (tauri-driver + WebdriverIO)** — cubre el camino real IPC→SQLite que Playwright no alcanza. Disparador: cuando el camino de BD sea fuente recurrente de regresiones o se prepare distribución pública.
 - **`tauri-plugin-log`** — cuando se distribuya fuera de uso personal.
 - **`manualChunks` en Vite** — solo si bundle gzip supera 200 KB.
 - **Autohospedar la fuente "Press Start 2P"** — para cerrar `font-src` a `'self'` y simplificar la CSP.

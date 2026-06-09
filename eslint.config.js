@@ -11,7 +11,16 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ["dist", "dist-tauri", "node_modules", "src-tauri", ".claude", ".claude-flow"],
+    ignores: [
+      "dist",
+      "dist-tauri",
+      "node_modules",
+      "src-tauri",
+      ".claude",
+      ".claude-flow",
+      "playwright-report",
+      "test-results",
+    ],
   },
   {
     files: ["**/*.{ts,tsx}"],
@@ -71,6 +80,26 @@ export default tseslint.config(
           ],
         },
       ],
+    },
+  },
+  {
+    // E2E specs + Playwright config: Node-side tooling. They live outside the
+    // app's tsconfig, so disable type-aware parsing here and add Node globals.
+    // Page-evaluate callbacks still need browser globals (inherited from above).
+    files: ["e2e/**/*.ts", "playwright.config.ts"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+      parserOptions: {
+        projectService: false,
+        project: null,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-misused-promises": "off",
     },
   },
   eslintConfigPrettier

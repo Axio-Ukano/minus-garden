@@ -100,6 +100,7 @@ export function TimerSetupView() {
             </div>
 
             <button
+              data-testid="timer-start"
               className="pixel-btn"
               style={{
                 marginTop: 8,

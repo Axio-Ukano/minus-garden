@@ -25,7 +25,7 @@ export function TimerFinishedView({ onNavigateToHistory }: { onNavigateToHistory
   const heartsEarned = calculateHeartsEarned(durationMinutes);
 
   return (
-    <div className="timer-finished">
+    <div className="timer-finished" data-testid="timer-finished">
       <div className="timer-finished__title">{t.timer.session_complete}</div>
 
       <PlantDisplay stage={growthState.currentStage} speciesId={plantSpeciesId} size="lg" />
@@ -40,13 +40,17 @@ export function TimerFinishedView({ onNavigateToHistory }: { onNavigateToHistory
       </div>
 
       {heartsEarned > 0 && (
-        <div className="timer-finished__hearts">
+        <div className="timer-finished__hearts" data-testid="finished-hearts">
           +{heartsEarned} <HeartIcon size={16} color="var(--color-heart)" />
         </div>
       )}
 
       <div className="timer-finished__actions">
-        <button className="pixel-btn-secondary" onClick={onNavigateToHistory}>
+        <button
+          data-testid="finished-view-history"
+          className="pixel-btn-secondary"
+          onClick={onNavigateToHistory}
+        >
           {t.timer.view_history}
         </button>
         <button className="pixel-btn" onClick={reset}>

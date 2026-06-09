@@ -33,7 +33,7 @@ function SessionCard({ session, onDelete }: { session: Session; onDelete: () => 
   const stageName = getStageName(session.plant_stage, species, t);
 
   return (
-    <Panel className="session-card">
+    <Panel className="session-card" data-testid="session-card">
       <div className="session-card__plant">
         <PlantDisplay stage={session.plant_stage} speciesId={session.plant_species} size="sm" />
         <span className="session-card__stage-name">{stageName.toUpperCase()}</span>
@@ -79,7 +79,7 @@ export function HistoryView() {
     <div className="history-view">
       <div className="history-view__hearts">
         <HeartIcon size={20} color="currentColor" />
-        <span>
+        <span data-testid="history-hearts">
           {totalHearts} {t.history.hearts_label}
         </span>
       </div>
@@ -87,7 +87,7 @@ export function HistoryView() {
       {loading ? (
         <div className="history-view__loading">{t.history.loading}</div>
       ) : sessions.length === 0 ? (
-        <div className="history-view__empty">
+        <div className="history-view__empty" data-testid="history-empty">
           <PlantDisplay stage={1} size="md" />
           <span className="history-view__empty-title">{t.history.empty_title}</span>
           <span className="history-view__empty-sub">{t.history.empty_sub}</span>
