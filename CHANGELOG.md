@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.6.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.5...minus-garden-v0.6.0) (2026-06-09)
+
+
+### Añadido
+
+* game-mode webview, versioned migrations and data-layer boundary ([#39](https://github.com/Axio-Ukano/minus-garden/issues/39)) ([47ba68d](https://github.com/Axio-Ukano/minus-garden/commit/47ba68d421dba6bb9a4b6fb01985ebf5fe961f52))
+
 ## [0.5.5](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.4...minus-garden-v0.5.5) (2026-05-20)
 
 
