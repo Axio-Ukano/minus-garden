@@ -142,6 +142,13 @@ pub fn save_subject(
     name: String,
     color: String,
 ) -> Result<Subject, String> {
+    let name = name.trim().to_string();
+    if name.is_empty() {
+        return Err("Subject name cannot be empty".to_string());
+    }
+    if name.chars().count() > 50 {
+        return Err("Subject name is too long".to_string());
+    }
     let conn = state.0.lock().map_err(|e| e.to_string())?;
     let id = Uuid::new_v4().to_string();
 

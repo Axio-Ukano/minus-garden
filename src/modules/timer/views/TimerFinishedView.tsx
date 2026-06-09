@@ -4,23 +4,22 @@ import {
   getStageName,
   getPlantName,
   calculateHeartsEarned,
+  calculateFinalStage,
 } from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
 import { HeartIcon } from "@/components/PixelIcons";
-import { usePlantGrowth } from "../../plants/usePlantGrowth";
 import { useTranslation } from "../../../i18n";
 import "./TimerViews.css";
 
 export function TimerFinishedView({ onNavigateToHistory }: { onNavigateToHistory: () => void }) {
-  const { durationMinutes, secondsLeft, plantSpeciesId, reset } = useTimerStore();
+  const { durationMinutes, plantSpeciesId, reset } = useTimerStore();
   const { t } = useTranslation();
 
   const species = getSpeciesById(plantSpeciesId);
-  const totalSeconds = durationMinutes * 60;
-  const elapsedSeconds = totalSeconds - secondsLeft;
-
-  const growthState = usePlantGrowth(elapsedSeconds, species);
-  const stageName = getStageName(growthState.currentStage, species, t);
+  // Same rule the saved session used (applies unlockThreshold), so the
+  // finished screen and the history entry always show the same stage.
+  const finalStage = calculateFinalStage(durationMinutes, species);
+  const stageName = getStageName(finalStage, species, t);
   const plantName = getPlantName(species, t);
   const heartsEarned = calculateHeartsEarned(durationMinutes);
 
@@ -28,11 +27,11 @@ export function TimerFinishedView({ onNavigateToHistory }: { onNavigateToHistory
     <div className="timer-finished" data-testid="timer-finished">
       <div className="timer-finished__title">{t.timer.session_complete}</div>
 
-      <PlantDisplay stage={growthState.currentStage} speciesId={plantSpeciesId} size="lg" />
+      <PlantDisplay stage={finalStage} speciesId={plantSpeciesId} size="lg" />
 
       <div className="timer-finished__info">
         <div className="timer-finished__stage-name">
-          {t.timer.stage_label} {growthState.currentStage} — {stageName.toUpperCase()}
+          {t.timer.stage_label} {finalStage} — {stageName.toUpperCase()}
         </div>
         <div className="timer-finished__meta">
           {plantName.toUpperCase()} · {durationMinutes} {t.timer.min_abbr}

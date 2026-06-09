@@ -6,7 +6,14 @@ import { useSettingsStore } from "@/modules/settings";
 
 function sfxVols() {
   const s = useSettingsStore.getState();
-  return { master: s.masterVolume, sfx: s.sfxVolume };
+  return {
+    master: s.masterMuted ? 0 : s.masterVolume,
+    sfx: s.sfxMuted ? 0 : s.sfxVolume,
+  };
+}
+
+function remainingSeconds(endAt: number): number {
+  return Math.max(0, Math.round((endAt - Date.now()) / 1000));
 }
 
 export type TimerStatus = "idle" | "running" | "paused" | "finished";
@@ -17,6 +24,8 @@ interface TimerState {
   status: TimerStatus;
   subject: string;
   startedAt: string | null;
+  /** Wall-clock deadline (epoch ms) while running; null when idle/paused/finished. */
+  endAt: number | null;
   plantSpeciesId: string;
 
   start: () => void;
@@ -36,6 +45,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
   status: "idle",
   subject: "",
   startedAt: null,
+  endAt: null,
   plantSpeciesId: "daisy",
 
   start: () => {
@@ -45,19 +55,24 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       status: "running",
       secondsLeft: s.durationMinutes * 60,
       startedAt: new Date().toISOString(),
+      endAt: Date.now() + s.durationMinutes * 60 * 1000,
     }));
   },
 
   pause: () => {
     const { master, sfx } = sfxVols();
     audioService.playSfx("timer_pause", master, sfx);
-    set({ status: "paused" });
+    set((s) => ({
+      status: "paused",
+      secondsLeft: s.endAt !== null ? remainingSeconds(s.endAt) : s.secondsLeft,
+      endAt: null,
+    }));
   },
 
   resume: () => {
     const { master, sfx } = sfxVols();
     audioService.playSfx("timer_start", master, sfx);
-    set({ status: "running" });
+    set((s) => ({ status: "running", endAt: Date.now() + s.secondsLeft * 1000 }));
   },
 
   reset: () =>
@@ -65,6 +80,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       status: "idle",
       secondsLeft: s.durationMinutes * 60,
       startedAt: null,
+      endAt: null,
     })),
 
   finish: () => {
@@ -84,26 +100,28 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       plant_stage: plantStage,
     };
     void useHistoryStore.getState().saveSession(session);
-    void useHistoryStore
-      .getState()
-      .syncHearts(useHistoryStore.getState().totalHearts + heartsEarned);
+    void useHistoryStore.getState().addHearts(heartsEarned);
     const { master, sfx } = sfxVols();
     audioService.playSfx("timer_finish", master, sfx);
     setTimeout(() => audioService.playSfx("session_saved", master, sfx), 800);
-    set({ status: "finished", secondsLeft: 0, startedAt: null });
+    set({ status: "finished", secondsLeft: 0, startedAt: null, endAt: null });
   },
 
   tick: () => {
-    const { secondsLeft, finish } = get();
-    if (secondsLeft <= 1) {
+    const { endAt, secondsLeft, finish } = get();
+    // Anchor to the wall-clock deadline when available: webview timers are
+    // throttled while the window is hidden, so counting interval firings
+    // would stretch the session.
+    const remaining = endAt !== null ? remainingSeconds(endAt) : secondsLeft - 1;
+    if (remaining <= 0) {
       finish();
     } else {
-      set((s) => ({ secondsLeft: s.secondsLeft - 1 }));
+      set({ secondsLeft: remaining });
     }
   },
 
   setDuration: (minutes: number) =>
-    set({ durationMinutes: minutes, secondsLeft: minutes * 60, status: "idle" }),
+    set({ durationMinutes: minutes, secondsLeft: minutes * 60, status: "idle", endAt: null }),
 
   setSubject: (subject: string) => set({ subject }),
 

@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // vi.mock is hoisted; mocks must be declared inside vi.hoisted to be visible
 // from the factory. This pattern is the documented Vitest workaround.
-const { saveSessionMock, syncHeartsMock, playSfxMock } = vi.hoisted(() => ({
+const { saveSessionMock, addHeartsMock, playSfxMock } = vi.hoisted(() => ({
   saveSessionMock: vi.fn(),
-  syncHeartsMock: vi.fn(),
+  addHeartsMock: vi.fn(),
   playSfxMock: vi.fn(),
 }));
 
@@ -12,7 +12,7 @@ vi.mock("@/modules/history", () => ({
   useHistoryStore: {
     getState: () => ({
       saveSession: saveSessionMock,
-      syncHearts: syncHeartsMock,
+      addHearts: addHeartsMock,
       totalHearts: 0,
     }),
   },
@@ -37,7 +37,7 @@ const initialSnapshot = useTimerStore.getState();
 describe("timerStore", () => {
   beforeEach(() => {
     saveSessionMock.mockClear();
-    syncHeartsMock.mockClear();
+    addHeartsMock.mockClear();
     playSfxMock.mockClear();
     useTimerStore.setState({
       durationMinutes: 25,
@@ -45,6 +45,7 @@ describe("timerStore", () => {
       status: "idle",
       subject: "",
       startedAt: null,
+      endAt: null,
       plantSpeciesId: "daisy",
       start: initialSnapshot.start,
       pause: initialSnapshot.pause,
@@ -66,6 +67,7 @@ describe("timerStore", () => {
       expect(s.status).toBe("running");
       expect(s.secondsLeft).toBe(600);
       expect(s.startedAt).not.toBeNull();
+      expect(s.endAt).not.toBeNull();
       expect(playSfxMock).toHaveBeenCalledWith("timer_start", 0.5, 0.5);
     });
 
@@ -100,6 +102,26 @@ describe("timerStore", () => {
       useTimerStore.setState({ secondsLeft: 10, status: "running" });
       useTimerStore.getState().tick();
       expect(useTimerStore.getState().secondsLeft).toBe(9);
+    });
+
+    it("re-syncs to the wall-clock deadline when ticks were throttled", () => {
+      vi.useFakeTimers();
+      useTimerStore.getState().start();
+      // Simulate 90 seconds of real time with no interval firings (hidden window).
+      vi.advanceTimersByTime(90_000);
+      useTimerStore.getState().tick();
+      expect(useTimerStore.getState().secondsLeft).toBe(25 * 60 - 90);
+      vi.useRealTimers();
+    });
+
+    it("finishes when the wall-clock deadline has passed", () => {
+      vi.useFakeTimers();
+      useTimerStore.getState().setDuration(1);
+      useTimerStore.getState().start();
+      vi.advanceTimersByTime(61_000);
+      useTimerStore.getState().tick();
+      expect(useTimerStore.getState().status).toBe("finished");
+      vi.useRealTimers();
     });
 
     it("calls finish when secondsLeft reaches 1", () => {
@@ -144,10 +166,10 @@ describe("timerStore", () => {
       }
     );
 
-    it("syncs hearts by adding earned hearts to current total", () => {
+    it("adds earned hearts via addHearts", () => {
       useTimerStore.setState({ durationMinutes: 25 });
       useTimerStore.getState().finish();
-      expect(syncHeartsMock).toHaveBeenCalledWith(5);
+      expect(addHeartsMock).toHaveBeenCalledWith(5);
     });
 
     it("plays timer_finish sfx and schedules session_saved sfx", () => {

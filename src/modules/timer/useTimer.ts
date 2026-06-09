@@ -22,4 +22,17 @@ export function useTimer() {
       }
     };
   }, [status, tick]);
+
+  // Re-sync immediately when the window becomes visible again: the interval
+  // is throttled while hidden, so without this the display (and a finish that
+  // came due in the background) would lag until the next interval firing.
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== "visible") return;
+      const store = useTimerStore.getState();
+      if (store.status === "running" && store.endAt !== null) store.tick();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
 }
