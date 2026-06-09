@@ -26,6 +26,8 @@ export default defineConfig({
         "src/modules/history/historyStore.ts",
         "src/modules/audio/audioService.ts",
         "src/lib/tauri.ts",
+        "src/lib/data/index.ts",
+        "src/lib/kiosk.ts",
       ],
       thresholds: {
         lines: 60,

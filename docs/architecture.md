@@ -23,13 +23,21 @@
 ├─────────────────────────────────────┤
 │        State — Zustand stores       │  Un store por feature; persist en settings
 ├─────────────────────────────────────┤
-│       Tauri Bridge — invoke()       │  src/lib/tauri.ts (typed wrapper)
+│     Data — repository (lib/data)    │  Única frontera de datos; contrato wire⇄dominio
+├─────────────────────────────────────┤
+│       Tauri Bridge — invoke()       │  src/lib/tauri.ts (typed wrapper, transporte)
 ├─────────────────────────────────────┤
 │    Rust backend — src-tauri/src/    │  Comandos IPC, esquema, migraciones
 ├─────────────────────────────────────┤
 │         SQLite — app.db             │  Persistencia local (AppData)
 └─────────────────────────────────────┘
 ```
+
+> **Frontera de datos** ([ADR-0005](adr/0005-data-repository-boundary.md)): ningún store ni
+> componente llama `tauriInvoke` directamente. Todo acceso a estado persistido pasa por
+> `repository` (`src/lib/data/`), que envuelve el transporte y mapea wire (snake_case) ⇄
+> dominio (camelCase). El día que se añada un backend remoto de sincronización, solo cambia
+> `src/lib/data/index.ts`; los stores no se tocan.
 
 ## Boundaries y enforcement
 
@@ -58,7 +66,9 @@ minus-garden/
 │   ├── components/              # primitivas UI compartidas (header, panel, iconos, slider…)
 │   ├── i18n/                    # en.ts, es.ts, types.ts, index.ts
 │   ├── lib/
-│   │   ├── tauri.ts             # bridge tipado (TauriCommand, tauriInvoke<T>, TauriError)
+│   │   ├── tauri.ts             # bridge tipado de transporte (TauriCommand, tauriInvoke<T>, TauriError)
+│   │   ├── data/                # frontera de datos: repository + tipos de dominio (ADR-0005)
+│   │   ├── kiosk.ts             # guardas de modo juego (anti context-menu/devtools/drag, ADR-0008)
 │   │   └── toast/               # store + componentes de toasts
 │   ├── modules/
 │   │   ├── audio/               # Howler service, store, registry, hook
@@ -151,15 +161,29 @@ Definidos en `src-tauri/src/commands.rs`, registrados en `src-tauri/src/lib.rs`,
 
 > Detalle de la decisión de persistencia: [ADR-0003](adr/0003-sqlite-local.md).
 
+### Migraciones de esquema
+
+El esquema se versiona con `PRAGMA user_version` ([ADR-0006](adr/0006-versioned-sqlite-migrations.md)).
+`db.rs` mantiene `MIGRATIONS: &[&str]` (índice + 1 = número de versión) y un runner que aplica
+en orden cada migración con versión mayor a la actual, subiendo `user_version` tras cada una.
+
+- **v1**: esquema baseline. Usa `IF NOT EXISTS` + ALTER legacy (tragados) para absorber con
+  seguridad cualquier base previa (pre-`user_version`, con o sin columnas de planta).
+- **v2+**: `ALTER`/`CREATE` planos, sin guardas — la versión garantiza que solo corren una vez.
+
+Reglas: las migraciones publicadas **nunca** se editan ni reordenan; solo se añaden al final.
+Tests unitarios Rust (`#[cfg(test)]` en `db.rs`) cubren base nueva, idempotencia y upgrade legacy.
+
 ## Flujo principal — sesión de estudio completada
 
 ```
 Usuario configura subject + planta + duración (TimerSetupView)
   → useTimerStore.start() → status: running, secondsLeft = duration*60
   → useTimer hook decrementa cada segundo (tick → tick → ... → finish)
-  → finish() compone Session, llama useHistoryStore.saveSession() y syncHearts()
-  → tauriInvoke("save_session", { session }) inserta en SQLite
-  → tauriInvoke("update_hearts", { totalHearts }) UPSERT en SQLite
+  → finish() calcula hearts (calculateHeartsEarned) y etapa (calculateFinalStage)
+  → compone Session, llama useHistoryStore.saveSession() y syncHearts()
+  → repository.sessions.save(session) → tauriInvoke("save_session") inserta en SQLite
+  → repository.userState.setHearts(total) → tauriInvoke("update_hearts") UPSERT en SQLite
   → audioService.playSfx("timer_finish") + setTimeout("session_saved", 800ms)
   → status: finished
   → HistoryView refleja la nueva sesión y el header muestra hearts +X
@@ -171,6 +195,9 @@ Usuario configura subject + planta + duración (TimerSetupView)
 - Capabilities mínimas (`core:default` + `opener:default`).
 - Sin secretos en repo. Sin red salvo CDNs de fuentes (Google Fonts).
 - Persistencia 100% local; sin telemetría ni auth.
+- Modo kiosko ([ADR-0008](adr/0008-kiosk-mode.md)): `src/lib/kiosk.ts` bloquea menú contextual,
+  atajos de devtools/ver-fuente y arrastre de imágenes; CSS suprime selección de texto salvo en
+  inputs. Es UX de juego, no una barrera de seguridad.
 
 ## Tooling y CI
 
