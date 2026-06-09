@@ -15,6 +15,28 @@ body {
   box-sizing: border-box;
 }
 
+/* Kiosk mode: the app is a game, not a web page. Suppress text selection and
+   native image dragging everywhere by default; real text inputs opt back in
+   below so typing, selecting and editing still work. See lib/kiosk.ts. */
+html,
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 input,
 textarea,
 button,
