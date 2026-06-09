@@ -1,5 +1,10 @@
 import { useTimerStore } from "../timerStore";
-import { getSpeciesById, getStageName, getPlantName } from "../../plants/plantService";
+import {
+  getSpeciesById,
+  getStageName,
+  getPlantName,
+  calculateHeartsEarned,
+} from "../../plants/plantService";
 import { PlantDisplay } from "../../plants/PlantDisplay";
 import { HeartIcon } from "@/components/PixelIcons";
 import { usePlantGrowth } from "../../plants/usePlantGrowth";
@@ -17,7 +22,7 @@ export function TimerFinishedView({ onNavigateToHistory }: { onNavigateToHistory
   const growthState = usePlantGrowth(elapsedSeconds, species);
   const stageName = getStageName(growthState.currentStage, species, t);
   const plantName = getPlantName(species, t);
-  const heartsEarned = Math.floor(durationMinutes / 5);
+  const heartsEarned = calculateHeartsEarned(durationMinutes);
 
   return (
     <div className="timer-finished">

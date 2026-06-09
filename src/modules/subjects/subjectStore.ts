@@ -1,12 +1,7 @@
 import { create } from "zustand";
-import { tauriInvoke } from "@/lib/tauri";
+import { repository, type Subject } from "@/lib/data";
 
-export interface Subject {
-  id: string;
-  name: string;
-  color: string;
-  useCount: number;
-}
+export type { Subject };
 
 interface SubjectState {
   subjects: Subject[];
@@ -22,16 +17,7 @@ export const useSubjectStore = create<SubjectState>((set, get) => ({
 
   loadSubjects: async () => {
     try {
-      const raw =
-        await tauriInvoke<{ id: string; name: string; color: string; use_count: number }[]>(
-          "get_subjects"
-        );
-      const subjects: Subject[] = raw.map((s) => ({
-        id: s.id,
-        name: s.name,
-        color: s.color,
-        useCount: s.use_count,
-      }));
+      const subjects = await repository.subjects.list();
       set({ subjects, isLoaded: true });
     } catch {
       // Toast already surfaced; leave subjects empty.
@@ -39,12 +25,12 @@ export const useSubjectStore = create<SubjectState>((set, get) => ({
   },
 
   addSubject: async (name: string, color = "#e8a0b4") => {
-    await tauriInvoke("save_subject", { name, color });
+    await repository.subjects.create(name, color);
     await get().loadSubjects();
   },
 
   markUsed: (id: string) => {
-    // Fire-and-forget; tauriInvoke handles toast/log on failure.
-    tauriInvoke("update_subject_usage", { id }).catch(() => {});
+    // Fire-and-forget; the repository transport handles toast/log on failure.
+    repository.subjects.markUsed(id).catch(() => {});
   },
 }));

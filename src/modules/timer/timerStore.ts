@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { useHistoryStore, type Session } from "@/modules/history";
-import { calculateFinalStage, getSpeciesById } from "@/modules/plants";
+import { calculateFinalStage, calculateHeartsEarned, getSpeciesById } from "@/modules/plants";
 import { audioService } from "@/modules/audio";
 import { useSettingsStore } from "@/modules/settings";
 
@@ -70,7 +70,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
   finish: () => {
     const { durationMinutes, startedAt, subject, plantSpeciesId } = get();
     const species = getSpeciesById(plantSpeciesId);
-    const heartsEarned = Math.floor(durationMinutes / 5);
+    const heartsEarned = calculateHeartsEarned(durationMinutes);
     const plantStage = calculateFinalStage(durationMinutes, species);
     const session: Session = {
       id: crypto.randomUUID(),
