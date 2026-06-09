@@ -6,6 +6,7 @@ import {
   LOTUS_SPECIES,
   calculateStage,
   calculateFinalStage,
+  calculateHeartsEarned,
   getSpeciesById,
   getStageName,
 } from "./plantService";
@@ -86,6 +87,20 @@ describe("plantService", () => {
 
     it("returns 0 for negative durations", () => {
       expect(calculateFinalStage(-5, SUNFLOWER_SPECIES)).toBe(0);
+    });
+  });
+
+  describe("calculateHeartsEarned", () => {
+    it("awards one heart per 5 minutes, floored", () => {
+      expect(calculateHeartsEarned(0)).toBe(0);
+      expect(calculateHeartsEarned(4)).toBe(0);
+      expect(calculateHeartsEarned(5)).toBe(1);
+      expect(calculateHeartsEarned(24)).toBe(4);
+      expect(calculateHeartsEarned(25)).toBe(5);
+    });
+
+    it("never returns negative for non-positive durations", () => {
+      expect(calculateHeartsEarned(-10)).toBe(0);
     });
   });
 

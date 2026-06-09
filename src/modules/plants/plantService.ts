@@ -167,6 +167,19 @@ export function calculateStage(elapsedMinutes: number, species: PlantSpecies): P
   return { currentStage, progressToNext, isMaxStage };
 }
 
+// ─── Reward economy ───────────────────────────────────────────────────────────
+// Single source of truth for the hearts a completed session yields. Kept here
+// alongside calculateFinalStage so all session-completion rules live in one
+// module. When a remote backend is introduced this becomes the authoritative
+// rule to mirror server-side (see ADR-0007); until then it must not be inlined
+// anywhere — callers import this function.
+export const MINUTES_PER_HEART = 5;
+
+export function calculateHeartsEarned(durationMinutes: number): number {
+  if (durationMinutes <= 0) return 0;
+  return Math.floor(durationMinutes / MINUTES_PER_HEART);
+}
+
 // Applies unlockThreshold — only used at session completion, not during live timer.
 // A session unlocks stage i if durationMinutes >= stageThresholds[i] * unlockThreshold.
 export function calculateFinalStage(durationMinutes: number, species: PlantSpecies): number {

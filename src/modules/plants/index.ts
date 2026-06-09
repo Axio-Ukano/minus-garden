@@ -7,6 +7,7 @@ export {
   getPlantName,
   calculateStage,
   calculateFinalStage,
+  calculateHeartsEarned,
 } from "./plantService";
 export type { PlantSpecies, PlantGrowthState, StageKey } from "./plantService";
 export { PlantStagesModal } from "./PlantStagesModal";
