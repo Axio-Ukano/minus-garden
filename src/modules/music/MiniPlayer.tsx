@@ -46,7 +46,7 @@ export function MiniPlayer({ onNavigateToMusic }: { onNavigateToMusic: () => voi
   const track = PLAYLIST[currentTrackIndex];
   if (!track) return null;
   const duration = audioService.getMusicDuration() || track.durationSeconds;
-  const repeatLabel = repeatMode === "one" ? "⟳1" : "⟳";
+  const repeatLabel = repeatMode === "one" ? "⟳1" : repeatMode === "all" ? "⟳∞" : "⟳";
   const repeatActive = repeatMode !== "none";
 
   return (

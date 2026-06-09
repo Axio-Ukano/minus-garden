@@ -14,6 +14,7 @@ interface HistoryState {
   saveSession: (session: Session) => Promise<void>;
   deleteSession: (id: string) => Promise<void>;
   syncHearts: (total: number) => Promise<void>;
+  addHearts: (delta: number) => Promise<void>;
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
@@ -55,6 +56,20 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   },
 
   syncHearts: async (total: number) => {
+    await repository.userState.setHearts(total);
+    set({ totalHearts: total });
+  },
+
+  addHearts: async (delta: number) => {
+    // Re-read the persisted total before writing so a stale or failed startup
+    // load can't overwrite the stored hearts with a lower value.
+    let base = get().totalHearts;
+    try {
+      base = (await repository.userState.get()).totalHearts;
+    } catch {
+      // Toast already surfaced by the transport; fall back to in-memory total.
+    }
+    const total = base + delta;
     await repository.userState.setHearts(total);
     set({ totalHearts: total });
   },

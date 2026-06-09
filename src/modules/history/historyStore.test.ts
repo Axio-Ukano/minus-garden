@@ -49,6 +49,7 @@ describe("historyStore", () => {
       saveSession: initial.saveSession,
       deleteSession: initial.deleteSession,
       syncHearts: initial.syncHearts,
+      addHearts: initial.addHearts,
     });
     vi.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -131,6 +132,29 @@ describe("historyStore", () => {
       await useHistoryStore.getState().syncHearts(15);
       expect(tauriInvokeMock).toHaveBeenCalledWith("update_hearts", { totalHearts: 15 });
       expect(useHistoryStore.getState().totalHearts).toBe(15);
+    });
+  });
+
+  describe("addHearts", () => {
+    it("re-reads the persisted total before writing", async () => {
+      // In-memory total is stale (0); the backend holds 40.
+      tauriInvokeMock
+        .mockResolvedValueOnce({ total_hearts: 40 }) // get_user_state
+        .mockResolvedValueOnce(undefined); // update_hearts
+      await useHistoryStore.getState().addHearts(5);
+      expect(tauriInvokeMock).toHaveBeenNthCalledWith(1, "get_user_state");
+      expect(tauriInvokeMock).toHaveBeenNthCalledWith(2, "update_hearts", { totalHearts: 45 });
+      expect(useHistoryStore.getState().totalHearts).toBe(45);
+    });
+
+    it("falls back to the in-memory total when the read fails", async () => {
+      useHistoryStore.setState({ totalHearts: 7 });
+      tauriInvokeMock
+        .mockRejectedValueOnce(new FakeTauriError("nope")) // get_user_state
+        .mockResolvedValueOnce(undefined); // update_hearts
+      await useHistoryStore.getState().addHearts(3);
+      expect(tauriInvokeMock).toHaveBeenNthCalledWith(2, "update_hearts", { totalHearts: 10 });
+      expect(useHistoryStore.getState().totalHearts).toBe(10);
     });
   });
 });

@@ -17,16 +17,20 @@ export function TimerActiveView() {
 
   const growthState = usePlantGrowth(elapsedSeconds, species);
   const plantSide = useSettingsStore((s) => s.plantSide);
-  const { masterVolume, sfxVolume } = useSettingsStore();
   const { t } = useTranslation();
 
   const prevStageRef = useRef(growthState.currentStage);
   useEffect(() => {
     if (growthState.currentStage > prevStageRef.current) {
-      audioService.playSfx("plant_grow", masterVolume, sfxVolume);
+      const s = useSettingsStore.getState();
+      audioService.playSfx(
+        "plant_grow",
+        s.masterMuted ? 0 : s.masterVolume,
+        s.sfxMuted ? 0 : s.sfxVolume
+      );
     }
     prevStageRef.current = growthState.currentStage;
-  }, [growthState.currentStage, masterVolume, sfxVolume]);
+  }, [growthState.currentStage]);
 
   const isPaused = status === "paused";
 
