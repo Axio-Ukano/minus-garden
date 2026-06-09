@@ -82,6 +82,7 @@ export function DurationSelector({
         </button>
         <Input
           ref={inputRef}
+          data-testid="duration-input"
           style={{
             width: 88,
             textAlign: "center",

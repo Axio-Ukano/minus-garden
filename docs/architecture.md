@@ -90,6 +90,12 @@ minus-garden/
 │   │   └── commands.rs          # implementación de comandos IPC
 │   ├── capabilities/default.json
 │   └── tauri.conf.json          # ventana, CSP explícita, bundle
+├── e2e/                         # Playwright E2E (frontend, transporte Tauri faked — ADR-0009)
+│   ├── support/
+│   │   ├── fakeTauri.ts         # backend en memoria + seed parametrizable
+│   │   └── pages.ts             # Page Object Model (selectores por data-testid)
+│   └── specs/                   # navigation, session-flow, kiosk
+├── playwright.config.ts         # webServer pnpm dev + proyecto chromium
 ├── test/
 │   └── setup.ts                 # @testing-library/jest-dom + cleanup
 ├── eslint.config.js             # flat config, type-aware, boundaries
@@ -205,5 +211,6 @@ Usuario configura subject + planta + duración (TimerSetupView)
 - Prettier obligatorio (lint-staged en pre-commit).
 - TypeScript strict + `noUncheckedIndexedAccess`.
 - Vitest con jsdom, cobertura mínima 60% en módulos prioritarios.
+- Playwright para E2E de frontend con transporte Tauri faked ([ADR-0009](adr/0009-e2e-playwright-faked-transport.md)): `pnpm e2e`. Selectores por `data-testid` + Page Object Model en `e2e/support/`.
 - madge para detectar ciclos.
-- GitHub Actions workflows: `validate.yml` (todo PR / push a main) y `audit.yml` (semanal).
+- GitHub Actions workflows: `validate.yml` (todo PR / push a main), `e2e.yml` (Playwright en PR / push) y `audit.yml` (semanal).

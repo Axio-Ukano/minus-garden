@@ -170,6 +170,7 @@ function App() {
                 return (
                   <button
                     key={tab.id}
+                    data-testid={`nav-${tab.id}`}
                     className={`pixel-nav-btn ${active ? "active" : ""}`}
                     onClick={() => {
                       setActiveTab(tab.id);
