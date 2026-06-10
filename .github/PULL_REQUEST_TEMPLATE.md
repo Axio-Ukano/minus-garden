@@ -1,32 +1,35 @@
-# Resumen
+# Summary
 
-<!-- Qué cambia y por qué (1-3 líneas). -->
+<!-- What changes and why (1-3 lines). -->
 
-## Tipo de cambio
+## Type of change
 
-- [ ] feat — nueva feature
-- [ ] fix — bug
-- [ ] refactor — sin cambio funcional
-- [ ] chore / build / ci — tooling, deps, configuración
-- [ ] docs — solo documentación
-- [ ] test — añade o ajusta tests
+<!-- One of: feat | fix | refactor | chore | build | ci | docs | test -->
 
-## Checklist
+## Validation
 
-- [ ] `pnpm validate` pasa (typecheck + lint + format:check).
-- [ ] `pnpm circular` sin ciclos nuevos.
-- [ ] `pnpm test:coverage` cumple el umbral configurado (60%).
-- [ ] `pnpm build` verde.
-- [ ] Si toca UI: smoke manual (timer → guardar → history → hearts).
-- [ ] Si introduce decisión arquitectónica: añade un ADR en `docs/adr/`.
-- [ ] Si toca dependencias: justificadas y movidas al bucket correcto
+<!-- These always apply. Every box must be checked before requesting review. -->
+
+- [ ] `pnpm validate` passes (typecheck + lint + format:check).
+- [ ] `pnpm circular` reports no new cycles.
+- [ ] `pnpm test:coverage` meets the configured threshold (60%).
+- [ ] `pnpm build` is green.
+
+## Scope checks
+
+<!-- Keep ONLY the lines that apply to this PR and check them; DELETE the rest.
+     A PR must never be opened with boxes that cannot be checked. -->
+
+- [ ] Touches UI: manual smoke test done (timer → save → history → hearts).
+- [ ] Introduces an architectural decision: ADR added under `docs/adr/`.
+- [ ] Touches dependencies: justified and placed in the correct bucket
       (`dependencies` vs `devDependencies`).
-- [ ] CHANGELOG actualizado bajo `## [Unreleased]` cuando aplique.
 
-## Capturas / video (si afecta UI)
+## Screenshots / video
 
-<!-- Pega aquí el antes/después o un GIF. -->
+<!-- Before/after capture or a short clip when UI is affected; otherwise delete
+     this section. -->
 
-## Notas para el reviewer
+## Notes for the reviewer
 
-<!-- Áreas en las que quieres atención específica, dudas, follow-ups. -->
+<!-- Areas that deserve specific attention, open questions, follow-ups. -->

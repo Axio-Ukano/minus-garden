@@ -1,41 +1,41 @@
-# ADR-NNNN: Título corto de la decisión
+# ADR-NNNN: Short title of the decision
 
-- **Estado:** Propuesta | Aceptada | Rechazada | Reemplazada por ADR-XXXX
-- **Fecha:** YYYY-MM-DD
-- **Decisores:** @autor
+- **Status:** Proposed | Accepted | Rejected | Superseded by ADR-XXXX
+- **Date:** YYYY-MM-DD
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-Qué problema queremos resolver y por qué ahora. Restricciones técnicas y no técnicas.
+What problem we want to solve and why now. Technical and non-technical constraints.
 
-## Decisión
+## Decision
 
-Qué se elige hacer, en una o dos frases.
+What is chosen, in one or two sentences.
 
-## Consecuencias
+## Consequences
 
-### Positivas
-
-- ...
-
-### Negativas
+### Good
 
 - ...
 
-### Neutras
+### Bad
 
 - ...
 
-## Alternativas consideradas
+### Neutral
 
-### Alternativa A — descripción
+- ...
 
-Pros / contras / por qué se descartó.
+## Considered Alternatives
 
-### Alternativa B — descripción
+### Alternative A — description
 
-Pros / contras / por qué se descartó.
+Pros / cons / why it was discarded.
 
-## Notas / referencias
+### Alternative B — description
 
-Links, issues, PRs relacionados.
+Pros / cons / why it was discarded.
+
+## Notes / References
+
+Related links, issues, PRs.

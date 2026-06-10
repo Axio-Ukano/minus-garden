@@ -1,49 +1,49 @@
-# ADR-0008: Modo kiosko — la app es un juego, no una web
+# ADR-0008: Kiosk mode — the app is a game, not a web page
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-06-09
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-06-09
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-Minu's Garden corre dentro de un webview de Tauri. Por defecto el webview filtra afordances de navegador que rompen la ilusión de juego: menú contextual con clic derecho ("Inspeccionar"), atajos de devtools (F12, Ctrl+Shift+I/J/C), "ver código fuente" (Ctrl+U), arrastre de imágenes y selección de texto en cualquier parte. El usuario pidió explícitamente que se comporte como un juego pese a su motor web.
+Minu's Garden runs inside a Tauri webview. By default the webview leaks browser affordances that break the game illusion: context menu on right-click ("Inspect"), devtools shortcuts (F12, Ctrl+Shift+I/J/C), "view source" (Ctrl+U), image dragging, and text selection anywhere. The user explicitly requested that it behave like a game despite its web engine.
 
-## Decisión
+## Decision
 
-Añadir `src/lib/kiosk.ts` con `initKiosk(document)`, instalado una vez en `main.tsx`, que:
+Add `src/lib/kiosk.ts` with `initKiosk(document)`, installed once in `main.tsx`, which:
 
-- bloquea `contextmenu` (clic derecho),
-- bloquea atajos de devtools / ver-fuente mediante un predicado puro `isBlockedKey` (F12, Ctrl/Cmd+Shift+I/J/C, Ctrl/Cmd+U),
-- bloquea `dragstart` (arrastre de imágenes).
+- blocks `contextmenu` (right-click),
+- blocks devtools / view-source shortcuts via a pure predicate `isBlockedKey` (F12, Ctrl/Cmd+Shift+I/J/C, Ctrl/Cmd+U),
+- blocks `dragstart` (image dragging).
 
-La selección de texto se suprime por CSS en `global.css` (`user-select: none` en `html/body` e `img`) y se reactiva solo en `input`, `textarea` y `[contenteditable]` para no romper la escritura. `isBlockedKey` se mantiene como función pura para poder testearla.
+Text selection is suppressed via CSS in `global.css` (`user-select: none` on `html/body` and `img`) and re-enabled only on `input`, `textarea`, and `[contenteditable]` to avoid breaking text input. `isBlockedKey` is kept as a pure function so it can be tested in isolation.
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- La app se siente como juego: sin menú de navegador, sin inspección casual, sin selección/arrastre accidental.
-- Lógica de bloqueo de teclas testeable de forma aislada; `initKiosk` devuelve teardown para los tests.
+- The app feels like a game: no browser menu, no casual inspection, no accidental selection or dragging.
+- Key-blocking logic is testable in isolation; `initKiosk` returns a teardown function for tests.
 
-### Negativas
+### Bad
 
-- No es una barrera de seguridad real: un usuario decidido aún puede inspeccionar (los bundles de producción de Tauri ya van sin devtools; estos guardas son sobre todo para `tauri dev`). Es UX, no hardening.
-- Durante el desarrollo, abrir devtools dentro del webview requiere recordar que los atajos están interceptados (siguen disponibles desde fuera/menú del SO).
+- This is not a real security barrier: a determined user can still inspect (Tauri production builds ship without devtools; these guards are mainly relevant for `tauri dev`). It is UX, not hardening.
+- During development, opening devtools inside the webview requires remembering that shortcuts are intercepted (they remain available from outside the webview / OS menu).
 
-### Neutras
+### Neutral
 
-- La supresión de selección es por CSS; cualquier nuevo control que necesite selección debe optar de nuevo (como ya hacen los inputs).
+- Selection suppression is done via CSS; any new control that needs selection must opt back in (as inputs already do).
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### Deshabilitar devtools solo en Rust/Tauri
+### Disable devtools only in Rust/Tauri
 
-Producción ya va sin devtools por defecto, así que no cubre el menú contextual ni el modo dev. Insuficiente por sí solo; los guardas JS son complementarios.
+Production already ships without devtools by default, so this does not cover the context menu or dev mode. Insufficient on its own; the JS guards are complementary.
 
-### No hacer nada (dejar afordances de navegador)
+### Do nothing (leave browser affordances in place)
 
-Rompe la experiencia de juego que el producto busca. Descartado por requisito explícito.
+Breaks the game experience the product aims for. Discarded per explicit requirement.
 
-## Notas / referencias
+## Notes / References
 
-- Implementación: `src/lib/kiosk.ts`, reglas CSS en `src/styles/global.css`, wiring en `src/main.tsx`.
+- Implementation: `src/lib/kiosk.ts`, CSS rules in `src/styles/global.css`, wiring in `src/main.tsx`.

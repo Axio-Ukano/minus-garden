@@ -24,17 +24,17 @@
     }
   },
   "changelog-sections": [
-    { "type": "feat", "section": "Añadido" },
-    { "type": "fix", "section": "Corregido" },
-    { "type": "perf", "section": "Cambiado" },
-    { "type": "refactor", "section": "Cambiado" },
-    { "type": "deps", "section": "Cambiado" },
-    { "type": "revert", "section": "Eliminado" },
-    { "type": "docs", "section": "Documentación", "hidden": true },
-    { "type": "chore", "section": "Misceláneo", "hidden": true },
+    { "type": "feat", "section": "Added" },
+    { "type": "fix", "section": "Fixed" },
+    { "type": "perf", "section": "Changed" },
+    { "type": "refactor", "section": "Changed" },
+    { "type": "deps", "section": "Changed" },
+    { "type": "revert", "section": "Removed" },
+    { "type": "docs", "section": "Documentation", "hidden": true },
+    { "type": "chore", "section": "Miscellaneous", "hidden": true },
     { "type": "test", "section": "Tests", "hidden": true },
     { "type": "ci", "section": "CI", "hidden": true },
     { "type": "build", "section": "Build", "hidden": true },
-    { "type": "style", "section": "Estilo", "hidden": true }
+    { "type": "style", "section": "Style", "hidden": true }
   ]
 }

@@ -1,5 +1,5 @@
 // ── Peony — grid 24×30, shared pot (see shared/PotSprite) ────────────────────
-// Brotes rojizos al nacer (típico de la peonía) y flor doble exuberante.
+// Reddish shoots at emergence (typical of peony) and lush double flower.
 import { Pot, px } from "../shared/PotSprite";
 
 const C = {
@@ -33,7 +33,7 @@ function Stem(topY: number) {
   return <>{rects}</>;
 }
 
-// Hoja compuesta — hojuela central con dos laterales
+// Compound leaf — central leaflet with two side ones
 function CompoundLeafLeft(y: number) {
   return (
     <>
@@ -66,7 +66,7 @@ function CompoundLeafRight(y: number) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function PeonyStage1() {
-  // Brote rojizo recién emergido
+  // Reddish shoot just emerged
   return (
     <>
       <Pot />
@@ -80,17 +80,17 @@ export function PeonyStage1() {
 }
 
 export function PeonyStage2() {
-  // Brotes rojo-verdosos con primeras hojas
+  // Red-green shoots with first leaves
   return (
     <>
       <Pot />
       {px(11, 18, 2, 4, C.shoot)}
       {px(11, 14, 2, 4, C.stem)}
-      {/* hoja rojiza izquierda */}
+      {/* reddish left leaf */}
       {px(8, 13, 3, 1, C.shootLight)}
       {px(7, 14, 4, 1, C.shoot)}
       {px(8, 15, 2, 1, C.shoot)}
-      {/* hoja verde derecha */}
+      {/* green right leaf */}
       {px(13, 12, 3, 1, C.leafLight)}
       {px(13, 13, 4, 1, C.leaf)}
       {px(14, 14, 2, 1, C.leafDark)}
@@ -99,14 +99,14 @@ export function PeonyStage2() {
 }
 
 export function PeonyStage3() {
-  // Follaje compuesto tupido
+  // Dense compound foliage
   return (
     <>
       <Pot />
       {Stem(10)}
       {CompoundLeafLeft(14)}
       {CompoundLeafRight(12)}
-      {/* penacho superior */}
+      {/* top tuft */}
       {px(11, 8, 2, 1, C.leafShine)}
       {px(10, 9, 4, 1, C.leafLight)}
     </>
@@ -114,22 +114,22 @@ export function PeonyStage3() {
 }
 
 export function PeonyStage4() {
-  // Capullo redondo y apretado con sépalos
+  // Round tight bud with sepals
   return (
     <>
       <Pot />
       {Stem(7)}
       {CompoundLeafLeft(15)}
       {CompoundLeafRight(13)}
-      {/* bola verde */}
+      {/* green ball */}
       {px(11, 2, 2, 1, C.budGreen)}
       {px(10, 3, 4, 3, C.budGreen)}
       {px(10, 3, 1, 3, C.budLight)}
       {px(13, 3, 1, 3, C.budDark)}
       {px(10, 6, 4, 1, C.budDark)}
-      {/* primer rubor rosa */}
+      {/* first pink blush */}
       {px(12, 2, 1, 1, C.petalMid)}
-      {/* sépalos */}
+      {/* sepals */}
       {px(9, 4, 1, 3, C.sepal)}
       {px(14, 4, 1, 3, C.sepal)}
     </>
@@ -137,25 +137,25 @@ export function PeonyStage4() {
 }
 
 export function PeonyStage5() {
-  // Capullo mostrando el rosa — media bola
+  // Bud showing pink — half ball
   return (
     <>
       <Pot />
       {Stem(8)}
       {CompoundLeafLeft(15)}
       {CompoundLeafRight(13)}
-      {/* cúpula rosa */}
+      {/* pink dome */}
       {px(11, 2, 2, 1, C.petalLight)}
       {px(10, 3, 4, 1, C.petalMid)}
       {px(9, 4, 6, 1, C.petalMid)}
       {px(10, 4, 2, 1, C.petalLight)}
-      {/* copa verde */}
+      {/* green cup */}
       {px(9, 5, 6, 1, C.budGreen)}
       {px(9, 5, 1, 1, C.budDark)}
       {px(14, 5, 1, 1, C.budDark)}
       {px(10, 6, 4, 1, C.budGreen)}
       {px(10, 7, 4, 1, C.budDark)}
-      {/* sépalos */}
+      {/* sepals */}
       {px(8, 4, 1, 3, C.sepal)}
       {px(15, 4, 1, 3, C.sepal)}
     </>
@@ -163,27 +163,27 @@ export function PeonyStage5() {
 }
 
 export function PeonyStage6() {
-  // Copa semiabierta con corazón crema
+  // Semi-open cup with cream center
   return (
     <>
       <Pot />
       {Stem(9)}
       {CompoundLeafLeft(16)}
       {CompoundLeafRight(14)}
-      {/* borde superior */}
+      {/* top rim */}
       {px(9, 1, 2, 1, C.petalPale)}
       {px(13, 1, 2, 1, C.petalPale)}
-      {/* apertura */}
+      {/* opening */}
       {px(8, 2, 8, 2, C.petalLight)}
       {px(10, 2, 4, 1, C.petalCream)}
       {px(11, 3, 2, 1, C.stamen)}
-      {/* pétalos exteriores acampanados */}
+      {/* outer bell-shaped petals */}
       {px(6, 4, 12, 3, C.petalMid)}
       {px(6, 4, 1, 3, C.petalDeep)}
       {px(17, 4, 1, 3, C.petalDeep)}
       {px(8, 4, 2, 2, C.petalLight)}
       {px(7, 7, 10, 1, C.petalDark)}
-      {/* sépalos */}
+      {/* sepals */}
       {px(8, 8, 8, 1, C.sepal)}
       {px(9, 9, 6, 1, C.sepalDark)}
     </>
@@ -191,42 +191,42 @@ export function PeonyStage6() {
 }
 
 export function PeonyStage7() {
-  // Peonía plena — flor doble enorme con volantes
+  // Full peony — huge double flower with ruffles
   return (
     <>
       <Pot />
       {Stem(10)}
       {CompoundLeafLeft(16)}
       {CompoundLeafRight(14)}
-      {/* corona en zigzag */}
+      {/* zigzag crown */}
       {px(9, 0, 1, 1, C.petalCream)}
       {px(13, 0, 1, 1, C.petalCream)}
       {px(8, 1, 3, 1, C.petalPale)}
       {px(12, 1, 3, 1, C.petalPale)}
-      {/* capa superior */}
+      {/* top layer */}
       {px(7, 2, 10, 3, C.petalLight)}
       {px(10, 2, 4, 1, C.petalPale)}
       {px(10, 3, 1, 1, C.petalMid)}
       {px(13, 3, 1, 1, C.petalMid)}
-      {/* capa media */}
+      {/* mid layer */}
       {px(5, 3, 14, 4, C.petalMid)}
       {px(8, 4, 1, 2, C.petalDark)}
       {px(12, 4, 1, 2, C.petalDark)}
       {px(15, 4, 1, 2, C.petalDark)}
-      {/* corazón crema con estambres */}
+      {/* cream center with stamens */}
       {px(9, 3, 6, 2, C.petalPale)}
       {px(10, 4, 4, 2, C.petalCream)}
       {px(11, 5, 2, 1, C.stamen)}
-      {/* capa exterior — la más ancha */}
+      {/* outer layer — widest */}
       {px(3, 5, 18, 3, C.petalDark)}
       {px(3, 5, 1, 3, C.petalDeep)}
       {px(20, 5, 1, 3, C.petalDeep)}
       {px(5, 5, 14, 1, C.petalMid)}
-      {/* festones inferiores */}
+      {/* lower scallops */}
       {px(4, 8, 4, 1, C.petalDeep)}
       {px(10, 8, 4, 1, C.petalDeep)}
       {px(16, 8, 4, 1, C.petalDeep)}
-      {/* sépalos */}
+      {/* sepals */}
       {px(8, 9, 8, 1, C.sepal)}
       {px(9, 10, 6, 1, C.sepalDark)}
     </>

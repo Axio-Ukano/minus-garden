@@ -1,34 +1,34 @@
 # Minu's Garden — Vision
 
-## Descripción
+## Description
 
-**Minu's Garden** es una app de escritorio offline diseñada para acompañar sesiones de estudio de Minu. Combina un timer de estudio con una economía de corazones 💗 y un jardín virtual que crece a medida que se estudia.
+**Minu's Garden** is an offline desktop app designed to accompany Minu's study sessions. It combines a study timer with a hearts economy 💗 and a virtual garden that grows as you study.
 
-## Concepto central
+## Core concept
 
-Estudiar → ganar corazones → comprar plantas y flores → ver el jardín crecer. El jardín refleja visualmente el esfuerzo acumulado, y pequeños mini-juegos estilo Adorable Home (organizar cosas, cuidar plantas, mini-tareas cortas) hacen que las pausas sean divertidas.
+Study → earn hearts → buy plants and flowers → watch the garden grow. The garden is a visual reflection of accumulated effort, and small Adorable Home-style mini-games (arranging things, tending plants, short mini-tasks) make breaks fun.
 
-## Stack técnico
+## Tech stack
 
-| Capa           | Tecnología            |
+| Layer          | Technology            |
 | -------------- | --------------------- |
 | UI             | React 19 + TypeScript |
-| Estilos        | CSS Vanilla           |
+| Styles         | Vanilla CSS           |
 | Desktop shell  | Tauri 2               |
-| Backend nativo | Rust                  |
-| Base de datos  | SQLite (via rusqlite) |
-| Estado         | Zustand 5             |
+| Native backend | Rust                  |
+| Database       | SQLite (via rusqlite) |
+| State          | Zustand 5             |
 
-## Plataforma
+## Platform
 
-- **Target:** Desktop (Windows y macOS)
-- **Modo:** Offline-first — no requiere conexión a internet
-- **Distribución:** Binario instalable local
+- **Target:** Desktop (Windows and macOS)
+- **Mode:** Offline-first — no internet connection required
+- **Distribution:** Local installable binary
 
-## No-goals para v1
+## Non-goals for v1
 
-- Sin login ni cuentas de usuario
-- Sin sincronización en la nube
-- Sin pagos ni monetización
-- Sin versión móvil
-- Sin multijugador
+- No login or user accounts
+- No cloud sync
+- No payments or monetization
+- No mobile version
+- No multiplayer

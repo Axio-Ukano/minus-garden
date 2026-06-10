@@ -1,56 +1,56 @@
-# ADR-0009: E2E con Playwright sobre el frontend y transporte Tauri faked
+# ADR-0009: E2E with Playwright against the frontend and faked Tauri transport
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-06-09
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-06-09
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-El smoke manual (playbook §4) cubre el flujo crítico: configurar sesión → completar → ver en History → corazones. Repetirlo a mano en cada PR es trabajo y es saltable. El playbook §14 tenía los E2E con Playwright como diferimiento ("cuando haya 2 vistas críticas que se rompen entre sí"); la app ya tiene varias vistas (timer, history, music, settings), así que el disparador se cumple.
+The manual smoke test (playbook §4) covers the critical flow: configure session → complete → view in History → hearts. Repeating it by hand on every PR is work and is skippable. Playbook §14 had E2E with Playwright as a deferral ("when there are 2 critical views that break each other"); the app now has several views (timer, history, music, settings), so the trigger has been met.
 
-Detalle técnico decisivo: **Playwright no maneja la ventana nativa de Tauri** — automatiza navegadores. En `localhost:1420` no existe `window.__TAURI_INTERNALS__`, así que todo `invoke` lanzaría. Para E2E nativo real (ventana + IPC + SQLite) la vía de Tauri es `tauri-driver` + WebDriver (WebdriverIO/Selenium), no Playwright, y no encaja en el CI actual (Ubuntu, pnpm-only, sin WebView2 ni display).
+A decisive technical detail: **Playwright does not drive the native Tauri window** — it automates browsers. At `localhost:1420` there is no `window.__TAURI_INTERNALS__`, so every `invoke` would throw. For real native E2E (window + IPC + SQLite) the Tauri path is `tauri-driver` + WebDriver (WebdriverIO/Selenium), not Playwright, and it does not fit the current CI (Ubuntu, pnpm-only, no WebView2 or display).
 
-## Decisión
+## Decision
 
-Montar Playwright contra el frontend de Vite con el **transporte Tauri faked en memoria**:
+Mount Playwright against the Vite frontend with the **Tauri transport faked in memory**:
 
-- `e2e/support/fakeTauri.ts` inyecta (`addInitScript`) un `window.__TAURI_INTERNALS__.invoke` que implementa los 8 comandos con las mismas shapes que Rust, sobre estado en memoria con _seed_ parametrizable. Se ejecuta el frontend real + `repository` + stores; solo SQLite/Rust se finge. La frontera `repository` (ADR-0005) es justo lo que hace esto limpio.
-- `e2e/support/pages.ts` — Page Object Model; los selectores se anclan a `data-testid` (estables ante cambios de copy, idioma y layout). Cambios de UI → se actualiza el page object, no los specs.
-- Specs iniciales: navegación entre tabs, flujo completo de sesión (con `page.clock` para adelantar el countdown sin esperar 5 min), y guardas de kiosko (anti context-menu / devtools).
-- Scripts `pnpm e2e[:ui|:headed|:report]`; workflow `e2e.yml` separado de `validate.yml`.
+- `e2e/support/fakeTauri.ts` injects (via `addInitScript`) a `window.__TAURI_INTERNALS__.invoke` that implements the 8 commands with the same shapes as Rust, over in-memory state with a parametrizable _seed_. The real frontend + `repository` + stores are exercised; only SQLite/Rust is faked. The `repository` boundary (ADR-0005) is exactly what makes this clean.
+- `e2e/support/pages.ts` — Page Object Model; selectors are anchored to `data-testid` (stable against copy, language, and layout changes). UI changes → update the page object, not the specs.
+- Initial specs: tab navigation, full session flow (using `page.clock` to advance the countdown without waiting 5 minutes), and kiosk guards (anti context-menu / devtools).
+- Scripts `pnpm e2e[:ui|:headed|:report]`; `e2e.yml` workflow separate from `validate.yml`.
 
-El **E2E nativo (tauri-driver)** queda como diferimiento explícito, con su disparador documentado.
+**Native E2E (tauri-driver)** is left as an explicit deferral, with its trigger documented.
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- El flujo crítico se valida automáticamente en cada PR; el smoke manual se reduce a "persiste de verdad en SQLite".
-- Resistente a cambios de UI (testids + POM), tal como se pidió para escalar pantallas/botones.
-- `page.clock` da tests deterministas y rápidos (sin esperas reales).
-- Seed parametrizable → fácil cubrir estados (history vacío, pre-poblado, materias custom).
+- The critical flow is validated automatically on every PR; the manual smoke test is reduced to "actually persists in SQLite".
+- Resilient to UI changes (testids + POM), as requested for scaling screens/buttons.
+- `page.clock` gives deterministic, fast tests (no real waits).
+- Parametrizable seed → easy to cover states (empty history, pre-populated, custom subjects).
 
-### Negativas
+### Bad
 
-- **No** cubre el camino real IPC→SQLite ni migraciones (eso es el E2E nativo diferido). El smoke manual de persistencia sigue siendo necesario hasta entonces.
-- Añadir `data-testid` acopla (mínimamente) el markup a los tests. Se acepta: es el método estándar y i18n-estable.
-- `page.clock.install()` debe llamarse **después** de `goto` para interceptar los timers ya montados (aprendido en la implementación).
+- Does **not** cover the real IPC→SQLite path or migrations (that is the deferred native E2E). The manual persistence smoke test remains necessary until then.
+- Adding `data-testid` couples (minimally) the markup to tests. Accepted: it is the standard method and i18n-stable.
+- `page.clock.install()` must be called **after** `goto` to intercept already-mounted timers (learned during implementation).
 
-### Neutras
+### Neutral
 
-- `e2e/` queda fuera de `tsconfig` de la app y del type-aware lint (override en `eslint.config.js`); Playwright lo type-checa en runtime.
+- `e2e/` sits outside the app's `tsconfig` and type-aware lint (override in `eslint.config.js`); Playwright type-checks it at runtime.
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### E2E nativo con tauri-driver + WebdriverIO ahora
+### Native E2E with tauri-driver + WebdriverIO now
 
-Cubriría IPC+SQLite reales y reemplazaría el smoke entero, pero es pesado, driver Windows-específico y no entra en el CI actual. Diferido; disparador: cuando el camino DB sea fuente recurrente de regresiones o se prepare distribución pública.
+Would cover real IPC+SQLite and replace the entire smoke test, but is heavy, Windows-specific for the driver, and does not fit the current CI. Deferred; trigger: when the DB path is a recurring source of regressions or a public distribution is being prepared.
 
-### Mockear a nivel de `repository` (no del transporte)
+### Mock at the `repository` level (not the transport)
 
-Más sencillo, pero dejaría sin probar `repository` y el wrapper `tauriInvoke`. Inyectar en el transporte ejercita toda la cadena de cliente. Elegido por mayor cobertura real.
+Simpler, but would leave `repository` and the `tauriInvoke` wrapper untested. Injecting at the transport level exercises the entire client chain. Chosen for greater real coverage.
 
-## Notas / referencias
+## Notes / References
 
-- Implementación: `playwright.config.ts`, `e2e/`, scripts en `package.json`, `.github/workflows/e2e.yml`.
-- Relacionado: ADR-0005 (frontera de datos), ADR-0008 (kiosko).
+- Implementation: `playwright.config.ts`, `e2e/`, scripts in `package.json`, `.github/workflows/e2e.yml`.
+- Related: ADR-0005 (data boundary), ADR-0008 (kiosk mode).

@@ -1,26 +1,26 @@
-# Playbook operativo — minus-garden
+# Operational playbook — minus-garden
 
-> Documento canónico de "qué hago, en qué orden, con qué comando" para todo trabajo en el repo. Vive aquí; `README.md` y `CONTRIBUTING.md` solo enlazan a este archivo.
+> Canonical document for "what I do, in what order, with which command" for all work in the repo. It lives here; `README.md` and `CONTRIBUTING.md` only link to this file.
 >
-> **Desde mayo 2026 el repo es público**, con branch protection en `main`: squash-only merging, checks de CI requeridos, sin push directo ni bypass. Todo cambio pasa por PR.
+> **Since May 2026 the repo is public**, with branch protection on `main`: squash-only merging, required CI checks, no direct push or bypass. Every change goes through a PR.
 
 ---
 
-## 0. Setup por máquina (una sola vez)
+## 0. Per-machine setup (one time only)
 
 ```bash
-pnpm install      # instala deps + activa hooks pre-commit (lint-staged)
-gh auth status    # confirmar autenticación de GitHub CLI
-pnpm validate     # debe pasar en main antes de empezar a tocar nada
+pnpm install      # installs deps + activates pre-commit hooks (lint-staged)
+gh auth status    # confirm GitHub CLI authentication
+pnpm validate     # must pass on main before touching anything
 ```
 
-Si `pnpm install` no activa los hooks (poco común), correr `pnpm exec simple-git-hooks` manualmente.
+If `pnpm install` doesn't activate the hooks (uncommon), run `pnpm exec simple-git-hooks` manually.
 
-VS Code instala automáticamente las extensiones recomendadas (`tauri-vscode`, `rust-analyzer`, `vscode-eslint`, `prettier-vscode`) la primera vez que abres el repo.
+VS Code automatically installs the recommended extensions (`tauri-vscode`, `rust-analyzer`, `vscode-eslint`, `prettier-vscode`) the first time you open the repo.
 
 ---
 
-## 1. Inicio de sesión de trabajo
+## 1. Starting a work session
 
 ```bash
 git checkout main
@@ -28,27 +28,27 @@ git pull --ff-only
 git fetch --tags
 ```
 
-Verificar que el árbol esté limpio (`git status` vacío). Si no, decidir: stash, commit, o discard antes de empezar.
+Verify the tree is clean (`git status` empty). If not, decide: stash, commit, or discard before starting.
 
 ---
 
-## 2. Crear rama
+## 2. Create a branch
 
-Naming obligatorio:
+Mandatory naming:
 
-| Prefijo     | Para qué                                        |
-| ----------- | ----------------------------------------------- |
-| `feat/`     | nueva feature visible para el usuario           |
-| `fix/`      | bug fix                                         |
-| `refactor/` | reestructuración sin cambio funcional           |
-| `chore/`    | tooling, deps, configuración, build             |
-| `docs/`     | solo documentación                              |
-| `test/`     | añadir o ajustar tests sin tocar código de prod |
-| `ci/`       | workflows de GitHub Actions                     |
+| Prefix      | For what                                       |
+| ----------- | ---------------------------------------------- |
+| `feat/`     | new user-visible feature                       |
+| `fix/`      | bug fix                                        |
+| `refactor/` | restructuring with no functional change        |
+| `chore/`    | tooling, deps, configuration, build            |
+| `docs/`     | documentation only                             |
+| `test/`     | add or adjust tests without touching prod code |
+| `ci/`       | GitHub Actions workflows                       |
 
 ```bash
-git checkout -b <prefijo>/<scope-corto>
-# ejemplos:
+git checkout -b <prefix>/<short-scope>
+# examples:
 git checkout -b feat/notification-on-finish
 git checkout -b fix/history-view-empty-state
 git checkout -b chore/bump-tauri-2.1
@@ -56,172 +56,173 @@ git checkout -b chore/bump-tauri-2.1
 
 ---
 
-## 3. Durante el desarrollo
+## 3. During development
 
-### Loop interno
+### Inner loop
 
 ```bash
-pnpm dev          # iteración rápida del frontend (sin Tauri)
-pnpm tauri dev    # iteración con la app real (más pesada pero refleja IPC y CSP)
-pnpm test:watch   # tests en vivo si tocas stores/lib
-pnpm typecheck    # verificación rápida del tipado
+pnpm dev          # fast frontend iteration (no Tauri)
+pnpm tauri dev    # iteration with the real app (heavier but reflects IPC and CSP)
+pnpm test:watch   # live tests if you touch stores/lib
+pnpm typecheck    # quick type check
 ```
 
 ### Commits
 
-- Conventional Commits **en inglés** (alineado con el historial).
-- Un objetivo por commit. Si tocas dos cosas, parte el commit.
-- `git commit -m "feat(scope): subject ≤ 72 chars"` — el cuerpo del commit es para el "por qué", no el "qué".
-- El hook pre-commit corre automáticamente:
-  1. `eslint --fix --max-warnings=0` sobre archivos `*.ts|*.tsx` staged.
-  2. `prettier --write` sobre `*.{ts,tsx,js,json,css,md,yml,yaml}` staged.
-- Si el hook falla: **arreglar la causa**. No usar `--no-verify`.
+- Conventional Commits **in English**.
+- One goal per commit. If you touch two things, split the commit.
+- `git commit -m "feat(scope): subject ≤ 72 chars"` — the commit body is for the "why", not the "what".
+- The pre-commit hook runs automatically:
+  1. `eslint --fix --max-warnings=0` on staged `*.ts|*.tsx` files.
+  2. `prettier --write` on staged `*.{ts,tsx,js,json,css,md,yml,yaml}` files.
+- If the hook fails: **fix the cause**. Do not use `--no-verify`.
 
-> **⚠ Con squash merge, el título del PR es lo que llega a `main`** (no los commits individuales). Los commits de la rama son útiles para el review, pero release-please solo ve el commit squasheado — cuyo mensaje es el título del PR. Por eso el título **debe** seguir Conventional Commits: `feat(scope): ...`, `fix(scope): ...`, etc.
+> **⚠ With squash merge, the PR title is what lands on `main`** (not the individual commits). The branch commits are useful for review, but release-please only sees the squashed commit — whose message is the PR title. That's why the title **must** follow Conventional Commits: `feat(scope): ...`, `fix(scope): ...`, etc.
 
-### Reglas no negociables del código
+### Non-negotiable code rules
 
-- Sin `any` (`@typescript-eslint/no-explicit-any: error`).
-- Sin variables o parámetros sin usar (`no-unused-vars: error`, ignora `^_`).
-- Promesas no awaited deben llevar `void`, `.catch(...)` o ser `await`-eadas.
-- Imports cross-módulo solo desde el barrel: `@/modules/<name>`. Imports profundos (`@/modules/<name>/<archivo>`) están bloqueados por ESLint.
-- Imports intra-módulo: relativos (`./...`, `../...`).
-- Sin dependencias circulares.
-- TypeScript strict + `noUncheckedIndexedAccess`: cualquier acceso por índice o por key dinámica devuelve `T | undefined`; manejarlo con guard explícito o `?? fallback`.
+- No `any` (`@typescript-eslint/no-explicit-any: error`).
+- No unused variables or parameters (`no-unused-vars: error`, ignores `^_`).
+- Unawaited promises must carry `void`, `.catch(...)` or be `await`-ed.
+- Cross-module imports only from the barrel: `@/modules/<name>`. Deep imports (`@/modules/<name>/<file>`) are blocked by ESLint.
+- Intra-module imports: relative (`./...`, `../...`).
+- No circular dependencies.
+- TypeScript strict + `noUncheckedIndexedAccess`: any index or dynamic-key access returns `T | undefined`; handle it with an explicit guard or `?? fallback`.
 
 ---
 
-## 4. Antes de abrir el PR — gate local
+## 4. Before opening the PR — local gate
 
-Correr **todo** en este orden y hasta que pase verde:
+Run **everything** in this order until it passes green:
 
 ```bash
-pnpm install --frozen-lockfile     # solo si tocaste deps; valida lockfile en el clon limpio
+pnpm install --frozen-lockfile     # only if you touched deps; validates the lockfile in a clean clone
 pnpm validate                       # typecheck + lint + format:check
-pnpm circular                       # 0 ciclos
-pnpm test:coverage                  # tests + cobertura ≥ 60% en módulos cubiertos
+pnpm circular                       # 0 cycles
+pnpm test:coverage                  # tests + coverage ≥ 60% on covered modules
 pnpm build                          # tsc + vite build
 ```
 
-Si tocas UI o IPC, **smoke manual obligatorio** con la app real:
+If you touched UI or IPC, **manual smoke is mandatory** with the real app:
 
 ```bash
 pnpm tauri dev
 ```
 
-Ruta de smoke mínima:
+Minimum smoke path:
 
-1. Crear sesión de 1 minuto, dejar correr, confirmar que llega a `finished`.
-2. Verificar que aparece en `History` y que el contador de hearts subió en el header.
-3. Cambiar idioma EN/ES en `Settings`; confirmar que el header y `History` se traducen.
-4. Probar volúmenes en `Settings` (master, music, ambient, sfx); cerrar y reabrir; deben persistir.
-5. Iniciar/pausar la música en el `MiniPlayer`; cambiar de track.
-6. Si tocaste backend o CSP: forzar un error (apagar la BD a mano o renombrar el `.db`) y confirmar que se ve un toast de error en lugar de crash.
+1. Create a 1-minute session, let it run, confirm it reaches `finished`.
+2. Verify it appears in `History` and that the hearts counter went up in the header.
+3. Switch language EN/ES in `Settings`; confirm the header and `History` are translated.
+4. Test volumes in `Settings` (master, music, ambient, sfx); close and reopen; they must persist.
+5. Start/pause music in the `MiniPlayer`; change track.
+6. If you touched the backend or CSP: force an error (kill the DB by hand or rename the `.db`) and confirm an error toast appears instead of a crash.
 
-Si algo de esto rompe, no abres el PR — investigas la causa primero.
-
----
-
-## 5. Documentación que se actualiza dentro del mismo PR
-
-| Cuando cambias…                                | Actualizas…                                                                                          |
-| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| estructura de carpetas o capas                 | `docs/architecture.md`                                                                               |
-| comandos Tauri o esquema SQLite                | `docs/architecture.md` + ADR si la firma cambia                                                      |
-| dependencias top-level (frontend o Rust)       | `package.json` / `Cargo.toml` + ADR si la decisión no es obvia                                       |
-| boundaries entre módulos o reglas de ESLint    | `docs/architecture.md` + ADR                                                                         |
-| stack visible (React/Vite/Tauri/Tailwind/...)  | `README.md` y `docs/architecture.md`                                                                 |
-| scripts en `package.json`                      | `README.md`                                                                                          |
-| el alcance de un sprint                        | `docs/requirements.md`                                                                               |
-| cualquier cosa que merezca trazabilidad futura | nuevo `docs/adr/NNNN-<slug>.md` basado en `docs/adr/0000-template.md`                                |
-| comportamiento visible para el usuario         | mensaje del commit (`feat:` / `fix:`) con descripción legible — release-please lo lleva al CHANGELOG |
-
-### Cuándo crear un ADR (regla práctica)
-
-Si tu cambio responde "sí" a alguna de estas, hace falta ADR:
-
-- ¿Añade o quita una dependencia top-level?
-- ¿Cambia un boundary entre módulos?
-- ¿Modifica el bridge Tauri o la firma pública de un comando?
-- ¿Cambia el esquema SQLite (incluye plan de migración)?
-- ¿Toma una decisión técnica que querré entender de aquí a 6 meses sin leer todo el diff?
-
-Numeración: el siguiente entero libre tras el último ADR.
+If any of this breaks, you don't open the PR — investigate the cause first.
 
 ---
 
-## 6. Estrategia de versionado y CHANGELOG
+## 5. Documentation updated within the same PR
 
-El versionado y el `CHANGELOG.md` los gestiona [release-please](https://github.com/googleapis/release-please) automáticamente desde el merge a `main`. La única regla del autor es escribir Conventional Commits **en inglés** correctamente: release-please se encarga de calcular el bump, sincronizar `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` y reescribir `CHANGELOG.md`.
+| When you change…                           | You update…                                                                                                    |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| folder structure or layers                 | `docs/architecture.md`                                                                                         |
+| Tauri commands or SQLite schema            | `docs/architecture.md` + ADR if the signature changes                                                          |
+| top-level dependencies (frontend or Rust)  | `package.json` / `Cargo.toml` + ADR if the decision is not obvious                                             |
+| module boundaries or ESLint rules          | `docs/architecture.md` + ADR                                                                                   |
+| visible stack (React/Vite/Tauri/...)       | `README.md` and `docs/architecture.md`                                                                         |
+| scripts in `package.json`                  | `README.md`                                                                                                    |
+| the scope of a sprint                      | `docs/requirements.md`                                                                                         |
+| anything that deserves future traceability | new `docs/adr/NNNN-<slug>.md` based on `docs/adr/0000-template.md`                                             |
+| user-visible behavior                      | the commit message (`feat:` / `fix:`) with a readable description — release-please carries it to the CHANGELOG |
 
-### Tabla de bumps (mientras estemos en `0.x`)
+### When to create an ADR (rule of thumb)
 
-| Prefijo de commit                                     | Bump                             | Aparece en CHANGELOG bajo |
-| ----------------------------------------------------- | -------------------------------- | ------------------------- |
-| `fix:`                                                | patch                            | Corregido                 |
-| `feat:`                                               | minor                            | Añadido                   |
-| `feat!:` o `BREAKING CHANGE:` en el cuerpo            | minor en `0.x` · major en `1.0+` | Añadido                   |
-| `perf:`, `refactor:`, `deps:`                         | sin bump                         | Cambiado                  |
-| `revert:`                                             | sin bump                         | Eliminado                 |
-| `chore:`, `docs:`, `test:`, `ci:`, `build:`, `style:` | sin bump                         | (oculto)                  |
+If your change answers "yes" to any of these, an ADR is needed:
 
-`bump-minor-pre-major: true` y `bump-patch-for-minor-pre-major: false` están definidos en `release-please-config.json`: mientras la versión sea `0.x`, un `feat:` bumpea minor (no patch) y un breaking change bumpea minor (no major). Al pasar a `1.0` se invierte la regla — borrar esa flag entonces.
+- Does it add or remove a top-level dependency?
+- Does it change a boundary between modules?
+- Does it modify the Tauri bridge or the public signature of a command?
+- Does it change the SQLite schema (include the migration plan)?
+- Does it make a technical decision I'll want to understand 6 months from now without reading the whole diff?
+
+Numbering: the next free integer after the last ADR.
+
+---
+
+## 6. Versioning and CHANGELOG strategy
+
+Versioning and `CHANGELOG.md` are managed by [release-please](https://github.com/googleapis/release-please) automatically from the merge to `main`. The author's only rule is to write Conventional Commits **in English** correctly: release-please computes the bump, syncs `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` and rewrites `CHANGELOG.md`.
+
+### Bump table (while we are on `0.x`)
+
+| Commit prefix                                         | Bump                             | Appears in CHANGELOG under |
+| ----------------------------------------------------- | -------------------------------- | -------------------------- |
+| `fix:`                                                | patch                            | Fixed                      |
+| `feat:`                                               | minor                            | Added                      |
+| `feat!:` or `BREAKING CHANGE:` in the body            | minor on `0.x` · major on `1.0+` | Added                      |
+| `perf:`, `refactor:`, `deps:`                         | no bump                          | Changed                    |
+| `revert:`                                             | no bump                          | Removed                    |
+| `chore:`, `docs:`, `test:`, `ci:`, `build:`, `style:` | no bump                          | (hidden)                   |
+
+`bump-minor-pre-major: true` and `bump-patch-for-minor-pre-major: false` are defined in `release-please-config.json`: while the version is `0.x`, a `feat:` bumps minor (not patch) and a breaking change bumps minor (not major). When moving to `1.0` the rule inverts — delete that flag then.
 
 ### CHANGELOG.md
 
-- Generado automáticamente por release-please. Está en `.prettierignore` para no pelearse con el formato del bot.
-- Idioma: **español**. Los labels de sección (`Añadido / Cambiado / Corregido / Eliminado`) vienen de `changelog-sections` en `release-please-config.json`. La cabecera del archivo (todo el texto sobre la primera entrada `## [X.Y.Z]`) se preserva intacta — release-please solo inserta entradas nuevas debajo, nunca sobrescribe esa cabecera. Por eso `# Changelog` y la nota de "basado en Keep a Changelog 1.1.0" siguen en español.
-- Los bullets dentro de cada entrada salen del subject de cada commit y por tanto están en inglés (consistente con la regla de Conventional Commits en inglés del §3). Se acepta esa mezcla.
-- El historial pre-`0.5.0` es manual y queda intacto debajo de las nuevas entradas auto-generadas.
+- Auto-generated by release-please. It is in `.prettierignore` so it doesn't fight with the bot's formatting.
+- Language: **English**. The section labels (`Added / Changed / Fixed / Removed`) come from `changelog-sections` in `release-please-config.json`. The file header (all the text above the first `## [X.Y.Z]` entry) is preserved intact — release-please only inserts new entries below it, never overwrites that header.
+- The bullets inside each entry come from each commit subject and are therefore in English (consistent with the English Conventional Commits rule in §3).
+- The pre-`0.5.0` history is manual and stays intact below the auto-generated entries.
 
-### Flujo de versionado
+### Versioning flow
 
-1. Mergeas un PR cualquiera a `main` con commits en inglés Conventional Commits.
-2. Si esos commits justifican un bump (`feat:`, `fix:`, breaking change), `release-please.yml` abre o actualiza un PR titulado `chore(main): release X.Y.Z` con todos los archivos sincronizados.
-3. Tú revisas ese PR (es legible: tiene el `CHANGELOG.md` en español listo). Si está bien, lo mergeas.
-4. Al mergear, el workflow crea el tag `vX.Y.Z` y el GitHub Release automáticamente.
-5. Si el PR original solo tenía `chore`/`docs`/`test`/`ci`/`build`/`style`, no pasa nada — el siguiente PR con un `feat`/`fix` recogerá las notas pendientes.
+1. You merge any PR to `main` with English Conventional Commit titles.
+2. If those commits justify a bump (`feat:`, `fix:`, breaking change), `release-please.yml` opens or updates a PR titled `chore(main): release X.Y.Z` with all files synced.
+3. You review that PR (it's readable: it has the `CHANGELOG.md` ready). If it's fine, you merge it.
+4. On merge, the workflow creates the `vX.Y.Z` tag and the GitHub Release automatically.
+5. If the original PR only had `chore`/`docs`/`test`/`ci`/`build`/`style`, nothing happens — the next PR with a `feat`/`fix` will pick up the pending notes.
 
 ---
 
-## 7. Abrir el PR
+## 7. Opening the PR
 
 ```bash
 git push -u origin <branch>
-gh pr create --base main --head <branch> --title "<conv-commit-style title>" --body "<resumen>"
+gh pr create --base main --head <branch> --title "<conv-commit-style title>" --body "<summary>"
 ```
 
-**El título del PR es crítico**: como main usa squash merge, el título se convierte en el único commit en `main`. release-please lo parsea para decidir el bump. Asegúrate de que siga Conventional Commits: `feat(timer): add pause shortcut`, `fix(audio): prevent double-play on unmount`, etc.
+**The PR title is critical**: because main uses squash merge, the title becomes the only commit on `main`. release-please parses it to decide the bump. Make sure it follows Conventional Commits: `feat(timer): add pause shortcut`, `fix(audio): prevent double-play on unmount`, etc.
 
-El cuerpo debe seguir `.github/PULL_REQUEST_TEMPLATE.md`:
+The body must follow `.github/PULL_REQUEST_TEMPLATE.md`:
 
-- Resumen 1-3 líneas.
-- Tipo de cambio (checkboxes).
-- Checklist de validación (todos verdes).
-- Capturas/video si afectó UI.
-- Notas para el reviewer.
+- Summary 1-3 lines.
+- Type of change.
+- Validation checklist (all green).
+- Scope checks — keep only the lines that apply and delete the rest; never open a PR with boxes that can't be checked.
+- Screenshots/video if it affected the UI.
+- Notes for the reviewer.
 
-Si quieres pre-llenar checkboxes, pasa el body completo con `--body "$(cat <<'EOF' ... EOF)"`.
+Pass the full body from a file with `--body-file <path>` to keep the template formatting intact.
 
 ---
 
-## 8. Esperar CI
+## 8. Wait for CI
 
 ```bash
 gh pr checks <PR#> --watch
 ```
 
-Workflow `validate.yml` corre: `pnpm install --frozen-lockfile` → `typecheck` → `lint` → `format:check` → `circular` → `test:coverage` → `build`. Tarda ~1 minuto.
+The `validate.yml` workflow runs: `pnpm install --frozen-lockfile` → `typecheck` → `lint` → `format:check` → `circular` → `test:coverage` → `build`. Takes ~1 minute.
 
-**Branch protection exige checks verdes** — el botón de merge estará bloqueado hasta que CI pase. No hay bypass posible, ni siquiera para admins.
+**Branch protection requires green checks** — the merge button is blocked until CI passes. There is no bypass, not even for admins.
 
-Si CI rompe en algo que no falla en local, casi siempre es:
+If CI breaks on something that doesn't fail locally, it's almost always:
 
-- `pnpm install --frozen-lockfile` rechaza el lockfile (deps drift) → resolver localmente, recommit.
-- Diferencia de plataforma (Windows local vs Ubuntu CI): paths con `\` vs `/`, line endings, case-sensitive resolves.
-- Coverage threshold rota porque el `include` no contempla un archivo nuevo.
+- `pnpm install --frozen-lockfile` rejects the lockfile (deps drift) → resolve locally, recommit.
+- Platform difference (local Windows vs Ubuntu CI): paths with `\` vs `/`, line endings, case-sensitive resolves.
+- Coverage threshold breaks because `include` doesn't cover a new file.
 
-Arreglar y re-pushear.
+Fix and re-push.
 
 ---
 
@@ -231,11 +232,11 @@ Arreglar y re-pushear.
 gh pr merge <PR#> --squash --delete-branch
 ```
 
-- `--squash` es la **única estrategia habilitada** en el repo. Merge commits y rebase están desactivados en Settings → General.
-- Todos los commits de la rama se comprimen en uno solo cuyo mensaje es el título del PR. El historial de `main` queda lineal: un commit = un PR = una unidad de cambio.
-- `--delete-branch`: borra la rama remota (la rama también se elimina automáticamente por configuración del repo, pero el flag limpia la referencia local).
+- `--squash` is the **only enabled strategy** in the repo. Merge commits and rebase are disabled in Settings → General.
+- All branch commits are squashed into a single one whose message is the PR title. The `main` history stays linear: one commit = one PR = one unit of change.
+- `--delete-branch`: deletes the remote branch (the branch is also auto-deleted by repo config, but the flag cleans up the local reference).
 
-> **Consecuencia para release-please**: como cada PR produce un solo commit en `main`, el título del PR (que se convierte en el mensaje del commit squasheado) es lo que release-please parsea. Un PR con título `feat(garden): add watering animation` genera un minor bump. Uno con `chore: update deps` no genera bump.
+> **Consequence for release-please**: since each PR produces a single commit on `main`, the PR title (which becomes the squashed commit message) is what release-please parses. A PR titled `feat(garden): add watering animation` produces a minor bump. One with `chore: update deps` produces none.
 
 ---
 
@@ -246,41 +247,41 @@ git checkout main
 git pull --ff-only
 ```
 
-### El workflow `release-please` corre solo
+### The `release-please` workflow runs on its own
 
-Tras el merge (squash) a `main`, `.github/workflows/release-please.yml` ejecuta y, si el commit squasheado justifica un bump (por su título/prefijo), abre (o actualiza) un PR titulado `chore(main): release X.Y.Z`.
+After the (squash) merge to `main`, `.github/workflows/release-please.yml` runs and, if the squashed commit justifies a bump (by its title/prefix), opens (or updates) a PR titled `chore(main): release X.Y.Z`.
 
-Ese PR ya trae:
+That PR already includes:
 
-- `package.json` bumpeado.
-- `src-tauri/Cargo.toml` bumpeado.
-- `src-tauri/tauri.conf.json` bumpeado.
-- `CHANGELOG.md` con la nueva entrada en español.
+- bumped `package.json`.
+- bumped `src-tauri/Cargo.toml`.
+- bumped `src-tauri/tauri.conf.json`.
+- `CHANGELOG.md` with the new entry.
 
-Lo único que tienes que hacer:
+All you have to do:
 
-1. Revisar el PR de release. Si las notas del CHANGELOG no se leen bien, edita el título del PR original (lo que quedó como commit en `main`) — release-please regenerará el CHANGELOG en su próximo run.
-2. `gh pr merge <PR#> --squash --delete-branch` el PR de release.
-3. Al mergearse, el workflow crea automáticamente el tag `vX.Y.Z` y el GitHub Release.
+1. Review the release PR. If the CHANGELOG notes don't read well, edit the title of the original PR (the one that became the commit on `main`) — release-please will regenerate the CHANGELOG on its next run.
+2. `gh pr merge <PR#> --squash --delete-branch` the release PR.
+3. On merge, the workflow automatically creates the `vX.Y.Z` tag and the GitHub Release.
 
-### `Cargo.lock` se sincroniza solo
+### `Cargo.lock` syncs on its own
 
-El workflow `release-please.yml` incluye un step que sincroniza `Cargo.lock` automáticamente dentro del PR de release (usando `sed`, sin necesidad de instalar Rust en CI). Cuando revisas el PR de release, `Cargo.lock` ya está actualizado — no hay que hacer nada manual.
+The `release-please.yml` workflow includes a step that syncs `Cargo.lock` automatically inside the release PR (using `sed`, without needing to install Rust in CI). When you review the release PR, `Cargo.lock` is already updated — nothing manual to do.
 
-### Si el PR no bumpeó versión
+### If the PR didn't bump the version
 
-Nada extra. El siguiente PR que cierre una unidad de release con `feat:` o `fix:` recogerá las notas pendientes.
+Nothing extra. The next PR that closes a release unit with `feat:` or `fix:` will pick up the pending notes.
 
 ---
 
 ## 11. Hotfix flow
 
-Si descubres un bug crítico en `main` después de release:
+If you find a critical bug on `main` after a release:
 
 ```bash
 git checkout main && git pull
-git checkout -b fix/<scope-corto>
-# arreglar + commit con prefijo fix: + tests
+git checkout -b fix/<short-scope>
+# fix + commit with fix: prefix + tests
 pnpm validate && pnpm test:coverage && pnpm build
 git push -u origin fix/<scope>
 gh pr create --base main --head fix/<scope> --title "fix(scope): describe the fix"
@@ -288,29 +289,29 @@ gh pr checks <PR#> --watch
 gh pr merge <PR#> --squash --delete-branch
 ```
 
-El título del PR (`fix(scope): ...`) será el commit squasheado en `main`. release-please lo verá como `fix:`, abrirá el PR `chore(main): release X.Y.(Z+1)` con los archivos sincronizados y el CHANGELOG. Mergeas ese PR y el tag/release patch sale solo (ver §10).
+The PR title (`fix(scope): ...`) becomes the squashed commit on `main`. release-please sees it as `fix:`, opens the `chore(main): release X.Y.(Z+1)` PR with the synced files and the CHANGELOG. You merge that PR and the patch tag/release comes out on its own (see §10).
 
 ---
 
 ## 12. Rollback
 
-### Revertir un commit ya en `main`
+### Revert a commit already on `main`
 
-Como no se puede push directo a `main`, el revert va por PR:
+Since you can't push directly to `main`, the revert goes through a PR:
 
 ```bash
 git checkout main && git pull
 git checkout -b revert/<scope>
 git revert <commit-sha>
 git push -u origin revert/<scope>
-gh pr create --title "revert(scope): undo <descripción>" --body "Reverts <commit-sha>."
+gh pr create --title "revert(scope): undo <description>" --body "Reverts <commit-sha>."
 gh pr checks <PR#> --watch
 gh pr merge <PR#> --squash --delete-branch
 ```
 
-Como main usa squash (no merge commits), todos los commits en `main` son directos — no necesitas `-m 1`.
+Since main uses squash (no merge commits), all commits on `main` are direct — you don't need `-m 1`.
 
-### Borrar un tag mal puesto
+### Delete a mis-placed tag
 
 ```bash
 git tag -d vX.Y.Z
@@ -320,50 +321,50 @@ gh release delete vX.Y.Z --yes
 
 ---
 
-## 13. Checklist consolidado por PR
+## 13. Consolidated per-PR checklist
 
-Imprime esta lista mentalmente antes de cada PR:
+Run this list mentally before each PR:
 
-- [ ] Salí de `main` actualizado y creé rama con prefijo correcto.
-- [ ] Commits atómicos, Conventional Commits, en inglés.
-- [ ] **Título del PR en Conventional Commits** — es el commit que llega a `main` y lo que release-please parsea.
-- [ ] `pnpm validate` verde.
-- [ ] `pnpm circular` 0 ciclos.
-- [ ] `pnpm test:coverage` ≥ 60% en módulos cubiertos; tests nuevos para lógica nueva.
-- [ ] `pnpm build` verde.
-- [ ] Smoke manual con `pnpm tauri dev` si tocaste UI/IPC/CSP.
-- [ ] Docs actualizados (README/architecture/requirements/ADR según tabla §5).
-- [ ] CI verde (branch protection bloquea el merge si no).
-- [ ] Merge con `--squash` (única estrategia habilitada).
-- [ ] `git checkout main && git pull` para cerrar la sesión.
-- [ ] Si release-please abrió `chore(main): release X.Y.Z`, mergearlo cuando esté listo.
-
----
-
-## 14. Diferimientos vivos (NO hacer hasta que aplique)
-
-Estos están registrados como decisiones conscientes en ADRs y `docs/requirements.md`:
-
-- **Tests E2E con Playwright** — ✅ HECHO (ADR-0009). Suite en `e2e/` sobre el frontend con transporte Tauri faked; corre en `e2e.yml`. Para añadir specs: reusar el POM de `e2e/support/pages.ts` y `data-testid`.
-- **E2E nativo (tauri-driver + WebdriverIO)** — cubre el camino real IPC→SQLite que Playwright no alcanza. Disparador: cuando el camino de BD sea fuente recurrente de regresiones o se prepare distribución pública.
-- **`tauri-plugin-log`** — cuando se distribuya fuera de uso personal.
-- **`manualChunks` en Vite** — solo si bundle gzip supera 200 KB.
-- **Autohospedar la fuente "Press Start 2P"** — para cerrar `font-src` a `'self'` y simplificar la CSP.
-- **Puerto `SessionRecorder`** — solo si crece el acoplamiento timer ⇄ history.
-- **Split de `SoundSection.tsx`** — al añadir nueva sub-feature.
-- **Refactor de `App.tsx` a router-map** — al añadir 3ª/4ª vista.
-
-Antes de abrir un PR sobre cualquiera de estos, releer el ADR correspondiente y confirmar que la condición de disparo se cumple.
+- [ ] Started from an up-to-date `main` and created a branch with the correct prefix.
+- [ ] Atomic commits, Conventional Commits, in English.
+- [ ] **PR title in Conventional Commits** — it's the commit that lands on `main` and what release-please parses.
+- [ ] `pnpm validate` green.
+- [ ] `pnpm circular` 0 cycles.
+- [ ] `pnpm test:coverage` ≥ 60% on covered modules; new tests for new logic.
+- [ ] `pnpm build` green.
+- [ ] Manual smoke with `pnpm tauri dev` if you touched UI/IPC/CSP.
+- [ ] Docs updated (README/architecture/requirements/ADR per the §5 table).
+- [ ] CI green (branch protection blocks the merge otherwise).
+- [ ] Merge with `--squash` (the only enabled strategy).
+- [ ] `git checkout main && git pull` to close the session.
+- [ ] If release-please opened `chore(main): release X.Y.Z`, merge it when ready.
 
 ---
 
-## 15. Glosario rápido de comandos
+## 14. Live deferrals (do NOT do until they apply)
+
+These are recorded as conscious decisions in ADRs and `docs/requirements.md`:
+
+- **E2E tests with Playwright** — ✅ DONE (ADR-0009). Suite in `e2e/` over the frontend with faked Tauri transport; runs in `e2e.yml`. To add specs: reuse the POM in `e2e/support/pages.ts` and `data-testid`.
+- **Native E2E (tauri-driver + WebdriverIO)** — covers the real IPC→SQLite path that Playwright can't reach. Trigger: when the DB path becomes a recurring source of regressions or public distribution is prepared.
+- **`tauri-plugin-log`** — when distributed beyond personal use.
+- **`manualChunks` in Vite** — only if the gzip bundle exceeds 200 KB.
+- **Self-host the "Press Start 2P" font** — to close `font-src` to `'self'` and simplify the CSP.
+- **`SessionRecorder` port** — only if the timer ⇄ history coupling grows.
+- **Split of `SoundSection.tsx`** — when a new sub-feature is added.
+- **Refactor `App.tsx` to a router-map** — when a 3rd/4th view is added.
+
+Before opening a PR on any of these, re-read the corresponding ADR and confirm the trigger condition is met.
+
+---
+
+## 15. Quick command glossary
 
 ```bash
-pnpm dev                # Vite sin Tauri
-pnpm tauri dev          # app de escritorio con HMR
+pnpm dev                # Vite without Tauri
+pnpm tauri dev          # desktop app with HMR
 pnpm build              # tsc + vite build (frontend prod)
-pnpm tauri build        # bundle nativo
+pnpm tauri build        # native bundle
 
 pnpm typecheck          # tsc --noEmit
 pnpm lint               # ESLint
@@ -380,7 +381,7 @@ gh pr create --base main --head <branch>
 gh pr checks <PR#> --watch
 gh pr merge <PR#> --squash --delete-branch
 
-# Releases: lo hace release-please en CI. Solo para rescate manual:
+# Releases: handled by release-please in CI. Only for manual rescue:
 gh release create vX.Y.Z --target main --title "..." --notes "..."
 git tag -a vX.Y.Z -m "..."  &&  git push origin vX.Y.Z
 ```

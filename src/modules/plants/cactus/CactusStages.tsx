@@ -1,5 +1,5 @@
 // ── Cactus — grid 24×30, shared pot (see shared/PotSprite) ───────────────────
-// Saguaro de barril con costillas, espinas y corona de flores rosas.
+// Barrel saguaro with ribs, spines and a crown of pink flowers.
 import { Pot, px } from "../shared/PotSprite";
 
 const C = {
@@ -17,7 +17,7 @@ const C = {
   pebbleDark: "#8a7a68",
 } as const;
 
-// Cuerpo de barril con tapa redondeada, costillas y brillo
+// Barrel body with rounded cap, ribs and shine
 function Barrel(x: number, y: number, w: number, h: number) {
   const rects = [];
   rects.push(px(x + 1, y, w - 2, 1, C.bodyLight));
@@ -43,7 +43,7 @@ function Pebbles() {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function CactusStage1() {
-  // Botoncito recién brotado entre piedritas
+  // Tiny button freshly sprouted among pebbles
   return (
     <>
       <Pot />
@@ -53,7 +53,7 @@ export function CactusStage1() {
       {px(10, 18, 1, 3, C.bodyDark)}
       {px(13, 18, 1, 3, C.bodyDark)}
       {px(11, 18, 1, 2, C.shine)}
-      {/* espinas */}
+      {/* spines */}
       {px(9, 18, 1, 1, C.spine)}
       {px(14, 18, 1, 1, C.spine)}
       {px(11, 16, 1, 1, C.spine)}
@@ -62,13 +62,13 @@ export function CactusStage1() {
 }
 
 export function CactusStage2() {
-  // Barril pequeño
+  // Small barrel
   return (
     <>
       <Pot />
       {Pebbles()}
       {Barrel(9, 15, 6, 6)}
-      {/* espinas */}
+      {/* spines */}
       {px(8, 16, 1, 1, C.spine)}
       {px(15, 16, 1, 1, C.spine)}
       {px(8, 19, 1, 1, C.spine)}
@@ -80,20 +80,20 @@ export function CactusStage2() {
 }
 
 export function CactusStage3() {
-  // Barril alto con más costillas
+  // Tall barrel with more ribs
   return (
     <>
       <Pot />
       {Pebbles()}
       {Barrel(8, 10, 8, 11)}
-      {/* espinas laterales */}
+      {/* side spines */}
       {px(7, 12, 1, 1, C.spine)}
       {px(16, 12, 1, 1, C.spine)}
       {px(7, 15, 1, 1, C.spine)}
       {px(16, 15, 1, 1, C.spine)}
       {px(7, 18, 1, 1, C.spine)}
       {px(16, 18, 1, 1, C.spine)}
-      {/* espinas superiores y de costilla */}
+      {/* top and rib spines */}
       {px(10, 9, 1, 1, C.spine)}
       {px(13, 9, 1, 1, C.spine)}
       {px(10, 13, 1, 1, C.spine)}
@@ -104,21 +104,21 @@ export function CactusStage3() {
 }
 
 export function CactusStage4() {
-  // Tronco alto con muñones de brazos
+  // Tall trunk with arm stubs
   return (
     <>
       <Pot />
       {Pebbles()}
       {Barrel(9, 8, 6, 13)}
-      {/* muñón izquierdo */}
+      {/* left stub */}
       {px(6, 12, 3, 1, C.bodyLight)}
       {px(5, 13, 4, 2, C.body)}
       {px(5, 13, 1, 2, C.bodyDark)}
-      {/* muñón derecho */}
+      {/* right stub */}
       {px(15, 13, 3, 1, C.bodyLight)}
       {px(15, 14, 4, 2, C.body)}
       {px(18, 14, 1, 2, C.bodyDark)}
-      {/* espinas */}
+      {/* spines */}
       {px(4, 13, 1, 1, C.spine)}
       {px(19, 14, 1, 1, C.spine)}
       {px(8, 10, 1, 1, C.spine)}
@@ -133,24 +133,24 @@ export function CactusStage4() {
 }
 
 export function CactusStage5() {
-  // Saguaro completo — brazos en L hacia arriba
+  // Full saguaro — L-shaped arms reaching up
   return (
     <>
       <Pot />
       {Pebbles()}
       {Barrel(9, 6, 6, 15)}
-      {/* brazo izquierdo */}
+      {/* left arm */}
       {px(6, 9, 2, 1, C.bodyLight)}
       {px(5, 10, 3, 6, C.body)}
       {px(5, 10, 1, 6, C.bodyDark)}
       {px(6, 10, 1, 2, C.shine)}
       {px(8, 13, 1, 3, C.body)}
-      {/* brazo derecho — más bajo */}
+      {/* right arm — set lower */}
       {px(16, 11, 2, 1, C.bodyLight)}
       {px(16, 12, 3, 5, C.body)}
       {px(18, 12, 1, 5, C.bodyDark)}
       {px(15, 14, 1, 3, C.body)}
-      {/* espinas */}
+      {/* spines */}
       {px(4, 11, 1, 1, C.spine)}
       {px(4, 14, 1, 1, C.spine)}
       {px(19, 13, 1, 1, C.spine)}
@@ -169,24 +169,24 @@ export function CactusStage5() {
 }
 
 export function CactusStage6() {
-  // Saguaro florecido — corona rosa en el tronco y los brazos
+  // Blooming saguaro — pink crown on the trunk and arms
   return (
     <>
       <Pot />
       {Pebbles()}
       {Barrel(9, 6, 6, 15)}
-      {/* brazo izquierdo */}
+      {/* left arm */}
       {px(6, 9, 2, 1, C.bodyLight)}
       {px(5, 10, 3, 6, C.body)}
       {px(5, 10, 1, 6, C.bodyDark)}
       {px(6, 10, 1, 2, C.shine)}
       {px(8, 13, 1, 3, C.body)}
-      {/* brazo derecho */}
+      {/* right arm */}
       {px(16, 11, 2, 1, C.bodyLight)}
       {px(16, 12, 3, 5, C.body)}
       {px(18, 12, 1, 5, C.bodyDark)}
       {px(15, 14, 1, 3, C.body)}
-      {/* espinas */}
+      {/* spines */}
       {px(4, 11, 1, 1, C.spine)}
       {px(4, 14, 1, 1, C.spine)}
       {px(19, 13, 1, 1, C.spine)}
@@ -198,7 +198,7 @@ export function CactusStage6() {
       {px(11, 10, 1, 1, C.spine)}
       {px(11, 15, 1, 1, C.spine)}
       {px(11, 19, 1, 1, C.spine)}
-      {/* flor principal en el tronco */}
+      {/* main flower on the trunk */}
       {px(10, 2, 1, 1, C.flowerLight)}
       {px(12, 2, 2, 1, C.flowerLight)}
       {px(9, 3, 6, 1, C.flowerPink)}
@@ -207,11 +207,11 @@ export function CactusStage6() {
       {px(14, 4, 1, 1, C.flowerDeep)}
       {px(11, 4, 2, 1, C.flowerCenter)}
       {px(10, 5, 4, 1, C.flowerDeep)}
-      {/* flor del brazo izquierdo */}
+      {/* left arm flower */}
       {px(5, 7, 3, 1, C.flowerPink)}
       {px(6, 6, 1, 1, C.flowerLight)}
       {px(6, 8, 1, 1, C.flowerCenter)}
-      {/* flor del brazo derecho */}
+      {/* right arm flower */}
       {px(16, 9, 3, 1, C.flowerPink)}
       {px(17, 8, 1, 1, C.flowerLight)}
       {px(17, 10, 1, 1, C.flowerCenter)}

@@ -1,101 +1,101 @@
-# Minu's Garden — Arquitectura
+# Minu's Garden — Architecture
 
 ## Stack
 
-| Capa              | Tecnología                                | Versión                                 |
+| Layer             | Technology                                | Version                                 |
 | ----------------- | ----------------------------------------- | --------------------------------------- |
 | UI Framework      | React                                     | 19                                      |
-| Lenguaje frontend | TypeScript                                | 6 (strict + `noUncheckedIndexedAccess`) |
-| Estilos           | CSS Vanilla (Custom Properties + BEM)     | -                                       |
+| Frontend language | TypeScript                                | 6 (strict + `noUncheckedIndexedAccess`) |
+| Styles            | Vanilla CSS (Custom Properties + BEM)     | -                                       |
 | Bundler           | Vite                                      | 8                                       |
 | Desktop shell     | Tauri                                     | 2                                       |
-| Backend nativo    | Rust                                      | edition 2021                            |
-| Base de datos     | SQLite                                    | via `rusqlite` (`bundled`)              |
-| Estado global     | Zustand                                   | 5                                       |
+| Native backend    | Rust                                      | edition 2021                            |
+| Database          | SQLite                                    | via `rusqlite` (`bundled`)              |
+| Global state      | Zustand                                   | 5                                       |
 | Audio             | Howler                                    | 2                                       |
 | Tests             | Vitest 4 + @testing-library/react + jsdom | -                                       |
 
-## Arquitectura en capas
+## Layered architecture
 
 ```
 ┌─────────────────────────────────────┐
-│           UI — React + TSX          │  Componentes, vistas, modales
+│           UI — React + TSX          │  Components, views, modals
 ├─────────────────────────────────────┤
-│        State — Zustand stores       │  Un store por feature; persist en settings
+│        State — Zustand stores       │  One store per feature; persist in settings
 ├─────────────────────────────────────┤
-│     Data — repository (lib/data)    │  Única frontera de datos; contrato wire⇄dominio
+│     Data — repository (lib/data)    │  Single data boundary; wire⇄domain contract
 ├─────────────────────────────────────┤
-│       Tauri Bridge — invoke()       │  src/lib/tauri.ts (typed wrapper, transporte)
+│       Tauri Bridge — invoke()       │  src/lib/tauri.ts (typed wrapper, transport)
 ├─────────────────────────────────────┤
-│    Rust backend — src-tauri/src/    │  Comandos IPC, esquema, migraciones
+│    Rust backend — src-tauri/src/    │  IPC commands, schema, migrations
 ├─────────────────────────────────────┤
-│         SQLite — app.db             │  Persistencia local (AppData)
+│         SQLite — app.db             │  Local persistence (AppData)
 └─────────────────────────────────────┘
 ```
 
-> **Frontera de datos** ([ADR-0005](adr/0005-data-repository-boundary.md)): ningún store ni
-> componente llama `tauriInvoke` directamente. Todo acceso a estado persistido pasa por
-> `repository` (`src/lib/data/`), que envuelve el transporte y mapea wire (snake_case) ⇄
-> dominio (camelCase). El día que se añada un backend remoto de sincronización, solo cambia
-> `src/lib/data/index.ts`; los stores no se tocan.
+> **Data boundary** ([ADR-0005](adr/0005-data-repository-boundary.md)): no store or
+> component calls `tauriInvoke` directly. All access to persisted state goes through
+> `repository` (`src/lib/data/`), which wraps the transport and maps wire (snake_case) ⇄
+> domain (camelCase). The day a remote sync backend is added, only `src/lib/data/index.ts`
+> changes; the stores are untouched.
 
-## Boundaries y enforcement
+## Boundaries and enforcement
 
-- Cada feature vive en `src/modules/<name>/` y expone su API por `index.ts` (barrel).
-- Imports cross-módulo: solo `@/modules/<name>` (alias). El patrón profundo `@/modules/<name>/<archivo>` está **prohibido por ESLint** (`no-restricted-imports`).
-- Imports intra-módulo: relativos (`./`, `../`). No usar `@/modules/<self>/...`.
-- Sin dependencias circulares: `import/no-cycle` en ESLint + `pnpm circular` (madge) como red secundaria. Detalle en [ADR-0004](adr/0004-module-boundaries-and-alias.md).
-- Path alias `@/*` → `src/*` configurado en `tsconfig.json`, `vite.config.ts` y `vitest.config.ts`.
+- Each feature lives in `src/modules/<name>/` and exposes its API via `index.ts` (barrel).
+- Cross-module imports: only `@/modules/<name>` (alias). The deep pattern `@/modules/<name>/<file>` is **forbidden by ESLint** (`no-restricted-imports`).
+- Intra-module imports: relative (`./`, `../`). Do not use `@/modules/<self>/...`.
+- No circular dependencies: `import/no-cycle` in ESLint + `pnpm circular` (madge) as a secondary net. Detail in [ADR-0004](adr/0004-module-boundaries-and-alias.md).
+- Path alias `@/*` → `src/*` configured in `tsconfig.json`, `vite.config.ts` and `vitest.config.ts`.
 
-## Estructura de carpetas
+## Folder structure
 
 ```
 minus-garden/
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate.yml         # CI: typecheck + lint + format + circular + test + build
-│   │   └── audit.yml            # pnpm audit + cargo audit (semanal)
+│   │   └── audit.yml            # pnpm audit + cargo audit (weekly)
 │   └── PULL_REQUEST_TEMPLATE.md
 ├── docs/
-│   ├── architecture.md          # este documento
-│   ├── adr/                     # decisiones arquitectónicas
-│   ├── requirements.md          # hitos por sprint
-│   ├── palette.md               # paleta de diseño
-│   └── vision.md                # visión del producto
-├── src/                         # Frontend React
-│   ├── components/              # primitivas UI compartidas (header, panel, iconos, slider…)
+│   ├── architecture.md          # this document
+│   ├── adr/                     # architectural decisions
+│   ├── requirements.md          # milestones per sprint
+│   ├── palette.md               # design palette
+│   └── vision.md                # product vision
+├── src/                         # React frontend
+│   ├── components/              # shared UI primitives (header, panel, icons, slider…)
 │   ├── i18n/                    # en.ts, es.ts, types.ts, index.ts
 │   ├── lib/
-│   │   ├── tauri.ts             # bridge tipado de transporte (TauriCommand, tauriInvoke<T>, TauriError)
-│   │   ├── data/                # frontera de datos: repository + tipos de dominio (ADR-0005)
-│   │   ├── kiosk.ts             # guardas de modo juego (anti context-menu/devtools/drag, ADR-0008)
-│   │   └── toast/               # store + componentes de toasts
+│   │   ├── tauri.ts             # typed transport bridge (TauriCommand, tauriInvoke<T>, TauriError)
+│   │   ├── data/                # data boundary: repository + domain types (ADR-0005)
+│   │   ├── kiosk.ts             # game-mode guards (anti context-menu/devtools/drag, ADR-0008)
+│   │   └── toast/               # toast store + components
 │   ├── modules/
 │   │   ├── audio/               # Howler service, store, registry, hook
-│   │   ├── history/             # vista + store de sesiones e historial
+│   │   ├── history/             # session list view + store
 │   │   ├── music/               # MiniPlayer + MusicPlayerView
-│   │   ├── plants/              # especies, growth, modal y SVG por especie
+│   │   ├── plants/              # species, growth, stages modal, per-species SVG, seed packets
 │   │   ├── settings/            # modal + sections (Sound, Interface, …)
-│   │   ├── subjects/            # gestión de materias
-│   │   └── timer/               # store + vistas (Setup/Active/Finished) + hook
-│   ├── styles/                  # variables CSS + global
+│   │   ├── subjects/            # subject management
+│   │   └── timer/               # store + views (Setup/Active/Finished) + hook
+│   ├── styles/                  # CSS variables + global
 │   ├── App.tsx
 │   ├── main.tsx                 # entry + ErrorBoundary
-│   └── test-types.d.ts          # augmenta Vitest con jest-dom matchers
-├── src-tauri/                   # Backend Rust
+│   └── test-types.d.ts          # augments Vitest with jest-dom matchers
+├── src-tauri/                   # Rust backend
 │   ├── src/
-│   │   ├── main.rs              # punto de entrada
-│   │   ├── lib.rs               # builder, registro de comandos
-│   │   ├── db.rs                # conexión SQLite, migraciones
-│   │   └── commands.rs          # implementación de comandos IPC
+│   │   ├── main.rs              # entry point
+│   │   ├── lib.rs               # builder, command registration
+│   │   ├── db.rs                # SQLite connection, migrations
+│   │   └── commands.rs          # IPC command implementations
 │   ├── capabilities/default.json
-│   └── tauri.conf.json          # ventana, CSP explícita, bundle
-├── e2e/                         # Playwright E2E (frontend, transporte Tauri faked — ADR-0009)
+│   └── tauri.conf.json          # window, explicit CSP, bundle
+├── e2e/                         # Playwright E2E (frontend, faked Tauri transport — ADR-0009)
 │   ├── support/
-│   │   ├── fakeTauri.ts         # backend en memoria + seed parametrizable
-│   │   └── pages.ts             # Page Object Model (selectores por data-testid)
+│   │   ├── fakeTauri.ts         # in-memory backend + parametrizable seed
+│   │   └── pages.ts             # Page Object Model (data-testid selectors)
 │   └── specs/                   # navigation, session-flow, kiosk
-├── playwright.config.ts         # webServer pnpm dev + proyecto chromium
+├── playwright.config.ts         # webServer pnpm dev + chromium project
 ├── test/
 │   └── setup.ts                 # @testing-library/jest-dom + cleanup
 ├── eslint.config.js             # flat config, type-aware, boundaries
@@ -111,106 +111,107 @@ minus-garden/
 └── CHANGELOG.md
 ```
 
-## Comandos Tauri expuestos
+## Exposed Tauri commands
 
-Definidos en `src-tauri/src/commands.rs`, registrados en `src-tauri/src/lib.rs`, consumidos por `src/lib/tauri.ts` con tipado union `TauriCommand`:
+Defined in `src-tauri/src/commands.rs`, registered in `src-tauri/src/lib.rs`, consumed by `src/lib/tauri.ts` with the `TauriCommand` union type:
 
-- `save_session(session)` — inserta en `sessions`.
-- `get_sessions()` — devuelve todas las sesiones ordenadas por `start_time` desc.
-- `delete_session(id)` — borra por id.
-- `get_user_state()` — devuelve `{ total_hearts }`.
-- `update_hearts(totalHearts)` — UPSERT en `user_state`.
-- `get_subjects()` — todos los subjects guardados.
-- `save_subject(name)` — UPSERT (rechaza nombres duplicados).
-- `update_subject_usage(id)` — incrementa `use_count` y `last_used_at`.
+- `save_session(session)` — inserts into `sessions`.
+- `get_sessions()` — returns all sessions ordered by `start_time` desc.
+- `delete_session(id)` — deletes by id.
+- `get_user_state()` — returns `{ total_hearts }`.
+- `update_hearts(totalHearts)` — UPSERT into `user_state`.
+- `get_subjects()` — all saved subjects.
+- `save_subject(name)` — UPSERT (rejects duplicate names).
+- `update_subject_usage(id)` — increments `use_count` and `last_used_at`.
 
-`tauriInvoke<T>(command, args)` envuelve `invoke`:
+`tauriInvoke<T>(command, args)` wraps `invoke`:
 
-- Localiza errores (es/en) según `useSettingsStore.getState().language`.
-- Loguea por consola con tag `[tauriInvoke:<command>]`.
-- Empuja un toast tipo `error` con el mensaje localizado.
-- Re-lanza un `TauriError` con el `raw` original para que el caller decida si bloquea su flujo.
+- Localizes errors (es/en) based on `useSettingsStore.getState().language`.
+- Logs to the console with the tag `[tauriInvoke:<command>]`.
+- Pushes an `error` toast with the localized message.
+- Re-throws a `TauriError` carrying the original `raw` so the caller decides whether to block its flow.
 
-## Tablas de base de datos
+## Database tables
 
 ### `sessions`
 
-| Campo              | Tipo    | Descripción                         |
-| ------------------ | ------- | ----------------------------------- |
-| `id`               | TEXT PK | UUID de la sesión                   |
-| `start_time`       | TEXT    | ISO 8601 timestamp                  |
-| `end_time`         | TEXT    | ISO 8601 timestamp                  |
-| `duration_minutes` | INTEGER | Duración en minutos                 |
-| `subject`          | TEXT    | Nombre de la materia                |
-| `completed`        | INTEGER | 1 si se completó, 0 si no           |
-| `hearts_earned`    | INTEGER | Corazones ganados                   |
-| `plant_species`    | TEXT    | ID de la especie (daisy, sunflower) |
-| `plant_stage`      | INTEGER | Etapa final alcanzada               |
+| Field              | Type    | Description                   |
+| ------------------ | ------- | ----------------------------- |
+| `id`               | TEXT PK | Session UUID                  |
+| `start_time`       | TEXT    | ISO 8601 timestamp            |
+| `end_time`         | TEXT    | ISO 8601 timestamp            |
+| `duration_minutes` | INTEGER | Duration in minutes           |
+| `subject`          | TEXT    | Subject name                  |
+| `completed`        | INTEGER | 1 if completed, 0 otherwise   |
+| `hearts_earned`    | INTEGER | Hearts earned                 |
+| `plant_species`    | TEXT    | Species ID (daisy, sunflower) |
+| `plant_stage`      | INTEGER | Final stage reached           |
 
 ### `user_state`
 
-| Campo          | Tipo    | Descripción                       |
-| -------------- | ------- | --------------------------------- |
-| `id`           | INTEGER | ID único (1)                      |
-| `total_hearts` | INTEGER | Balance total de corazones        |
-| `updated_at`   | TEXT    | Timestamp de última actualización |
+| Field          | Type    | Description           |
+| -------------- | ------- | --------------------- |
+| `id`           | INTEGER | Unique ID (1)         |
+| `total_hearts` | INTEGER | Total hearts balance  |
+| `updated_at`   | TEXT    | Last-update timestamp |
 
 ### `subjects`
 
-| Campo          | Tipo    | Descripción                  |
-| -------------- | ------- | ---------------------------- |
-| `id`           | TEXT PK | UUID de la materia           |
-| `name`         | TEXT    | Nombre único                 |
-| `color`        | TEXT    | Color hexadecimal asociado   |
-| `last_used_at` | TEXT    | Timestamp de último uso      |
-| `use_count`    | INTEGER | Veces que se ha seleccionado |
+| Field          | Type    | Description                |
+| -------------- | ------- | -------------------------- |
+| `id`           | TEXT PK | Subject UUID               |
+| `name`         | TEXT    | Unique name                |
+| `color`        | TEXT    | Associated hex color       |
+| `last_used_at` | TEXT    | Last-used timestamp        |
+| `use_count`    | INTEGER | Times it has been selected |
 
-> Detalle de la decisión de persistencia: [ADR-0003](adr/0003-sqlite-local.md).
+> Persistence decision detail: [ADR-0003](adr/0003-sqlite-local.md).
 
-### Migraciones de esquema
+### Schema migrations
 
-El esquema se versiona con `PRAGMA user_version` ([ADR-0006](adr/0006-versioned-sqlite-migrations.md)).
-`db.rs` mantiene `MIGRATIONS: &[&str]` (índice + 1 = número de versión) y un runner que aplica
-en orden cada migración con versión mayor a la actual, subiendo `user_version` tras cada una.
+The schema is versioned with `PRAGMA user_version` ([ADR-0006](adr/0006-versioned-sqlite-migrations.md)).
+`db.rs` keeps `MIGRATIONS: &[&str]` (index + 1 = version number) and a runner that applies,
+in order, every migration with a version higher than the current one, bumping `user_version`
+after each.
 
-- **v1**: esquema baseline. Usa `IF NOT EXISTS` + ALTER legacy (tragados) para absorber con
-  seguridad cualquier base previa (pre-`user_version`, con o sin columnas de planta).
-- **v2+**: `ALTER`/`CREATE` planos, sin guardas — la versión garantiza que solo corren una vez.
+- **v1**: baseline schema. Uses `IF NOT EXISTS` + legacy ALTER (swallowed) to safely absorb any
+  prior database (pre-`user_version`, with or without plant columns).
+- **v2+**: plain `ALTER`/`CREATE`, no guards — the version guarantees they run only once.
 
-Reglas: las migraciones publicadas **nunca** se editan ni reordenan; solo se añaden al final.
-Tests unitarios Rust (`#[cfg(test)]` en `db.rs`) cubren base nueva, idempotencia y upgrade legacy.
+Rules: published migrations are **never** edited or reordered; they are only appended.
+Rust unit tests (`#[cfg(test)]` in `db.rs`) cover a fresh database, idempotency and the legacy upgrade.
 
-## Flujo principal — sesión de estudio completada
+## Main flow — completed study session
 
 ```
-Usuario configura subject + planta + duración (TimerSetupView)
+User configures subject + plant + duration (TimerSetupView)
   → useTimerStore.start() → status: running, secondsLeft = duration*60
-  → useTimer hook decrementa cada segundo (tick → tick → ... → finish)
-  → finish() calcula hearts (calculateHeartsEarned) y etapa (calculateFinalStage)
-  → compone Session, llama useHistoryStore.saveSession() y syncHearts()
-  → repository.sessions.save(session) → tauriInvoke("save_session") inserta en SQLite
-  → repository.userState.setHearts(total) → tauriInvoke("update_hearts") UPSERT en SQLite
+  → useTimer hook decrements every second (tick → tick → ... → finish)
+  → finish() computes hearts (calculateHeartsEarned) and stage (calculateFinalStage)
+  → composes Session, calls useHistoryStore.saveSession() and syncHearts()
+  → repository.sessions.save(session) → tauriInvoke("save_session") inserts into SQLite
+  → repository.userState.setHearts(total) → tauriInvoke("update_hearts") UPSERT into SQLite
   → audioService.playSfx("timer_finish") + setTimeout("session_saved", 800ms)
   → status: finished
-  → HistoryView refleja la nueva sesión y el header muestra hearts +X
+  → HistoryView reflects the new session and the header shows hearts +X
 ```
 
-## Seguridad
+## Security
 
-- CSP explícita en `tauri.conf.json` — ver [ADR-0001](adr/0001-csp-tauri.md).
-- Capabilities mínimas (`core:default` + `opener:default`).
-- Sin secretos en repo. Sin red salvo CDNs de fuentes (Google Fonts).
-- Persistencia 100% local; sin telemetría ni auth.
-- Modo kiosko ([ADR-0008](adr/0008-kiosk-mode.md)): `src/lib/kiosk.ts` bloquea menú contextual,
-  atajos de devtools/ver-fuente y arrastre de imágenes; CSS suprime selección de texto salvo en
-  inputs. Es UX de juego, no una barrera de seguridad.
+- Explicit CSP in `tauri.conf.json` — see [ADR-0001](adr/0001-csp-tauri.md).
+- Minimal capabilities (`core:default` + `opener:default`).
+- No secrets in the repo. No network except font CDNs (Google Fonts).
+- 100% local persistence; no telemetry, no auth.
+- Kiosk mode ([ADR-0008](adr/0008-kiosk-mode.md)): `src/lib/kiosk.ts` blocks the context menu,
+  devtools/view-source shortcuts and image dragging; CSS suppresses text selection except in
+  inputs. It is game UX, not a security barrier.
 
-## Tooling y CI
+## Tooling and CI
 
-- ESLint flat config, type-aware (`@typescript-eslint/no-floating-promises`, `no-misused-promises`, `no-explicit-any` y `no-unused-vars` en `error`, regla de boundaries).
-- Prettier obligatorio (lint-staged en pre-commit).
+- ESLint flat config, type-aware (`@typescript-eslint/no-floating-promises`, `no-misused-promises`, `no-explicit-any` and `no-unused-vars` at `error`, boundaries rule).
+- Prettier mandatory (lint-staged in pre-commit).
 - TypeScript strict + `noUncheckedIndexedAccess`.
-- Vitest con jsdom, cobertura mínima 60% en módulos prioritarios.
-- Playwright para E2E de frontend con transporte Tauri faked ([ADR-0009](adr/0009-e2e-playwright-faked-transport.md)): `pnpm e2e`. Selectores por `data-testid` + Page Object Model en `e2e/support/`.
-- madge para detectar ciclos.
-- GitHub Actions workflows: `validate.yml` (todo PR / push a main), `e2e.yml` (Playwright en PR / push) y `audit.yml` (semanal).
+- Vitest with jsdom, minimum 60% coverage on priority modules.
+- Playwright for frontend E2E with faked Tauri transport ([ADR-0009](adr/0009-e2e-playwright-faked-transport.md)): `pnpm e2e`. `data-testid` selectors + Page Object Model in `e2e/support/`.
+- madge for cycle detection.
+- GitHub Actions workflows: `validate.yml` (every PR / push to main), `e2e.yml` (Playwright on PR / push) and `audit.yml` (weekly).

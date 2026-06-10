@@ -1,6 +1,6 @@
 // ── Orchid — grid 24×30, shared pot (see shared/PotSprite) ───────────────────
-// Phalaenopsis: hojas carnosas basales, raíces aéreas y vara arqueada
-// con flores blanco-lila de labelo magenta.
+// Phalaenopsis: fleshy basal leaves, aerial roots and an arching spike
+// with white-lilac flowers and a magenta lip.
 import { Pot, px } from "../shared/PotSprite";
 
 const C = {
@@ -22,22 +22,22 @@ const C = {
   budDark: "#9060b0",
 } as const;
 
-// Flor de orquídea — caja 8×7, (x, y) = esquina superior izquierda
+// Orchid flower — 8×7 box, (x, y) = top-left corner
 function Flower(x: number, y: number) {
   return (
     <>
-      {/* sépalo dorsal */}
+      {/* dorsal sepal */}
       {px(x + 3, y, 2, 1, C.lilacEdge)}
       {px(x + 3, y + 1, 2, 1, C.petalWhite)}
-      {/* alas laterales */}
+      {/* side wings */}
       {px(x, y + 2, 3, 3, C.petalWhite)}
       {px(x, y + 2, 1, 3, C.lilacEdge)}
       {px(x + 5, y + 2, 3, 3, C.petalWhite)}
       {px(x + 7, y + 2, 1, 3, C.lilacEdge)}
-      {/* sépalos inferiores */}
+      {/* lower sepals */}
       {px(x + 1, y + 5, 2, 2, C.lilac)}
       {px(x + 5, y + 5, 2, 2, C.lilac)}
-      {/* columna y labelo */}
+      {/* column and lip */}
       {px(x + 3, y + 2, 2, 1, C.column)}
       {px(x + 3, y + 3, 2, 2, C.lip)}
       {px(x + 2, y + 4, 1, 1, C.lip)}
@@ -47,7 +47,7 @@ function Flower(x: number, y: number) {
   );
 }
 
-// Capullo lila redondeado
+// Rounded lilac bud
 function Bud(x: number, y: number) {
   return (
     <>
@@ -58,7 +58,7 @@ function Bud(x: number, y: number) {
   );
 }
 
-// Hojas carnosas basales
+// Fleshy basal leaves
 function LeafLeftBig() {
   return (
     <>
@@ -95,7 +95,7 @@ function LeafFront() {
   );
 }
 
-// Raíz aérea colgando sobre el borde de la maceta
+// Aerial root hanging over the pot rim
 function AerialRoot() {
   return (
     <>
@@ -108,7 +108,7 @@ function AerialRoot() {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function OrchidStage1() {
-  // Plántula — primera hojita carnosa
+  // Seedling — first fleshy baby leaf
   return (
     <>
       <Pot />
@@ -122,7 +122,7 @@ export function OrchidStage1() {
 }
 
 export function OrchidStage2() {
-  // Dos hojas anchas y brillantes
+  // Two broad, glossy leaves
   return (
     <>
       <Pot />
@@ -133,7 +133,7 @@ export function OrchidStage2() {
 }
 
 export function OrchidStage3() {
-  // Tres hojas y raíz aérea
+  // Three leaves and an aerial root
   return (
     <>
       <Pot />
@@ -146,7 +146,7 @@ export function OrchidStage3() {
 }
 
 export function OrchidStage4() {
-  // Vara floral asomando con primeros capullos
+  // Flower spike emerging with first buds
   return (
     <>
       <Pot />
@@ -154,12 +154,12 @@ export function OrchidStage4() {
       {LeafRightBig()}
       {LeafFront()}
       {AerialRoot()}
-      {/* vara arqueada */}
+      {/* arching spike */}
       {px(12, 14, 1, 3, C.spike)}
       {px(13, 12, 1, 2, C.spike)}
       {px(14, 10, 1, 2, C.spikeDark)}
       {px(15, 8, 1, 2, C.spike)}
-      {/* capullos */}
+      {/* buds */}
       {Bud(14, 5)}
       {Bud(16, 9)}
     </>
@@ -167,7 +167,7 @@ export function OrchidStage4() {
 }
 
 export function OrchidStage5() {
-  // Vara más alta cargada de capullos
+  // Taller spike loaded with buds
   return (
     <>
       <Pot />
@@ -175,13 +175,13 @@ export function OrchidStage5() {
       {LeafRightBig()}
       {LeafFront()}
       {AerialRoot()}
-      {/* vara */}
+      {/* spike */}
       {px(12, 14, 1, 3, C.spike)}
       {px(13, 12, 1, 2, C.spike)}
       {px(14, 10, 1, 2, C.spikeDark)}
       {px(15, 8, 1, 2, C.spike)}
       {px(16, 6, 1, 2, C.spikeDark)}
-      {/* capullos */}
+      {/* buds */}
       {Bud(15, 3)}
       {Bud(13, 7)}
       {Bud(17, 8)}
@@ -190,7 +190,7 @@ export function OrchidStage5() {
 }
 
 export function OrchidStage6() {
-  // Primera flor abierta en lo alto
+  // First flower open at the top
   return (
     <>
       <Pot />
@@ -204,7 +204,7 @@ export function OrchidStage6() {
       {px(14, 10, 1, 2, C.spikeDark)}
       {px(15, 8, 1, 2, C.spike)}
       {px(16, 6, 1, 2, C.spikeDark)}
-      {/* flor y capullos */}
+      {/* flower and buds */}
       {Flower(12, 0)}
       {Bud(15, 8)}
       {Bud(12, 10)}
@@ -213,7 +213,7 @@ export function OrchidStage6() {
 }
 
 export function OrchidStage7() {
-  // Dos flores abiertas en cascada
+  // Two open flowers cascading
   return (
     <>
       <Pot />
@@ -222,14 +222,14 @@ export function OrchidStage7() {
       {LeafFront()}
       {AerialRoot()}
       {px(16, 18, 1, 2, C.aerialDark)}
-      {/* vara */}
+      {/* spike */}
       {px(12, 15, 1, 2, C.spike)}
       {px(13, 13, 1, 2, C.spike)}
       {px(14, 11, 1, 2, C.spikeDark)}
       {px(15, 9, 1, 2, C.spike)}
       {px(16, 7, 1, 2, C.spikeDark)}
       {px(17, 5, 1, 2, C.spike)}
-      {/* flores y capullo */}
+      {/* flowers and bud */}
       {Flower(13, 0)}
       {Flower(10, 6)}
       {px(11, 13, 1, 1, C.spike)}
@@ -239,7 +239,7 @@ export function OrchidStage7() {
 }
 
 export function OrchidStage8() {
-  // Orquídea plena — tres flores en cascada
+  // Full orchid — three flowers cascading
   return (
     <>
       <Pot />
@@ -250,14 +250,14 @@ export function OrchidStage8() {
       {px(16, 18, 1, 2, C.aerialDark)}
       {px(5, 19, 1, 2, C.aerial)}
       {px(4, 21, 1, 2, C.aerialDark)}
-      {/* vara */}
+      {/* spike */}
       {px(12, 15, 1, 2, C.spike)}
       {px(13, 13, 1, 2, C.spike)}
       {px(14, 11, 1, 2, C.spikeDark)}
       {px(15, 9, 1, 2, C.spike)}
       {px(16, 7, 1, 2, C.spikeDark)}
       {px(17, 4, 1, 3, C.spike)}
-      {/* cascada de flores */}
+      {/* flower cascade */}
       {Flower(14, 0)}
       {Flower(11, 5)}
       {Flower(8, 10)}

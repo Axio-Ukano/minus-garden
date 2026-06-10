@@ -52,7 +52,7 @@ function LeafRight(y: number) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function DaisyStage1() {
-  // Semilla recién germinada — brote en V saliendo de la tierra
+  // Freshly germinated seed — V-shaped shoot breaking the soil
   return (
     <>
       <Pot />
@@ -67,17 +67,17 @@ export function DaisyStage1() {
 }
 
 export function DaisyStage2() {
-  // Plántula con dos cotiledones redondeados
+  // Seedling with two rounded cotyledons
   return (
     <>
       <Pot />
       {Stem(16)}
       {px(11, 15, 2, 1, C.stemLight)}
-      {/* cotiledón izquierdo */}
+      {/* left cotyledon */}
       {px(7, 13, 3, 1, C.leafLight)}
       {px(6, 14, 5, 1, C.leaf)}
       {px(7, 15, 3, 1, C.leafDark)}
-      {/* cotiledón derecho */}
+      {/* right cotyledon */}
       {px(14, 12, 3, 1, C.leafLight)}
       {px(13, 13, 5, 1, C.leaf)}
       {px(14, 14, 3, 1, C.leafDark)}
@@ -86,14 +86,14 @@ export function DaisyStage2() {
 }
 
 export function DaisyStage3() {
-  // Tallo joven con hojas verdaderas y penacho superior
+  // Young stem with true leaves and a top tuft
   return (
     <>
       <Pot />
       {Stem(10)}
       {LeafLeft(13)}
       {LeafRight(11)}
-      {/* penacho superior */}
+      {/* top tuft */}
       {px(11, 7, 2, 1, C.leafShine)}
       {px(10, 8, 4, 2, C.leafLight)}
       {px(10, 9, 1, 1, C.leaf)}
@@ -103,22 +103,22 @@ export function DaisyStage3() {
 }
 
 export function DaisyStage4() {
-  // Capullo cerrado con puntas de pétalo asomando
+  // Closed bud with petal tips peeking out
   return (
     <>
       <Pot />
       {Stem(7)}
       {LeafLeft(13)}
       {LeafRight(11)}
-      {/* pétalos asomando */}
+      {/* peeking petals */}
       {px(11, 1, 2, 1, C.petalHi)}
       {px(10, 2, 4, 1, C.petal)}
-      {/* cáliz */}
+      {/* calyx */}
       {px(10, 3, 4, 3, C.bud)}
       {px(10, 3, 1, 3, C.budDark)}
       {px(13, 3, 1, 3, C.budDark)}
       {px(10, 6, 4, 1, C.budDark)}
-      {/* sépalos */}
+      {/* sepals */}
       {px(9, 4, 1, 2, C.leaf)}
       {px(14, 4, 1, 2, C.leaf)}
     </>
@@ -126,46 +126,46 @@ export function DaisyStage4() {
 }
 
 export function DaisyStage5() {
-  // Flor abierta — 8 pétalos blancos alrededor del disco amarillo
+  // Open flower — 8 white petals around the yellow disc
   return (
     <>
       <Pot />
       {Stem(12)}
       {LeafLeft(14)}
       {LeafRight(13)}
-      {/* pétalo norte */}
+      {/* north petal */}
       {px(11, 0, 2, 1, C.petalHi)}
       {px(10, 1, 4, 3, C.petal)}
       {px(12, 1, 1, 3, C.petalBase)}
-      {/* pétalo sur */}
+      {/* south petal */}
       {px(10, 8, 4, 3, C.petal)}
       {px(11, 11, 2, 1, C.petal)}
       {px(11, 9, 1, 2, C.petalBase)}
-      {/* pétalo oeste */}
+      {/* west petal */}
       {px(4, 5, 1, 2, C.petalHi)}
       {px(5, 5, 5, 2, C.petal)}
       {px(9, 5, 1, 2, C.petalBase)}
-      {/* pétalo este */}
+      {/* east petal */}
       {px(19, 5, 1, 2, C.petalHi)}
       {px(14, 5, 5, 2, C.petal)}
       {px(14, 5, 1, 2, C.petalBase)}
-      {/* diagonal NO */}
+      {/* NW diagonal */}
       {px(6, 1, 2, 2, C.petal)}
       {px(7, 2, 2, 2, C.petal)}
       {px(8, 3, 2, 1, C.petalBase)}
-      {/* diagonal NE */}
+      {/* NE diagonal */}
       {px(16, 1, 2, 2, C.petal)}
       {px(15, 2, 2, 2, C.petal)}
       {px(14, 3, 2, 1, C.petalBase)}
-      {/* diagonal SO */}
+      {/* SW diagonal */}
       {px(6, 9, 2, 2, C.petal)}
       {px(7, 8, 2, 2, C.petal)}
       {px(8, 7, 2, 1, C.petalBase)}
-      {/* diagonal SE */}
+      {/* SE diagonal */}
       {px(16, 9, 2, 2, C.petal)}
       {px(15, 8, 2, 2, C.petal)}
       {px(14, 7, 2, 1, C.petalBase)}
-      {/* disco central */}
+      {/* central disc */}
       {px(10, 4, 4, 4, C.center)}
       {px(10, 4, 4, 1, C.centerLight)}
       {px(10, 7, 4, 1, C.centerDark)}
