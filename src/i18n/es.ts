@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import type { DeepTranslation } from "./types";
 import type { Translations } from "./en";
 
@@ -94,6 +98,11 @@ export const es: DeepTranslation<Translations> = {
       timer_title: "AJUSTES POMODORO",
       general_title: "GENERALES",
       shortcuts_title: "ATAJOS DE TECLADO",
+    },
+    about: {
+      by: "por Carlos Pico (Axio-Ukano)",
+      license: "CC BY-NC-ND 4.0",
+      rights: "Proyecto personal · público por transparencia",
     },
   },
   history: {

@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 // ── Orchid — grid 24×30, shared pot (see shared/PotSprite) ───────────────────
 // Phalaenopsis: fleshy basal leaves, aerial roots and an arching spike
 // with white-lilac flowers and a magenta lip.

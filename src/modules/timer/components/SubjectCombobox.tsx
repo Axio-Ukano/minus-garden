@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import { useEffect, useRef, useState, useMemo } from "react";
 import type { Subject } from "../../subjects/subjectStore";
 import { Input } from "@/components/Input";

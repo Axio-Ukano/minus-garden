@@ -168,7 +168,7 @@ sprites exist with no screen to live in.
 
 ### Project & polish
 
-- [ ] Usage license and copyright.
+- [x] Usage license and copyright — CC BY-NC-ND 4.0 (`LICENSE`), per-file SPDX headers, README section and in-app Settings credits. Maintenance & future considerations in [docs/playbook.md §12](playbook.md).
 - [ ] Toast handling: error propagation/duplication and animation timing.
 - [ ] App logo.
 

@@ -1,12 +1,25 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
+import { createRequire } from "node:module";
 import react from "@vitejs/plugin-react";
 
 const host = process.env.TAURI_DEV_HOST;
 
+// Single source of truth for the app version: package.json (bumped by
+// release-please). Exposed to the app as the global __APP_VERSION__.
+const pkg = createRequire(import.meta.url)("./package.json") as { version: string };
+
 // https://vite.dev/config/
 export default defineConfig(async () => ({
   plugins: [react()],
+
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
 
   resolve: {
     alias: {

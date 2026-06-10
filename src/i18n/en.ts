@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 export const en = {
   nav: {
     study: "STUDY",
@@ -91,6 +95,11 @@ export const en = {
       timer_title: "POMODORO SETTINGS",
       general_title: "GENERAL",
       shortcuts_title: "KEYBOARD SHORTCUTS",
+    },
+    about: {
+      by: "by Carlos Pico (Axio-Ukano)",
+      license: "CC BY-NC-ND 4.0",
+      rights: "Personal project · public for transparency",
     },
   },
   history: {

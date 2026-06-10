@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 // ── Lotus — grid 28×20, water scene (no pot — grows in a pond) ───────────────
 // Pond with mud, lily pads with V-shaped notch and flower with pointed petals
 // and golden receptacle.

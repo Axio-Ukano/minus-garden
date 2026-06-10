@@ -1,9 +1,21 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import { defineConfig } from "vitest/config";
 import { fileURLToPath, URL } from "node:url";
+import { createRequire } from "node:module";
 import react from "@vitejs/plugin-react";
+
+// Mirror the app version define so components that read __APP_VERSION__
+// (e.g. the Settings credits) render under test without a ReferenceError.
+const pkg = createRequire(import.meta.url)("./package.json") as { version: string };
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

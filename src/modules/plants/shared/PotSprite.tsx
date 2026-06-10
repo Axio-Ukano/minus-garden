@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 /* eslint-disable react-refresh/only-export-components -- sprite-parts module: exports drawing helpers alongside the Pot component */
 // ─── Shared pot sprite ────────────────────────────────────────────────────────
 // Every potted species renders the SAME pot on the same 24×30 grid, so pots are
