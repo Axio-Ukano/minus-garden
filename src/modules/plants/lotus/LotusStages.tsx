@@ -1,285 +1,286 @@
-// ── Flor de Loto palette ──────────────────────────────────────────────────────
-// The lotus grows in water — no standard pot. LotusBase() replaces Pot().
+// ── Lotus — grid 28×20, water scene (no pot — grows in a pond) ───────────────
+// Estanque con barro, nenúfares con muesca en V y flor de pétalos puntiagudos
+// con receptáculo dorado.
+import { px } from "../shared/PotSprite";
+
 const C = {
-  waterDeep: "#1a3a6a",
-  waterMid: "#2a5090",
-  waterShallow: "#3a68b0",
-  waterLight: "#5a88d0",
-  waterShine: "#80aae8",
-  waterFoam: "#c0d8f8",
+  waterDeep: "#1c3f74",
+  waterMid: "#2c5da4",
+  waterShallow: "#3a6fc0",
+  waterLight: "#4f86d8",
+  waterShine: "#7fb0ee",
+  waterFoam: "#cfe2fb",
   mud: "#4a3828",
   mudDark: "#2e2218",
-  mudLight: "#6a5038",
-  stem: "#4a7a38",
-  stemDark: "#2d5228",
-  stemLight: "#68a050",
-  stemUnder: "#3a6028",
-  padDark: "#2a6020",
-  padMid: "#3a7a2a",
-  padLight: "#58a040",
-  padShine: "#78c058",
-  padEdge: "#205018",
-  padVein: "#4a9030",
-  petalWhite: "#fff8f5",
-  petalPale: "#ffe0d8",
-  petalPink: "#f8a0b0",
-  petalPinkMid: "#f06888",
-  petalPinkDark: "#d04060",
-  petalRose: "#e83060",
-  receptacle: "#f8d840",
-  receptacleDark: "#c8a820",
-  stamen: "#f8f0a0",
-  stamens: "#e8c820",
-  bud: "#f8c0c8",
-  budDark: "#e080a0",
+  mudLight: "#65503a",
+  stem: "#3f7a34",
+  stemLight: "#5ca84c",
+  stemUnder: "#2c5630",
+  padMid: "#3a8a30",
+  padLight: "#56b048",
+  padShine: "#82d46e",
+  padDark: "#236020",
+  petalWhite: "#fff6f8",
+  petalPale: "#ffd9e4",
+  petalPink: "#f993b4",
+  petalDark: "#e85890",
+  petalDeep: "#c03468",
+  pod: "#f5cf3e",
+  podDot: "#b8932a",
 } as const;
 
-type Color = (typeof C)[keyof typeof C];
-
-function px(x: number, y: number, w: number, h: number, fill: Color) {
-  return <rect key={`${x}-${y}-${w}-${h}-${fill}`} x={x} y={y} width={w} height={h} fill={fill} />;
-}
-
-// Base acuática — estanque con barro
-function LotusBase() {
+// Estanque — agua con destellos y fondo de barro
+function WaterBase() {
   return (
     <>
-      {/* agua */}
-      {px(0, 13, 24, 3, C.waterMid)}
-      {px(0, 13, 24, 1, C.waterShallow)}
-      {px(0, 14, 24, 1, C.waterDeep)}
-      {px(0, 15, 24, 1, C.waterDeep)}
-      {/* brillos de agua */}
+      {px(0, 13, 28, 1, C.waterLight)}
+      {px(0, 14, 28, 2, C.waterMid)}
+      {px(0, 16, 28, 2, C.waterDeep)}
+      {/* destellos */}
       {px(2, 13, 3, 1, C.waterShine)}
-      {px(8, 13, 2, 1, C.waterFoam)}
-      {px(15, 13, 3, 1, C.waterShine)}
-      {px(20, 13, 2, 1, C.waterFoam)}
-      {px(5, 14, 2, 1, C.waterLight)}
-      {px(17, 14, 2, 1, C.waterLight)}
+      {px(9, 13, 2, 1, C.waterFoam)}
+      {px(17, 13, 3, 1, C.waterShine)}
+      {px(23, 13, 2, 1, C.waterFoam)}
+      {px(5, 15, 3, 1, C.waterShallow)}
+      {px(19, 15, 3, 1, C.waterShallow)}
       {/* barro */}
-      {px(0, 16, 24, 2, C.mud)}
-      {px(0, 16, 24, 1, C.mudLight)}
-      {px(0, 17, 24, 1, C.mudDark)}
+      {px(0, 18, 28, 2, C.mud)}
+      {px(0, 18, 28, 1, C.mudLight)}
+      {px(3, 19, 3, 1, C.mudDark)}
+      {px(13, 19, 4, 1, C.mudDark)}
+      {px(22, 19, 3, 1, C.mudDark)}
     </>
   );
 }
 
-// Hoja de loto — lilypad redondo y grande
-function LilyPad(cx: number, y: number, r: number) {
+// Nenúfar flotando — muesca en V al frente
+function Pad(x: number, w: number) {
+  const notch = x + Math.floor(w / 2);
   return (
     <>
-      {px(cx - r, y, r * 2, 2, C.padMid)}
-      {px(cx - r + 1, y - 1, r * 2 - 2, 1, C.padLight)}
-      {px(cx - r + 1, y + 1, r * 2 - 2, 1, C.padDark)}
-      {px(cx - r, y, 1, 2, C.padEdge)}
-      {px(cx + r - 1, y, 1, 2, C.padEdge)}
-      {/* nervios */}
-      {px(cx, y, 1, 2, C.padVein)}
-      {px(cx - r + 2, y, 1, 1, C.padVein)}
-      {px(cx + r - 3, y, 1, 1, C.padVein)}
-      {/* brillo */}
-      {px(cx - r + 2, y - 1, 3, 1, C.padShine)}
+      {px(x + 1, 12, w - 2, 1, C.padLight)}
+      {px(x + 2, 12, 2, 1, C.padShine)}
+      {px(x, 13, w, 1, C.padMid)}
+      {px(x, 13, 1, 1, C.padDark)}
+      {px(x + w - 1, 13, 1, 1, C.padDark)}
+      {px(notch, 13, 1, 1, C.waterLight)}
     </>
   );
 }
 
-// Tallo emergente desde el barro
-function LotusStalk(x: number, topY: number, baseY: number) {
+// Tallo — verde sobre el agua, oscuro por debajo
+function Stalk(x: number, topY: number) {
   const rects = [];
-  for (let y = topY; y <= baseY; y++) {
-    const col = y < baseY - 1 ? C.stem : C.stemUnder;
-    rects.push(px(x, y, 2, 1, col));
-    if (y % 3 === 0) rects.push(px(x, y, 1, 1, C.stemDark));
-  }
+  for (let y = topY; y <= 12; y++) rects.push(px(x, y, 1, 1, C.stem));
+  for (let y = 14; y <= 17; y++) rects.push(px(x, y, 1, 1, C.stemUnder));
   return <>{rects}</>;
 }
 
-// Flor de loto completa
-function LotusFlower(cx: number, cy: number, open: boolean) {
-  if (!open) {
-    return (
-      <>
-        {px(cx - 1, cy - 4, 4, 5, C.bud)}
-        {px(cx, cy - 5, 2, 1, C.bud)}
-        {px(cx - 1, cy - 4, 1, 5, C.budDark)}
-        {px(cx + 2, cy - 4, 1, 5, C.budDark)}
-        {px(cx, cy - 3, 2, 2, C.petalPale)}
-      </>
-    );
-  }
+// Capullo puntiagudo — 3 de ancho, 4 de alto
+function LotusBud(x: number, y: number) {
   return (
     <>
-      {/* pétalos exteriores */}
-      {px(cx - 4, cy, 3, 4, C.petalPink)}
-      {px(cx - 4, cy, 1, 4, C.petalPinkDark)}
-      {px(cx + 3, cy, 3, 4, C.petalPink)}
-      {px(cx + 5, cy, 1, 4, C.petalPinkDark)}
-      {px(cx - 2, cy - 3, 6, 3, C.petalPink)}
-      {px(cx - 2, cy - 3, 1, 3, C.petalPinkDark)}
-      {px(cx + 3, cy - 3, 1, 3, C.petalPinkDark)}
-      {px(cx - 2, cy + 3, 6, 3, C.petalPink)}
-      {px(cx - 2, cy + 5, 6, 1, C.petalPinkDark)}
-      {/* diagonales */}
-      {px(cx - 3, cy - 2, 2, 3, C.petalPinkMid)}
-      {px(cx - 3, cy - 2, 1, 3, C.petalPinkDark)}
-      {px(cx + 3, cy - 2, 2, 3, C.petalPinkMid)}
-      {px(cx + 4, cy - 2, 1, 3, C.petalPinkDark)}
-      {px(cx - 3, cy + 2, 2, 3, C.petalPinkMid)}
-      {px(cx + 3, cy + 2, 2, 3, C.petalPinkMid)}
-      {/* pétalos interiores blancos */}
-      {px(cx - 2, cy - 1, 6, 5, C.petalWhite)}
-      {px(cx - 1, cy - 2, 4, 1, C.petalPale)}
-      {px(cx - 2, cy, 1, 3, C.petalPink)}
-      {px(cx + 3, cy, 1, 3, C.petalPink)}
-      {/* receptáculo y estambres */}
-      {px(cx - 1, cy + 1, 4, 3, C.receptacle)}
-      {px(cx, cy + 1, 2, 1, C.receptacleDark)}
-      {px(cx - 1, cy + 2, 4, 1, C.stamens)}
-      {px(cx, cy + 3, 2, 1, C.stamen)}
+      {px(x + 1, y, 1, 1, C.petalPale)}
+      {px(x, y + 1, 3, 1, C.petalPink)}
+      {px(x, y + 2, 3, 1, C.petalPink)}
+      {px(x + 1, y + 2, 1, 1, C.petalPale)}
+      {px(x, y + 3, 3, 1, C.petalDark)}
+    </>
+  );
+}
+
+// Flor abierta — caja 10×7, pétalos puntiagudos y receptáculo dorado
+function LotusFlower(x: number, y: number) {
+  return (
+    <>
+      {px(x + 4, y, 2, 1, C.petalPale)}
+      {px(x + 2, y + 1, 1, 1, C.petalPink)}
+      {px(x + 3, y + 1, 4, 1, C.petalPale)}
+      {px(x + 7, y + 1, 1, 1, C.petalPink)}
+      {px(x + 1, y + 2, 2, 1, C.petalPink)}
+      {px(x + 3, y + 2, 4, 1, C.petalWhite)}
+      {px(x + 7, y + 2, 2, 1, C.petalPink)}
+      {px(x, y + 3, 2, 1, C.petalDark)}
+      {px(x + 2, y + 3, 2, 1, C.petalPink)}
+      {px(x + 4, y + 3, 2, 1, C.petalWhite)}
+      {px(x + 6, y + 3, 2, 1, C.petalPink)}
+      {px(x + 8, y + 3, 2, 1, C.petalDark)}
+      {px(x, y + 4, 1, 1, C.petalDeep)}
+      {px(x + 1, y + 4, 2, 1, C.petalDark)}
+      {px(x + 3, y + 4, 4, 1, C.pod)}
+      {px(x + 4, y + 4, 1, 1, C.podDot)}
+      {px(x + 6, y + 4, 1, 1, C.podDot)}
+      {px(x + 7, y + 4, 2, 1, C.petalDark)}
+      {px(x + 9, y + 4, 1, 1, C.petalDeep)}
+      {px(x + 1, y + 5, 8, 1, C.petalDark)}
+      {px(x + 2, y + 6, 6, 1, C.petalDeep)}
     </>
   );
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function LotusStage1() {
-  // Primer brote saliendo del barro
+  // Brote lanza rompiendo la superficie
   return (
     <>
-      <LotusBase />
-      {px(11, 10, 2, 3, C.stem)}
-      {px(10, 9, 4, 1, C.stemLight)}
-      {px(11, 9, 2, 1, C.stem)}
+      <WaterBase />
+      {px(13, 9, 1, 1, C.stemLight)}
+      {px(13, 10, 1, 3, C.stem)}
+      {px(13, 14, 1, 4, C.stemUnder)}
+      {/* ondas */}
+      {px(11, 13, 2, 1, C.waterFoam)}
+      {px(15, 13, 2, 1, C.waterFoam)}
     </>
   );
 }
 
 export function LotusStage2() {
-  // Primer lilypad pequeño
+  // Primer nenúfar
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 9, 12)}
-      {LilyPad(12, 9, 3)}
+      <WaterBase />
+      {px(13, 14, 1, 4, C.stemUnder)}
+      {Pad(10, 6)}
+      {px(17, 10, 1, 1, C.stemLight)}
+      {px(17, 11, 1, 2, C.stem)}
+      {px(17, 14, 1, 3, C.stemUnder)}
     </>
   );
 }
 
 export function LotusStage3() {
-  // Dos lilypads, tallo más largo
+  // Dos nenúfares y brote central
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 7, 12)}
-      {LilyPad(7, 11, 4)}
-      {LilyPad(16, 9, 3)}
+      <WaterBase />
+      {px(7, 14, 1, 4, C.stemUnder)}
+      {px(20, 14, 1, 4, C.stemUnder)}
+      {Pad(4, 7)}
+      {Pad(17, 6)}
+      {px(13, 9, 1, 1, C.stemLight)}
+      {px(13, 10, 1, 3, C.stem)}
+      {px(13, 14, 1, 4, C.stemUnder)}
     </>
   );
 }
 
 export function LotusStage4() {
-  // Tres lilypads, capullo emergiendo
+  // Capullo bajo sobre el agua
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 5, 12)}
-      {LilyPad(5, 11, 5)}
-      {LilyPad(17, 10, 4)}
-      {LilyPad(12, 9, 3)}
-      {/* tallo del capullo */}
-      {px(11, 5, 2, 4, C.stemLight)}
-      {LotusFlower(11, 2, false)}
+      <WaterBase />
+      {px(7, 14, 1, 4, C.stemUnder)}
+      {px(21, 14, 1, 4, C.stemUnder)}
+      {Pad(4, 7)}
+      {Pad(19, 6)}
+      {Stalk(13, 8)}
+      {LotusBud(12, 4)}
     </>
   );
 }
 
 export function LotusStage5() {
-  // Capullo más grande, abriendo
+  // Capullo más alto y tercer nenúfar
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 6, 12)}
-      {LilyPad(4, 11, 5)}
-      {LilyPad(18, 10, 4)}
-      {LilyPad(11, 9, 3)}
-      {px(11, 2, 2, 4, C.stemLight)}
-      {px(10, 1, 4, 5, C.bud)}
-      {px(10, 1, 1, 5, C.budDark)}
-      {px(13, 1, 1, 5, C.budDark)}
-      {px(11, 0, 2, 1, C.petalPale)}
-      {px(11, 2, 2, 2, C.petalWhite)}
+      <WaterBase />
+      {px(7, 14, 1, 4, C.stemUnder)}
+      {px(21, 14, 1, 4, C.stemUnder)}
+      {px(11, 14, 1, 4, C.stemUnder)}
+      {Pad(4, 7)}
+      {Pad(19, 6)}
+      {Pad(9, 5)}
+      {Stalk(13, 6)}
+      {LotusBud(12, 2)}
     </>
   );
 }
 
 export function LotusStage6() {
+  // Capullo abriéndose — puntas separándose
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 6, 12)}
-      {LilyPad(3, 11, 6)}
-      {LilyPad(19, 10, 4)}
-      {LilyPad(13, 9, 3)}
-      {px(11, 2, 2, 4, C.stem)}
-      {/* flor semi-abierta */}
-      {px(8, 4, 8, 4, C.petalPink)}
-      {px(8, 4, 1, 4, C.petalPinkDark)}
-      {px(15, 4, 1, 4, C.petalPinkDark)}
-      {px(9, 2, 6, 2, C.petalPink)}
-      {px(9, 2, 1, 2, C.petalPinkDark)}
-      {px(14, 2, 1, 2, C.petalPinkDark)}
-      {px(10, 0, 4, 2, C.petalPale)}
-      {px(9, 5, 6, 2, C.petalWhite)}
-      {px(10, 6, 4, 1, C.receptacle)}
+      <WaterBase />
+      {px(6, 14, 1, 4, C.stemUnder)}
+      {px(21, 14, 1, 4, C.stemUnder)}
+      {px(10, 14, 1, 4, C.stemUnder)}
+      {Pad(3, 7)}
+      {Pad(19, 6)}
+      {Pad(8, 5)}
+      {Stalk(13, 6)}
+      {/* capullo abriendo */}
+      {px(12, 1, 1, 1, C.petalPale)}
+      {px(15, 1, 1, 1, C.petalPale)}
+      {px(11, 2, 2, 1, C.petalPink)}
+      {px(13, 2, 2, 1, C.petalWhite)}
+      {px(15, 2, 2, 1, C.petalPink)}
+      {px(11, 3, 6, 1, C.petalPink)}
+      {px(13, 3, 2, 1, C.petalWhite)}
+      {px(12, 4, 4, 1, C.petalDark)}
+      {px(12, 5, 4, 1, C.petalDeep)}
     </>
   );
 }
 
 export function LotusStage7() {
+  // Flor abierta
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 6, 12)}
-      {LilyPad(3, 10, 6)}
-      {LilyPad(19, 10, 5)}
-      {LilyPad(12, 8, 4)}
-      {px(11, 3, 2, 3, C.stem)}
-      {LotusFlower(11, 6, true)}
+      <WaterBase />
+      {px(5, 14, 1, 4, C.stemUnder)}
+      {px(22, 14, 1, 4, C.stemUnder)}
+      {Pad(2, 7)}
+      {Pad(20, 6)}
+      {Stalk(13, 10)}
+      {LotusFlower(9, 3)}
     </>
   );
 }
 
 export function LotusStage8() {
+  // Flor plena con capullo acompañante
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 5, 12)}
-      {LilyPad(2, 10, 6)}
-      {LilyPad(19, 9, 6)}
-      {LilyPad(11, 8, 4)}
-      {LilyPad(7, 8, 3)}
-      {px(11, 2, 2, 3, C.stem)}
-      {LotusFlower(11, 5, true)}
+      <WaterBase />
+      {px(4, 14, 1, 4, C.stemUnder)}
+      {px(22, 14, 1, 4, C.stemUnder)}
+      {px(10, 14, 1, 4, C.stemUnder)}
+      {Pad(1, 7)}
+      {Pad(20, 6)}
+      {Pad(8, 5)}
+      {Stalk(13, 9)}
+      {LotusFlower(9, 2)}
+      {/* capullo lateral */}
+      {Stalk(5, 10)}
+      {LotusBud(4, 6)}
     </>
   );
 }
 
 export function LotusStage9() {
-  // Flor completamente abierta, múltiples lilypads, esplendor acuático
+  // Loto sagrado — flor grande, capullo y estanque lleno de vida
   return (
     <>
-      <LotusBase />
-      {LotusStalk(11, 4, 12)}
-      {LilyPad(2, 9, 7)}
-      {LilyPad(20, 9, 3)}
-      {LilyPad(18, 10, 5)}
-      {LilyPad(11, 8, 4)}
-      {LilyPad(6, 8, 3)}
-      {px(11, 1, 2, 3, C.stemLight)}
-      {/* flor grande centrada */}
-      {LotusFlower(11, 4, true)}
-      {/* segunda flor pequeña al costado */}
-      {LotusStalk(5, 7, 12)}
-      {LotusFlower(5, 5, false)}
+      <WaterBase />
+      {px(3, 14, 1, 4, C.stemUnder)}
+      {px(23, 14, 1, 4, C.stemUnder)}
+      {px(10, 14, 1, 4, C.stemUnder)}
+      {Pad(0, 7)}
+      {Pad(21, 7)}
+      {Pad(8, 5)}
+      {Pad(16, 5)}
+      {Stalk(13, 8)}
+      {LotusFlower(9, 1)}
+      {/* pétalos exteriores extra */}
+      {px(7, 4, 2, 1, C.petalDark)}
+      {px(19, 4, 2, 1, C.petalDark)}
+      {/* capullo lateral */}
+      {Stalk(5, 9)}
+      {LotusBud(4, 5)}
+      {/* destellos de vida */}
+      {px(6, 2, 1, 1, C.waterFoam)}
+      {px(21, 1, 1, 1, C.waterFoam)}
+      {px(24, 7, 1, 1, C.waterFoam)}
     </>
   );
 }

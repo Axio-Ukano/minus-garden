@@ -99,18 +99,20 @@ export type PlantSize = "sm" | "md" | "lg" | "xl";
 
 const SIZE_PX = { sm: 32, md: 64, lg: 80, xl: 120 } as const;
 
-// Natural viewBox dimensions per species — drives aspect-ratio-correct rendering
+// Natural viewBox dimensions per species — drives aspect-ratio-correct rendering.
+// All potted species share the unified 24×30 grid (see shared/PotSprite);
+// the lotus grows in a pond on its own 28×20 scene.
 const SPECIES_META: Record<string, { vw: number; vh: number }> = {
-  daisy: { vw: 16, vh: 22 },
-  sunflower: { vw: 20, vh: 28 },
-  gerbera: { vw: 18, vh: 22 },
-  lavanda: { vw: 14, vh: 26 },
-  clavel: { vw: 18, vh: 24 },
-  lirio: { vw: 16, vh: 26 },
-  peonia: { vw: 22, vh: 22 },
-  cactus: { vw: 18, vh: 26 },
-  orquidea: { vw: 20, vh: 28 },
-  lotus: { vw: 24, vh: 18 },
+  daisy: { vw: 24, vh: 30 },
+  sunflower: { vw: 24, vh: 30 },
+  gerbera: { vw: 24, vh: 30 },
+  lavanda: { vw: 24, vh: 30 },
+  clavel: { vw: 24, vh: 30 },
+  lirio: { vw: 24, vh: 30 },
+  peonia: { vw: 24, vh: 30 },
+  cactus: { vw: 24, vh: 30 },
+  orquidea: { vw: 24, vh: 30 },
+  lotus: { vw: 28, vh: 20 },
 };
 
 // ── Species → Stages map — IDs match DB values, do not change ────────────────
@@ -179,7 +181,7 @@ export function PlantDisplay({
   const clampedStage = Math.max(1, Math.min(stage, stages.length));
   const StageComponent = stages[clampedStage - 1] ?? stages[0]!;
 
-  const meta = SPECIES_META[speciesId] ?? { vw: 16, vh: 16 };
+  const meta = SPECIES_META[speciesId] ?? { vw: 24, vh: 30 };
 
   let svgWidth: number;
   let svgHeight: number;

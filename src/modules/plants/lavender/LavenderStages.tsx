@@ -1,165 +1,149 @@
-// ── Lavender palette ──────────────────────────────────────────────────────────
+// ── Lavender — grid 24×30, shared pot (see shared/PotSprite) ─────────────────
+// Mata arbustiva de follaje gris-verde con espigas moradas.
+import { Pot, px } from "../shared/PotSprite";
+
 const C = {
-  soil: "#6b4e38",
-  soilDark: "#4a3326",
-  pot: "#c8956a",
-  potMid: "#b07850",
-  potDark: "#3d2b1f",
-  potShine: "#e0b48a",
-  stem: "#5a7a3c",
-  stemDark: "#3d5828",
-  stemLight: "#7a9a50",
-  leaf: "#4a6830",
-  leafLight: "#6a8a48",
-  leafDark: "#2d4a1a",
-  spikeBase: "#7a4a9a",
-  spikeMid: "#9a68c0",
-  spikeLight: "#c090e0",
-  spikeHi: "#d8b0f0",
-  spikeDark: "#5a2878",
-  bud: "#a070b8",
-  budDark: "#703890",
-  calyx: "#4a6830",
-  calyxLight: "#6a8a48",
+  stem: "#5a7a4c",
+  stemDark: "#3e5a36",
+  leaf: "#6e9460",
+  leafLight: "#92b884",
+  leafDark: "#4c6e42",
+  leafShine: "#b4d4a0",
+  spike: "#9a6ac8",
+  spikeLight: "#bc92e2",
+  spikePale: "#d8baf2",
+  spikeDark: "#6a4292",
+  spikeDeep: "#4c2a72",
 } as const;
 
-type Color = (typeof C)[keyof typeof C];
-
-function px(x: number, y: number, w: number, h: number, fill: Color) {
-  return <rect key={`${x}-${y}-${w}-${h}-${fill}`} x={x} y={y} width={w} height={h} fill={fill} />;
-}
-
-function Pot() {
-  return (
-    <>
-      {px(1, 21, 12, 1, C.potShine)}
-      {px(2, 21, 10, 1, C.pot)}
-      {px(1, 21, 1, 1, C.potDark)}
-      {px(12, 21, 1, 1, C.potDark)}
-      {px(2, 22, 10, 3, C.pot)}
-      {px(2, 22, 1, 3, C.potDark)}
-      {px(11, 22, 1, 3, C.potDark)}
-      {px(3, 22, 3, 3, C.potMid)}
-      {px(2, 24, 10, 1, C.potDark)}
-      {px(1, 25, 12, 1, C.soil)}
-      {px(3, 25, 2, 1, C.soilDark)}
-      {px(8, 25, 2, 1, C.soilDark)}
-    </>
-  );
-}
-
-function Stem(topRow: number) {
+// Espiga de lavanda — cabezal 2px de ancho con botones laterales
+function Spike(x: number, topY: number, h: number) {
   const rects = [];
-  for (let row = topRow; row <= 20; row++) {
-    rects.push(px(6, row, 2, 1, row % 3 === 0 ? C.stemDark : C.stem));
-  }
-  return <>{rects}</>;
-}
-
-function SmallLeaf(x: number, y: number, dir: -1 | 1) {
-  return (
-    <>
-      {px(x, y, 3, 1, dir === 1 ? C.leafLight : C.leafDark)}
-      {px(x, y + 1, 3, 1, C.leaf)}
-      {px(dir === 1 ? x + 2 : x, y, 1, 2, C.leafDark)}
-    </>
-  );
-}
-
-// Espiga de lavanda — flores apiladas verticalmente
-function Spike(x: number, topY: number, height: number) {
-  const rects = [];
-  for (let i = 0; i < height; i++) {
+  rects.push(px(x, topY - 1, 2, 1, C.spikePale));
+  for (let i = 0; i < h; i++) {
     const y = topY + i;
-    const isTip = i === 0;
-    const isBase = i === height - 1;
-    const col = isTip ? C.spikeHi : isBase ? C.spikeDark : i % 2 === 0 ? C.spikeMid : C.spikeLight;
-    rects.push(px(x, y, 2, 1, col));
-    if (!isTip && !isBase) {
-      rects.push(px(x - 1, y, 1, 1, C.bud));
-      rects.push(px(x + 2, y, 1, 1, C.bud));
+    rects.push(px(x, y, 2, 1, i % 2 === 0 ? C.spikeLight : C.spike));
+    if (i % 2 === 1 && i < h - 1) {
+      rects.push(px(x - 1, y, 1, 1, C.spike));
+      rects.push(px(x + 2, y, 1, 1, C.spikeDark));
     }
-    rects.push(px(x, y, 1, 1, C.spikeDark));
   }
+  rects.push(px(x, topY + h - 1, 2, 1, C.spikeDeep));
   return <>{rects}</>;
+}
+
+// Mata de hojas estrechas en la base
+function Bush(full: boolean) {
+  return (
+    <>
+      {px(9, 16, 1, 5, C.leaf)}
+      {px(10, 17, 1, 4, C.leafLight)}
+      {px(11, 15, 2, 6, C.leaf)}
+      {px(11, 15, 1, 2, C.leafShine)}
+      {px(13, 17, 1, 4, C.leafLight)}
+      {px(14, 16, 1, 5, C.leaf)}
+      {full && (
+        <>
+          {px(7, 17, 1, 4, C.leaf)}
+          {px(8, 18, 1, 3, C.leafDark)}
+          {px(6, 18, 1, 3, C.leafDark)}
+          {px(15, 18, 1, 3, C.leafDark)}
+          {px(16, 17, 1, 4, C.leaf)}
+          {px(17, 18, 1, 3, C.leafDark)}
+          {px(5, 19, 1, 2, C.leafDark)}
+          {px(18, 19, 1, 2, C.leafDark)}
+        </>
+      )}
+    </>
+  );
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function LavenderStage1() {
+  // Brote gris-verde diminuto
   return (
     <>
       <Pot />
-      {px(6, 20, 2, 1, C.stem)}
-      {px(5, 19, 4, 1, C.stemLight)}
-      {px(6, 19, 2, 1, C.stem)}
+      {px(11, 18, 1, 4, C.leaf)}
+      {px(12, 17, 1, 5, C.leafLight)}
+      {px(13, 18, 1, 4, C.leafDark)}
+      {px(10, 19, 1, 3, C.leafDark)}
+      {px(12, 16, 1, 1, C.leafShine)}
     </>
   );
 }
 
 export function LavenderStage2() {
+  // Mata joven de hojas estrechas
   return (
     <>
       <Pot />
-      {Stem(16)}
-      {SmallLeaf(3, 18, 1)}
-      {SmallLeaf(8, 17, -1)}
+      {Bush(false)}
     </>
   );
 }
 
 export function LavenderStage3() {
+  // Mata completa con tres tallos y primeros botones morados
   return (
     <>
       <Pot />
-      {Stem(13)}
-      {SmallLeaf(2, 17, 1)}
-      {SmallLeaf(8, 15, -1)}
-      {SmallLeaf(3, 14, 1)}
-      {/* brotes de capullo */}
-      {px(6, 10, 2, 3, C.calyx)}
-      {px(6, 10, 2, 1, C.calyxLight)}
-      {px(5, 11, 1, 2, C.bud)}
-      {px(8, 11, 1, 2, C.bud)}
+      {Bush(true)}
+      {/* tallos */}
+      {px(11, 10, 1, 6, C.stem)}
+      {px(12, 10, 1, 6, C.stemDark)}
+      {px(8, 12, 1, 5, C.stem)}
+      {px(15, 12, 1, 5, C.stemDark)}
+      {/* botones */}
+      {px(10, 8, 2, 2, C.spike)}
+      {px(10, 8, 1, 1, C.spikeLight)}
+      {px(7, 10, 2, 2, C.spikeDark)}
+      {px(15, 10, 2, 2, C.spike)}
+      {px(15, 10, 1, 1, C.spikeLight)}
     </>
   );
 }
 
 export function LavenderStage4() {
+  // Espiga central en flor y dos laterales empezando
   return (
     <>
       <Pot />
-      {Stem(13)}
-      {SmallLeaf(2, 17, 1)}
-      {SmallLeaf(8, 15, -1)}
-      {SmallLeaf(3, 14, 1)}
-      {/* espiga central parcial */}
-      {Spike(6, 5, 8)}
+      {Bush(true)}
+      {/* tallos */}
+      {px(11, 11, 1, 5, C.stem)}
+      {px(12, 11, 1, 5, C.stemDark)}
+      {px(8, 12, 1, 5, C.stem)}
+      {px(15, 12, 1, 5, C.stemDark)}
+      {/* espigas */}
+      {Spike(11, 4, 7)}
+      {Spike(7, 8, 4)}
+      {Spike(15, 8, 4)}
     </>
   );
 }
 
 export function LavenderStage5() {
+  // Lavanda plena — cinco espigas cargadas
   return (
     <>
       <Pot />
-      {Stem(13)}
-      {SmallLeaf(2, 17, 1)}
-      {SmallLeaf(8, 15, -1)}
-      {SmallLeaf(3, 14, 1)}
-      {SmallLeaf(7, 13, 1)}
-      {/* espiga central completa */}
-      {Spike(6, 1, 12)}
-      {/* espigas laterales más cortas */}
-      {px(3, 6, 2, 1, C.bud)}
-      {px(3, 7, 2, 1, C.spikeMid)}
-      {px(2, 8, 2, 1, C.spikeLight)}
-      {px(2, 9, 2, 1, C.spikeMid)}
-      {px(2, 10, 2, 1, C.spikeDark)}
-      {px(9, 6, 2, 1, C.bud)}
-      {px(9, 7, 2, 1, C.spikeMid)}
-      {px(10, 8, 2, 1, C.spikeLight)}
-      {px(10, 9, 2, 1, C.spikeMid)}
-      {px(10, 10, 2, 1, C.spikeDark)}
+      {Bush(true)}
+      {/* tallos */}
+      {px(11, 10, 1, 6, C.stem)}
+      {px(12, 10, 1, 6, C.stemDark)}
+      {px(7, 11, 1, 6, C.stem)}
+      {px(8, 11, 1, 6, C.stemDark)}
+      {px(15, 11, 1, 6, C.stem)}
+      {px(16, 11, 1, 6, C.stemDark)}
+      {px(4, 13, 1, 6, C.stemDark)}
+      {px(19, 13, 1, 6, C.stemDark)}
+      {/* espigas */}
+      {Spike(11, 2, 8)}
+      {Spike(7, 5, 6)}
+      {Spike(15, 5, 6)}
+      {Spike(4, 8, 5)}
+      {Spike(18, 8, 5)}
     </>
   );
 }
