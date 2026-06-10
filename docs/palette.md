@@ -1,34 +1,34 @@
-# Minu's Garden - Paleta de colores
+# Minu's Garden - Color palette
 
-## Modo Claro (Default)
+## Light Mode (Default)
 
-| Token                  | Hex       | Uso                          |
-| ---------------------- | --------- | ---------------------------- |
-| `--color-bg`           | `#fceaf8` | Fondo principal              |
-| `--color-panel`        | `#fdf2fa` | Cards, modales, botones sec. |
-| `--color-accent`       | `#ff6bb5` | Botones primary, acentos     |
-| `--color-accent-hover` | `#ff1492` | Hovers de acento             |
-| `--color-text`         | `#2a1f20` | Texto principal              |
-| `--color-text-muted`   | `#6b3d4a` | Labels y texto secundario    |
-| `--color-heart`        | `#ff6bb5` | Iconos de corazón 💗         |
-| `--color-border`       | `#3b2f3f` | Bordes pixel-art             |
+| Token                  | Hex       | Usage                         |
+| ---------------------- | --------- | ----------------------------- |
+| `--color-bg`           | `#fceaf8` | Main background               |
+| `--color-panel`        | `#fdf2fa` | Cards, modals, secondary btns |
+| `--color-accent`       | `#ff6bb5` | Primary buttons, accents      |
+| `--color-accent-hover` | `#ff1492` | Accent hovers                 |
+| `--color-text`         | `#2a1f20` | Main text                     |
+| `--color-text-muted`   | `#6b3d4a` | Labels and secondary text     |
+| `--color-heart`        | `#ff6bb5` | Heart icons 💗                |
+| `--color-border`       | `#3b2f3f` | Pixel-art borders             |
 
-## Modo Oscuro (Dark Mode)
+## Dark Mode
 
-| Token                | Hex       | Uso                      |
-| -------------------- | --------- | ------------------------ |
-| `--color-bg`         | `#0e0a1a` | Fondo base               |
-| `--color-panel`      | `#1d1535` | Paneles e inputs         |
-| `--color-surface`    | `#120e22` | Nav bar y superficies    |
-| `--color-text`       | `#ede4ff` | Texto claro              |
-| `--color-text-muted` | `#8a7db5` | Texto secundario apagado |
-| `--color-accent`     | `#e85fa3` | Rosa premium para dark   |
-| `--color-border`     | `#3a2960` | Bordes morado profundo   |
+| Token                | Hex       | Usage                 |
+| -------------------- | --------- | --------------------- |
+| `--color-bg`         | `#0e0a1a` | Base background       |
+| `--color-panel`      | `#1d1535` | Panels and inputs     |
+| `--color-surface`    | `#120e22` | Nav bar and surfaces  |
+| `--color-text`       | `#ede4ff` | Light text            |
+| `--color-text-muted` | `#8a7db5` | Muted secondary text  |
+| `--color-accent`     | `#e85fa3` | Premium pink for dark |
+| `--color-border`     | `#3a2960` | Deep purple borders   |
 
-## Tipografía Pixel
+## Pixel typography
 
 - **Font Family**: `"Press Start 2P", monospace`
-- **Escala**:
+- **Scale**:
   - `xs`: 9px
   - `sm`: 10px
   - `md`: 12px

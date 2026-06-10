@@ -1,50 +1,50 @@
-# ADR-0007: Reglas de juego en una única fuente de verdad (lado cliente, por ahora)
+# ADR-0007: Game rules in a single source of truth (client side, for now)
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-06-09
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-06-09
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-Las reglas de economía del juego (corazones que da una sesión, etapa final de la planta) determinan la progresión. La fórmula de corazones `Math.floor(durationMinutes / 5)` estaba **duplicada** en `timerStore.finish()` y en `TimerFinishedView.tsx`: dos copias del mismo número que podían divergir y mostrar al usuario un valor distinto del que se persiste. `calculateFinalStage` ya vivía centralizado en `plantService`.
+The game economy rules (hearts awarded per session, final plant stage) determine progression. The hearts formula `Math.floor(durationMinutes / 5)` was **duplicated** in `timerStore.finish()` and in `TimerFinishedView.tsx`: two copies of the same number that could diverge and show the user a different value from what gets persisted. `calculateFinalStage` already lived centralized in `plantService`.
 
-Surge además la pregunta de si estas reglas deberían moverse al proceso Rust como "fuente de verdad" anti-trampa. Hoy la app es **local-first, de un solo usuario y sin servidor**: el usuario ya tiene acceso total a su propio `.db`, así que no hay superficie de trampa que defender. Mover las reglas a Rust ahora acoplaría datos de render de plantas (umbrales por especie, ligados a claves i18n y a renderers TSX) a través del FFI sin ningún beneficio actual — y contradiría la decisión de no introducir backend antes de necesitarlo.
+The question also arises of whether these rules should be moved to the Rust process as an "anti-cheat source of truth". Today the app is **local-first, single-user, and serverless**: the user already has full access to their own `.db`, so there is no cheat surface to defend. Moving the rules to Rust now would couple plant render data (per-species thresholds, tied to i18n keys and TSX renderers) across the FFI with no current benefit — and would contradict the decision not to introduce a backend before it is needed.
 
-## Decisión
+## Decision
 
-Consolidar las reglas de fin de sesión en `plantService` como única fuente de verdad del cliente:
+Consolidate session-end rules in `plantService` as the single source of truth on the client:
 
-- Añadir `calculateHeartsEarned(durationMinutes)` y `MINUTES_PER_HEART` junto a `calculateFinalStage`.
-- `timerStore` y `TimerFinishedView` importan esa función; se elimina la fórmula inline duplicada.
+- Add `calculateHeartsEarned(durationMinutes)` and `MINUTES_PER_HEART` alongside `calculateFinalStage`.
+- `timerStore` and `TimerFinishedView` import that function; the duplicated inline formula is removed.
 
-**No** se portan las reglas a Rust en este momento. Se documenta que esta capa es la _autoritativa del cliente_ y queda lista para espejarse en el servidor el día que exista un backend de sincronización (ver ADR-0005 para la frontera de datos que habilitará ese salto).
+The rules are **not** ported to Rust at this time. It is documented that this layer is the _client authority_ and is ready to be mirrored on the server on the day a sync backend exists (see ADR-0005 for the data boundary that will enable that transition).
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- Una sola definición de la economía de corazones; imposible que UI y persistencia diverjan.
-- Punto único a portar/espejar cuando haya autoridad de servidor.
-- Sin acoplamiento prematuro cliente ⇄ Rust ni coste FFI sin beneficio.
+- A single definition of the hearts economy; it is impossible for the UI and persistence to diverge.
+- Single point to port/mirror when there is a server authority.
+- No premature client ⇄ Rust coupling and no FFI cost without benefit.
 
-### Negativas
+### Bad
 
-- Sigue siendo lógica de cliente: en un futuro multijugador/competitivo NO sería confiable como autoridad. Aceptado conscientemente mientras no haya servidor.
+- Still client logic: in a future multiplayer/competitive scenario it would NOT be reliable as an authority. Consciously accepted while there is no server.
 
-### Neutras
+### Neutral
 
-- `calculateHeartsEarned` vive en el módulo `plants` por consistencia con `calculateFinalStage` (ambas son reglas de fin de sesión), aunque los corazones no sean estrictamente "de planta".
+- `calculateHeartsEarned` lives in the `plants` module for consistency with `calculateFinalStage` (both are session-end rules), even though hearts are not strictly "plant" concerns.
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### Portar las reglas a Rust ahora
+### Port the rules to Rust now
 
-Daría autoridad de servidor… contra un servidor inexistente. Acopla datos de planta al FFI sin beneficio y contradice "no backend antes de tiempo". Diferido hasta que haya sincronización remota.
+Would give server authority… against a non-existent server. Couples plant data to the FFI without benefit and contradicts "no backend before it is needed". Deferred until remote sync is introduced.
 
-### Un módulo `game-rules` nuevo y dedicado
+### A new dedicated `game-rules` module
 
-Más limpio semánticamente, pero crear un módulo para dos funciones es sobreingeniería hoy. Se reconsiderará si la economía crece (niveles, rachas, multiplicadores).
+Semantically cleaner, but creating a module for two functions is over-engineering today. To be reconsidered if the economy grows (levels, streaks, multipliers).
 
-## Notas / referencias
+## Notes / References
 
-- Disparador para reabrir esta decisión: introducción de un backend remoto o de modos competitivos. En ese momento, mover la capa autoritativa a Rust/servidor y dejar el cliente como predictivo.
+- Trigger for reopening this decision: introduction of a remote backend or competitive modes. At that point, move the authoritative layer to Rust/server and leave the client as predictive.

@@ -1,6 +1,6 @@
 // ── Lotus — grid 28×20, water scene (no pot — grows in a pond) ───────────────
-// Estanque con barro, nenúfares con muesca en V y flor de pétalos puntiagudos
-// con receptáculo dorado.
+// Pond with mud, lily pads with V-shaped notch and flower with pointed petals
+// and golden receptacle.
 import { px } from "../shared/PotSprite";
 
 const C = {
@@ -29,21 +29,21 @@ const C = {
   podDot: "#b8932a",
 } as const;
 
-// Estanque — agua con destellos y fondo de barro
+// Pond — water with sparkles and mud bottom
 function WaterBase() {
   return (
     <>
       {px(0, 13, 28, 1, C.waterLight)}
       {px(0, 14, 28, 2, C.waterMid)}
       {px(0, 16, 28, 2, C.waterDeep)}
-      {/* destellos */}
+      {/* sparkles */}
       {px(2, 13, 3, 1, C.waterShine)}
       {px(9, 13, 2, 1, C.waterFoam)}
       {px(17, 13, 3, 1, C.waterShine)}
       {px(23, 13, 2, 1, C.waterFoam)}
       {px(5, 15, 3, 1, C.waterShallow)}
       {px(19, 15, 3, 1, C.waterShallow)}
-      {/* barro */}
+      {/* mud */}
       {px(0, 18, 28, 2, C.mud)}
       {px(0, 18, 28, 1, C.mudLight)}
       {px(3, 19, 3, 1, C.mudDark)}
@@ -53,7 +53,7 @@ function WaterBase() {
   );
 }
 
-// Nenúfar flotando — muesca en V al frente
+// Floating lily pad — V-shaped notch at front
 function Pad(x: number, w: number) {
   const notch = x + Math.floor(w / 2);
   return (
@@ -68,7 +68,7 @@ function Pad(x: number, w: number) {
   );
 }
 
-// Tallo — verde sobre el agua, oscuro por debajo
+// Stalk — green above water, dark below
 function Stalk(x: number, topY: number) {
   const rects = [];
   for (let y = topY; y <= 12; y++) rects.push(px(x, y, 1, 1, C.stem));
@@ -76,7 +76,7 @@ function Stalk(x: number, topY: number) {
   return <>{rects}</>;
 }
 
-// Capullo puntiagudo — 3 de ancho, 4 de alto
+// Pointed bud — 3 wide, 4 tall
 function LotusBud(x: number, y: number) {
   return (
     <>
@@ -89,7 +89,7 @@ function LotusBud(x: number, y: number) {
   );
 }
 
-// Flor abierta — caja 10×7, pétalos puntiagudos y receptáculo dorado
+// Open flower — 10×7 box, pointed petals and golden receptacle
 function LotusFlower(x: number, y: number) {
   return (
     <>
@@ -120,14 +120,14 @@ function LotusFlower(x: number, y: number) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function LotusStage1() {
-  // Brote lanza rompiendo la superficie
+  // Spear shoot breaking the surface
   return (
     <>
       <WaterBase />
       {px(13, 9, 1, 1, C.stemLight)}
       {px(13, 10, 1, 3, C.stem)}
       {px(13, 14, 1, 4, C.stemUnder)}
-      {/* ondas */}
+      {/* ripples */}
       {px(11, 13, 2, 1, C.waterFoam)}
       {px(15, 13, 2, 1, C.waterFoam)}
     </>
@@ -135,7 +135,7 @@ export function LotusStage1() {
 }
 
 export function LotusStage2() {
-  // Primer nenúfar
+  // First lily pad
   return (
     <>
       <WaterBase />
@@ -149,7 +149,7 @@ export function LotusStage2() {
 }
 
 export function LotusStage3() {
-  // Dos nenúfares y brote central
+  // Two lily pads and central shoot
   return (
     <>
       <WaterBase />
@@ -165,7 +165,7 @@ export function LotusStage3() {
 }
 
 export function LotusStage4() {
-  // Capullo bajo sobre el agua
+  // Low bud above water
   return (
     <>
       <WaterBase />
@@ -180,7 +180,7 @@ export function LotusStage4() {
 }
 
 export function LotusStage5() {
-  // Capullo más alto y tercer nenúfar
+  // Taller bud and third lily pad
   return (
     <>
       <WaterBase />
@@ -197,7 +197,7 @@ export function LotusStage5() {
 }
 
 export function LotusStage6() {
-  // Capullo abriéndose — puntas separándose
+  // Bud opening — tips separating
   return (
     <>
       <WaterBase />
@@ -208,7 +208,7 @@ export function LotusStage6() {
       {Pad(19, 6)}
       {Pad(8, 5)}
       {Stalk(13, 6)}
-      {/* capullo abriendo */}
+      {/* bud opening */}
       {px(12, 1, 1, 1, C.petalPale)}
       {px(15, 1, 1, 1, C.petalPale)}
       {px(11, 2, 2, 1, C.petalPink)}
@@ -223,7 +223,7 @@ export function LotusStage6() {
 }
 
 export function LotusStage7() {
-  // Flor abierta
+  // Open flower
   return (
     <>
       <WaterBase />
@@ -238,7 +238,7 @@ export function LotusStage7() {
 }
 
 export function LotusStage8() {
-  // Flor plena con capullo acompañante
+  // Full flower with companion bud
   return (
     <>
       <WaterBase />
@@ -250,7 +250,7 @@ export function LotusStage8() {
       {Pad(8, 5)}
       {Stalk(13, 9)}
       {LotusFlower(9, 2)}
-      {/* capullo lateral */}
+      {/* side bud */}
       {Stalk(5, 10)}
       {LotusBud(4, 6)}
     </>
@@ -258,7 +258,7 @@ export function LotusStage8() {
 }
 
 export function LotusStage9() {
-  // Loto sagrado — flor grande, capullo y estanque lleno de vida
+  // Sacred lotus — large flower, bud, and pond full of life
   return (
     <>
       <WaterBase />
@@ -271,13 +271,13 @@ export function LotusStage9() {
       {Pad(16, 5)}
       {Stalk(13, 8)}
       {LotusFlower(9, 1)}
-      {/* pétalos exteriores extra */}
+      {/* extra outer petals */}
       {px(7, 4, 2, 1, C.petalDark)}
       {px(19, 4, 2, 1, C.petalDark)}
-      {/* capullo lateral */}
+      {/* side bud */}
       {Stalk(5, 9)}
       {LotusBud(4, 5)}
-      {/* destellos de vida */}
+      {/* life sparkles */}
       {px(6, 2, 1, 1, C.waterFoam)}
       {px(21, 1, 1, 1, C.waterFoam)}
       {px(24, 7, 1, 1, C.waterFoam)}

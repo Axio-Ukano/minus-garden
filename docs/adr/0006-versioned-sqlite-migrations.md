@@ -1,53 +1,53 @@
-# ADR-0006: Migraciones SQLite versionadas con `PRAGMA user_version`
+# ADR-0006: Versioned SQLite migrations with `PRAGMA user_version`
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-06-09
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-06-09
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-`db.rs` creaba el esquema con `CREATE TABLE IF NOT EXISTS` más dos `ALTER TABLE … ADD COLUMN` idempotentes (con el error tragado por `let _ =`) para back-fill de instalaciones pre-Sprint 6. Ese patrón funciona pero no escala: cada cambio futuro de esquema obliga a más `IF NOT EXISTS`/ALTER tragados, sin forma de saber en qué versión está una base, sin orden garantizado y con riesgo de aplicar dos veces un cambio. ADR-0003 ya anticipaba "esquema versionable con migraciones imperativas"; este ADR define ese mecanismo antes de que el esquema crezca con la gamificación.
+`db.rs` created the schema with `CREATE TABLE IF NOT EXISTS` plus two idempotent `ALTER TABLE … ADD COLUMN` statements (with the error swallowed by `let _ =`) to back-fill pre-Sprint 6 installations. That pattern works but does not scale: every future schema change forces more `IF NOT EXISTS`/ALTERs to be swallowed, with no way to know what version a given database is at, no guaranteed order, and the risk of applying a change twice. ADR-0003 already anticipated "versionable schema with imperative migrations"; this ADR defines that mechanism before the schema grows with the gamification work.
 
-## Decisión
+## Decision
 
-Implementar un runner de migraciones en `db.rs` basado en `PRAGMA user_version`:
+Implement a migration runner in `db.rs` based on `PRAGMA user_version`:
 
-- `MIGRATIONS: &[&str]` — lista ordenada; el índice + 1 es el número de versión de cada migración.
-- `run_migrations` lee `user_version`, aplica en orden cada migración con versión mayor a la actual y, tras cada una, sube `user_version`.
-- **Migración v1** = esquema baseline. Usa `IF NOT EXISTS` + los ALTER legacy (tragados) para absorber con seguridad cualquier base previa (pre-`user_version` con tablas ya creadas, con o sin columnas de planta). En una base nueva crea todo. En ambos casos termina en versión 1.
-- **De v2 en adelante**: `ALTER`/`CREATE` planos, sin guardas — la versión garantiza que solo corren contra un esquema que aún no tiene el cambio.
+- `MIGRATIONS: &[&str]` — ordered list; index + 1 is the version number of each migration.
+- `run_migrations` reads `user_version`, applies in order each migration whose version is higher than the current one, and after each migration increments `user_version`.
+- **Migration v1** = baseline schema. Uses `IF NOT EXISTS` + the legacy ALTERs (swallowed) to safely absorb any existing database (pre-`user_version`, with tables already created, with or without plant columns). On a fresh database it creates everything. In both cases it finishes at version 1.
+- **From v2 onwards**: plain `ALTER`/`CREATE` without guards — the version guarantees they only run against a schema that does not yet have the change.
 
-Se añaden tests unitarios Rust (`#[cfg(test)]` en `db.rs`) que verifican: base nueva → última versión, idempotencia (segunda corrida no duplica seeds), y upgrade de una base legacy sin columnas de planta.
+Rust unit tests (`#[cfg(test)]` in `db.rs`) are added that verify: fresh database → latest version, idempotency (second run does not duplicate seeds), and upgrade from a legacy database without plant columns.
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- El **próximo** cambio de esquema es una entrada nueva en `MIGRATIONS`, trivial y auditable.
-- Estado de esquema explícito y consultable (`user_version`).
-- Orden e idempotencia garantizados; sin riesgo de doble aplicación.
-- Cubierto por tests Rust.
+- The **next** schema change is a new entry in `MIGRATIONS`, trivial and auditable.
+- Schema state is explicit and queryable (`user_version`).
+- Order and idempotency are guaranteed; no risk of double application.
+- Covered by Rust tests.
 
-### Negativas
+### Bad
 
-- Las migraciones nunca se editan ni reordenan una vez publicadas; solo se añaden. Requiere disciplina.
-- Los tests Rust no corren en el CI de frontend (`validate.yml` es solo pnpm); se ejecutan con `cargo test`.
+- Migrations are never edited or reordered once published; only appended. Requires discipline.
+- Rust tests do not run in the frontend CI (`validate.yml` is pnpm-only); they are run with `cargo test`.
 
-### Neutras
+### Neutral
 
-- La migración v1 conserva el patrón legacy `IF NOT EXISTS`/ALTER por compatibilidad hacia atrás; no es deuda, es el contrato de "absorber lo ya instalado".
+- Migration v1 retains the legacy `IF NOT EXISTS`/ALTER pattern for backward compatibility; this is not debt, it is the contract for "absorbing what is already installed".
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### `tauri-plugin-sql` con migraciones declarativas
+### `tauri-plugin-sql` with declarative migrations
 
-Aporta un sistema de migraciones, pero añade una dependencia y mueve el esquema a JS/config. Para una capa Rust ya existente y mínima, es sobreingeniería. Diferido.
+Provides a migration system, but adds a dependency and moves the schema to JS/config. For an already-minimal existing Rust layer, this is over-engineering. Deferred.
 
-### Crate `refinery` / `rusqlite_migration`
+### `refinery` / `rusqlite_migration` crate
 
-Más completos, pero añaden dependencia para algo que `user_version` + un `&[&str]` resuelve con ~30 líneas. Descartado por peso innecesario.
+More complete, but adds a dependency for something that `user_version` + `&[&str]` solves in ~30 lines. Discarded as unnecessary weight.
 
-## Notas / referencias
+## Notes / References
 
-- Sustituye el mecanismo descrito en ADR-0003 sin invalidar su decisión de fondo (SQLite local).
-- Actualizar el esquema y el flujo de migración en `docs/architecture.md`.
+- Supersedes the mechanism described in ADR-0003 without invalidating its core decision (local SQLite).
+- Update the schema and migration flow in `docs/architecture.md`.

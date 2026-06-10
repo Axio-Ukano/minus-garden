@@ -1,57 +1,57 @@
-# ADR-0003: Persistencia local con SQLite (rusqlite) en el proceso Rust
+# ADR-0003: Local persistence with SQLite (rusqlite) in the Rust process
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-04-27
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-04-27
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-La app guarda sesiones de estudio, total de hearts y subjects del usuario. Al ser desktop offline-first sin backend, el almacenamiento debe vivir 100% en la máquina del usuario y sobrevivir reinicios. La capa Rust de Tauri ya está disponible y puede acceder al filesystem nativo.
+The app saves study sessions, total hearts, and user subjects. As a desktop offline-first app with no backend, storage must live 100% on the user's machine and survive restarts. The Rust layer of Tauri is already available and can access the native filesystem.
 
-## Decisión
+## Decision
 
-Usar SQLite vía `rusqlite` (con `bundled` feature) directamente en `src-tauri/src/db.rs`. La base se crea al arrancar la app en el directorio estándar de datos (`AppData` en Windows, `~/Library/Application Support` en macOS, `~/.local/share` en Linux).
+Use SQLite via `rusqlite` (with the `bundled` feature) directly in `src-tauri/src/db.rs`. The database is created on app startup in the standard data directory (`AppData` on Windows, `~/Library/Application Support` on macOS, `~/.local/share` on Linux).
 
-Esquema actual (declarado en `db.rs`):
+Current schema (declared in `db.rs`):
 
 - `sessions` — `id, start_time, end_time, duration_minutes, subject, completed, hearts_earned, plant_species, plant_stage`
 - `user_state` — `total_hearts`
 - `subjects` — `id, name, last_used, usage_count`
 
-Los comandos Tauri en `src-tauri/src/commands.rs` exponen exactamente las operaciones que el frontend necesita (`save_session`, `get_sessions`, `delete_session`, `get_user_state`, `update_hearts`, `get_subjects`, `save_subject`, `update_subject_usage`).
+The Tauri commands in `src-tauri/src/commands.rs` expose exactly the operations the frontend needs (`save_session`, `get_sessions`, `delete_session`, `get_user_state`, `update_hearts`, `get_subjects`, `save_subject`, `update_subject_usage`).
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- Persistencia robusta, transaccional, sin dependencia externa.
-- Esquema versionable con migraciones imperativas en `db.rs`.
-- Sin red: cero latencia, cero superficie de ataque, cero coste.
-- Compatible con auditoría legal de "datos solo en el dispositivo del usuario".
+- Robust, transactional persistence with no external dependency.
+- Schema is versionable with imperative migrations in `db.rs`.
+- No network: zero latency, zero attack surface, zero cost.
+- Compatible with the legal audit requirement of "data only on the user's device".
 
-### Negativas
+### Bad
 
-- Cambios de esquema requieren código de migración manual (no hay ORM con migraciones automáticas).
-- Sincronización entre dispositivos no es posible sin reescribir esta capa (out of scope).
+- Schema changes require manual migration code (no ORM with automatic migrations).
+- Cross-device sync is not possible without rewriting this layer (out of scope).
 
-### Neutras
+### Neutral
 
-- Inspeccionar la BD requiere abrir el archivo `.db` con un cliente SQLite externo durante debug.
+- Inspecting the database requires opening the `.db` file with an external SQLite client during debugging.
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### IndexedDB en el WebView
+### IndexedDB in the WebView
 
-Más simple desde el frontend, pero el almacenamiento queda en el perfil del WebView y puede borrarse al limpiar caché o al actualizar la versión. Descartado por fragilidad.
+Simpler from the frontend, but storage ends up in the WebView profile and can be deleted when clearing cache or updating the version. Discarded due to fragility.
 
-### Archivo JSON en disco
+### JSON file on disk
 
-Trivial pero sin transacciones ni queries; corromper el archivo significa perder todo. Descartado por fragilidad.
+Trivial but no transactions or queries; corrupting the file means losing everything. Discarded due to fragility.
 
-### sqlx + Postgres-compat embebido
+### sqlx + embedded Postgres-compat
 
-Sobreingeniería para el alcance actual.
+Over-engineering for the current scope.
 
-## Notas
+## Notes
 
-- Los esquemas de tablas y la lógica de migración deben mantenerse documentados en `docs/architecture.md`. Cualquier cambio incompatible exige ADR adicional con plan de upgrade.
+- Table schemas and migration logic must be kept documented in `docs/architecture.md`. Any breaking change requires an additional ADR with an upgrade plan.

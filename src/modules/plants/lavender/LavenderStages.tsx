@@ -1,5 +1,5 @@
 // ── Lavender — grid 24×30, shared pot (see shared/PotSprite) ─────────────────
-// Mata arbustiva de follaje gris-verde con espigas moradas.
+// Bushy shrub with grey-green foliage and purple spikes.
 import { Pot, px } from "../shared/PotSprite";
 
 const C = {
@@ -16,7 +16,7 @@ const C = {
   spikeDeep: "#4c2a72",
 } as const;
 
-// Espiga de lavanda — cabezal 2px de ancho con botones laterales
+// Lavender spike — 2px wide head with side buds
 function Spike(x: number, topY: number, h: number) {
   const rects = [];
   rects.push(px(x, topY - 1, 2, 1, C.spikePale));
@@ -32,7 +32,7 @@ function Spike(x: number, topY: number, h: number) {
   return <>{rects}</>;
 }
 
-// Mata de hojas estrechas en la base
+// Bush of narrow leaves at base
 function Bush(full: boolean) {
   return (
     <>
@@ -60,7 +60,7 @@ function Bush(full: boolean) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function LavenderStage1() {
-  // Brote gris-verde diminuto
+  // Tiny grey-green shoot
   return (
     <>
       <Pot />
@@ -74,7 +74,7 @@ export function LavenderStage1() {
 }
 
 export function LavenderStage2() {
-  // Mata joven de hojas estrechas
+  // Young bush of narrow leaves
   return (
     <>
       <Pot />
@@ -84,17 +84,17 @@ export function LavenderStage2() {
 }
 
 export function LavenderStage3() {
-  // Mata completa con tres tallos y primeros botones morados
+  // Full bush with three stalks and first purple buds
   return (
     <>
       <Pot />
       {Bush(true)}
-      {/* tallos */}
+      {/* stalks */}
       {px(11, 10, 1, 6, C.stem)}
       {px(12, 10, 1, 6, C.stemDark)}
       {px(8, 12, 1, 5, C.stem)}
       {px(15, 12, 1, 5, C.stemDark)}
-      {/* botones */}
+      {/* buds */}
       {px(10, 8, 2, 2, C.spike)}
       {px(10, 8, 1, 1, C.spikeLight)}
       {px(7, 10, 2, 2, C.spikeDark)}
@@ -105,17 +105,17 @@ export function LavenderStage3() {
 }
 
 export function LavenderStage4() {
-  // Espiga central en flor y dos laterales empezando
+  // Central spike in bloom and two side spikes starting
   return (
     <>
       <Pot />
       {Bush(true)}
-      {/* tallos */}
+      {/* stalks */}
       {px(11, 11, 1, 5, C.stem)}
       {px(12, 11, 1, 5, C.stemDark)}
       {px(8, 12, 1, 5, C.stem)}
       {px(15, 12, 1, 5, C.stemDark)}
-      {/* espigas */}
+      {/* spikes */}
       {Spike(11, 4, 7)}
       {Spike(7, 8, 4)}
       {Spike(15, 8, 4)}
@@ -124,12 +124,12 @@ export function LavenderStage4() {
 }
 
 export function LavenderStage5() {
-  // Lavanda plena — cinco espigas cargadas
+  // Full lavender — five loaded spikes
   return (
     <>
       <Pot />
       {Bush(true)}
-      {/* tallos */}
+      {/* stalks */}
       {px(11, 10, 1, 6, C.stem)}
       {px(12, 10, 1, 6, C.stemDark)}
       {px(7, 11, 1, 6, C.stem)}
@@ -138,7 +138,7 @@ export function LavenderStage5() {
       {px(16, 11, 1, 6, C.stemDark)}
       {px(4, 13, 1, 6, C.stemDark)}
       {px(19, 13, 1, 6, C.stemDark)}
-      {/* espigas */}
+      {/* spikes */}
       {Spike(11, 2, 8)}
       {Spike(7, 5, 6)}
       {Spike(15, 5, 6)}

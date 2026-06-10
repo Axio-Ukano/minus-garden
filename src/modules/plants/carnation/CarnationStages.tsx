@@ -1,5 +1,5 @@
 // ── Carnation — grid 24×30, shared pot (see shared/PotSprite) ────────────────
-// Follaje azul-verdoso, cáliz en urna y flor de pétalos festoneados.
+// Blue-green foliage, calyx in urn and flower with scalloped petals.
 import { Pot, px } from "../shared/PotSprite";
 
 const C = {
@@ -25,7 +25,7 @@ function Stem(topY: number) {
   return <>{rects}</>;
 }
 
-// Hojas estrechas opuestas, apuntando hacia arriba y afuera
+// Narrow opposite leaves, pointing up and out
 function LeafLeft(y: number) {
   return (
     <>
@@ -46,7 +46,7 @@ function LeafRight(y: number) {
   );
 }
 
-// Cáliz en urna con dientes
+// Calyx in urn with teeth
 function Calyx(y: number) {
   return (
     <>
@@ -61,7 +61,7 @@ function Calyx(y: number) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function CarnationStage1() {
-  // Brote azul-verdoso con primeras hojitas opuestas
+  // Blue-green shoot with first opposite leaflets
   return (
     <>
       <Pot />
@@ -74,7 +74,7 @@ export function CarnationStage1() {
 }
 
 export function CarnationStage2() {
-  // Tallo joven con dos pares de hojas estrechas
+  // Young stem with two pairs of narrow leaves
   return (
     <>
       <Pot />
@@ -87,7 +87,7 @@ export function CarnationStage2() {
 }
 
 export function CarnationStage3() {
-  // Cáliz cerrado con punta roja asomando
+  // Closed calyx with red tip peeking
   return (
     <>
       <Pot />
@@ -95,7 +95,7 @@ export function CarnationStage3() {
       {LeafLeft(18)}
       {LeafRight(16)}
       {LeafLeft(13)}
-      {/* punta roja */}
+      {/* red tip */}
       {px(11, 3, 2, 2, C.petal)}
       {px(11, 3, 2, 1, C.petalLight)}
       {Calyx(4)}
@@ -104,7 +104,7 @@ export function CarnationStage3() {
 }
 
 export function CarnationStage4() {
-  // Capullo rasgándose — primer volante de pétalos
+  // Bud tearing open — first ruffle of petals
   return (
     <>
       <Pot />
@@ -112,7 +112,7 @@ export function CarnationStage4() {
       {LeafLeft(18)}
       {LeafRight(16)}
       {LeafLeft(13)}
-      {/* volante */}
+      {/* ruffle */}
       {px(10, 2, 1, 1, C.petalPale)}
       {px(12, 2, 1, 1, C.petalPale)}
       {px(10, 3, 4, 1, C.petalLight)}
@@ -124,7 +124,7 @@ export function CarnationStage4() {
 }
 
 export function CarnationStage5() {
-  // Flor a medio abrir — abanico festoneado
+  // Flower half-open — scalloped fan
   return (
     <>
       <Pot />
@@ -132,7 +132,7 @@ export function CarnationStage5() {
       {LeafLeft(18)}
       {LeafRight(16)}
       {LeafLeft(13)}
-      {/* abanico de pétalos */}
+      {/* petal fan */}
       {px(8, 2, 1, 1, C.petalLight)}
       {px(10, 2, 2, 1, C.petalPale)}
       {px(13, 2, 1, 1, C.petalLight)}
@@ -143,7 +143,7 @@ export function CarnationStage5() {
       {px(13, 4, 1, 1, C.petalDeep)}
       {px(7, 5, 10, 1, C.petal)}
       {px(8, 6, 8, 1, C.petalDark)}
-      {/* flecos laterales */}
+      {/* side fringes */}
       {px(6, 4, 1, 2, C.petalLight)}
       {px(17, 4, 1, 2, C.petalLight)}
       {Calyx(7)}
@@ -152,7 +152,7 @@ export function CarnationStage5() {
 }
 
 export function CarnationStage6() {
-  // Clavel pleno — pompón festoneado exuberante
+  // Full carnation — exuberant scalloped pompom
   return (
     <>
       <Pot />
@@ -161,12 +161,12 @@ export function CarnationStage6() {
       {LeafRight(17)}
       {LeafLeft(14)}
       {LeafRight(13)}
-      {/* borde superior en zigzag */}
+      {/* top edge in zigzag */}
       {px(8, 1, 1, 1, C.petalPale)}
       {px(10, 1, 1, 1, C.petalPale)}
       {px(12, 1, 2, 1, C.petalPale)}
       {px(15, 1, 1, 1, C.petalPale)}
-      {/* cuerpo del pompón */}
+      {/* pompom body */}
       {px(8, 2, 8, 1, C.petalLight)}
       {px(7, 3, 10, 1, C.petalLight)}
       {px(9, 3, 2, 1, C.petalPale)}
@@ -180,13 +180,13 @@ export function CarnationStage6() {
       {px(13, 5, 2, 1, C.petalDeep)}
       {px(7, 6, 10, 1, C.petalDark)}
       {px(8, 7, 8, 1, C.petalDeep)}
-      {/* flecos laterales */}
+      {/* side fringes */}
       {px(5, 4, 1, 2, C.petalLight)}
       {px(18, 4, 1, 2, C.petalLight)}
       {px(6, 3, 1, 1, C.petalPale)}
       {px(17, 3, 1, 1, C.petalPale)}
       {Calyx(8)}
-      {/* sépalos curvados */}
+      {/* curved sepals */}
       {px(9, 9, 1, 2, C.calyxDark)}
       {px(14, 9, 1, 2, C.calyxDark)}
     </>

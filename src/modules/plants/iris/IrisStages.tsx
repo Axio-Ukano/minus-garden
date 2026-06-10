@@ -1,5 +1,5 @@
 // ── Iris — grid 24×30, shared pot (see shared/PotSprite) ─────────────────────
-// Abanico de hojas espada y flor con estandartes lila y caídas violeta.
+// Fan of sword leaves and flower with lilac standards and violet falls.
 import { Pot, px } from "../shared/PotSprite";
 
 const C = {
@@ -18,7 +18,7 @@ const C = {
   beard: "#f8c838",
 } as const;
 
-// Hoja espada en escalera desde la base hacia afuera
+// Sword leaf in stair-step from base outward
 function Blade(dir: -1 | 1, baseX: number, len: number) {
   const rects = [];
   for (let i = 0; i < len; i++) {
@@ -35,7 +35,7 @@ function Blade(dir: -1 | 1, baseX: number, len: number) {
   return <>{rects}</>;
 }
 
-// Hoja central recta
+// Center blade straight
 function CenterBlade(topY: number) {
   const rects = [];
   for (let y = topY; y <= 21; y++) {
@@ -56,7 +56,7 @@ function Stalk(topY: number) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function IrisStage1() {
-  // Primera hoja espada atravesando la tierra
+  // First sword leaf piercing the soil
   return (
     <>
       <Pot />
@@ -69,7 +69,7 @@ export function IrisStage1() {
 }
 
 export function IrisStage2() {
-  // Abanico joven de tres hojas
+  // Young fan of three leaves
   return (
     <>
       <Pot />
@@ -81,7 +81,7 @@ export function IrisStage2() {
 }
 
 export function IrisStage3() {
-  // Abanico maduro, hojas altas
+  // Mature fan, tall leaves
   return (
     <>
       <Pot />
@@ -95,7 +95,7 @@ export function IrisStage3() {
 }
 
 export function IrisStage4() {
-  // Tallo floral con capullo en gota
+  // Flower stalk with teardrop bud
   return (
     <>
       <Pot />
@@ -104,13 +104,13 @@ export function IrisStage4() {
       {Blade(-1, 10, 3)}
       {Blade(1, 12, 3)}
       {Stalk(7)}
-      {/* capullo */}
+      {/* bud */}
       {px(11, 1, 2, 1, C.lilac)}
       {px(10, 2, 4, 2, C.violetMid)}
       {px(10, 4, 4, 2, C.violet)}
       {px(10, 5, 1, 1, C.violetDark)}
       {px(13, 5, 1, 1, C.violetDark)}
-      {/* espata */}
+      {/* spathe */}
       {px(10, 6, 4, 1, C.leafDark)}
       {px(13, 4, 1, 2, C.leaf)}
     </>
@@ -118,7 +118,7 @@ export function IrisStage4() {
 }
 
 export function IrisStage5() {
-  // Flor a medio abrir — estandartes visibles, caídas empezando
+  // Flower half-open — standards visible, falls beginning
   return (
     <>
       <Pot />
@@ -127,17 +127,17 @@ export function IrisStage5() {
       {Blade(-1, 10, 3)}
       {Blade(1, 12, 3)}
       {Stalk(8)}
-      {/* estandartes */}
+      {/* standards */}
       {px(10, 1, 4, 1, C.lilac)}
       {px(9, 2, 6, 1, C.lilac)}
       {px(11, 2, 2, 1, C.lilacPale)}
       {px(9, 3, 6, 1, C.lilacLight)}
       {px(10, 4, 4, 1, C.violetMid)}
-      {/* caídas asomando */}
+      {/* falls peeking */}
       {px(8, 5, 2, 2, C.violet)}
       {px(14, 5, 2, 2, C.violet)}
       {px(11, 5, 2, 2, C.violetMid)}
-      {/* barbas */}
+      {/* beards */}
       {px(9, 5, 1, 1, C.beard)}
       {px(14, 5, 1, 1, C.beard)}
     </>
@@ -145,7 +145,7 @@ export function IrisStage5() {
 }
 
 export function IrisStage6() {
-  // Iris pleno — estandartes erguidos, caídas con barbas doradas
+  // Full iris — upright standards, falls with golden beards
   return (
     <>
       <Pot />
@@ -154,7 +154,7 @@ export function IrisStage6() {
       {Blade(-1, 10, 3)}
       {Blade(1, 12, 3)}
       {Stalk(9)}
-      {/* estandartes — cúpula lila */}
+      {/* standards — lilac dome */}
       {px(10, 0, 4, 1, C.lilacPale)}
       {px(9, 1, 6, 1, C.lilac)}
       {px(11, 1, 2, 1, C.lilacPale)}
@@ -163,9 +163,9 @@ export function IrisStage6() {
       {px(8, 3, 8, 1, C.lilacLight)}
       {px(8, 3, 1, 1, C.violetMid)}
       {px(15, 3, 1, 1, C.violetMid)}
-      {/* cintura */}
+      {/* waist */}
       {px(9, 4, 6, 1, C.violetMid)}
-      {/* caídas — pétalos colgantes */}
+      {/* falls — hanging petals */}
       {px(7, 5, 3, 2, C.violet)}
       {px(6, 5, 1, 2, C.violetDark)}
       {px(7, 7, 2, 2, C.violetDark)}
@@ -174,11 +174,11 @@ export function IrisStage6() {
       {px(15, 7, 2, 2, C.violetDark)}
       {px(10, 5, 4, 3, C.violetMid)}
       {px(11, 8, 2, 1, C.violetDark)}
-      {/* barbas doradas */}
+      {/* golden beards */}
       {px(8, 5, 1, 1, C.beard)}
       {px(15, 5, 1, 1, C.beard)}
       {px(11, 5, 2, 1, C.beard)}
-      {/* capullo lateral */}
+      {/* side bud */}
       {px(15, 9, 2, 1, C.lilac)}
       {px(15, 10, 2, 2, C.violet)}
       {px(15, 12, 2, 1, C.leafDark)}

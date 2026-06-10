@@ -1,59 +1,59 @@
-# ADR-0004: Boundaries entre módulos y alias `@/*`
+# ADR-0004: Module boundaries and the `@/*` alias
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-04-27
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-04-27
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-El código frontend está organizado por feature en `src/modules/<name>/`. En sprints previos al "tier S", los boundaries entre módulos se respetaban por convención humana (review manual). Sin enforcement automático, el riesgo de regresión era alto: cualquier PR podía importar internals de otro módulo y romper el encapsulado sin que CI lo notara.
+The frontend code is organized by feature under `src/modules/<name>/`. In sprints prior to "tier S", boundaries between modules were respected by human convention (manual review). Without automatic enforcement, the risk of regression was high: any PR could import internals from another module and break encapsulation without CI noticing.
 
-## Decisión
+## Decision
 
-1. Cada módulo expone su superficie pública via `src/modules/<name>/index.ts` (barrel).
-2. Los imports cross-módulo deben ir por el barrel y por el alias `@/modules/<name>`. Está prohibido `@/modules/<name>/<archivo-interno>`.
-3. Los imports intra-módulo deben usar paths relativos (`./`, `../`). Nunca `@/modules/<self>/<...>` para evitar el round-trip por el barrel.
-4. El path alias `@/*` apunta a `src/*` (configurado en `tsconfig.json`, `vite.config.ts`, `vitest.config.ts` y `eslint-import-resolver-typescript`).
-5. Enforcement automático:
-   - ESLint regla `no-restricted-imports` con patrón `@/modules/*/*` en error.
-   - ESLint regla `import/no-cycle` en error.
-   - Script `pnpm circular` (madge) en CI como red secundaria.
+1. Each module exposes its public surface via `src/modules/<name>/index.ts` (barrel).
+2. Cross-module imports must go through the barrel and the `@/modules/<name>` alias. Importing `@/modules/<name>/<internal-file>` is forbidden.
+3. Intra-module imports must use relative paths (`./`, `../`). Never `@/modules/<self>/<...>` to avoid the round-trip through the barrel.
+4. The path alias `@/*` points to `src/*` (configured in `tsconfig.json`, `vite.config.ts`, `vitest.config.ts`, and `eslint-import-resolver-typescript`).
+5. Automatic enforcement:
+   - ESLint rule `no-restricted-imports` with pattern `@/modules/*/*` as error.
+   - ESLint rule `import/no-cycle` as error.
+   - Script `pnpm circular` (madge) in CI as a secondary net.
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- El encapsulado se vuelve mecánico: el linter rompe builds y CI bloquea PRs que crucen boundaries.
-- Refactor interno de un módulo es seguro mientras el barrel mantenga su contrato.
-- Los tests pueden mockear módulos completos por path estable (`vi.mock("@/modules/audio")`).
+- Encapsulation becomes mechanical: the linter breaks builds and CI blocks PRs that cross boundaries.
+- Internal refactoring of a module is safe as long as the barrel maintains its contract.
+- Tests can mock complete modules by stable path (`vi.mock("@/modules/audio")`).
 
-### Negativas
+### Bad
 
-- Añadir una nueva exportación cross-módulo requiere actualizar el barrel — más fricción que un import directo.
-- Tipos cross-módulo deben declararse o reexportarse desde el barrel; no se puede importar tipos profundos.
+- Adding a new cross-module export requires updating the barrel — more friction than a direct import.
+- Cross-module types must be declared or re-exported from the barrel; deep types cannot be imported directly.
 
-### Neutras
+### Neutral
 
-- Tests unitarios no escapan a la regla; usan paths relativos intra-módulo y barrel para mocks externos.
+- Unit tests are not exempt from the rule; they use relative intra-module paths and the barrel for external mocks.
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### Solo barrel sin enforcement
+### Barrel only, without enforcement
 
-Lo que teníamos antes del sprint tier S. Probadamente erosiona con el tiempo.
+What we had before the tier S sprint. Proven to erode over time.
 
 ### `eslint-plugin-boundaries`
 
-Más expresivo (definir tipos de elementos y reglas de qué tipo puede importar a qué tipo). Descartado por overhead de configuración para una app de 7 módulos.
+More expressive (define element types and rules for which type can import from which). Discarded due to configuration overhead for an app with 7 modules.
 
-### Workspaces (pnpm workspaces) por módulo
+### Workspaces (pnpm workspaces) per module
 
-Cada feature como paquete independiente. Aísla más, pero introduce un monorepo donde no se necesita y complica el build de Tauri.
+Each feature as an independent package. Provides stronger isolation but introduces a monorepo where it is not needed and complicates the Tauri build.
 
-## Notas
+## Notes
 
-- Para añadir un módulo nuevo:
-  1. Crear `src/modules/<name>/` con sus archivos internos.
-  2. Crear `src/modules/<name>/index.ts` exportando solo lo público.
-  3. Documentar en `docs/architecture.md` su lugar en la pila.
-  4. Si añade un boundary nuevo no obvio (ej. el módulo solo puede ser usado por X), abrir un ADR adicional.
+- To add a new module:
+  1. Create `src/modules/<name>/` with its internal files.
+  2. Create `src/modules/<name>/index.ts` exporting only public items.
+  3. Document it in `docs/architecture.md` and its place in the stack.
+  4. If it adds a non-obvious new boundary (e.g. the module can only be used by X), open an additional ADR.

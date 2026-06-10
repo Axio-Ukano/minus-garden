@@ -61,17 +61,17 @@ function BigLeafRight(y: number) {
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function SunflowerStage1() {
-  // Brote con la cáscara de pipa aún puesta
+  // Shoot with sunflower seed husk still on
   return (
     <>
       <Pot />
       {px(11, 18, 2, 4, C.stem)}
-      {/* cáscara rayada */}
+      {/* striped husk */}
       {px(11, 14, 2, 1, C.seedHusk)}
       {px(10, 15, 4, 3, C.seedHusk)}
       {px(11, 15, 1, 3, C.seedStripe)}
       {px(13, 15, 1, 3, C.seedStripe)}
-      {/* hojitas escapando */}
+      {/* baby leaves escaping */}
       {px(9, 18, 2, 1, C.leafLight)}
       {px(13, 18, 2, 1, C.leafLight)}
     </>
@@ -79,16 +79,16 @@ export function SunflowerStage1() {
 }
 
 export function SunflowerStage2() {
-  // Plántula con cotiledones anchos
+  // Seedling with broad cotyledons
   return (
     <>
       <Pot />
       {Stem(15)}
-      {/* cotiledón izquierdo */}
+      {/* left cotyledon */}
       {px(7, 13, 3, 1, C.leafLight)}
       {px(6, 14, 5, 1, C.leaf)}
       {px(7, 15, 3, 1, C.leafDark)}
-      {/* cotiledón derecho */}
+      {/* right cotyledon */}
       {px(14, 12, 3, 1, C.leafLight)}
       {px(13, 13, 5, 1, C.leaf)}
       {px(14, 14, 3, 1, C.leafDark)}
@@ -97,14 +97,14 @@ export function SunflowerStage2() {
 }
 
 export function SunflowerStage3() {
-  // Tallo medio con primeras hojas grandes acorazonadas
+  // Mid-stem with first large heart-shaped leaves
   return (
     <>
       <Pot />
       {Stem(11)}
       {BigLeafLeft(15)}
       {BigLeafRight(13)}
-      {/* penacho superior */}
+      {/* top tuft */}
       {px(11, 8, 2, 1, C.leafShine)}
       {px(10, 9, 4, 1, C.leafLight)}
       {px(10, 10, 4, 1, C.leaf)}
@@ -113,42 +113,42 @@ export function SunflowerStage3() {
 }
 
 export function SunflowerStage4() {
-  // Tallo alto con capullo verde colgante
+  // Tall stem with drooping green bud
   return (
     <>
       <Pot />
       {Stem(8)}
       {BigLeafLeft(16)}
       {BigLeafRight(13)}
-      {/* hojitas medias */}
+      {/* mid baby leaves */}
       {px(8, 10, 3, 1, C.leaf)}
       {px(9, 9, 2, 1, C.leafLight)}
       {px(13, 11, 3, 1, C.leaf)}
       {px(13, 10, 2, 1, C.leafLight)}
-      {/* capullo */}
+      {/* bud */}
       {px(11, 2, 3, 1, C.bud)}
       {px(10, 3, 5, 4, C.bud)}
       {px(10, 3, 1, 4, C.budDark)}
       {px(10, 6, 5, 1, C.budDark)}
       {px(12, 3, 1, 2, C.leafShine)}
-      {/* brácteas */}
+      {/* bracts */}
       {px(9, 4, 1, 3, C.leaf)}
       {px(15, 4, 1, 3, C.leaf)}
-      {/* rendija amarilla */}
+      {/* yellow opening */}
       {px(12, 2, 1, 1, C.petalLight)}
     </>
   );
 }
 
 export function SunflowerStage5() {
-  // Capullo abriéndose — fleco de pétalos alrededor del disco joven
+  // Bud opening — petal fringe around young disc
   return (
     <>
       <Pot />
       {Stem(10)}
       {BigLeafLeft(16)}
       {BigLeafRight(13)}
-      {/* fleco de pétalos */}
+      {/* petal fringe */}
       {px(10, 2, 4, 2, C.petal)}
       {px(11, 2, 2, 1, C.petalLight)}
       {px(8, 3, 2, 2, C.petal)}
@@ -156,10 +156,10 @@ export function SunflowerStage5() {
       {px(7, 5, 2, 2, C.petal)}
       {px(15, 5, 2, 2, C.petal)}
       {px(10, 7, 4, 1, C.petalDark)}
-      {/* brácteas inferiores */}
+      {/* lower bracts */}
       {px(9, 8, 6, 1, C.bud)}
       {px(10, 9, 4, 1, C.budDark)}
-      {/* disco joven */}
+      {/* young disc */}
       {px(10, 4, 4, 3, C.disk)}
       {px(10, 4, 4, 1, C.diskMid)}
     </>
@@ -167,37 +167,37 @@ export function SunflowerStage5() {
 }
 
 export function SunflowerStage6() {
-  // Flor abierta mediana
+  // Medium open flower
   return (
     <>
       <Pot />
       {Stem(12)}
       {BigLeafLeft(16)}
       {BigLeafRight(14)}
-      {/* pétalos norte y sur */}
+      {/* petals north and south */}
       {px(9, 1, 6, 3, C.petal)}
       {px(10, 1, 4, 1, C.petalLight)}
       {px(9, 9, 6, 2, C.petal)}
       {px(10, 11, 4, 1, C.petal)}
-      {/* pétalos oeste */}
+      {/* petals west */}
       {px(5, 3, 4, 3, C.petal)}
       {px(5, 3, 1, 2, C.petalLight)}
       {px(5, 6, 4, 3, C.petal)}
-      {/* pétalos este */}
+      {/* petals east */}
       {px(15, 3, 4, 3, C.petal)}
       {px(18, 3, 1, 2, C.petalLight)}
       {px(15, 6, 4, 3, C.petal)}
-      {/* diagonales */}
+      {/* diagonals */}
       {px(6, 1, 3, 2, C.petal)}
       {px(15, 1, 3, 2, C.petal)}
       {px(6, 9, 3, 2, C.petal)}
       {px(15, 9, 3, 2, C.petal)}
-      {/* sombras de base */}
+      {/* base shadows */}
       {px(9, 3, 6, 1, C.petalDark)}
       {px(9, 9, 6, 1, C.petalDark)}
       {px(8, 4, 1, 5, C.petalDark)}
       {px(15, 4, 1, 5, C.petalDark)}
-      {/* disco */}
+      {/* disc */}
       {px(9, 4, 6, 5, C.disk)}
       {px(9, 4, 6, 1, C.diskMid)}
       {px(10, 5, 2, 2, C.diskLight)}
@@ -208,43 +208,43 @@ export function SunflowerStage6() {
 }
 
 export function SunflowerStage7() {
-  // Girasol pleno — cabeza grande con disco texturizado
+  // Full sunflower — large head with textured disc
   return (
     <>
       <Pot />
       {Stem(13)}
       {BigLeafLeft(17)}
       {BigLeafRight(15)}
-      {/* hojitas medias */}
+      {/* mid baby leaves */}
       {px(8, 14, 3, 1, C.leaf)}
       {px(13, 13, 3, 1, C.leaf)}
-      {/* corona de pétalos — norte */}
+      {/* petal crown — north */}
       {px(8, 0, 8, 3, C.petal)}
       {px(9, 0, 6, 1, C.petalLight)}
-      {/* sur */}
+      {/* south */}
       {px(8, 10, 8, 3, C.petal)}
       {px(9, 12, 6, 1, C.petalDark)}
-      {/* oeste */}
+      {/* west */}
       {px(4, 3, 4, 2, C.petal)}
       {px(3, 5, 5, 3, C.petal)}
       {px(3, 5, 2, 1, C.petalLight)}
       {px(4, 8, 4, 2, C.petal)}
-      {/* este */}
+      {/* east */}
       {px(16, 3, 4, 2, C.petal)}
       {px(16, 5, 5, 3, C.petal)}
       {px(19, 5, 2, 1, C.petalLight)}
       {px(16, 8, 4, 2, C.petal)}
-      {/* diagonales */}
+      {/* diagonals */}
       {px(5, 1, 3, 2, C.petal)}
       {px(16, 1, 3, 2, C.petal)}
       {px(5, 10, 3, 2, C.petal)}
       {px(16, 10, 3, 2, C.petal)}
-      {/* sombras de base del anillo */}
+      {/* ring base shadows */}
       {px(8, 2, 8, 1, C.petalDark)}
       {px(8, 10, 8, 1, C.petalDeep)}
       {px(7, 3, 1, 7, C.petalDark)}
       {px(16, 3, 1, 7, C.petalDark)}
-      {/* disco grande texturizado */}
+      {/* large textured disc */}
       {px(8, 3, 8, 7, C.disk)}
       {px(8, 3, 8, 1, C.diskMid)}
       {px(8, 4, 1, 5, C.diskMid)}

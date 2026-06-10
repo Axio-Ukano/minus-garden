@@ -1,119 +1,110 @@
 # Changelog
 
-Todos los cambios relevantes de **Minu's Garden** quedan documentados aquí.
-Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y versionado [SemVer](https://semver.org/lang/es/).
+All notable changes to **Minu's Garden** are documented here.
+Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versioned with [SemVer](https://semver.org/).
 
 ---
 
 ## [0.8.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.7.0...minus-garden-v0.8.0) (2026-06-10)
 
+### Added
 
-### Añadido
-
-* seed packet sprites per species + stage close-up in stages modal ([#46](https://github.com/Axio-Ukano/minus-garden/issues/46)) ([4b52beb](https://github.com/Axio-Ukano/minus-garden/commit/4b52bebb4380b189e22c23a70d220f3cd4317b2b))
+- seed packet sprites per species + stage close-up in stages modal ([#46](https://github.com/Axio-Ukano/minus-garden/issues/46)) ([4b52beb](https://github.com/Axio-Ukano/minus-garden/commit/4b52bebb4380b189e22c23a70d220f3cd4317b2b))
 
 ## [0.7.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.6.1...minus-garden-v0.7.0) (2026-06-10)
 
+### Added
 
-### Añadido
-
-* redesigned plant sprites v2 — unified 24×30 grid with shared pot ([#44](https://github.com/Axio-Ukano/minus-garden/issues/44)) ([76375ea](https://github.com/Axio-Ukano/minus-garden/commit/76375ea37a0cf3adf253e7448da868c06138f833))
+- redesigned plant sprites v2 — unified 24×30 grid with shared pot ([#44](https://github.com/Axio-Ukano/minus-garden/issues/44)) ([76375ea](https://github.com/Axio-Ukano/minus-garden/commit/76375ea37a0cf3adf253e7448da868c06138f833))
 
 ## [0.6.1](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.6.0...minus-garden-v0.6.1) (2026-06-09)
 
+### Fixed
 
-### Corregido
-
-* respect mute in timer SFX, prevent heart loss, wall-clock countdown ([#42](https://github.com/Axio-Ukano/minus-garden/issues/42)) ([688755c](https://github.com/Axio-Ukano/minus-garden/commit/688755c18ca5ec6d0d511050215f4c9e6e158209))
+- respect mute in timer SFX, prevent heart loss, wall-clock countdown ([#42](https://github.com/Axio-Ukano/minus-garden/issues/42)) ([688755c](https://github.com/Axio-Ukano/minus-garden/commit/688755c18ca5ec6d0d511050215f4c9e6e158209))
 
 ## [0.6.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.5...minus-garden-v0.6.0) (2026-06-09)
 
+### Added
 
-### Añadido
-
-* game-mode webview, versioned migrations and data-layer boundary ([#39](https://github.com/Axio-Ukano/minus-garden/issues/39)) ([47ba68d](https://github.com/Axio-Ukano/minus-garden/commit/47ba68d421dba6bb9a4b6fb01985ebf5fe961f52))
+- game-mode webview, versioned migrations and data-layer boundary ([#39](https://github.com/Axio-Ukano/minus-garden/issues/39)) ([47ba68d](https://github.com/Axio-Ukano/minus-garden/commit/47ba68d421dba6bb9a4b6fb01985ebf5fe961f52))
 
 ## [0.5.5](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.4...minus-garden-v0.5.5) (2026-05-20)
 
+### Fixed
 
-### Corregido
-
-* nest InfoTooltip outside ambient-btn to avoid button-in-button ([#37](https://github.com/Axio-Ukano/minus-garden/issues/37)) ([22595db](https://github.com/Axio-Ukano/minus-garden/commit/22595dbcc7eaae42d78ef8d8d9070bc5f160e049))
+- nest InfoTooltip outside ambient-btn to avoid button-in-button ([#37](https://github.com/Axio-Ukano/minus-garden/issues/37)) ([22595db](https://github.com/Axio-Ukano/minus-garden/commit/22595dbcc7eaae42d78ef8d8d9070bc5f160e049))
 
 ## [0.5.4](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.3...minus-garden-v0.5.4) (2026-05-20)
 
+### Changed
 
-### Cambiado
-
-* comply with react-hooks v7 strict rules ([#35](https://github.com/Axio-Ukano/minus-garden/issues/35)) ([749e34a](https://github.com/Axio-Ukano/minus-garden/commit/749e34a3b68bd151dedc331c5eb6452e84c6ffce))
+- comply with react-hooks v7 strict rules ([#35](https://github.com/Axio-Ukano/minus-garden/issues/35)) ([749e34a](https://github.com/Axio-Ukano/minus-garden/commit/749e34a3b68bd151dedc331c5eb6452e84c6ffce))
 
 ## [0.5.3](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.2...minus-garden-v0.5.3) (2026-05-06)
 
+### Fixed
 
-### Corregido
-
-* **ci:** rewrite Cargo.lock auto-sync with fresh clone approach ([#29](https://github.com/Axio-Ukano/minus-garden/issues/29)) ([42e9d69](https://github.com/Axio-Ukano/minus-garden/commit/42e9d69d7b7b9d19beb1da517d7e79f0bae141dc))
+- **ci:** rewrite Cargo.lock auto-sync with fresh clone approach ([#29](https://github.com/Axio-Ukano/minus-garden/issues/29)) ([42e9d69](https://github.com/Axio-Ukano/minus-garden/commit/42e9d69d7b7b9d19beb1da517d7e79f0bae141dc))
 
 ## [0.5.2](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.1...minus-garden-v0.5.2) (2026-05-05)
 
+### Fixed
 
-### Corregido
-
-* **ci:** add explicit permissions to validate and audit workflows ([#27](https://github.com/Axio-Ukano/minus-garden/issues/27)) ([bf0485f](https://github.com/Axio-Ukano/minus-garden/commit/bf0485fe26a823b32845b3c9c4fd93b1a74ca48b))
+- **ci:** add explicit permissions to validate and audit workflows ([#27](https://github.com/Axio-Ukano/minus-garden/issues/27)) ([bf0485f](https://github.com/Axio-Ukano/minus-garden/commit/bf0485fe26a823b32845b3c9c4fd93b1a74ca48b))
 
 ## [0.5.1](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.5.0...minus-garden-v0.5.1) (2026-05-05)
 
+### Fixed
 
-### Corregido
-
-* **deps:** update Cargo.lock to patch rand unsoundness (RUSTSEC-2024-0034) ([#23](https://github.com/Axio-Ukano/minus-garden/issues/23)) ([0dd303b](https://github.com/Axio-Ukano/minus-garden/commit/0dd303b9ed44a2b9f62e2708d8861a7bb64cb362))
+- **deps:** update Cargo.lock to patch rand unsoundness (RUSTSEC-2024-0034) ([#23](https://github.com/Axio-Ukano/minus-garden/issues/23)) ([0dd303b](https://github.com/Axio-Ukano/minus-garden/commit/0dd303b9ed44a2b9f62e2708d8861a7bb64cb362))
 
 ## [0.5.0] — 2026-04-28
 
 ### Sprint 9 — Tier S consolidation
 
-Pull Request `feat/tier-s-consolidation`: 26 commits atómicos llevando el repositorio a tier S sin tocar arquitectura. Cada commit deja `pnpm validate && pnpm build` verde.
+Pull Request `feat/tier-s-consolidation`: 26 atomic commits bringing the repository to tier S without touching the architecture. Each commit leaves `pnpm validate && pnpm build` green.
 
-#### Añadido
+#### Added
 
-- Scripts de tooling: `typecheck`, `format:check`, `lint:fix`, `validate`, `test`, `test:watch`, `test:coverage`, `circular`, `prepare`.
+- Tooling scripts: `typecheck`, `format:check`, `lint:fix`, `validate`, `test`, `test:watch`, `test:coverage`, `circular`, `prepare`.
 - Vitest 4 + jsdom + `@testing-library/react` + `@testing-library/jest-dom`.
-- Suites: `timerStore`, `plantService`, `usePlantGrowth`, `lib/tauri`, `historyStore`, `audioService` (64 tests). Cobertura 95% líneas / 92% funciones sobre los módulos cubiertos; umbral de gating 60%.
-- `madge` para detección de ciclos (`pnpm circular`).
-- `simple-git-hooks` + `lint-staged` con pre-commit que ejecuta `eslint --fix --max-warnings=0` + `prettier --write` solo en archivos staged.
-- `.github/workflows/validate.yml`: typecheck + lint + format:check + circular + test:coverage + build en cada PR y push a `main`.
-- `.github/workflows/audit.yml`: cron semanal (lunes 08:00 UTC) corriendo `pnpm audit --prod` y `cargo audit`.
-- `.github/PULL_REQUEST_TEMPLATE.md` en español con checklist completo.
-- `CONTRIBUTING.md` interno (flujo, Conventional Commits, reglas de PR).
-- Carpeta `docs/adr/` con plantilla MADR (`0000-template.md`) y 4 ADRs retroactivos:
-  - `0001-csp-tauri.md` — política CSP explícita.
-  - `0002-zustand-flat-stores.md` — un store Zustand por feature.
-  - `0003-sqlite-local.md` — persistencia local con rusqlite.
-  - `0004-module-boundaries-and-alias.md` — barrels + alias `@/*` + enforcement.
-- `@types/node` para `vite.config.ts`.
-- `src/test-types.d.ts` que augmenta Vitest con los matchers de jest-dom.
+- Test suites: `timerStore`, `plantService`, `usePlantGrowth`, `lib/tauri`, `historyStore`, `audioService` (64 tests). Coverage at 95% lines / 92% functions over covered modules; gating threshold at 60%.
+- `madge` for cycle detection (`pnpm circular`).
+- `simple-git-hooks` + `lint-staged` with a pre-commit hook that runs `eslint --fix --max-warnings=0` + `prettier --write` on staged files only.
+- `.github/workflows/validate.yml`: typecheck + lint + format:check + circular + test:coverage + build on every PR and push to `main`.
+- `.github/workflows/audit.yml`: weekly cron (Mondays 08:00 UTC) running `pnpm audit --prod` and `cargo audit`.
+- `.github/PULL_REQUEST_TEMPLATE.md` with a full checklist.
+- `CONTRIBUTING.md` (workflow, Conventional Commits, PR rules).
+- `docs/adr/` folder with the MADR template (`0000-template.md`) and 4 retroactive ADRs:
+  - `0001-csp-tauri.md` — explicit CSP policy.
+  - `0002-zustand-flat-stores.md` — one Zustand store per feature.
+  - `0003-sqlite-local.md` — local persistence with rusqlite.
+  - `0004-module-boundaries-and-alias.md` — barrels + `@/*` alias + enforcement.
+- `@types/node` for `vite.config.ts`.
+- `src/test-types.d.ts` augmenting Vitest with jest-dom matchers.
 
-#### Cambiado
+#### Changed
 
-- ESLint: `no-explicit-any` y `no-unused-vars` elevados a `error`. Reglas type-aware activas (`no-floating-promises`, `no-misused-promises` con `checksVoidReturn.attributes=false`). `eslint-plugin-import` con `import/no-cycle` y `no-restricted-imports` bloqueando el patrón `@/modules/*/*`: los imports cross-módulo deben ir al barrel `@/modules/<name>`, los intra-módulo deben ser relativos.
-- TypeScript: `noUncheckedIndexedAccess: true` activado. Fallout corregido en `plantService`, `PlantDisplay`, `PlantStagesModal`, `TimerSetupView`, `MiniPlayer`, `audioStore` (12 sitios, guards explícitos o `?? fallback`).
-- `tauri.conf.json`: CSP explícita reemplaza `null` (default-src 'self'; img/media incluyen `asset:`/`asset.localhost`; style permite Google Fonts; font incluye `fonts.gstatic.com`; connect-src incluye `ipc:` y `http://ipc.localhost`).
-- `historyStore.loadUserState`: añade `console.error` en su `catch` para diagnóstico de desarrollador (el toast de error lo cubre el bridge).
-- `.vscode/extensions.json`: recomienda `dbaeumer.vscode-eslint` y `esbenp.prettier-vscode` además de Tauri y rust-analyzer.
-- `README.md`: reescrito (estructura del repo, scripts, convenciones, links a docs y ADRs).
-- `docs/architecture.md`: refleja boundaries enforcement, comandos Tauri actuales, sección de tooling/CI, esquema de carpetas actualizado.
-- `docs/requirements.md`: añade entradas v0.3.1–0.3.3 (catálogo + i18n + sprites), v0.4.0 / v0.4.1 (saneamiento), v0.5.0 (este sprint con diferimientos conscientes).
+- ESLint: `no-explicit-any` and `no-unused-vars` elevated to `error`. Type-aware rules enabled (`no-floating-promises`, `no-misused-promises` with `checksVoidReturn.attributes=false`). `eslint-plugin-import` with `import/no-cycle` and `no-restricted-imports` blocking the `@/modules/*/*` pattern: cross-module imports must go through the barrel `@/modules/<name>`, intra-module imports must be relative.
+- TypeScript: `noUncheckedIndexedAccess: true` enabled. Fallout fixed in `plantService`, `PlantDisplay`, `PlantStagesModal`, `TimerSetupView`, `MiniPlayer`, `audioStore` (12 sites, explicit guards or `?? fallback`).
+- `tauri.conf.json`: explicit CSP replaces `null` (default-src 'self'; img/media include `asset:`/`asset.localhost`; style allows Google Fonts; font includes `fonts.gstatic.com`; connect-src includes `ipc:` and `http://ipc.localhost`).
+- `historyStore.loadUserState`: adds `console.error` in its `catch` for developer diagnostics (the error toast is handled by the bridge).
+- `.vscode/extensions.json`: recommends `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` in addition to Tauri and rust-analyzer.
+- `README.md`: rewritten (repo structure, scripts, conventions, links to docs and ADRs).
+- `docs/architecture.md`: reflects boundaries enforcement, current Tauri commands, tooling/CI section, updated folder schema.
+- `docs/requirements.md`: adds entries for v0.3.1–0.3.3 (catalogue + i18n + sprites), v0.4.0 / v0.4.1 (cleanup), v0.5.0 (this sprint with conscious deferrals).
 
-#### Eliminado
+#### Removed
 
-- `tailwindcss` y `@tailwindcss/vite` (sin uso real: el stack es CSS Vanilla con Custom Properties + BEM). Bundle CSS sin cambios (34.54 kB) confirma que el plugin estaba inerte.
-- `@types/howler` movido de `dependencies` a `devDependencies` (paquete de tipos puro).
-- `@ts-expect-error` en `vite.config.ts` (innecesario tras añadir `@types/node`).
+- `tailwindcss` and `@tailwindcss/vite` (no real usage: the stack is Vanilla CSS with Custom Properties + BEM). CSS bundle unchanged (34.54 kB) confirms the plugin was inert.
+- `@types/howler` moved from `dependencies` to `devDependencies` (pure type package).
+- `@ts-expect-error` in `vite.config.ts` (unnecessary after adding `@types/node`).
 
-#### Corregido
+#### Fixed
 
-- 8 promesas fire-and-forget en `App.tsx`, `HistoryView.tsx` y `timerStore.ts` ahora explícitas con `void` (detectadas por `no-floating-promises`).
-- `pnpm-lock.yaml` añadido a `.prettierignore` (los lockfiles no deben formatearse).
+- 8 fire-and-forget promises in `App.tsx`, `HistoryView.tsx` and `timerStore.ts` are now explicit with `void` (detected by `no-floating-promises`).
+- `pnpm-lock.yaml` added to `.prettierignore` (lockfiles must not be formatted).
 
 ---
 
@@ -121,14 +112,14 @@ Pull Request `feat/tier-s-consolidation`: 26 commits atómicos llevando el repos
 
 ### Sprint 8 — Boundaries enforcement final
 
-#### Cambiado
+#### Changed
 
-- `PlantStagesModal` reubicado de `src/modules/timer/components/` a `src/modules/plants/` y reexportado por el barrel de `plants` (el modal pertenece conceptualmente al módulo `plants`, no a `timer`).
-- `TimerSetupView` y `TimerActiveView` consumen `plants`, `settings`, `audio` y `subjects` exclusivamente vía sus barrels (`@/modules/*`) en lugar de rutas relativas a archivos internos.
+- `PlantStagesModal` moved from `src/modules/timer/components/` to `src/modules/plants/` and re-exported through the `plants` barrel (the modal belongs conceptually to the `plants` module, not `timer`).
+- `TimerSetupView` and `TimerActiveView` consume `plants`, `settings`, `audio` and `subjects` exclusively via their barrels (`@/modules/*`) instead of relative paths to internal files.
 
-#### Añadido
+#### Added
 
-- `src/components/index.ts` (barrel) para consistencia con la convención de barrels en `src/modules/`. Reexporta `useToastStore` y `pushToast`.
+- `src/components/index.ts` (barrel) for consistency with the barrel convention in `src/modules/`. Re-exports `useToastStore` and `pushToast`.
 
 ---
 
@@ -136,179 +127,179 @@ Pull Request `feat/tier-s-consolidation`: 26 commits atómicos llevando el repos
 
 ### Sprint 6 — Architecture Cleanup & Scaling Foundation
 
-Primer sprint dedicado completamente al saneamiento arquitectónico antes de seguir creciendo el alcance funcional.
+First sprint fully dedicated to architectural cleanup before continuing to grow the functional scope.
 
-#### Añadido
+#### Added
 
-- **Bridge Tauri tipado:** nuevo `src/lib/tauri.ts` con `tauriInvoke<T>(command, args)`, unión literal `TauriCommand`, mensajes de error localizados, log a consola y `TauriError` re-lanzado para que los callers puedan reaccionar.
-- **Toasts:** se cablea el componente `Toast.tsx` (existía sin uso) a un `toastStore` y `ToastContainer`. Los fallos de comandos Tauri ahora se ven en pantalla en lugar de fallar silenciosamente.
-- **Path aliases:** `@/*` → `src/*` configurado en `tsconfig.json` y `vite.config.ts`. Código nuevo usa imports por barrel.
-- **Barrel exports por módulo:** cada `src/modules/*` expone su API pública vía `index.ts`. Los callers cross-módulo pasan por el barrel.
+- **Typed Tauri bridge:** new `src/lib/tauri.ts` with `tauriInvoke<T>(command, args)`, a literal union `TauriCommand`, localized error messages, console logging and `TauriError` re-thrown so callers can react.
+- **Toasts:** the `Toast.tsx` component (previously unused) is wired up to a `toastStore` and `ToastContainer`. Tauri command failures are now shown on screen instead of failing silently.
+- **Path aliases:** `@/*` → `src/*` configured in `tsconfig.json` and `vite.config.ts`. New code uses barrel imports.
+- **Barrel exports per module:** each `src/modules/*` exposes its public API via `index.ts`. Cross-module callers go through the barrel.
 
-#### Cambiado
+#### Changed
 
-- **Refactor de `SettingsModal`:** se divide el archivo de 540 líneas en una shell delgada + secciones (`SoundSection`, `InterfaceSection`, `WipSection`) y se extrae `VolumeSlider`.
-- **i18n del `ErrorBoundary`:** copia que estaba hardcodeada en español ("REINTENTAR") ahora se localiza vía `settingsStore`. El error de subject duplicado en Rust se devuelve en inglés y el frontend lo localiza vía nuevas keys `error.*`.
-- **DB schema:** se pliegan las columnas `plant_species` y `plant_stage` dentro del `CREATE TABLE sessions` inicial para fresh installs. Los `ALTER TABLE` post-create se mantienen como fallback idempotente para BDs existentes.
-- **Tooltips comunes:** traducidos a EN/ES junto con `aria-labels`.
+- **`SettingsModal` refactor:** the 540-line file is split into a thin shell + sections (`SoundSection`, `InterfaceSection`, `WipSection`) and `VolumeSlider` is extracted.
+- **`ErrorBoundary` i18n:** copy that was hardcoded in Spanish ("REINTENTAR") is now localized via `settingsStore`. The duplicate-subject error from Rust is returned in English and the frontend localizes it via new `error.*` keys.
+- **DB schema:** `plant_species` and `plant_stage` columns are folded into the initial `CREATE TABLE sessions` for fresh installs. The post-create `ALTER TABLE` statements are kept as idempotent fallbacks for existing databases.
+- **Common tooltips:** translated to EN/ES along with `aria-labels`.
 
-#### Corregido
+#### Fixed
 
-- Comando muerto `get_plant_species` (consultaba una tabla `plant_species` que nunca se creaba). Las especies son metadata estática del frontend, no necesitan round-trip a SQLite.
+- Dead command `get_plant_species` (queried a `plant_species` table that was never created). Species are static frontend metadata and do not need a round-trip to SQLite.
 
-#### Eliminado
+#### Removed
 
-- Dependencia Rust `serde_json` sin uso.
+- Unused Rust dependency `serde_json`.
 
-#### Higiene
+#### Hygiene
 
-- Author/version placeholder corregidos en `Cargo.toml`.
-- Versiones reconciliadas: `package.json`, `Cargo.toml` y `tauri.conf.json` todas en `0.4.0`.
-- Aplicación de Prettier y ESLint sobre todo el repo.
+- Author/version placeholders corrected in `Cargo.toml`.
+- Versions reconciled: `package.json`, `Cargo.toml` and `tauri.conf.json` all at `0.4.0`.
+- Prettier and ESLint applied across the entire repo.
 
-### Sprint 7 — Normalización de Git (mismo release)
+### Sprint 7 — Git normalization (same release)
 
-#### Cambiado
+#### Changed
 
-- `.gitattributes` actualizado para forzar line endings LF en todos los archivos de texto, rompiendo el ciclo CRLF↔LF que generaba diffs falsos en Windows.
-- Repo renormalizado completo (`git add --renormalize .`).
+- `.gitattributes` updated to force LF line endings on all text files, breaking the CRLF↔LF cycle that produced false diffs on Windows.
+- Full repo renormalization (`git add --renormalize .`).
 
 ---
 
 ## [0.3.3] — 2026-04-25
 
-### Sprint 8 (numeración original) — Rediseño de sprites de plantas
+### Sprint 8 (original numbering) — Plant sprite redesign
 
-#### Cambiado
+#### Changed
 
-- Rediseño completo de los sprites pixel-art de todas las especies con dimensiones de `viewBox` variables por planta para preservar proporciones reales (lotus es más ancho que alto, cactus al revés, etc.). El `PlantDisplay` toma `viewBox` por especie en lugar de la grilla 16×16 fija anterior.
+- Complete redesign of pixel-art sprites for all species with variable `viewBox` dimensions per plant to preserve real proportions (lotus is wider than tall, cactus the opposite, etc.). `PlantDisplay` now takes a per-species `viewBox` instead of the previous fixed 16×16 grid.
 
 ---
 
 ## [0.3.2] — 2026-04-24
 
-### Sprint 7 (numeración original) — i18n EN/ES
+### Sprint 7 (original numbering) — EN/ES i18n
 
-#### Añadido
+#### Added
 
-- Sistema completo de i18n con archivos `src/i18n/en.ts`, `src/i18n/es.ts`, `types.ts` e `index.ts`.
-- Toggle de idioma EN/ES persistido en `settingsStore`.
-- Hook `useTranslation` que selecciona el bundle activo.
+- Full i18n system with `src/i18n/en.ts`, `src/i18n/es.ts`, `types.ts` and `index.ts` files.
+- EN/ES language toggle persisted in `settingsStore`.
+- `useTranslation` hook that selects the active bundle.
 
-#### Cambiado
+#### Changed
 
-- Refactor masivo de strings hardcoded en español a keys i18n. Todas las vistas y modales pasan por `t.<seccion>.<key>`.
-- Aplicación de Prettier sobre todo el repo.
+- Massive refactor of hardcoded Spanish strings to i18n keys. All views and modals go through `t.<section>.<key>`.
+- Prettier applied across the entire repo.
 
-#### Corregido
+#### Fixed
 
-- Overflow del nav en `SettingsModal`.
-- Etiquetas y jerarquía visual del nav de settings.
-- Orden y ancho del sidebar de settings.
-- Rediseño del sprite de cactus (no escalaba bien con el resto).
+- Nav overflow in `SettingsModal`.
+- Labels and visual hierarchy of the settings nav.
+- Order and width of the settings sidebar.
+- Cactus sprite redesign (it did not scale well alongside the others).
 
 ---
 
 ## [0.3.1] — 2026-04-24
 
-### Sprint 6 (numeración original) — Expansión del catálogo de plantas
+### Sprint 6 (original numbering) — Plant catalogue expansion
 
-#### Añadido
+#### Added
 
-- 8 nuevas especies con sprites pixel-art y lógica de unlock threshold:
+- 8 new species with pixel-art sprites and unlock threshold logic:
   - `gerbera`, `lavanda`, `clavel`, `lirio`, `peonia`, `cactus`, `orquidea`, `lotus`.
-- `unlockThreshold` por especie (fracción del `stageThreshold` requerida al cierre de sesión para desbloquear cada etapa).
-- `calculateFinalStage(durationMinutes, species)` que aplica el threshold al guardar la sesión.
+- `unlockThreshold` per species (fraction of `stageThreshold` required at session close to unlock each stage).
+- `calculateFinalStage(durationMinutes, species)` that applies the threshold when saving a session.
 
-#### Corregido
+#### Fixed
 
-- Errores de tipos JSX con React 19 + `moduleResolution: bundler` (`React.FC` reemplazado donde ambiguo, type imports normalizados).
+- JSX type errors with React 19 + `moduleResolution: bundler` (`React.FC` replaced where ambiguous, type imports normalized).
 
 ---
 
 ## [0.3.0] — 2026-04-24
 
-### Sprint 5 — Identidad y mantenibilidad
+### Sprint 5 — Identity and maintainability
 
-#### Cambiado
+#### Changed
 
-- **Rebranding:** renombrado oficial del proyecto a **Minu's Garden** (ID técnico: `minus-garden`).
-- **Arquitectura de estilos:** migración masiva de `style={...}` inline a archivos CSS externos (`TimerViews.css`, `HistoryView.css`) siguiendo metodología BEM.
-- **Calidad de código:** estandarización de naming (PascalCase para UI, camelCase para lógica), reglas estrictas de Prettier/ESLint aplicadas en todo el repo.
+- **Rebranding:** official rename of the project to **Minu's Garden** (technical ID: `minus-garden`).
+- **Styles architecture:** large-scale migration from inline `style={...}` to external CSS files (`TimerViews.css`, `HistoryView.css`) following BEM methodology.
+- **Code quality:** naming standardization (PascalCase for UI, camelCase for logic), strict Prettier/ESLint rules applied across the entire repo.
 
-#### Añadido
+#### Added
 
-- `ErrorBoundary` global para capturar y manejar fallos en la UI de forma elegante.
-- Documentación del proyecto sincronizada con el estado real (`docs/architecture.md`, `docs/requirements.md`, `docs/vision.md`, `docs/palette.md`).
+- Global `ErrorBoundary` to capture and handle UI failures gracefully.
+- Project documentation synced with the actual state (`docs/architecture.md`, `docs/requirements.md`, `docs/vision.md`, `docs/palette.md`).
 
 ---
 
 ## [0.2.5] — 2026-04-24
 
-### Sprint 4 — UX avanzada y sistema de sonido
+### Sprint 4 — Advanced UX and sound system
 
-#### Añadido
+#### Added
 
-- **Reproductor de música:** sistema de audio con playlist Lofi de 6 tracks y `MiniPlayer` persistente cuando se navega fuera de la vista de música.
-- **Ambiente:** selector de sonidos ambientales (Lluvia, Bosque, Café, Chimenea, Ruido Blanco) con mezcla de volumen independiente.
-- **Settings:** panel de configuración para gestión de volúmenes (Master, Música, Ambient, SFX), modo oscuro y preferencias de interfaz.
-- **UI premium:** componentes `PixelSlider`, `Tooltip` personalizado, sistema de cursores pixel-art.
-- **SFX:** efectos de sonido para botones, click, typing, timer y guardado de sesión.
+- **Music player:** audio system with a 6-track Lofi playlist and a persistent `MiniPlayer` when navigating away from the music view.
+- **Ambient:** ambient sound selector (Rain, Forest, Cafe, Fireplace, White Noise) with independent volume mixing.
+- **Settings:** configuration panel for volume management (Master, Music, Ambient, SFX), dark mode and interface preferences.
+- **Premium UI:** `PixelSlider`, custom `Tooltip`, pixel-art cursor system.
+- **SFX:** sound effects for buttons, click, typing, timer and session save.
 
 ---
 
 ## [0.2.0] — 2026-04-23
 
-### Sprint 3 — Crecimiento, materias y rediseño del timer
+### Sprint 3 — Growth, subjects and timer redesign
 
-#### Añadido
+#### Added
 
-- **Sistema de plantas:** lógica de crecimiento integrada con el timer (Margarita y Girasol). Las plantas evolucionan visualmente al completar minutos.
-- **Gestión de materias:** tabla `subjects` y comandos Tauri (`get_subjects`, `save_subject`, `update_subject_usage`). `subjectStore` con `load`, `add` y `markUsed`. Persistencia en SQLite y selector de colores.
-- **Rediseño del timer:** layout de dos columnas con cuatro estados dinámicos (idle, running, paused, finished) y selector de subject con autocompletado.
-- **Sistema de diseño:** establecimiento de la base pixel-art y paleta "Cozy Pink".
-- **Pixel art base:** sistema de variables CSS, tipografía "Press Start 2P", primitivas UI (PixelButton, etc.).
+- **Plant system:** growth logic integrated with the timer (Daisy and Sunflower). Plants evolve visually as study minutes are completed.
+- **Subject management:** `subjects` table and Tauri commands (`get_subjects`, `save_subject`, `update_subject_usage`). `subjectStore` with `load`, `add` and `markUsed`. SQLite persistence and colour picker.
+- **Timer redesign:** two-column layout with four dynamic states (idle, running, paused, finished) and a subject selector with autocomplete.
+- **Design system:** pixel-art foundation and "Cozy Pink" palette established.
+- **Pixel art base:** CSS variable system, "Press Start 2P" typography, UI primitives (PixelButton, etc.).
 
-#### Cambiado
+#### Changed
 
-- Refactor mayor (commit "mega overhaul"): arquitectura, linting y UI consolidados antes del cierre de sprint.
+- Major refactor (commit "mega overhaul"): architecture, linting and UI consolidated before sprint close.
 
-#### Corregido
+#### Fixed
 
-- Sincronización del input de duración.
-- Restauración de aliases de paleta.
-- Layout limpio del timer (50/50, controles a la izquierda, planta a la derecha, botones bien jerarquizados).
-- Scroll, paleta rosa, selección y consistencia de íconos.
-- Layout en estado idle: controles con `space-between`, duración centrada, planta 2x.
+- Duration input synchronization.
+- Palette alias restoration.
+- Clean timer layout (50/50, controls on the left, plant on the right, well-hierarchized buttons).
+- Scroll, pink palette, selection and icon consistency.
+- Idle-state layout: controls with `space-between`, centred duration, plant 2x.
 
 ---
 
 ## [0.1.5] — 2026-04-23
 
-### Sprint 2 — Persistencia y economía de corazones
+### Sprint 2 — Persistence and heart economy
 
-#### Añadido
+#### Added
 
-- **Persistencia local:** SQLite vía `rusqlite` en Rust con la tabla `sessions` y migraciones imperativas en `db.rs`.
-- **Economía:** sistema de corazones (1 corazón por cada 5 min de estudio completados). Tabla `user_state` con `total_hearts`. Comandos `get_user_state` y `update_hearts`.
-- **Vista de historial:** lista de sesiones leída directamente de SQLite con fecha, duración, materia y corazones ganados; eliminación individual de sesiones.
+- **Local persistence:** SQLite via `rusqlite` in Rust with a `sessions` table and imperative migrations in `db.rs`.
+- **Economy:** heart system (1 heart per 5 completed study minutes). `user_state` table with `total_hearts`. Commands `get_user_state` and `update_hearts`.
+- **History view:** session list read directly from SQLite with date, duration, subject and hearts earned; individual session deletion.
 
-#### Eliminado
+#### Removed
 
-- `sessionStore` en memoria (reemplazado por la persistencia real).
+- In-memory `sessionStore` (replaced by real persistence).
 
 ---
 
 ## [0.1.0] — 2026-04-23
 
-### Sprint 1 — Fundamentos
+### Sprint 1 — Foundations
 
-#### Añadido
+#### Added
 
-- **Setup del proyecto:** Tauri 2 + React 19 + TypeScript desde cero.
-- **Timer base:** cronómetro con Zustand y registro de sesiones en memoria.
-- **Documentación inicial:** `docs/vision.md`, `docs/requirements.md`, `docs/architecture.md` y `docs/palette.md`.
+- **Project setup:** Tauri 2 + React 19 + TypeScript from scratch.
+- **Base timer:** stopwatch with Zustand and in-memory session recording.
+- **Initial documentation:** `docs/vision.md`, `docs/requirements.md`, `docs/architecture.md` and `docs/palette.md`.
 
-#### Eliminado
+#### Removed
 
-- Boilerplate de la plantilla de Tauri que no aporta a la app.
+- Tauri template boilerplate that does not contribute to the app.

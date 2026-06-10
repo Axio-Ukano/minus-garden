@@ -1,61 +1,61 @@
-# ADR-0002: Zustand con stores planos por feature
+# ADR-0002: Zustand with flat stores per feature
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-04-27
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-04-27
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-La app necesita estado compartido entre vistas (timer corriendo, sesiones guardadas, ajustes de audio, lista de subjects, hearts totales) sin la complejidad de Redux. Cada feature vive en su propio `src/modules/<name>/` y debe exponer su estado de forma encapsulada.
+The app needs shared state across views (running timer, saved sessions, audio settings, subjects list, total hearts) without the complexity of Redux. Each feature lives in its own `src/modules/<name>/` and must expose its state in an encapsulated way.
 
-## Decisión
+## Decision
 
-Un store de Zustand por feature, declarado en `src/modules/<name>/<name>Store.ts` y reexportado por el barrel `src/modules/<name>/index.ts`. Sin combinar reducers, sin selectores complejos, sin middleware adicional salvo `persist` cuando la feature lo requiere (ej. settings).
+One Zustand store per feature, declared in `src/modules/<name>/<name>Store.ts` and re-exported by the barrel `src/modules/<name>/index.ts`. No combined reducers, no complex selectors, no additional middleware except `persist` when a feature requires it (e.g. settings).
 
-Stores actuales:
+Current stores:
 
-- `timerStore` — estado del timer + transiciones idle/running/paused/finished + cálculo de hearts al `finish()`.
-- `historyStore` — sesiones, hearts totales, hidratación desde Tauri.
-- `audioStore` — música/ambient activos + estados de playlist.
-- `settingsStore` — tema, idioma, volúmenes, sección activa (persistido).
-- `subjectStore` — subjects de estudio del usuario.
-- `lib/toast/toastStore` — notificaciones efímeras.
+- `timerStore` — timer state + idle/running/paused/finished transitions + hearts calculation on `finish()`.
+- `historyStore` — sessions, total hearts, hydration from Tauri.
+- `audioStore` — active music/ambient + playlist states.
+- `settingsStore` — theme, language, volumes, active section (persisted).
+- `subjectStore` — user's study subjects.
+- `lib/toast/toastStore` — ephemeral notifications.
 
-Las vistas leen con `useXxxStore(state => state.foo)` y mutan con `useXxxStore.getState().bar()` cuando se invoca fuera de React (servicios, otros stores).
+Views read with `useXxxStore(state => state.foo)` and mutate with `useXxxStore.getState().bar()` when invoked outside React (services, other stores).
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- Cero boilerplate respecto a Redux.
-- Cada feature owna su contrato; el barrel define la API pública.
-- Tests unitarios triviales (`useXxxStore.setState({...})` y `useXxxStore.getState().method()`).
-- Sin `Provider` wrapping para tests ni para `App.tsx`.
+- Zero boilerplate compared to Redux.
+- Each feature owns its contract; the barrel defines the public API.
+- Trivial unit tests (`useXxxStore.setState({...})` and `useXxxStore.getState().method()`).
+- No `Provider` wrapping needed for tests or for `App.tsx`.
 
-### Negativas
+### Bad
 
-- Sin un único árbol de estado: depurar interacciones cross-store requiere conocer todos los stores involucrados.
-- El acoplamiento se vuelve implícito: timer llama directamente a history y a audio. Documentado y testeado, pero no aislado por interfaces.
+- No single state tree: debugging cross-store interactions requires knowing all stores involved.
+- Coupling becomes implicit: timer calls history and audio directly. Documented and tested, but not isolated by interfaces.
 
-### Neutras
+### Neutral
 
-- Un futuro DevTools o time-travel implicaría añadir el middleware `devtools` por store.
+- A future DevTools or time-travel setup would require adding the `devtools` middleware per store.
 
-## Alternativas consideradas
+## Considered Alternatives
 
 ### Redux Toolkit
 
-Más estructura, slices, DevTools out-of-the-box. Descartado: overkill para una app offline pequeña con menos de 10 stores y sin necesidad de tooling avanzado.
+More structure, slices, DevTools out-of-the-box. Discarded: overkill for a small offline app with fewer than 10 stores and no need for advanced tooling.
 
 ### React Context + useReducer
 
-Suficiente para piezas pequeñas, pero re-renders y plumbing crecen rápido cuando hay 6+ stores con datos sin relación. Zustand evita el provider hell.
+Sufficient for small pieces, but re-renders and plumbing grow quickly with 6+ unrelated stores. Zustand avoids provider hell.
 
 ### Jotai / Recoil (atomic)
 
-Ergonomía atractiva pero la app no tiene ese tipo de estado fragmentado; los stores son cohesivos por feature.
+Attractive ergonomics but the app does not have that kind of fragmented state; stores are cohesive per feature.
 
-## Notas
+## Notes
 
-- Cualquier nueva feature con estado compartido debe seguir el mismo patrón: archivo `<feature>Store.ts` + reexport en barrel.
-- Si en el futuro un store crece > 250 líneas, evaluar split por sub-aspectos antes de introducir middleware más sofisticado.
+- Any new feature with shared state must follow the same pattern: `<feature>Store.ts` file + re-export in barrel.
+- If a store grows beyond 250 lines in the future, evaluate splitting by sub-aspects before introducing more sophisticated middleware.

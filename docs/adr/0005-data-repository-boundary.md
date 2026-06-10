@@ -1,53 +1,53 @@
-# ADR-0005: Capa de repositorio como única frontera de datos
+# ADR-0005: Repository layer as the single data boundary
 
-- **Estado:** Aceptada
-- **Fecha:** 2026-06-09
-- **Decisores:** @autor
+- **Status:** Accepted
+- **Date:** 2026-06-09
+- **Deciders:** @author
 
-## Contexto
+## Context
 
-Hasta ahora cada store de feature (`historyStore`, `subjectStore`) llamaba directamente a `tauriInvoke("<comando>", …)`. Eso esparce por toda la app el conocimiento del transporte: nombres de comandos Tauri, shapes snake_case del wire y el mapeo a camelCase del dominio. El proyecto crecerá en dispositivos (móvil vía Tauri) y, eventualmente, en sincronización entre dispositivos — lo que exigirá un backend remoto. Con el acoplamiento actual, ese día tocaría reescribir todos los stores.
+Until now each feature store (`historyStore`, `subjectStore`) called `tauriInvoke("<command>", …)` directly. This spreads knowledge of the transport throughout the entire app: Tauri command names, snake_case wire shapes and the mapping to domain camelCase. The project will grow across devices (mobile via Tauri) and, eventually, device-to-device synchronization — which will require a remote backend. With the current coupling, that day would mean rewriting all stores.
 
-`src/lib/tauri.ts` ya centraliza el _transporte_ (invoke + toast + error tipado), pero no el _contrato_ de datos.
+`src/lib/tauri.ts` already centralizes the _transport_ (invoke + toast + typed error), but not the _data contract_.
 
-## Decisión
+## Decision
 
-Introducir `src/lib/data/` como única frontera entre los módulos de feature y la persistencia:
+Introduce `src/lib/data/` as the single boundary between feature modules and persistence:
 
-- `src/lib/data/types.ts` — tipos de dominio (`Session`, `Subject`, `UserState`).
-- `src/lib/data/index.ts` — objeto `repository` con métodos tipados (`repository.sessions.list()`, `repository.userState.setHearts()`, etc.) que envuelven `tauriInvoke` y hacen el mapeo wire ⇄ dominio.
+- `src/lib/data/types.ts` — domain types (`Session`, `Subject`, `UserState`).
+- `src/lib/data/index.ts` — a `repository` object with typed methods (`repository.sessions.list()`, `repository.userState.setHearts()`, etc.) that wrap `tauriInvoke` and handle the wire ⇄ domain mapping.
 
-Regla de boundary (a reforzar con ESLint cuando convenga): ningún store o componente importa `@tauri-apps/api` ni llama `tauriInvoke` directamente; todo pasa por `repository`. Los stores quedan como orquestadores de estado de UI, sin conocer el transporte.
+Boundary rule (to be enforced with ESLint when appropriate): no store or component imports `@tauri-apps/api` or calls `tauriInvoke` directly; everything goes through `repository`. Stores are left as UI state orchestrators, with no knowledge of the transport.
 
-## Consecuencias
+## Consequences
 
-### Positivas
+### Good
 
-- Cambiar SQLite-sobre-IPC por una API HTTP/sync toca **un solo archivo** (`src/lib/data/index.ts`), no los stores.
-- Caching, escrituras optimistas o colas offline se añaden en un único sitio.
-- El mapeo snake_case ⇄ camelCase deja de filtrarse a la UI.
-- Los tipos de dominio dejan de vivir dentro de un store (evita dependencias circulares entre módulos).
+- Swapping SQLite-over-IPC for an HTTP/sync API touches **one single file** (`src/lib/data/index.ts`), not the stores.
+- Caching, optimistic writes, or offline queues are added in a single place.
+- The snake_case ⇄ camelCase mapping no longer leaks into the UI.
+- Domain types no longer live inside a store (avoids circular dependencies between modules).
 
-### Negativas
+### Bad
 
-- Una capa de indirección más entre store y `tauriInvoke`.
-- Los tipos `Session`/`Subject` se re-exportan desde los stores por compatibilidad; hay que recordar que su hogar canónico es `src/lib/data/types.ts`.
+- One additional indirection layer between store and `tauriInvoke`.
+- The `Session`/`Subject` types are re-exported from stores for compatibility; it must be remembered that their canonical home is `src/lib/data/types.ts`.
 
-### Neutras
+### Neutral
 
-- Los tests de store siguen mockeando `@/lib/tauri` (el repo es transparente); se añadió `repository.test.ts` para cubrir el mapeo.
+- Store tests continue to mock `@/lib/tauri` (the repo is transparent); `repository.test.ts` was added to cover the mapping.
 
-## Alternativas consideradas
+## Considered Alternatives
 
-### Seguir llamando `tauriInvoke` desde cada store
+### Continue calling `tauriInvoke` from each store
 
-Cero indirección, pero replica el contrato en cada feature y hace caro el salto a red. Descartado: es exactamente el acoplamiento que el crecimiento previsto va a penalizar.
+Zero indirection, but replicates the contract in every feature and makes the jump to the network expensive. Discarded: this is exactly the coupling that the anticipated growth will penalize.
 
-### Un repositorio por módulo dentro de cada feature
+### One repository per module inside each feature
 
-Más "DDD", pero dispersa otra vez el conocimiento del transporte y complica el swap a HTTP. Descartado por sobreingeniería para el tamaño actual.
+More "DDD", but scatters knowledge of the transport again and complicates the swap to HTTP. Discarded as over-engineering for the current size.
 
-## Notas / referencias
+## Notes / References
 
-- Relacionado con ADR-0003 (SQLite local) y ADR-0004 (boundaries de módulo).
-- Documentar la capa en `docs/architecture.md`.
+- Related to ADR-0003 (local SQLite) and ADR-0004 (module boundaries).
+- Document the layer in `docs/architecture.md`.

@@ -15,7 +15,7 @@ interface SeedPacketDisplayProps {
 export function SeedPacketDisplay({ speciesId, size = "md" }: SeedPacketDisplayProps) {
   const Packet = SEED_PACKET_SPRITES[speciesId] ?? DaisySeedPacket;
 
-  // Longest axis = requested size, preserving the packet's 20×26 aspect ratio
+  // Longest axis = requested size, preserving the packet's 24×28 aspect ratio
   const scale = SIZE_PX[size] / Math.max(PACKET_GRID.w, PACKET_GRID.h);
   const width = Math.round(PACKET_GRID.w * scale);
   const height = Math.round(PACKET_GRID.h * scale);
