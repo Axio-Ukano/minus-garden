@@ -1,74 +1,47 @@
-// ── Sunflower palette ─────────────────────────────────────────────────────────
+// ── Sunflower — grid 24×30, shared pot (see shared/PotSprite) ────────────────
+import { Pot, px } from "../shared/PotSprite";
+
 const C = {
-  soil: "#6b4e38",
-  soilDark: "#4a3326",
-  pot: "#c8956a",
-  potMid: "#b07850",
-  potDark: "#3d2b1f",
-  potShine: "#e0b48a",
-  stem: "#5a8a3c",
-  stemDark: "#3d6b28",
-  stemLight: "#7ab648",
-  leaf: "#4a7a30",
-  leafLight: "#6aaa48",
-  leafDark: "#2d5a1a",
-  leafVein: "#3d6b28",
-  budGreen: "#7ab648",
-  budDark: "#4a7a30",
-  petalOuter: "#f5c842",
-  petalMid: "#e8a820",
-  petalInner: "#d48010",
-  petalTip: "#fde06a",
-  center: "#5a2e0a",
-  centerMid: "#7a4218",
-  centerHi: "#9a5a28",
-  centerSpeck: "#3a1a06",
-  diskRay: "#8b5a20",
+  stem: "#4a8a2e",
+  stemDark: "#2d5a1e",
+  stemLight: "#6cb244",
+  leaf: "#3a7a24",
+  leafLight: "#5aa83c",
+  leafDark: "#1e4a14",
+  leafVein: "#2d6a1c",
+  leafShine: "#82cc58",
+  seedHusk: "#3a2a1e",
+  seedStripe: "#c8b89a",
+  bud: "#5aa83c",
+  budDark: "#2d6a1c",
+  petal: "#f8c830",
+  petalLight: "#ffe066",
+  petalDark: "#d89610",
+  petalDeep: "#b87808",
+  disk: "#5a3618",
+  diskMid: "#7a4e28",
+  diskLight: "#9a6a3c",
+  diskDark: "#3a2210",
 } as const;
 
-type Color = (typeof C)[keyof typeof C];
-
-function px(x: number, y: number, w: number, h: number, fill: Color) {
-  return <rect key={`${x}-${y}-${w}-${h}-${fill}`} x={x} y={y} width={w} height={h} fill={fill} />;
-}
-
-// ── Shared parts ─────────────────────────────────────────────────────────────
-function Pot() {
-  return (
-    <>
-      {px(3, 22, 14, 1, C.potShine)}
-      {px(4, 22, 12, 1, C.pot)}
-      {px(3, 22, 1, 1, C.potDark)}
-      {px(16, 22, 1, 1, C.potDark)}
-      {px(4, 23, 12, 3, C.pot)}
-      {px(4, 23, 1, 3, C.potDark)}
-      {px(15, 23, 1, 3, C.potDark)}
-      {px(5, 23, 4, 3, C.potMid)}
-      {px(4, 25, 12, 1, C.potDark)}
-      {px(3, 26, 14, 1, C.soil)}
-      {px(5, 26, 2, 1, C.soilDark)}
-      {px(12, 26, 2, 1, C.soilDark)}
-    </>
-  );
-}
-
-function Stem(topRow: number) {
+function Stem(topY: number) {
   const rects = [];
-  for (let row = topRow; row <= 21; row++) {
-    const shade = row % 4 === 0 ? C.stemDark : row % 4 === 1 ? C.stemLight : C.stem;
-    rects.push(px(9, row, 2, 1, shade));
+  for (let y = topY; y <= 21; y++) {
+    rects.push(px(11, y, 2, 1, y % 4 === 0 ? C.stemDark : C.stem));
   }
+  rects.push(px(11, topY, 1, 1, C.stemLight));
   return <>{rects}</>;
 }
 
 function BigLeafLeft(y: number) {
   return (
     <>
-      {px(3, y, 5, 3, C.leaf)}
-      {px(3, y, 1, 3, C.leafDark)}
-      {px(4, y, 5, 1, C.leafLight)}
-      {px(5, y + 1, 3, 1, C.leafVein)}
-      {px(3, y + 2, 5, 1, C.leafDark)}
+      {px(7, y, 4, 1, C.leafLight)}
+      {px(5, y + 1, 6, 1, C.leaf)}
+      {px(8, y + 1, 2, 1, C.leafShine)}
+      {px(4, y + 2, 7, 1, C.leaf)}
+      {px(5, y + 2, 2, 1, C.leafVein)}
+      {px(6, y + 3, 4, 1, C.leafDark)}
     </>
   );
 }
@@ -76,161 +49,212 @@ function BigLeafLeft(y: number) {
 function BigLeafRight(y: number) {
   return (
     <>
-      {px(12, y, 5, 3, C.leaf)}
-      {px(16, y, 1, 3, C.leafDark)}
-      {px(12, y, 5, 1, C.leafLight)}
-      {px(12, y + 1, 3, 1, C.leafVein)}
-      {px(12, y + 2, 5, 1, C.leafDark)}
+      {px(13, y, 4, 1, C.leafLight)}
+      {px(13, y + 1, 6, 1, C.leaf)}
+      {px(14, y + 1, 2, 1, C.leafShine)}
+      {px(13, y + 2, 7, 1, C.leaf)}
+      {px(17, y + 2, 2, 1, C.leafVein)}
+      {px(14, y + 3, 4, 1, C.leafDark)}
     </>
   );
 }
 
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function SunflowerStage1() {
+  // Brote con la cáscara de pipa aún puesta
   return (
     <>
       <Pot />
-      {px(9, 21, 2, 1, C.stem)}
-      {px(8, 20, 4, 1, C.budGreen)}
-      {px(9, 20, 2, 1, C.budDark)}
+      {px(11, 18, 2, 4, C.stem)}
+      {/* cáscara rayada */}
+      {px(11, 14, 2, 1, C.seedHusk)}
+      {px(10, 15, 4, 3, C.seedHusk)}
+      {px(11, 15, 1, 3, C.seedStripe)}
+      {px(13, 15, 1, 3, C.seedStripe)}
+      {/* hojitas escapando */}
+      {px(9, 18, 2, 1, C.leafLight)}
+      {px(13, 18, 2, 1, C.leafLight)}
     </>
   );
 }
 
 export function SunflowerStage2() {
+  // Plántula con cotiledones anchos
   return (
     <>
       <Pot />
-      {px(9, 18, 2, 4, C.stem)}
-      {px(6, 19, 3, 2, C.leafLight)}
-      {px(6, 19, 1, 2, C.leafDark)}
-      {px(11, 19, 3, 2, C.leafLight)}
-      {px(13, 19, 1, 2, C.leafDark)}
+      {Stem(15)}
+      {/* cotiledón izquierdo */}
+      {px(7, 13, 3, 1, C.leafLight)}
+      {px(6, 14, 5, 1, C.leaf)}
+      {px(7, 15, 3, 1, C.leafDark)}
+      {/* cotiledón derecho */}
+      {px(14, 12, 3, 1, C.leafLight)}
+      {px(13, 13, 5, 1, C.leaf)}
+      {px(14, 14, 3, 1, C.leafDark)}
     </>
   );
 }
 
 export function SunflowerStage3() {
+  // Tallo medio con primeras hojas grandes acorazonadas
   return (
     <>
       <Pot />
-      {Stem(15)}
-      {BigLeafLeft(17)}
-      {BigLeafRight(15)}
+      {Stem(11)}
+      {BigLeafLeft(15)}
+      {BigLeafRight(13)}
+      {/* penacho superior */}
+      {px(11, 8, 2, 1, C.leafShine)}
+      {px(10, 9, 4, 1, C.leafLight)}
+      {px(10, 10, 4, 1, C.leaf)}
     </>
   );
 }
 
 export function SunflowerStage4() {
+  // Tallo alto con capullo verde colgante
   return (
     <>
       <Pot />
-      {Stem(12)}
-      {BigLeafLeft(17)}
-      {BigLeafRight(15)}
-      {/* capullo inclinado */}
-      {px(8, 8, 4, 4, C.budGreen)}
-      {px(8, 8, 1, 4, C.budDark)}
-      {px(11, 8, 1, 4, C.budDark)}
-      {px(9, 7, 2, 1, C.budGreen)}
-      {px(8, 11, 4, 1, C.budDark)}
-      {px(9, 6, 2, 1, C.leafLight)}
+      {Stem(8)}
+      {BigLeafLeft(16)}
+      {BigLeafRight(13)}
+      {/* hojitas medias */}
+      {px(8, 10, 3, 1, C.leaf)}
+      {px(9, 9, 2, 1, C.leafLight)}
+      {px(13, 11, 3, 1, C.leaf)}
+      {px(13, 10, 2, 1, C.leafLight)}
+      {/* capullo */}
+      {px(11, 2, 3, 1, C.bud)}
+      {px(10, 3, 5, 4, C.bud)}
+      {px(10, 3, 1, 4, C.budDark)}
+      {px(10, 6, 5, 1, C.budDark)}
+      {px(12, 3, 1, 2, C.leafShine)}
+      {/* brácteas */}
+      {px(9, 4, 1, 3, C.leaf)}
+      {px(15, 4, 1, 3, C.leaf)}
+      {/* rendija amarilla */}
+      {px(12, 2, 1, 1, C.petalLight)}
     </>
   );
 }
 
 export function SunflowerStage5() {
+  // Capullo abriéndose — fleco de pétalos alrededor del disco joven
   return (
     <>
       <Pot />
-      {Stem(12)}
-      {BigLeafLeft(17)}
-      {BigLeafRight(15)}
-      {/* capullo abriéndose */}
-      {px(7, 6, 6, 5, C.budGreen)}
-      {px(7, 6, 1, 5, C.budDark)}
-      {px(12, 6, 1, 5, C.budDark)}
-      {px(8, 5, 4, 1, C.budGreen)}
-      {px(7, 10, 6, 1, C.budDark)}
-      {/* primeros pétalos asomando */}
-      {px(6, 5, 2, 2, C.petalOuter)}
-      {px(12, 5, 2, 2, C.petalOuter)}
-      {px(8, 3, 4, 2, C.petalOuter)}
+      {Stem(10)}
+      {BigLeafLeft(16)}
+      {BigLeafRight(13)}
+      {/* fleco de pétalos */}
+      {px(10, 2, 4, 2, C.petal)}
+      {px(11, 2, 2, 1, C.petalLight)}
+      {px(8, 3, 2, 2, C.petal)}
+      {px(14, 3, 2, 2, C.petal)}
+      {px(7, 5, 2, 2, C.petal)}
+      {px(15, 5, 2, 2, C.petal)}
+      {px(10, 7, 4, 1, C.petalDark)}
+      {/* brácteas inferiores */}
+      {px(9, 8, 6, 1, C.bud)}
+      {px(10, 9, 4, 1, C.budDark)}
+      {/* disco joven */}
+      {px(10, 4, 4, 3, C.disk)}
+      {px(10, 4, 4, 1, C.diskMid)}
     </>
   );
 }
 
 export function SunflowerStage6() {
+  // Flor abierta mediana
+  return (
+    <>
+      <Pot />
+      {Stem(12)}
+      {BigLeafLeft(16)}
+      {BigLeafRight(14)}
+      {/* pétalos norte y sur */}
+      {px(9, 1, 6, 3, C.petal)}
+      {px(10, 1, 4, 1, C.petalLight)}
+      {px(9, 9, 6, 2, C.petal)}
+      {px(10, 11, 4, 1, C.petal)}
+      {/* pétalos oeste */}
+      {px(5, 3, 4, 3, C.petal)}
+      {px(5, 3, 1, 2, C.petalLight)}
+      {px(5, 6, 4, 3, C.petal)}
+      {/* pétalos este */}
+      {px(15, 3, 4, 3, C.petal)}
+      {px(18, 3, 1, 2, C.petalLight)}
+      {px(15, 6, 4, 3, C.petal)}
+      {/* diagonales */}
+      {px(6, 1, 3, 2, C.petal)}
+      {px(15, 1, 3, 2, C.petal)}
+      {px(6, 9, 3, 2, C.petal)}
+      {px(15, 9, 3, 2, C.petal)}
+      {/* sombras de base */}
+      {px(9, 3, 6, 1, C.petalDark)}
+      {px(9, 9, 6, 1, C.petalDark)}
+      {px(8, 4, 1, 5, C.petalDark)}
+      {px(15, 4, 1, 5, C.petalDark)}
+      {/* disco */}
+      {px(9, 4, 6, 5, C.disk)}
+      {px(9, 4, 6, 1, C.diskMid)}
+      {px(10, 5, 2, 2, C.diskLight)}
+      {px(13, 6, 1, 1, C.diskDark)}
+      {px(11, 7, 1, 1, C.diskDark)}
+    </>
+  );
+}
+
+export function SunflowerStage7() {
+  // Girasol pleno — cabeza grande con disco texturizado
   return (
     <>
       <Pot />
       {Stem(13)}
       {BigLeafLeft(17)}
       {BigLeafRight(15)}
-      {/* pétalos exteriores */}
-      {px(6, 1, 8, 2, C.petalOuter)}
-      {px(5, 2, 2, 2, C.petalOuter)}
-      {px(13, 2, 2, 2, C.petalOuter)}
-      {px(4, 4, 2, 2, C.petalMid)}
-      {px(14, 4, 2, 2, C.petalMid)}
-      {px(6, 9, 8, 2, C.petalOuter)}
-      {px(5, 8, 2, 2, C.petalOuter)}
-      {px(13, 8, 2, 2, C.petalOuter)}
-      {px(4, 7, 2, 2, C.petalMid)}
-      {px(14, 7, 2, 2, C.petalMid)}
-      {/* centro */}
-      {px(6, 3, 8, 6, C.center)}
-      {px(7, 3, 6, 1, C.centerMid)}
-      {px(6, 4, 1, 4, C.centerMid)}
-      {px(7, 5, 2, 2, C.centerHi)}
-    </>
-  );
-}
-
-export function SunflowerStage7() {
-  return (
-    <>
-      <Pot />
-      {Stem(13)}
-      {BigLeafLeft(18)}
-      {BigLeafRight(16)}
-      {/* pétalos completos, flor grande y madura */}
-      {/* anillo exterior */}
-      {px(6, 0, 8, 2, C.petalOuter)}
-      {px(5, 1, 2, 2, C.petalTip)}
-      {px(13, 1, 2, 2, C.petalTip)}
-      {px(3, 3, 3, 2, C.petalOuter)}
-      {px(14, 3, 3, 2, C.petalOuter)}
-      {px(3, 7, 3, 2, C.petalOuter)}
-      {px(14, 7, 3, 2, C.petalOuter)}
-      {px(5, 10, 2, 2, C.petalTip)}
-      {px(13, 10, 2, 2, C.petalTip)}
-      {px(6, 11, 8, 2, C.petalOuter)}
-      {/* anillo interior */}
-      {px(6, 2, 8, 1, C.petalMid)}
-      {px(5, 3, 2, 1, C.petalMid)}
-      {px(13, 3, 2, 1, C.petalMid)}
-      {px(4, 4, 2, 4, C.petalMid)}
-      {px(14, 4, 2, 4, C.petalMid)}
-      {px(5, 9, 2, 1, C.petalMid)}
-      {px(13, 9, 2, 1, C.petalMid)}
-      {px(6, 10, 8, 1, C.petalMid)}
-      {/* detalles pétalos inferiores */}
-      {px(5, 4, 1, 1, C.petalInner)}
-      {px(14, 4, 1, 1, C.petalInner)}
-      {px(5, 8, 1, 1, C.petalInner)}
-      {px(14, 8, 1, 1, C.petalInner)}
-      {/* disco central */}
-      {px(6, 3, 8, 8, C.center)}
-      {px(7, 3, 6, 1, C.centerMid)}
-      {px(6, 4, 1, 6, C.centerMid)}
-      {px(13, 4, 1, 5, C.centerSpeck)}
-      {px(6, 10, 8, 1, C.centerSpeck)}
-      {px(7, 4, 2, 2, C.centerHi)}
-      {px(9, 5, 1, 1, C.centerHi)}
-      {px(10, 7, 1, 1, C.diskRay)}
-      {px(8, 8, 1, 1, C.diskRay)}
-      {px(11, 4, 1, 1, C.diskRay)}
+      {/* hojitas medias */}
+      {px(8, 14, 3, 1, C.leaf)}
+      {px(13, 13, 3, 1, C.leaf)}
+      {/* corona de pétalos — norte */}
+      {px(8, 0, 8, 3, C.petal)}
+      {px(9, 0, 6, 1, C.petalLight)}
+      {/* sur */}
+      {px(8, 10, 8, 3, C.petal)}
+      {px(9, 12, 6, 1, C.petalDark)}
+      {/* oeste */}
+      {px(4, 3, 4, 2, C.petal)}
+      {px(3, 5, 5, 3, C.petal)}
+      {px(3, 5, 2, 1, C.petalLight)}
+      {px(4, 8, 4, 2, C.petal)}
+      {/* este */}
+      {px(16, 3, 4, 2, C.petal)}
+      {px(16, 5, 5, 3, C.petal)}
+      {px(19, 5, 2, 1, C.petalLight)}
+      {px(16, 8, 4, 2, C.petal)}
+      {/* diagonales */}
+      {px(5, 1, 3, 2, C.petal)}
+      {px(16, 1, 3, 2, C.petal)}
+      {px(5, 10, 3, 2, C.petal)}
+      {px(16, 10, 3, 2, C.petal)}
+      {/* sombras de base del anillo */}
+      {px(8, 2, 8, 1, C.petalDark)}
+      {px(8, 10, 8, 1, C.petalDeep)}
+      {px(7, 3, 1, 7, C.petalDark)}
+      {px(16, 3, 1, 7, C.petalDark)}
+      {/* disco grande texturizado */}
+      {px(8, 3, 8, 7, C.disk)}
+      {px(8, 3, 8, 1, C.diskMid)}
+      {px(8, 4, 1, 5, C.diskMid)}
+      {px(9, 4, 3, 1, C.diskLight)}
+      {px(9, 5, 1, 2, C.diskLight)}
+      {px(12, 5, 1, 1, C.diskDark)}
+      {px(14, 7, 1, 1, C.diskDark)}
+      {px(10, 8, 1, 1, C.diskDark)}
+      {px(13, 8, 1, 1, C.diskDark)}
+      {px(8, 9, 8, 1, C.diskDark)}
     </>
   );
 }

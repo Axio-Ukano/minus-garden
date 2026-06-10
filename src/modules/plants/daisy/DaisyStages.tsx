@@ -1,176 +1,177 @@
-// ── Daisy palette ────────────────────────────────────────────────────────────
+// ── Daisy — grid 24×30, shared pot (see shared/PotSprite) ────────────────────
+import { Pot, px } from "../shared/PotSprite";
+
 const C = {
-  soil: "#6b4e38",
-  soilDark: "#4a3326",
-  pot: "#c8956a",
-  potMid: "#b07850",
-  potDark: "#3d2b1f",
-  potShine: "#e0b48a",
-  stem: "#5a8a3c",
-  stemDark: "#3d6b28",
-  stemLight: "#7ab648",
-  leaf: "#4a7a30",
-  leafLight: "#6aaa48",
-  leafDark: "#2d5a1a",
-  budGreen: "#7ab648",
-  budDark: "#4a7a30",
-  petalWhite: "#fff8f0",
-  petalCream: "#ffe8d0",
-  petalPink: "#f0b8c8",
-  petalPinkDark: "#d890a8",
-  center: "#f5c842",
-  centerDark: "#d4a020",
-  centerSpeck: "#c87820",
+  stem: "#4a8a2e",
+  stemDark: "#2d5a1e",
+  stemLight: "#6cb244",
+  leaf: "#3a7a24",
+  leafLight: "#5aa83c",
+  leafDark: "#1e4a14",
+  leafShine: "#82cc58",
+  bud: "#5aa83c",
+  budDark: "#2d6a1c",
+  petal: "#fdfbf6",
+  petalBase: "#e8dcc8",
+  petalHi: "#ffffff",
+  center: "#f8c838",
+  centerLight: "#ffe066",
+  centerDark: "#cf9412",
+  centerDeep: "#a06b10",
 } as const;
 
-type Color = (typeof C)[keyof typeof C];
-
-function px(x: number, y: number, w: number, h: number, fill: Color) {
-  return <rect key={`${x}-${y}-${w}-${h}-${fill}`} x={x} y={y} width={w} height={h} fill={fill} />;
-}
-
-// ── Shared parts ─────────────────────────────────────────────────────────────
-function Pot() {
-  return (
-    <>
-      {/* rim */}
-      {px(2, 17, 12, 1, C.potShine)}
-      {px(3, 17, 10, 1, C.pot)}
-      {px(2, 17, 1, 1, C.potDark)}
-      {px(13, 17, 1, 1, C.potDark)}
-      {/* body */}
-      {px(3, 18, 10, 3, C.pot)}
-      {px(3, 18, 1, 3, C.potDark)}
-      {px(12, 18, 1, 3, C.potDark)}
-      {px(4, 18, 3, 3, C.potMid)}
-      {px(3, 20, 10, 1, C.potDark)}
-      {/* soil */}
-      {px(2, 21, 12, 1, C.soil)}
-      {px(4, 21, 2, 1, C.soilDark)}
-      {px(9, 21, 2, 1, C.soilDark)}
-    </>
-  );
-}
-
-function Stem(topRow: number) {
+function Stem(topY: number) {
   const rects = [];
-  for (let row = topRow; row <= 16; row++) {
-    rects.push(px(7, row, 2, 1, row % 3 === 0 ? C.stemDark : C.stem));
+  for (let y = topY; y <= 21; y++) {
+    rects.push(px(11, y, 2, 1, y % 3 === 0 ? C.stemDark : C.stem));
   }
   return <>{rects}</>;
 }
 
+function LeafLeft(y: number) {
+  return (
+    <>
+      {px(7, y, 4, 1, C.leafLight)}
+      {px(5, y + 1, 6, 1, C.leaf)}
+      {px(8, y + 1, 2, 1, C.leafShine)}
+      {px(6, y + 2, 4, 1, C.leafDark)}
+    </>
+  );
+}
+
+function LeafRight(y: number) {
+  return (
+    <>
+      {px(13, y, 4, 1, C.leafLight)}
+      {px(13, y + 1, 6, 1, C.leaf)}
+      {px(14, y + 1, 2, 1, C.leafShine)}
+      {px(14, y + 2, 4, 1, C.leafDark)}
+    </>
+  );
+}
+
 // ── Stages ───────────────────────────────────────────────────────────────────
 export function DaisyStage1() {
-  // Semilla recién germinada — nubito verde saliendo del macetero
+  // Semilla recién germinada — brote en V saliendo de la tierra
   return (
     <>
       <Pot />
-      {px(7, 16, 2, 1, C.stem)}
-      {px(6, 15, 4, 1, C.budGreen)}
-      {px(7, 15, 2, 1, C.budDark)}
+      {px(11, 19, 2, 3, C.stem)}
+      {px(11, 18, 2, 1, C.stemLight)}
+      {px(9, 17, 2, 2, C.leafLight)}
+      {px(9, 17, 1, 1, C.leafShine)}
+      {px(13, 17, 2, 2, C.leaf)}
+      {px(11, 17, 2, 1, C.leafLight)}
     </>
   );
 }
 
 export function DaisyStage2() {
-  // Brote con dos cotiledones pequeños
+  // Plántula con dos cotiledones redondeados
   return (
     <>
       <Pot />
-      {px(7, 13, 2, 4, C.stem)}
-      {/* cotiledones */}
-      {px(4, 14, 3, 2, C.leafLight)}
-      {px(4, 14, 1, 2, C.leafDark)}
-      {px(9, 14, 3, 2, C.leafLight)}
-      {px(11, 14, 1, 2, C.leafDark)}
+      {Stem(16)}
+      {px(11, 15, 2, 1, C.stemLight)}
+      {/* cotiledón izquierdo */}
+      {px(7, 13, 3, 1, C.leafLight)}
+      {px(6, 14, 5, 1, C.leaf)}
+      {px(7, 15, 3, 1, C.leafDark)}
+      {/* cotiledón derecho */}
+      {px(14, 12, 3, 1, C.leafLight)}
+      {px(13, 13, 5, 1, C.leaf)}
+      {px(14, 14, 3, 1, C.leafDark)}
     </>
   );
 }
 
 export function DaisyStage3() {
-  // Tallo largo con dos hojas verdaderas y forma definida
+  // Tallo joven con hojas verdaderas y penacho superior
   return (
     <>
       <Pot />
-      {Stem(9)}
-      {/* hoja izquierda */}
-      {px(3, 12, 4, 2, C.leaf)}
-      {px(3, 12, 1, 2, C.leafDark)}
-      {px(5, 12, 2, 1, C.leafLight)}
-      {/* hoja derecha */}
-      {px(9, 11, 4, 2, C.leaf)}
-      {px(12, 11, 1, 2, C.leafDark)}
-      {px(9, 11, 2, 1, C.leafLight)}
+      {Stem(10)}
+      {LeafLeft(13)}
+      {LeafRight(11)}
+      {/* penacho superior */}
+      {px(11, 7, 2, 1, C.leafShine)}
+      {px(10, 8, 4, 2, C.leafLight)}
+      {px(10, 9, 1, 1, C.leaf)}
+      {px(13, 9, 1, 1, C.leaf)}
     </>
   );
 }
 
 export function DaisyStage4() {
-  // Capullo apretado en lo alto del tallo
+  // Capullo cerrado con puntas de pétalo asomando
   return (
     <>
       <Pot />
-      {Stem(8)}
-      {/* hojas */}
-      {px(3, 12, 4, 2, C.leaf)}
-      {px(3, 12, 1, 2, C.leafDark)}
-      {px(5, 12, 2, 1, C.leafLight)}
-      {px(9, 11, 4, 2, C.leaf)}
-      {px(12, 11, 1, 2, C.leafDark)}
-      {px(9, 11, 2, 1, C.leafLight)}
-      {/* capullo */}
-      {px(6, 5, 4, 3, C.budGreen)}
-      {px(6, 5, 1, 3, C.budDark)}
-      {px(9, 5, 1, 3, C.budDark)}
-      {px(7, 4, 2, 1, C.budGreen)}
-      {px(6, 7, 4, 1, C.budDark)}
-      {/* punta del pétalo asomándose */}
-      {px(7, 3, 2, 1, C.petalCream)}
+      {Stem(7)}
+      {LeafLeft(13)}
+      {LeafRight(11)}
+      {/* pétalos asomando */}
+      {px(11, 1, 2, 1, C.petalHi)}
+      {px(10, 2, 4, 1, C.petal)}
+      {/* cáliz */}
+      {px(10, 3, 4, 3, C.bud)}
+      {px(10, 3, 1, 3, C.budDark)}
+      {px(13, 3, 1, 3, C.budDark)}
+      {px(10, 6, 4, 1, C.budDark)}
+      {/* sépalos */}
+      {px(9, 4, 1, 2, C.leaf)}
+      {px(14, 4, 1, 2, C.leaf)}
     </>
   );
 }
 
 export function DaisyStage5() {
-  // Flor abierta completa — pétalos en cruz con diagonales
+  // Flor abierta — 8 pétalos blancos alrededor del disco amarillo
   return (
     <>
       <Pot />
-      {Stem(8)}
-      {/* hojas */}
-      {px(3, 12, 4, 2, C.leaf)}
-      {px(3, 12, 1, 2, C.leafDark)}
-      {px(5, 12, 2, 1, C.leafLight)}
-      {px(9, 11, 4, 2, C.leaf)}
-      {px(12, 11, 1, 2, C.leafDark)}
-      {px(9, 11, 2, 1, C.leafLight)}
-      {/* pétalos superiores */}
-      {px(6, 0, 4, 2, C.petalWhite)}
-      {px(7, 0, 2, 2, C.petalCream)}
-      {/* pétalos inferiores */}
-      {px(6, 7, 4, 2, C.petalWhite)}
-      {px(7, 7, 2, 1, C.petalCream)}
-      {/* pétalos izquierdo */}
-      {px(2, 3, 2, 2, C.petalWhite)}
-      {px(3, 3, 2, 1, C.petalCream)}
-      {px(4, 2, 2, 1, C.petalPink)}
-      {px(4, 5, 2, 1, C.petalPink)}
-      {/* pétalos derecho */}
-      {px(12, 3, 2, 2, C.petalWhite)}
-      {px(11, 3, 2, 1, C.petalCream)}
-      {px(10, 2, 2, 1, C.petalPink)}
-      {px(10, 5, 2, 1, C.petalPink)}
-      {/* diagonales */}
-      {px(4, 1, 2, 2, C.petalWhite)}
-      {px(10, 1, 2, 2, C.petalWhite)}
-      {px(4, 5, 2, 2, C.petalWhite)}
-      {px(10, 5, 2, 2, C.petalWhite)}
-      {/* centro */}
-      {px(6, 2, 4, 4, C.center)}
-      {px(7, 2, 2, 1, C.centerSpeck)}
-      {px(6, 4, 1, 1, C.centerDark)}
-      {px(9, 4, 1, 1, C.centerDark)}
-      {px(7, 5, 2, 1, C.centerDark)}
+      {Stem(12)}
+      {LeafLeft(14)}
+      {LeafRight(13)}
+      {/* pétalo norte */}
+      {px(11, 0, 2, 1, C.petalHi)}
+      {px(10, 1, 4, 3, C.petal)}
+      {px(12, 1, 1, 3, C.petalBase)}
+      {/* pétalo sur */}
+      {px(10, 8, 4, 3, C.petal)}
+      {px(11, 11, 2, 1, C.petal)}
+      {px(11, 9, 1, 2, C.petalBase)}
+      {/* pétalo oeste */}
+      {px(4, 5, 1, 2, C.petalHi)}
+      {px(5, 5, 5, 2, C.petal)}
+      {px(9, 5, 1, 2, C.petalBase)}
+      {/* pétalo este */}
+      {px(19, 5, 1, 2, C.petalHi)}
+      {px(14, 5, 5, 2, C.petal)}
+      {px(14, 5, 1, 2, C.petalBase)}
+      {/* diagonal NO */}
+      {px(6, 1, 2, 2, C.petal)}
+      {px(7, 2, 2, 2, C.petal)}
+      {px(8, 3, 2, 1, C.petalBase)}
+      {/* diagonal NE */}
+      {px(16, 1, 2, 2, C.petal)}
+      {px(15, 2, 2, 2, C.petal)}
+      {px(14, 3, 2, 1, C.petalBase)}
+      {/* diagonal SO */}
+      {px(6, 9, 2, 2, C.petal)}
+      {px(7, 8, 2, 2, C.petal)}
+      {px(8, 7, 2, 1, C.petalBase)}
+      {/* diagonal SE */}
+      {px(16, 9, 2, 2, C.petal)}
+      {px(15, 8, 2, 2, C.petal)}
+      {px(14, 7, 2, 1, C.petalBase)}
+      {/* disco central */}
+      {px(10, 4, 4, 4, C.center)}
+      {px(10, 4, 4, 1, C.centerLight)}
+      {px(10, 7, 4, 1, C.centerDark)}
+      {px(11, 5, 1, 1, C.centerDeep)}
+      {px(13, 6, 1, 1, C.centerDeep)}
+      {px(10, 6, 1, 1, C.centerDark)}
     </>
   );
 }
