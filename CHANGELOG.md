@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.7.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.6.1...minus-garden-v0.7.0) (2026-06-10)
+
+
+### Añadido
+
+* redesigned plant sprites v2 — unified 24×30 grid with shared pot ([#44](https://github.com/Axio-Ukano/minus-garden/issues/44)) ([76375ea](https://github.com/Axio-Ukano/minus-garden/commit/76375ea37a0cf3adf253e7448da868c06138f833))
+
 ## [0.6.1](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.6.0...minus-garden-v0.6.1) (2026-06-09)
 
 
