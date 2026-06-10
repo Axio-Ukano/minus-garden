@@ -108,3 +108,27 @@ For the step-by-step flow see [docs/playbook.md §6 and §10](docs/playbook.md).
 - Decisions (ADRs): [docs/adr/](docs/adr/)
 - Changes: [CHANGELOG.md](CHANGELOG.md)
 - How to contribute (internal use): [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## License & Copyright
+
+Copyright © 2024–2026 Carlos Pico (Axio-Ukano).
+
+Minu's Garden is licensed under the **Creative Commons
+Attribution-NonCommercial-NoDerivatives 4.0 International License
+(CC BY-NC-ND 4.0)** — `SPDX-License-Identifier: CC-BY-NC-ND-4.0`. See [LICENSE](LICENSE) for the full text.
+
+In short: you may view and share the work, with attribution, for
+**non-commercial** purposes, **without modifications or derivative
+works**. Copying it into another product, modifying it, redistributing
+altered versions, or any commercial use requires prior written
+permission from the author.
+
+**This repository is public for portfolio and transparency reasons
+only.** Public visibility is not an invitation to fork or reuse the
+code; it grants no rights beyond those in the license.
+
+Scope: the license covers the original source code, original artwork
+and documentation. Bundled placeholder/third-party media (e.g. the
+audio under `public/sounds/`) and third-party dependencies retain their
+own licenses and are **not** relicensed under CC BY-NC-ND — see the
+[LICENSE](LICENSE) scope note.

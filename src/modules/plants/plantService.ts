@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 // ─── Plant Species Registry ──────────────────────────────────────────────────
 // All plant-related configuration lives here. Adding a new plant means
 // adding one entry to ALL_SPECIES and creating its stage renderer under plants/<species>/.

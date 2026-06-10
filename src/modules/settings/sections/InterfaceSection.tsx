@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import { InfoTooltip } from "@/components/InfoTooltip";
 import { useTranslation } from "@/i18n";
 import { useSettingsStore } from "../settingsStore";

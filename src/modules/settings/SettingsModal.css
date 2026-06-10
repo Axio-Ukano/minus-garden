@@ -235,3 +235,31 @@
   gap: 8px;
   margin-bottom: 4px;
 }
+
+/* ── Credits / signature footer ── */
+.settings-modal__credits {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 20px 12px;
+  border-top: 3px solid var(--color-border);
+  background: var(--color-bg);
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  text-align: center;
+  user-select: none;
+}
+
+.settings-modal__credits-app {
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+.settings-modal__credits-version {
+  color: var(--color-text-muted);
+}

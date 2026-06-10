@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 // ── Iris — grid 24×30, shared pot (see shared/PotSprite) ─────────────────────
 // Fan of sword leaves and flower with lilac standards and violet falls.
 import { Pot, px } from "../shared/PotSprite";

@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 // ── Peony — grid 24×30, shared pot (see shared/PotSprite) ────────────────────
 // Reddish shoots at emergence (typical of peony) and lush double flower.
 import { Pot, px } from "../shared/PotSprite";

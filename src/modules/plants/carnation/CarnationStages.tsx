@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 // ── Carnation — grid 24×30, shared pot (see shared/PotSprite) ────────────────
 // Blue-green foliage, calyx in urn and flower with scalloped petals.
 import { Pot, px } from "../shared/PotSprite";

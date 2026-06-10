@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 export { AppShellHeader } from "./AppShellHeader";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { InfoTooltip } from "./InfoTooltip";

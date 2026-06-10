@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import { useEffect, useState } from "react";
 import { PixelCloseButton } from "@/components/PixelCloseButton";
 import { useTranslation } from "@/i18n";
@@ -115,6 +119,17 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
             {activeSection === "shortcuts" && <WipSection title={t.settings.wip.shortcuts_title} />}
           </div>
         </div>
+
+        {/* Credits / signature */}
+        <footer className="settings-modal__credits">
+          <span className="settings-modal__credits-app">
+            Minu&apos;s Garden{" "}
+            <span className="settings-modal__credits-version">v{__APP_VERSION__}</span>
+          </span>
+          <span>{t.settings.about.by}</span>
+          <span>© 2024–2026 · {t.settings.about.license}</span>
+          <span>{t.settings.about.rights}</span>
+        </footer>
       </div>
     </div>
   );

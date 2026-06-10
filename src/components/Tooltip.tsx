@@ -1,3 +1,7 @@
+// Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
+// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
 import { ReactNode, useRef, useState, useEffect, CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import "./InfoTooltip.css";
