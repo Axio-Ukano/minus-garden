@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ---
 
+## [0.8.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.7.0...minus-garden-v0.8.0) (2026-06-10)
+
+
+### Añadido
+
+* seed packet sprites per species + stage close-up in stages modal ([#46](https://github.com/Axio-Ukano/minus-garden/issues/46)) ([4b52beb](https://github.com/Axio-Ukano/minus-garden/commit/4b52bebb4380b189e22c23a70d220f3cd4317b2b))
+
 ## [0.7.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.6.1...minus-garden-v0.7.0) (2026-06-10)
 
 
