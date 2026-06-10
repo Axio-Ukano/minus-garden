@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { PlantSpecies } from "./plantService";
 import { getStageName, getPlantName } from "./plantService";
 import { PlantDisplay } from "./PlantDisplay";
@@ -13,17 +13,21 @@ function StageCard({
   minutes,
   isLast,
   speciesId,
+  onSelect,
 }: {
   stage: number;
   name: string;
   minutes: number;
   isLast: boolean;
   speciesId: string;
+  onSelect: () => void;
 }) {
   const { t } = useTranslation();
 
   return (
-    <div
+    <button
+      type="button"
+      onClick={onSelect}
       className={`stage-card ${isLast ? "stage-card--final" : ""}`}
       style={{
         minWidth: 110,
@@ -77,7 +81,7 @@ function StageCard({
       >
         {minutes === 0 ? t.timer.stage_start : `${minutes} ${t.timer.min_abbr}`}
       </span>
-    </div>
+    </button>
   );
 }
 
@@ -92,25 +96,37 @@ export function PlantStagesModal({
   species: PlantSpecies;
 }) {
   const { t } = useTranslation();
+  // Stage shown in the close-up view; null = stage grid
+  const [detailStage, setDetailStage] = useState<number | null>(null);
 
-  // Close on Escape key
+  // Clearing the close-up on every close path means reopening starts at the grid
+  const handleClose = () => {
+    setDetailStage(null);
+    onClose();
+  };
+
+  // Escape backs out of the close-up first, then closes the modal
   useEffect(() => {
     if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key !== "Escape") return;
+      if (detailStage !== null) setDetailStage(null);
+      else onClose();
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, detailStage]);
 
   if (!isOpen) return null;
 
   const plantName = getPlantName(species, t);
+  const detailName = detailStage !== null ? getStageName(detailStage, species, t) : null;
+  const detailMinutes = detailStage !== null ? (species.stageThresholds[detailStage - 1] ?? 0) : 0;
 
   return (
     // Backdrop
     <div
-      onClick={onClose}
+      onClick={handleClose}
       style={{
         position: "fixed",
         inset: 0,
@@ -138,7 +154,7 @@ export function PlantStagesModal({
           overflow: "hidden",
         }}
       >
-        {/* Header */}
+        {/* Header — stage close-up swaps the titles, keeps the same layout */}
         <div
           style={{
             display: "flex",
@@ -158,7 +174,7 @@ export function PlantStagesModal({
                 letterSpacing: "0.1em",
               }}
             >
-              {plantName.toUpperCase()}
+              {(detailName ?? plantName).toUpperCase()}
             </span>
             <span
               style={{
@@ -168,34 +184,59 @@ export function PlantStagesModal({
                 letterSpacing: "0.05em",
               }}
             >
-              {species.maxStages} {t.timer.growth_stages}
+              {detailStage !== null
+                ? `${plantName.toUpperCase()} · ${t.timer.stage_label} ${detailStage}/${species.maxStages}`
+                : `${species.maxStages} ${t.timer.growth_stages}`}
             </span>
           </div>
-          <PixelCloseButton onClick={onClose} />
+          <PixelCloseButton onClick={handleClose} />
         </div>
 
-        {/* Stage cards — responsive flex-wrap grid */}
-        <div
-          style={{
-            padding: 24,
-            overflowY: "auto",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 16,
-            justifyContent: "center",
-          }}
-        >
-          {species.stageKeys.map((_, i) => (
-            <StageCard
-              key={i}
-              stage={i + 1}
-              name={getStageName(i + 1, species, t)}
-              minutes={species.stageThresholds[i] ?? 0}
-              isLast={i === species.maxStages - 1}
-              speciesId={species.id}
-            />
-          ))}
-        </div>
+        {detailStage === null ? (
+          /* Stage cards — responsive flex-wrap grid */
+          <div
+            style={{
+              padding: 24,
+              overflowY: "auto",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              justifyContent: "center",
+            }}
+          >
+            {species.stageKeys.map((_, i) => (
+              <StageCard
+                key={i}
+                stage={i + 1}
+                name={getStageName(i + 1, species, t)}
+                minutes={species.stageThresholds[i] ?? 0}
+                isLast={i === species.maxStages - 1}
+                speciesId={species.id}
+                onSelect={() => setDetailStage(i + 1)}
+              />
+            ))}
+          </div>
+        ) : (
+          /* Stage close-up — click anywhere on it to go back to the grid */
+          <button
+            type="button"
+            onClick={() => setDetailStage(null)}
+            aria-label={t.timer.stage_back_hint}
+            className="stage-detail"
+          >
+            <PlantDisplay stage={detailStage} speciesId={species.id} size="xxl" natural />
+            <span
+              style={{
+                fontFamily: "var(--font-pixel)",
+                fontSize: "var(--text-pixel-sm)",
+                color: "var(--color-text-muted)",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {detailMinutes === 0 ? t.timer.stage_start : `${detailMinutes} ${t.timer.min_abbr}`}
+            </span>
+          </button>
+        )}
 
         {/* Footer hint */}
         <div
@@ -214,7 +255,7 @@ export function PlantStagesModal({
               letterSpacing: "0.05em",
             }}
           >
-            {t.timer.close_hint}
+            {detailStage !== null ? t.timer.stage_back_hint : t.timer.close_hint}
           </span>
         </div>
       </div>
