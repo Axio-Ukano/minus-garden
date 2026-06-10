@@ -118,8 +118,64 @@
 
 ---
 
-## In progress / unreleased
+## Done, unreleased
 
 - [x] English standardization: all code comments, documentation, CHANGELOG, PR template and the release-please changelog sections in English (the only Spanish left is the `es.ts` user locale and DB-facing species IDs).
-- [ ] Shop screen to spend hearts on seed packets.
-- [ ] Garden view with planted slots.
+
+---
+
+## Roadmap
+
+Forward-looking backlog, grouped by the product pillars in [vision.md](vision.md). Order
+within a group is rough priority, not a committed schedule. The **core loop** (shop →
+garden) is the headline gap: hearts are earned but cannot yet be spent, and seed-packet
+sprites exist with no screen to live in.
+
+### Focused study
+
+- [ ] Study-method configuration (presets such as Pomodoro / custom cycles).
+- [ ] Allow adding notes to finished sessions.
+- [ ] Real-session verification / good-use motivation (discourage gaming the counter; see [ADR-0007](adr/0007-centralized-game-rules.md) — rules are client-side for now).
+- [ ] Active-screen redesign.
+- [ ] Finished-screen redesign.
+- [ ] Title design improvement.
+
+### Hearts economy & shop
+
+- [ ] Shop: economy (buy / sell), locked and unlockable plants, and the selection experience for plants, pots, tools, upgrades and plots.
+- [ ] Inventory management.
+
+### Garden
+
+- [ ] Garden view: plots, planting-zone types, per-plant growth, and care mechanics (watering, growth-acceleration tools, uprooting, bonuses, cleanup).
+- [ ] More plant types: aquatic plants, vines, trees, fruits, vegetables.
+
+### Collection & cosmetics
+
+- [ ] Game catalog: browse plant, tool and garden designs with legends and descriptions — a cosmetic, collectible section.
+
+### Cozy offline experience & QOL
+
+- [ ] Desktop notifications when a session ends.
+- [ ] Real sounds (replace placeholder SFX).
+- [ ] Pinnable compact mode (small always-on-top timer window).
+- [ ] Animations: timer, plant growth, and other transitions.
+- [ ] First-run onboarding/tutorial, replayable from settings.
+
+### History & metrics
+
+- [ ] History detail view: per-session detail with saved notes, plus study/usage metrics.
+
+### Project & polish
+
+- [ ] Usage license and copyright.
+- [ ] Toast handling: error propagation/duplication and animation timing.
+- [ ] App logo.
+
+---
+
+## Further future (post-v1, see vision non-goals)
+
+- [ ] User accounts / management.
+- [ ] Multiplayer (open question).
+- [ ] Responsive / mobile (open question).
