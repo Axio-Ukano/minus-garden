@@ -11,3 +11,5 @@ export {
 } from "./plantService";
 export type { PlantSpecies, PlantGrowthState, StageKey } from "./plantService";
 export { PlantStagesModal } from "./PlantStagesModal";
+export { SeedPacketDisplay } from "./seedPackets/SeedPacketDisplay";
+export { SEED_PACKET_SPRITES } from "./seedPackets/SeedPacketSprites";

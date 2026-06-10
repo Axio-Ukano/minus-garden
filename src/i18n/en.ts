@@ -176,6 +176,7 @@ export const en = {
     stage_start: "START",
     min_abbr: "MIN",
     close_hint: "Press ESC or click outside to close",
+    stage_back_hint: "Press ESC or click the plant to go back",
     min_duration: "Minimum time is",
     max_duration: "Maximum time is",
     minutes: "minutes",

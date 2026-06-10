@@ -95,9 +95,9 @@ const SUNFLOWER_STAGES = [
   SunflowerStage7,
 ];
 
-export type PlantSize = "sm" | "md" | "lg" | "xl";
+export type PlantSize = "sm" | "md" | "lg" | "xl" | "xxl";
 
-const SIZE_PX = { sm: 32, md: 64, lg: 80, xl: 120 } as const;
+const SIZE_PX = { sm: 32, md: 64, lg: 80, xl: 120, xxl: 200 } as const;
 
 // Natural viewBox dimensions per species — drives aspect-ratio-correct rendering.
 // All potted species share the unified 24×30 grid (see shared/PotSprite);
@@ -188,8 +188,8 @@ export function PlantDisplay({
   let viewBox: string;
 
   if (natural) {
-    // Scale so the longer axis = xl size, preserving aspect ratio
-    const base = SIZE_PX["xl"]!;
+    // Scale so the longer axis = the requested size, preserving aspect ratio
+    const base = SIZE_PX[size]!;
     const scale = base / Math.max(meta.vw, meta.vh);
     svgWidth = Math.round(meta.vw * scale);
     svgHeight = Math.round(meta.vh * scale);

@@ -179,6 +179,7 @@ export const es: DeepTranslation<Translations> = {
     stage_start: "INICIO",
     min_abbr: "MIN",
     close_hint: "Presiona ESC o haz clic fuera para cerrar",
+    stage_back_hint: "Presiona ESC o haz clic en la planta para volver",
     min_duration: "El tiempo mínimo es de",
     max_duration: "El tiempo máximo es de",
     minutes: "minutos",
