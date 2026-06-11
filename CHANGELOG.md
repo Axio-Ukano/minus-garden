@@ -5,6 +5,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and ver
 
 ---
 
+## [0.9.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.8.0...minus-garden-v0.9.0) (2026-06-11)
+
+
+### Added
+
+* **plants:** stage close-up navigation arrows with slide animation ([#53](https://github.com/Axio-Ukano/minus-garden/issues/53)) ([95489af](https://github.com/Axio-Ukano/minus-garden/commit/95489af8d5eb29a2d98f1d69e1a8c913d6ecef4a))
+
+
+### Fixed
+
+* **toast:** independent per-toast lifecycle, dedup, and close button ([#52](https://github.com/Axio-Ukano/minus-garden/issues/52)) ([55ecfb3](https://github.com/Axio-Ukano/minus-garden/commit/55ecfb31e8b81ed9e9c6a3f72735c57f692dedd8))
+
 ## [0.8.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.7.0...minus-garden-v0.8.0) (2026-06-10)
 
 ### Added
