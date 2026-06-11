@@ -8,7 +8,7 @@ import type { AmbientTrackId, ClickSfxId, TypingSfxId } from "@/modules/audio";
 
 export type Theme = "light" | "dark";
 export type PlantSide = "left" | "right";
-export type Section = "sound" | "interface" | "timer" | "general" | "shortcuts";
+export type Section = "sound" | "interface" | "timer" | "general" | "shortcuts" | "about";
 export type Language = "en" | "es";
 
 interface SettingsState {

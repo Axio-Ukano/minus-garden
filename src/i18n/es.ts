@@ -49,6 +49,7 @@ export const es: DeepTranslation<Translations> = {
       timer: "TIMER",
       general: "GENERAL",
       shortcuts: "ATAJOS",
+      about: "ACERCA",
     },
     sound: {
       title: "SONIDO",
@@ -100,6 +101,8 @@ export const es: DeepTranslation<Translations> = {
       shortcuts_title: "ATAJOS DE TECLADO",
     },
     about: {
+      title: "ACERCA DE",
+      tagline: "Sesiones de estudio con un jardín virtual.",
       by: "por Carlos Pico (Axio-Ukano)",
       license: "CC BY-NC-ND 4.0",
       rights: "Proyecto personal · público por transparencia",
