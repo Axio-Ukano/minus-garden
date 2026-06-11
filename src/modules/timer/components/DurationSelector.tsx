@@ -4,7 +4,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { Toast } from "@/lib/toast";
+import { pushToast } from "@/lib/toast";
 import { Input } from "@/components/Input";
 import { useTranslation } from "../../../i18n";
 
@@ -25,7 +25,6 @@ export function DurationSelector({
   onChange: (v: number) => void;
 }) {
   const [inputVal, setInputVal] = useState(String(value));
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
@@ -37,11 +36,11 @@ export function DurationSelector({
 
   const handleClampAndToast = (rawNumber: number) => {
     if (rawNumber < DURATION_MIN) {
-      setToastMessage(`${t.timer.min_duration} ${DURATION_MIN} ${t.timer.minutes}`);
+      pushToast(`${t.timer.min_duration} ${DURATION_MIN} ${t.timer.minutes}`);
       return DURATION_MIN;
     }
     if (rawNumber > DURATION_MAX) {
-      setToastMessage(`${t.timer.max_duration} ${DURATION_MAX} ${t.timer.minutes}`);
+      pushToast(`${t.timer.max_duration} ${DURATION_MAX} ${t.timer.minutes}`);
       return DURATION_MAX;
     }
     return rawNumber;
@@ -71,7 +70,6 @@ export function DurationSelector({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <button
           className="pixel-btn-secondary"

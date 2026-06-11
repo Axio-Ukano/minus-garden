@@ -7,8 +7,9 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 // vi.mock is hoisted; mocks must be declared inside vi.hoisted to be visible
 // from the factory. This pattern is the documented Vitest workaround.
 const { saveSessionMock, addHeartsMock, playSfxMock } = vi.hoisted(() => ({
-  saveSessionMock: vi.fn(),
-  addHeartsMock: vi.fn(),
+  // finish() chains .catch() on these, so they must resolve like the real ones.
+  saveSessionMock: vi.fn((_session: import("@/lib/data").Session) => Promise.resolve()),
+  addHeartsMock: vi.fn((_delta: number) => Promise.resolve()),
   playSfxMock: vi.fn(),
 }));
 
@@ -161,7 +162,7 @@ describe("timerStore", () => {
         });
         useTimerStore.getState().finish();
         expect(saveSessionMock).toHaveBeenCalledTimes(1);
-        const session = saveSessionMock.mock.calls[0]?.[0];
+        const session = saveSessionMock.mock.calls[0]![0];
         expect(session.hearts_earned).toBe(expectedHearts);
         expect(session.duration_minutes).toBe(durationMinutes);
         expect(session.subject).toBe("math");
@@ -190,7 +191,7 @@ describe("timerStore", () => {
     it("uses current ISO time as start_time when startedAt is null", () => {
       useTimerStore.setState({ durationMinutes: 25, startedAt: null });
       useTimerStore.getState().finish();
-      const session = saveSessionMock.mock.calls[0]?.[0];
+      const session = saveSessionMock.mock.calls[0]![0];
       expect(session.start_time).toBeTypeOf("string");
       expect(session.end_time).toBeTypeOf("string");
     });
