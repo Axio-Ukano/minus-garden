@@ -249,6 +249,9 @@ src/assets/fonts/cache/
 test-screenshots/
 screenshots/
 
+# Playwright MCP session artifacts (snapshots/console logs from agent browsing)
+.playwright-mcp/
+
 
 # ───────────────────────────────────────────
 # RELEASES Y DISTRIBUCIÓN

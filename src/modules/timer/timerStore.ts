@@ -103,8 +103,15 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       plant_species: plantSpeciesId,
       plant_stage: plantStage,
     };
-    void useHistoryStore.getState().saveSession(session);
-    void useHistoryStore.getState().addHearts(heartsEarned);
+    // Fire-and-forget; the repository transport handles toast/log on failure.
+    useHistoryStore
+      .getState()
+      .saveSession(session)
+      .catch(() => {});
+    useHistoryStore
+      .getState()
+      .addHearts(heartsEarned)
+      .catch(() => {});
     const { master, sfx } = sfxVols();
     audioService.playSfx("timer_finish", master, sfx);
     setTimeout(() => audioService.playSfx("session_saved", master, sfx), 800);
