@@ -59,7 +59,7 @@ function ToastItem({ toast, onDismiss }: { toast: ToastEntry; onDismiss: (id: nu
       className={`pixel-toast pixel-toast--${toast.kind} ${visible && !leaving ? "visible" : ""}`}
       data-testid="toast"
     >
-      {toast.message}
+      <span className="pixel-toast-message">{toast.message}</span>
       <button
         className="pixel-toast-close"
         aria-label={t.common.close}

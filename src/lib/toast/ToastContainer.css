@@ -1,10 +1,13 @@
+/* Anchored to the bottom-left of the content area (App wraps it in a
+   relative container), so toasts ride just above the bottom dock in all of
+   its nav / mini-player expanded-collapsed combinations. */
 .pixel-toast-container {
-  position: fixed;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
   z-index: 1000;
   pointer-events: none;
@@ -12,17 +15,24 @@
 
 .pixel-toast {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 220px;
+  max-width: 340px;
   background-color: var(--color-panel);
   border: 3px solid var(--color-accent);
   box-shadow: 4px 4px 0 var(--color-pixel-shadow);
-  padding: 12px 30px;
+  /* Right padding is smaller so the close button's own padding lands its
+     glyph at the same inset as the message text on the left. */
+  padding: 12px 10px 12px 14px;
   font-family: var(--font-pixel);
   font-size: var(--text-pixel-sm);
   color: var(--color-text);
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(8px);
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  text-align: center;
+  text-align: left;
   line-height: 1.5;
 }
 
@@ -31,15 +41,17 @@
   transform: translateY(0);
 }
 
+.pixel-toast-message {
+  flex: 1;
+}
+
 .pixel-toast-close {
-  position: absolute;
-  top: 1px;
-  right: 3px;
-  padding: 2px;
+  flex-shrink: 0;
+  padding: 4px;
   background: none;
   border: none;
   font-family: var(--font-pixel);
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1;
   color: var(--color-text);
   opacity: 0.4;

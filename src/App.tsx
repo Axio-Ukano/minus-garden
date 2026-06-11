@@ -78,14 +78,19 @@ function App() {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <AppShellHeader onOpenSettings={() => setIsSettingsOpen(true)} />
-      <ToastContainer />
 
-      <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", minHeight: 0 }}>
-        {activeTab === "timer" && (
-          <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
-        )}
-        {activeTab === "history" && <HistoryView />}
-        {activeTab === "music" && <MusicPlayerView />}
+      {/* The relative wrapper lets the toast container anchor to the visible
+          content area, so toasts always sit just above the bottom dock no
+          matter which of nav / mini player is expanded. */}
+      <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
+        <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}>
+          {activeTab === "timer" && (
+            <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
+          )}
+          {activeTab === "history" && <HistoryView />}
+          {activeTab === "music" && <MusicPlayerView />}
+        </div>
+        <ToastContainer />
       </div>
 
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
