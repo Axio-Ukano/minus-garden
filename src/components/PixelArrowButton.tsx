@@ -17,11 +17,13 @@ export function PixelArrowButton({
 }) {
   const { t } = useTranslation();
   const arrow = direction === "left" ? "\u2039" : "\u203a";
+  const label = direction === "left" ? t.common.prev : t.common.next;
 
   return (
-    <Tooltip text={direction === "left" ? t.common.prev : t.common.next} position="top">
+    <Tooltip text={label} position="top">
       <button
         className="pixel-btn-icon"
+        aria-label={label}
         onClick={onClick}
         disabled={disabled}
         style={{

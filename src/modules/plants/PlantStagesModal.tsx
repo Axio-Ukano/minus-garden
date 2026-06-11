@@ -7,6 +7,7 @@ import type { PlantSpecies } from "./plantService";
 import { getStageName, getPlantName } from "./plantService";
 import { PlantDisplay } from "./PlantDisplay";
 import { PixelCloseButton } from "@/components/PixelCloseButton";
+import { PixelArrowButton } from "@/components/PixelArrowButton";
 import { useTranslation } from "@/i18n";
 import "./PlantStagesModal.css";
 
@@ -102,6 +103,22 @@ export function PlantStagesModal({
   const { t } = useTranslation();
   // Stage shown in the close-up view; null = stage grid
   const [detailStage, setDetailStage] = useState<number | null>(null);
+  // Direction of the last stage step; drives the slide-in animation (same
+  // idiom as the plant selector in TimerSetupView).
+  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
+
+  const openDetail = (stage: number) => {
+    setSlideDirection(null);
+    setDetailStage(stage);
+  };
+
+  const stepStage = (dir: -1 | 1) => {
+    if (detailStage === null) return;
+    const next = detailStage + dir;
+    if (next < 1 || next > species.maxStages) return;
+    setSlideDirection(dir === 1 ? "right" : "left");
+    setDetailStage(next);
+  };
 
   // Clearing the close-up on every close path means reopening starts at the grid
   const handleClose = () => {
@@ -109,23 +126,35 @@ export function PlantStagesModal({
     onClose();
   };
 
-  // Escape backs out of the close-up first, then closes the modal
+  // Escape backs out of the close-up first, then closes the modal.
+  // Arrow keys step between stages while the close-up is open.
   useEffect(() => {
     if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      if (detailStage !== null) setDetailStage(null);
-      else onClose();
+      if (e.key === "Escape") {
+        if (detailStage !== null) setDetailStage(null);
+        else onClose();
+      } else if (detailStage !== null && e.key === "ArrowLeft") {
+        stepStage(-1);
+      } else if (detailStage !== null && e.key === "ArrowRight") {
+        stepStage(1);
+      }
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [isOpen, onClose, detailStage]);
+  });
 
   if (!isOpen) return null;
 
   const plantName = getPlantName(species, t);
   const detailName = detailStage !== null ? getStageName(detailStage, species, t) : null;
   const detailMinutes = detailStage !== null ? (species.stageThresholds[detailStage - 1] ?? 0) : 0;
+  const slideAnimation =
+    slideDirection === "right"
+      ? "slideInRight 0.25s ease-out"
+      : slideDirection === "left"
+        ? "slideInLeft 0.25s ease-out"
+        : "none";
 
   return (
     // Backdrop
@@ -169,7 +198,15 @@ export function PlantStagesModal({
             flexShrink: 0,
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <div
+            key={detailStage ?? "grid"}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+              animation: detailStage !== null ? slideAnimation : "none",
+            }}
+          >
             <span
               style={{
                 fontFamily: "var(--font-pixel)",
@@ -216,30 +253,44 @@ export function PlantStagesModal({
                 minutes={species.stageThresholds[i] ?? 0}
                 isLast={i === species.maxStages - 1}
                 speciesId={species.id}
-                onSelect={() => setDetailStage(i + 1)}
+                onSelect={() => openDetail(i + 1)}
               />
             ))}
           </div>
         ) : (
-          /* Stage close-up — click anywhere on it to go back to the grid */
-          <button
-            type="button"
-            onClick={() => setDetailStage(null)}
-            aria-label={t.timer.stage_back_hint}
-            className="stage-detail"
-          >
-            <PlantDisplay stage={detailStage} speciesId={species.id} size="xxl" natural />
-            <span
-              style={{
-                fontFamily: "var(--font-pixel)",
-                fontSize: "var(--text-pixel-sm)",
-                color: "var(--color-text-muted)",
-                letterSpacing: "0.05em",
-              }}
+          /* Stage close-up — arrows step between stages, the sprite goes back */
+          <div className="stage-detail-row">
+            <PixelArrowButton
+              direction="left"
+              onClick={() => stepStage(-1)}
+              disabled={detailStage <= 1}
+            />
+            <button
+              type="button"
+              key={detailStage}
+              onClick={() => setDetailStage(null)}
+              aria-label={t.timer.stage_back_hint}
+              className="stage-detail"
+              style={{ animation: slideAnimation }}
             >
-              {detailMinutes === 0 ? t.timer.stage_start : `${detailMinutes} ${t.timer.min_abbr}`}
-            </span>
-          </button>
+              <PlantDisplay stage={detailStage} speciesId={species.id} size="xxl" natural />
+              <span
+                style={{
+                  fontFamily: "var(--font-pixel)",
+                  fontSize: "var(--text-pixel-sm)",
+                  color: "var(--color-text-muted)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {detailMinutes === 0 ? t.timer.stage_start : `${detailMinutes} ${t.timer.min_abbr}`}
+              </span>
+            </button>
+            <PixelArrowButton
+              direction="right"
+              onClick={() => stepStage(1)}
+              disabled={detailStage >= species.maxStages}
+            />
+          </div>
         )}
 
         {/* Footer hint */}

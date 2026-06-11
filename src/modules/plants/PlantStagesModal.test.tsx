@@ -46,4 +46,39 @@ describe("PlantStagesModal", () => {
     fireEvent.click(screen.getByRole("button", { name: /go back/i }));
     expect(screen.getByText("SEED")).toBeDefined();
   });
+
+  it("arrows step between stages in the close-up", () => {
+    setup();
+    fireEvent.click(screen.getByText("SPROUT"));
+    fireEvent.click(screen.getByRole("button", { name: /next/i }));
+    expect(screen.getByText("DAISY · STAGE 3/5")).toBeDefined();
+    fireEvent.click(screen.getByRole("button", { name: /previous/i }));
+    expect(screen.getByText("DAISY · STAGE 2/5")).toBeDefined();
+  });
+
+  it("arrow keys navigate stages while the close-up is open", () => {
+    setup();
+    fireEvent.click(screen.getByText("SPROUT"));
+    fireEvent.keyDown(document, { key: "ArrowRight" });
+    expect(screen.getByText("DAISY · STAGE 3/5")).toBeDefined();
+    fireEvent.keyDown(document, { key: "ArrowLeft" });
+    fireEvent.keyDown(document, { key: "ArrowLeft" });
+    expect(screen.getByText("DAISY · STAGE 1/5")).toBeDefined();
+    // Clamped at the first stage
+    fireEvent.keyDown(document, { key: "ArrowLeft" });
+    expect(screen.getByText("DAISY · STAGE 1/5")).toBeDefined();
+  });
+
+  it("disables the arrows at the first and last stage", () => {
+    setup();
+    fireEvent.click(screen.getByText("SEED"));
+    const prev = screen.getByRole("button", { name: /previous/i }) as HTMLButtonElement;
+    const next = screen.getByRole("button", { name: /next/i }) as HTMLButtonElement;
+    expect(prev.disabled).toBe(true);
+    expect(next.disabled).toBe(false);
+    // Walk to the last stage
+    for (let i = 0; i < 4; i++) fireEvent.click(next);
+    expect(screen.getByText("DAISY · STAGE 5/5")).toBeDefined();
+    expect(next.disabled).toBe(true);
+  });
 });
