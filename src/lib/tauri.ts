@@ -17,7 +17,9 @@ export type TauriCommand =
   | "update_hearts"
   | "get_subjects"
   | "save_subject"
-  | "update_subject_usage";
+  | "update_subject_usage"
+  | "get_inventory"
+  | "purchase_item";
 
 export class TauriError extends Error {
   command: TauriCommand;
@@ -44,12 +46,17 @@ const COMMAND_ERROR_KEY: Record<TauriCommand, ErrorKey> = {
   get_subjects: "subjects_load_failed",
   save_subject: "subject_save_failed",
   update_subject_usage: "subject_usage_failed",
+  get_inventory: "inventory_load_failed",
+  purchase_item: "purchase_failed",
 };
 
 function localize(command: TauriCommand, raw: string): string {
   const language = useSettingsStore.getState().language;
   const t = (language === "es" ? es : en) as Translations;
   if (raw === "Subject name already exists") return t.error.subject_name_taken;
+  // Purchase rule failures — raw strings defined in src-tauri/src/commands.rs.
+  if (raw === "Not enough hearts") return t.error.purchase_insufficient;
+  if (raw === "Item already owned") return t.error.purchase_duplicate;
   return t.error[COMMAND_ERROR_KEY[command]] ?? t.error.generic;
 }
 

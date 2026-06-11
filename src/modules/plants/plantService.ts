@@ -27,10 +27,12 @@ export interface PlantGrowthState {
 }
 
 // ─── Daisy ───────────────────────────────────────────────────────────────────
+// The starter species: a single classic 25-minute session grows it fully
+// (25 ≥ 25 × 0.8), so the very first study session can end in a full bloom.
 export const DAISY_SPECIES: PlantSpecies = {
   id: "daisy",
   maxStages: 5,
-  stageThresholds: [0, 1, 2, 3, 4], // Test mode: 1 minute per stage
+  stageThresholds: [0, 5, 10, 17, 25],
   stageKeys: ["seed", "sprout", "stem", "bud", "daisy"],
   unlockThreshold: 0.8,
 };

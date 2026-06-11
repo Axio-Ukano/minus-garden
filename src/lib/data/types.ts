@@ -36,3 +36,24 @@ export interface Subject {
 export interface UserState {
   totalHearts: number;
 }
+
+/**
+ * Categories of ownable shop items. Only seeds exist today; the wire format
+ * already carries the kind so future categories extend this union without a
+ * schema change.
+ */
+export type InventoryKind = "seed" | "tool" | "decoration" | "upgrade" | "plot";
+
+/** One owned item — for seeds, `itemId` is the plant species id. */
+export interface InventoryItem {
+  id: string;
+  kind: InventoryKind;
+  itemId: string;
+  acquiredAt: string;
+}
+
+/** Outcome of a successful purchase: the granted item plus the new balance. */
+export interface PurchaseOutcome {
+  totalHearts: number;
+  item: InventoryItem;
+}

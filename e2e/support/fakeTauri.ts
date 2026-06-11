@@ -34,10 +34,20 @@ export interface FakeSubject {
   use_count: number;
 }
 
+/** Inventory item wire shape (snake_case), identical to the Rust `InventoryItem` row. */
+export interface FakeInventoryItem {
+  id: string;
+  kind: string;
+  item_id: string;
+  acquired_at: string;
+}
+
 export interface FakeSeed {
   sessions?: FakeSession[];
   totalHearts?: number;
   subjects?: FakeSubject[];
+  /** Inventory rows to pre-populate. Defaults to [{starter-daisy seed}]. */
+  inventory?: FakeInventoryItem[];
 }
 
 /**
@@ -54,6 +64,17 @@ export async function installFakeTauri(page: Page, seed: FakeSeed = {}): Promise
         { id: "seed-math", name: "Mathematics", color: "#e8a0b4", use_count: 0 },
         { id: "seed-history", name: "History", color: "#a0c4e8", use_count: 0 },
         { id: "seed-science", name: "Science", color: "#a0e8b4", use_count: 0 },
+      ]),
+    ];
+    // Default inventory: every garden starts with the starter daisy seed.
+    const inventory: FakeInventoryItem[] = [
+      ...(seedData.inventory ?? [
+        {
+          id: "starter-daisy",
+          kind: "seed",
+          item_id: "daisy",
+          acquired_at: new Date().toISOString(),
+        },
       ]),
     ];
 
@@ -105,6 +126,28 @@ export async function installFakeTauri(page: Page, seed: FakeSeed = {}): Promise
           const subject = subjects.find((s) => s.id === id);
           if (subject) subject.use_count += 1;
           return Promise.resolve();
+        }
+        case "get_inventory":
+          return Promise.resolve([...inventory]);
+        case "purchase_item": {
+          const kind = payload.kind as string;
+          const itemId = payload.itemId as string;
+          const price = payload.price as number;
+          if (price < 0) return Promise.reject("Invalid price");
+          if (!itemId) return Promise.reject("Invalid item");
+          if (totalHearts < price) return Promise.reject("Not enough hearts");
+          if (inventory.some((i) => i.kind === kind && i.item_id === itemId)) {
+            return Promise.reject("Item already owned");
+          }
+          totalHearts -= price;
+          const newItem: FakeInventoryItem = {
+            id: `e2e-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+            kind,
+            item_id: itemId,
+            acquired_at: new Date().toISOString(),
+          };
+          inventory.push(newItem);
+          return Promise.resolve({ total_hearts: totalHearts, item: newItem });
         }
         default:
           return Promise.reject(`Unknown command: ${cmd}`);

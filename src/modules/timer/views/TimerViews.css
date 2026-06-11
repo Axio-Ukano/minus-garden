@@ -10,7 +10,9 @@
 .timer-view__grid {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* 340px minimum per column: below ~750px of content width the two columns
+     stack instead of crushing the controls against the garden gate lane. */
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 32px;
   padding-top: 16px;
 }
@@ -188,4 +190,58 @@
 .timer-finished__actions .pixel-btn,
 .timer-finished__actions .pixel-btn-secondary {
   width: 220px;
+}
+
+/* ── Plant name row — inline icon + name ── */
+.timer-view__plant-name {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  color: var(--color-text);
+  letter-spacing: 0.1em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Locked sprite silhouette ── */
+.timer-view__plant-sprite--locked {
+  filter: brightness(0);
+  opacity: 0.38;
+  transition:
+    filter var(--hover-speed) ease,
+    opacity var(--hover-speed) ease;
+}
+
+/* ── Locked badge chip ── */
+.timer-view__locked-badge {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-heart);
+  border: 2px solid var(--color-heart);
+  padding: 3px 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Price line (HeartIcon + number) ── */
+.timer-view__locked-price {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-md);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Hint below start button when plant is locked ── */
+.timer-view__locked-hint {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  color: var(--color-text-muted);
+  max-width: 260px;
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
 }

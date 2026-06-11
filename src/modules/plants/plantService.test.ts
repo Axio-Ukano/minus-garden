@@ -30,7 +30,7 @@ describe("plantService", () => {
 
   describe("calculateStage", () => {
     it("returns stage 0 with progressToNext when elapsed is below all thresholds", () => {
-      // Daisy thresholds: [0, 1, 2, 3, 4]; elapsed below 0 means stage 1.
+      // Daisy thresholds: [0, 5, 10, 17, 25]; elapsed=0 → stage 1 (first threshold reached).
       // For sunflower, thresholds: [0, 10, ...]; elapsed=0 → stage 1.
       const result = calculateStage(0, SUNFLOWER_SPECIES);
       expect(result.currentStage).toBe(1);
@@ -66,11 +66,11 @@ describe("plantService", () => {
       expect(exact.progressToNext).toBe(0);
     });
 
-    it("handles zero-range stages by setting progressToNext to 1", () => {
-      // Daisy: thresholds [0, 1, 2, 3, 4], range always 1 — but at the
-      // last unreached stage (e.g. elapsed=3.5, currentStage=4, next=4 → range=0).
-      const result = calculateStage(3.5, DAISY_SPECIES);
-      expect(result.currentStage).toBe(4);
+    it("computes progress across daisy's non-uniform threshold ranges", () => {
+      // Daisy: thresholds [0, 5, 10, 17, 25]. Between stage 3 (10) and stage 4
+      // (17) the range is 7. At elapsed=13.5 we are half-way: 3.5/7 = 0.5.
+      const result = calculateStage(13.5, DAISY_SPECIES);
+      expect(result.currentStage).toBe(3);
       expect(result.progressToNext).toBeCloseTo(0.5, 5);
     });
   });

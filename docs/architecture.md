@@ -72,10 +72,13 @@ minus-garden/
 │   │   └── toast/               # toast store + components
 │   ├── modules/
 │   │   ├── audio/               # Howler service, store, registry, hook
+│   │   ├── gamemode/            # game-mode layer (gate tab, rail: shop/garden/minigames) + store
 │   │   ├── history/             # session list view + store
+│   │   ├── inventory/           # ownership store (shop writes, timer/garden read)
 │   │   ├── music/               # MiniPlayer + MusicPlayerView
-│   │   ├── plants/              # species, growth, stages modal, per-species SVG, seed packets
+│   │   ├── plants/              # species, growth, stages modal, per-species SVG, seed packets, seed catalog (economy)
 │   │   ├── settings/            # modal + sections (Sound, Interface, …)
+│   │   ├── shop/                # seed shop view + detail overlay
 │   │   ├── subjects/            # subject management
 │   │   └── timer/               # store + views (Setup/Active/Finished) + hook
 │   ├── styles/                  # CSS variables + global
@@ -123,6 +126,8 @@ Defined in `src-tauri/src/commands.rs`, registered in `src-tauri/src/lib.rs`, co
 - `get_subjects()` — all saved subjects.
 - `save_subject(name)` — UPSERT (rejects duplicate names).
 - `update_subject_usage(id)` — increments `use_count` and `last_used_at`.
+- `get_inventory()` — all owned items (seeds, future categories).
+- `purchase_item(kind, itemId, price)` — atomic transaction: checks ownership and balance, deducts hearts, grants the item, returns `{ total_hearts, item }`.
 
 `tauriInvoke<T>(command, args)` wraps `invoke`:
 
@@ -164,6 +169,18 @@ Defined in `src-tauri/src/commands.rs`, registered in `src-tauri/src/lib.rs`, co
 | `color`        | TEXT    | Associated hex color       |
 | `last_used_at` | TEXT    | Last-used timestamp        |
 | `use_count`    | INTEGER | Times it has been selected |
+
+### `inventory`
+
+| Field         | Type    | Description                                        |
+| ------------- | ------- | -------------------------------------------------- |
+| `id`          | TEXT PK | Item UUID (`starter-daisy` for the seeded starter) |
+| `kind`        | TEXT    | Category: `seed` today; tools/decor/plots later    |
+| `item_id`     | TEXT    | Domain id within the kind (species id for seeds)   |
+| `acquired_at` | TEXT    | Acquisition timestamp                              |
+
+Unique on `(kind, item_id)` — buying a seed unlocks its species permanently.
+Migration v2 creates the table and grants the starter daisy.
 
 > Persistence decision detail: [ADR-0003](adr/0003-sqlite-local.md).
 

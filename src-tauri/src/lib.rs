@@ -9,7 +9,8 @@ use tauri::Manager;
 use db::init_db;
 use commands::{save_session, get_sessions, delete_session,
                get_user_state, update_hearts,
-               get_subjects, save_subject, update_subject_usage};
+               get_subjects, save_subject, update_subject_usage,
+               get_inventory, purchase_item};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -29,6 +30,8 @@ pub fn run() {
             get_subjects,
             save_subject,
             update_subject_usage,
+            get_inventory,
+            purchase_item,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
