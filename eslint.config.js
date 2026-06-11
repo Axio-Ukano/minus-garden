@@ -102,5 +102,18 @@ export default tseslint.config(
       "@typescript-eslint/no-misused-promises": "off",
     },
   },
+  {
+    // Repo tooling scripts run under Node, outside the app tsconfig.
+    files: ["scripts/**/*.{js,mjs}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+      parserOptions: {
+        projectService: false,
+        project: null,
+      },
+    },
+  },
   eslintConfigPrettier
 );

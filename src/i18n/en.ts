@@ -46,6 +46,7 @@ export const en = {
       timer: "TIMER",
       general: "GENERAL",
       shortcuts: "KEYS",
+      about: "ABOUT",
     },
     sound: {
       title: "SOUND",
@@ -97,6 +98,8 @@ export const en = {
       shortcuts_title: "KEYBOARD SHORTCUTS",
     },
     about: {
+      title: "ABOUT",
+      tagline: "Study sessions with a virtual garden.",
       by: "by Carlos Pico (Axio-Ukano)",
       license: "CC BY-NC-ND 4.0",
       rights: "Personal project · public for transparency",

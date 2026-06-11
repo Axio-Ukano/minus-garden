@@ -9,6 +9,7 @@ import { useSettingsStore, type Section } from "./settingsStore";
 import { SoundSection } from "./sections/SoundSection";
 import { InterfaceSection } from "./sections/InterfaceSection";
 import { WipSection } from "./sections/WipSection";
+import { AboutSection } from "./sections/AboutSection";
 import "./SettingsModal.css";
 
 export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -22,6 +23,7 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
     { id: "interface", label: t.settings.nav.interface, emoji: "◈" },
     { id: "timer", label: t.settings.nav.timer, emoji: "⏱", wip: true },
     { id: "shortcuts", label: t.settings.nav.shortcuts, emoji: "⌨", wip: true },
+    { id: "about", label: t.settings.nav.about, emoji: "❀" },
   ];
 
   const handleSetSection = (s: Section) => {
@@ -117,19 +119,9 @@ export function SettingsModal({ isOpen, onClose }: { isOpen: boolean; onClose: (
             {activeSection === "timer" && <WipSection title={t.settings.wip.timer_title} />}
             {activeSection === "general" && <WipSection title={t.settings.wip.general_title} />}
             {activeSection === "shortcuts" && <WipSection title={t.settings.wip.shortcuts_title} />}
+            {activeSection === "about" && <AboutSection />}
           </div>
         </div>
-
-        {/* Credits / signature */}
-        <footer className="settings-modal__credits">
-          <span className="settings-modal__credits-app">
-            Minu&apos;s Garden{" "}
-            <span className="settings-modal__credits-version">v{__APP_VERSION__}</span>
-          </span>
-          <span>{t.settings.about.by}</span>
-          <span>© 2024–2026 · {t.settings.about.license}</span>
-          <span>{t.settings.about.rights}</span>
-        </footer>
       </div>
     </div>
   );
