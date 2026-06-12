@@ -284,8 +284,8 @@ body[data-theme="dark"] .shop-view {
 
 .shop-detail__body {
   display: grid;
-  grid-template-columns: 176px 1fr;
-  gap: 24px;
+  grid-template-columns: 164px 1fr;
+  gap: 20px;
   padding: 20px 24px;
 }
 
@@ -401,9 +401,11 @@ body[data-theme="dark"] .shop-view {
   display: flex;
   align-items: flex-end;
   flex-wrap: nowrap;
+  /* Safety net only — sprite buckets are chosen so every species fits one
+     row at normal window sizes without scrolling. */
   overflow-x: auto;
-  gap: 14px;
-  padding: 12px 14px;
+  gap: 8px;
+  padding: 10px 12px;
   background: var(--color-bg);
   border: 2px solid var(--color-border);
 }

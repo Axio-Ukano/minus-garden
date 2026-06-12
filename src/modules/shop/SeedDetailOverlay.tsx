@@ -60,6 +60,9 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
   const plantName = getPlantName(species, t);
   const description = t.shop.desc[speciesId as SeedDescKey] ?? "";
   const fullBloomMinutes = species.stageThresholds[species.maxStages - 1] ?? 0;
+  // Keep the growth filmstrip on a single row without scrolling: species with
+  // many stages (orchid, lotus) drop to the small sprite bucket.
+  const stageSpriteSize = species.maxStages > 7 ? "sm" : "md";
 
   // ESC closes the detail (the layer itself has no ESC binding).
   useEffect(() => {
@@ -171,7 +174,12 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
                       }`}
                       style={justBought ? { animationDelay: `${(stage - 1) * 60}ms` } : undefined}
                     >
-                      <PlantDisplay stage={stage} speciesId={speciesId} size="md" natural />
+                      <PlantDisplay
+                        stage={stage}
+                        speciesId={speciesId}
+                        size={stageSpriteSize}
+                        natural
+                      />
                     </span>
                   ))}
                 </div>
