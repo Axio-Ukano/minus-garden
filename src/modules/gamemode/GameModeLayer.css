@@ -4,65 +4,50 @@
    app's regular palette. */
 
 .gamemode-layer,
-.gamemode-gate {
+.gamemode-dock-btn {
   --gamemode-accent: #5a8a3c;
   --gamemode-accent-dark: #41682a;
   --gamemode-canopy-alt: #fdfbf6;
 }
 
 html[data-theme="dark"] .gamemode-layer,
-html[data-theme="dark"] .gamemode-gate,
+html[data-theme="dark"] .gamemode-dock-btn,
 body[data-theme="dark"] .gamemode-layer,
-body[data-theme="dark"] .gamemode-gate {
+body[data-theme="dark"] .gamemode-dock-btn {
   --gamemode-accent: #4f7a35;
   --gamemode-accent-dark: #3a5a26;
   --gamemode-canopy-alt: #2a2046;
 }
 
-/* ── Gate tab — right edge of the content area ──
-   A drawer-tab "door" into the garden world: sprout on top, rotated label
-   below (file-tab style, not stacked letters). */
-.gamemode-gate {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 4;
+/* ── Dock entry — a green segment beside the study tabs ──
+   Same anatomy as .pixel-nav-btn (icon over uppercase label) but with the
+   garden-world identity, so it reads as "another layer", not a fourth tab. */
+.gamemode-dock-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  width: 38px;
-  padding: 14px 0;
-  background: var(--gamemode-accent);
-  color: #fff;
-  border: 3px solid var(--color-border);
-  border-right: none;
-  box-shadow: -3px 3px 0 var(--color-pixel-shadow);
-  transition:
-    transform var(--hover-speed) ease,
-    box-shadow var(--hover-speed) ease,
-    background-color var(--hover-speed) ease;
-}
-
-.gamemode-gate:hover {
-  transform: translateY(-50%) translateX(-3px);
-  box-shadow: -5px 3px 0 var(--color-pixel-shadow);
-}
-
-.gamemode-gate:active {
-  transform: translateY(-50%) translateX(0);
-  background: var(--gamemode-accent-dark);
-  box-shadow: -1px 3px 0 var(--color-pixel-shadow);
-}
-
-.gamemode-gate__label {
+  gap: 5px;
+  flex: 0 0 auto;
+  padding: 10px 22px;
   font-family: var(--font-pixel);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  writing-mode: vertical-rl;
-  line-height: 1;
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--gamemode-accent);
+  border: none;
+  border-left: 3px solid var(--color-border);
+  transition: background-color var(--hover-speed) ease;
+}
+
+.gamemode-dock-btn:hover {
+  background: var(--gamemode-accent-dark);
+}
+
+.gamemode-dock-btn--active {
+  background: var(--gamemode-accent-dark);
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* ── Layer — slides in from the right over the content area ── */
@@ -89,9 +74,10 @@ body[data-theme="dark"] .gamemode-gate {
   transition: transform 0.3s ease;
 }
 
-/* ── Canopy — green striped band across the full layer width, with hanging
-   scallop teeth. The alternate stripe is deliberately not a surface token so
-   the canopy reads as solid fabric against the page background. ── */
+/* ── Canopy — flat green striped band across the full layer width. No hanging
+   teeth: decoration must never overlap the regions below it. The alternate
+   stripe is deliberately not a surface token so the canopy reads as solid
+   fabric against the page background. ── */
 .gamemode-canopy {
   flex-shrink: 0;
   height: 14px;
@@ -101,22 +87,6 @@ body[data-theme="dark"] .gamemode-gate {
     var(--gamemode-canopy-alt) 18px 36px
   );
   border-bottom: 3px solid var(--color-border);
-  position: relative;
-  z-index: 1;
-}
-
-.gamemode-canopy::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 7px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--gamemode-accent) 0 18px,
-    transparent 18px 36px
-  );
 }
 
 .gamemode-layer__row {

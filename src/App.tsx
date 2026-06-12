@@ -10,7 +10,7 @@ import { useSubjectStore } from "@/modules/subjects";
 import { SettingsModal } from "@/modules/settings";
 import { useAudio, useAudioStore } from "@/modules/audio";
 import { useInventoryStore } from "@/modules/inventory";
-import { GameModeLayer, useGameModeStore } from "@/modules/gamemode";
+import { GameModeLayer, GameModeDockButton, useGameModeStore } from "@/modules/gamemode";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { ChevronIcon } from "@/components/PixelIcons";
 import { Tooltip } from "@/components/Tooltip";
@@ -93,10 +93,7 @@ function App() {
           content area, so toasts always sit just above the bottom dock no
           matter which of nav / mini player is expanded. */}
       <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
-        {/* The 38px right margin is the garden gate's reserved lane: scrollbars
-            and view content end before it, so the gate tab never overlaps
-            either, at any window size. */}
-        <div style={{ height: "100%", marginRight: 38, overflowY: "auto", overflowX: "hidden" }}>
+        <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}>
           {activeTab === "timer" && (
             <TimerDisplay onNavigateToHistory={() => setActiveTab("history")} />
           )}
@@ -221,6 +218,9 @@ function App() {
                   </button>
                 );
               })}
+              {/* Garden world entry — its own green segment, not a fourth
+                  study tab; toggles the game-mode layer. */}
+              <GameModeDockButton />
             </nav>
           </div>
         </div>

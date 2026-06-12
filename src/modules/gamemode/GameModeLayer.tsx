@@ -4,9 +4,9 @@
 
 // ─── Game-mode layer ──────────────────────────────────────────────────────────
 // The meta-progression side of the app: a garden world that slides in over the
-// study desk. Renders both the entry (a gate tab on the right edge of the
-// content area) and the layer itself (left rail: shop / garden / minigames).
-// Study tabs stay in the bottom dock; selecting one closes this layer.
+// study desk. The entry lives in the bottom dock (GameModeDockButton) as its
+// own green segment beside the study tabs — never overlapping content or
+// scrollbars. Selecting a study tab closes the layer.
 
 import { useGameModeStore, type GameSection } from "./gameModeStore";
 import { ShopView } from "@/modules/shop";
@@ -73,6 +73,33 @@ function ComingSoonPanel({ section }: { section: Exclude<GameSection, "shop"> })
   );
 }
 
+/**
+ * Dock entry: a green segment beside the study tabs. Toggles the layer and
+ * shows a pressed state while the garden world is open.
+ */
+export function GameModeDockButton() {
+  const isOpen = useGameModeStore((s) => s.isOpen);
+  const { t } = useTranslation();
+
+  return (
+    <button
+      className={`gamemode-dock-btn${isOpen ? " gamemode-dock-btn--active" : ""}`}
+      data-testid="gamemode-gate"
+      onClick={() => {
+        const store = useGameModeStore.getState();
+        if (store.isOpen) store.close();
+        else store.open();
+      }}
+      aria-pressed={isOpen}
+      aria-label={t.gamemode.gate_aria}
+      title={isOpen ? t.gamemode.back_tooltip : t.gamemode.gate_tooltip}
+    >
+      <SproutIcon size={16} />
+      {t.gamemode.garden}
+    </button>
+  );
+}
+
 export function GameModeLayer({ onGrowSpecies }: GameModeLayerProps) {
   const isOpen = useGameModeStore((s) => s.isOpen);
   const section = useGameModeStore((s) => s.section);
@@ -81,19 +108,6 @@ export function GameModeLayer({ onGrowSpecies }: GameModeLayerProps) {
 
   return (
     <>
-      {/* Gate tab — the door into the garden world, on the right edge. */}
-      <button
-        className="gamemode-gate"
-        data-testid="gamemode-gate"
-        onClick={() => useGameModeStore.getState().open()}
-        aria-label={t.gamemode.gate_aria}
-        title={t.gamemode.gate_tooltip}
-        tabIndex={isOpen ? -1 : 0}
-      >
-        <SproutIcon size={18} />
-        <span className="gamemode-gate__label">{t.gamemode.garden}</span>
-      </button>
-
       <div
         className={`gamemode-layer${isOpen ? " gamemode-layer--open" : ""}`}
         data-testid="gamemode-layer"

@@ -2,6 +2,6 @@
 // Minus Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
-export { GameModeLayer } from "./GameModeLayer";
+export { GameModeLayer, GameModeDockButton } from "./GameModeLayer";
 export { useGameModeStore } from "./gameModeStore";
 export type { GameSection } from "./gameModeStore";
