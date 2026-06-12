@@ -68,6 +68,7 @@ export const en = {
     grow_this: "GROW THIS ONE ›",
     bought_toast: "joined your collection ✦",
     earn_hint: "MIN OF STUDY = 1",
+    worth_suffix: "OF STUDY",
     stages_label: "STAGES",
     full_bloom: "FULL BLOOM AT",
     min_abbr: "MIN",

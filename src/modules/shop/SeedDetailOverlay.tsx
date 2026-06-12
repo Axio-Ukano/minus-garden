@@ -134,6 +134,11 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
                   </>
                 )}
               </span>
+              {listing.price > 0 && (
+                <span className="shop-detail__worth">
+                  = {listing.price * MINUTES_PER_HEART} {t.shop.min_abbr} {t.shop.worth_suffix}
+                </span>
+              )}
             </div>
 
             <div className="shop-detail__info">

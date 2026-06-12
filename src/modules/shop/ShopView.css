@@ -295,10 +295,13 @@ body[data-theme="dark"] .shop-view {
   }
 }
 
+/* Vertically centered against the (taller) info column so the packet doesn't
+   leave a dead corner below it. */
 .shop-detail__left {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -324,6 +327,17 @@ body[data-theme="dark"] .shop-view {
   font-size: var(--text-pixel-md);
   letter-spacing: 0.05em;
   color: var(--color-text);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* What the price means in study time — fills the left column with the most
+   purchase-relevant fact instead of empty space. */
+.shop-detail__worth {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
   text-align: center;
   line-height: 1.6;
 }

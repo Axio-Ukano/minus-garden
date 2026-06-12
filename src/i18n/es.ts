@@ -71,6 +71,7 @@ export const es: DeepTranslation<Translations> = {
     grow_this: "CULTÍVALA ›",
     bought_toast: "se unió a tu colección ✦",
     earn_hint: "MIN DE ESTUDIO = 1",
+    worth_suffix: "DE ESTUDIO",
     stages_label: "ETAPAS",
     full_bloom: "FLOR PLENA A LOS",
     min_abbr: "MIN",
