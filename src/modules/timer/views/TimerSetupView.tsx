@@ -12,7 +12,7 @@ import {
   PlantDisplay,
   PlantStagesModal,
 } from "@/modules/plants";
-import { useInventoryStore } from "@/modules/inventory";
+import { useInventoryStore, isSeedOwned } from "@/modules/inventory";
 import { useGameModeStore } from "@/modules/gamemode";
 import { useSubjectStore } from "@/modules/subjects";
 import { useSettingsStore } from "@/modules/settings";
@@ -40,7 +40,7 @@ export function TimerSetupView() {
   const { t } = useTranslation();
 
   const ownedSeedIds = useInventoryStore((s) => s.ownedSeedIds);
-  const isOwned = (id: string) => id === "daisy" || ownedSeedIds.has(id);
+  const isOwned = (id: string) => isSeedOwned(ownedSeedIds, id);
 
   const species = getSpeciesById(plantSpeciesId);
   const carouselIndex = CAROUSEL_SPECIES.findIndex((s) => s.id === plantSpeciesId);
@@ -122,6 +122,7 @@ export function TimerSetupView() {
             </div>
 
             <button
+              type="button"
               data-testid="timer-start"
               className="pixel-btn"
               style={{
@@ -208,6 +209,7 @@ export function TimerSetupView() {
                     {t.timer.min_abbr}
                   </span>
                   <button
+                    type="button"
                     className="pixel-btn-link"
                     style={{ fontSize: "var(--text-pixel-md)" }}
                     onClick={() => setIsStagesModalOpen(true)}
@@ -225,6 +227,7 @@ export function TimerSetupView() {
                     <span>{listing.price}</span>
                   </span>
                   <button
+                    type="button"
                     data-testid="timer-view-in-shop"
                     className="pixel-btn-link"
                     style={{ fontSize: "var(--text-pixel-md)" }}

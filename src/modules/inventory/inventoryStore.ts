@@ -27,6 +27,18 @@ interface InventoryState {
   ownsSeed: (speciesId: string) => boolean;
 }
 
+/** The starter species — owned from the first launch, never purchasable. */
+export const STARTER_SPECIES_ID = "daisy";
+
+/**
+ * The single source of the ownership rule: the starter is always owned, even
+ * before the first inventory load resolves, so the timer never blocks the
+ * default selection. Components subscribe to `ownedSeedIds` and call this.
+ */
+export function isSeedOwned(ownedSeedIds: ReadonlySet<string>, speciesId: string): boolean {
+  return speciesId === STARTER_SPECIES_ID || ownedSeedIds.has(speciesId);
+}
+
 function seedIdsOf(items: InventoryItem[]): ReadonlySet<string> {
   return new Set(items.filter((item) => item.kind === "seed").map((item) => item.itemId));
 }
@@ -67,7 +79,5 @@ export const useInventoryStore = create<InventoryState>((set, get) => ({
     }
   },
 
-  // The daisy is the starter species: treat it as owned even before the first
-  // inventory load resolves, so the timer never blocks the default selection.
-  ownsSeed: (speciesId: string) => speciesId === "daisy" || get().ownedSeedIds.has(speciesId),
+  ownsSeed: (speciesId: string) => isSeedOwned(get().ownedSeedIds, speciesId),
 }));

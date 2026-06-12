@@ -9,7 +9,11 @@ import { useSettingsStore } from "../settingsStore";
 import { VolumeSlider } from "../components/VolumeSlider";
 
 function AmbientSelector() {
-  const { activeAmbient, setAmbient } = useAudioStore();
+  // Granular selectors: the audio store also carries music progress, which
+  // ticks every second during playback — a bare useAudioStore() would
+  // re-render this grid on every tick while the settings panel is open.
+  const activeAmbient = useAudioStore((s) => s.activeAmbient);
+  const setAmbient = useAudioStore((s) => s.setAmbient);
   const { t } = useTranslation();
 
   return (

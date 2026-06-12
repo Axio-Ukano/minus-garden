@@ -2,4 +2,4 @@
 // Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
-export { useInventoryStore } from "./inventoryStore";
+export { useInventoryStore, isSeedOwned, STARTER_SPECIES_ID } from "./inventoryStore";

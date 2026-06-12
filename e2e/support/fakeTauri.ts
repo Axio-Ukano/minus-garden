@@ -135,10 +135,13 @@ export async function installFakeTauri(page: Page, seed: FakeSeed = {}): Promise
           const price = payload.price as number;
           if (price < 0) return Promise.reject("Invalid price");
           if (!itemId) return Promise.reject("Invalid item");
-          if (totalHearts < price) return Promise.reject("Not enough hearts");
+          // Same check order as purchase_item_tx (commands.rs): ownership
+          // before hearts, so a re-purchase with an empty wallet surfaces
+          // "already owned" — not "not enough hearts" — exactly like prod.
           if (inventory.some((i) => i.kind === kind && i.item_id === itemId)) {
             return Promise.reject("Item already owned");
           }
+          if (totalHearts < price) return Promise.reject("Not enough hearts");
           totalHearts -= price;
           const newItem: FakeInventoryItem = {
             id: `e2e-${Date.now()}-${Math.random().toString(36).slice(2)}`,

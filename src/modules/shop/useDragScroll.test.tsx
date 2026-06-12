@@ -7,7 +7,9 @@ import { render, fireEvent, act } from "@testing-library/react";
 import { useDragScroll } from "./useDragScroll";
 
 // The jsdom test env has no PointerEvent or pointer-capture; polyfill the
-// minimum the hook touches so a real drag can be driven here.
+// minimum the hook touches so a real drag can be driven here. No teardown
+// needed: vitest isolates each test file in its own worker by default, so
+// these prototype patches never leak into other files.
 beforeAll(() => {
   if (typeof PointerEvent === "undefined") {
     class PointerEventPolyfill extends MouseEvent {
@@ -125,6 +127,25 @@ describe("useDragScroll", () => {
     fireEvent.pointerDown(el, { button: 0, clientX: 100, pointerId: 1, pointerType: "mouse" });
     fireEvent.pointerMove(el, { clientX: 60, pointerId: 1 });
     fireEvent.pointerUp(el, { pointerId: 1 });
+    fireEvent.click(child);
+    expect(onChildClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not swallow the next click when a drag ends without one (cancel / off-element release)", async () => {
+    const onChildClick = vi.fn();
+    const { getByTestId } = render(<Harness onChildClick={onChildClick} />);
+    const el = getByTestId("strip");
+    const child = getByTestId("child");
+    makeScrollable(el, 500, 200);
+
+    // Real drag, but no click follows the release — exactly what happens on
+    // pointercancel or when the pointer is released outside the element.
+    fireEvent.pointerDown(el, { button: 0, clientX: 100, pointerId: 1, pointerType: "mouse" });
+    fireEvent.pointerMove(el, { clientX: 40, pointerId: 1 });
+    fireEvent.pointerCancel(el, { pointerId: 1 });
+
+    // The suppression flag clears on the next tick; a later click must land.
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fireEvent.click(child);
     expect(onChildClick).toHaveBeenCalledTimes(1);
   });

@@ -10,7 +10,7 @@
 // like the timer's "view in shop" need no synchronization here.
 
 import { SEED_CATALOG, getSpeciesById, getPlantName, SeedPacketDisplay } from "@/modules/plants";
-import { useInventoryStore } from "@/modules/inventory";
+import { useInventoryStore, isSeedOwned, STARTER_SPECIES_ID } from "@/modules/inventory";
 import { useHistoryStore } from "@/modules/history";
 import { HeartIcon } from "@/components/PixelIcons";
 import { useTranslation } from "@/i18n";
@@ -34,8 +34,9 @@ export function ShopView({ detailSpeciesId, onSelectSpecies, onGrowSpecies }: Sh
   const totalHearts = useHistoryStore((s) => s.totalHearts);
   const { t } = useTranslation();
 
-  const isOwned = (id: string) => id === "daisy" || ownedSeedIds.has(id);
-  const ownedCount = SEED_CATALOG.filter((listing) => isOwned(listing.speciesId)).length;
+  const ownedCount = SEED_CATALOG.filter((listing) =>
+    isSeedOwned(ownedSeedIds, listing.speciesId)
+  ).length;
 
   return (
     <div className="shop-view" data-testid="shop-view">
@@ -53,12 +54,17 @@ export function ShopView({ detailSpeciesId, onSelectSpecies, onGrowSpecies }: Sh
       </header>
 
       <div className="shop-categories">
-        <button className="shop-categories__tab shop-categories__tab--active" aria-pressed="true">
+        <button
+          type="button"
+          className="shop-categories__tab shop-categories__tab--active"
+          aria-pressed="true"
+        >
           {t.shop.categories.seeds}
         </button>
         {FUTURE_CATEGORIES.map((key) => (
           <button
             key={key}
+            type="button"
             className="shop-categories__tab shop-categories__tab--soon"
             disabled
             aria-disabled="true"
@@ -73,12 +79,13 @@ export function ShopView({ detailSpeciesId, onSelectSpecies, onGrowSpecies }: Sh
       <div className="shop-shelves">
         {SEED_CATALOG.map((listing) => {
           const species = getSpeciesById(listing.speciesId);
-          const owned = isOwned(listing.speciesId);
+          const owned = isSeedOwned(ownedSeedIds, listing.speciesId);
           const affordable = totalHearts >= listing.price;
 
           return (
             <button
               key={listing.speciesId}
+              type="button"
               className="shop-shelf-item"
               data-testid={`shop-item-${listing.speciesId}`}
               onClick={() => onSelectSpecies(listing.speciesId)}
@@ -90,7 +97,7 @@ export function ShopView({ detailSpeciesId, onSelectSpecies, onGrowSpecies }: Sh
               <span className="shop-shelf-item__name">
                 {getPlantName(species, t).toUpperCase()}
               </span>
-              {listing.speciesId === "daisy" ? (
+              {listing.speciesId === STARTER_SPECIES_ID ? (
                 <span className="shop-chip shop-chip--starter">{t.shop.starter_badge}</span>
               ) : owned ? (
                 <span className="shop-chip shop-chip--owned">{t.shop.owned_badge}</span>

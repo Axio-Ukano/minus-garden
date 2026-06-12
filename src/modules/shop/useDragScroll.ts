@@ -112,6 +112,16 @@ export function useDragScroll<T extends HTMLElement = HTMLDivElement>(): DragScr
       /* ignore */
     }
     setDragging(false);
+    // The click that ends a real drag fires synchronously after pointerup, so
+    // it still sees moved=true and gets suppressed. Clearing on a 0-timeout
+    // (not here directly — that would run before the click) guarantees the
+    // flag never leaks into the NEXT interaction when no click follows at all
+    // (pointercancel, or release outside the element).
+    if (drag.current.moved) {
+      window.setTimeout(() => {
+        drag.current.moved = false;
+      }, 0);
+    }
   }, []);
 
   // Swallow the click that terminates a real drag so a future interactive child

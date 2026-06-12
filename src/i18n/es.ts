@@ -78,7 +78,6 @@ export const es: DeepTranslation<Translations> = {
     min_abbr: "MIN",
     preview_title: "ASÍ CRECE",
     preview_hidden: "Llévatela a casa y descubre cómo florece",
-    price_label: "PRECIO",
     free_price: "TUYA DESDE SIEMPRE",
     detail_aria: "Detalles de la semilla",
     desc: {

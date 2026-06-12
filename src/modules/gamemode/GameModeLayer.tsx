@@ -83,6 +83,7 @@ export function GameModeDockButton() {
 
   return (
     <button
+      type="button"
       className={`gamemode-dock-btn${isOpen ? " gamemode-dock-btn--active" : ""}`}
       data-testid="gamemode-gate"
       onClick={() => {
@@ -121,6 +122,7 @@ export function GameModeLayer({ onGrowSpecies }: GameModeLayerProps) {
           {/* Rail — back to the desk on top, then the world's sections. */}
           <nav className="gamemode-rail" aria-label={t.gamemode.gate_aria}>
             <button
+              type="button"
               className="gamemode-rail__back"
               data-testid="gamemode-back"
               onClick={() => useGameModeStore.getState().close()}
@@ -138,6 +140,7 @@ export function GameModeLayer({ onGrowSpecies }: GameModeLayerProps) {
               return (
                 <button
                   key={entry.id}
+                  type="button"
                   className={`gamemode-rail__section${active ? " gamemode-rail__section--active" : ""}`}
                   data-testid={`gamemode-section-${entry.id}`}
                   onClick={() => useGameModeStore.getState().setSection(entry.id)}

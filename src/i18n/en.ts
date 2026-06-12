@@ -74,7 +74,6 @@ export const en = {
     min_abbr: "MIN",
     preview_title: "GROWTH PREVIEW",
     preview_hidden: "Bring this seed home to reveal its growth",
-    price_label: "PRICE",
     free_price: "YOURS FROM THE START",
     detail_aria: "Seed details",
     desc: {

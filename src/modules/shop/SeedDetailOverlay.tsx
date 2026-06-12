@@ -16,7 +16,7 @@ import {
   SeedPacketDisplay,
   MINUTES_PER_HEART,
 } from "@/modules/plants";
-import { useInventoryStore } from "@/modules/inventory";
+import { useInventoryStore, isSeedOwned } from "@/modules/inventory";
 import { useHistoryStore } from "@/modules/history";
 import { useSettingsStore } from "@/modules/settings";
 import { audioService } from "@/modules/audio";
@@ -57,7 +57,7 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
 
   const species = getSpeciesById(speciesId);
   const listing = getSeedListing(speciesId);
-  const owned = speciesId === "daisy" || ownedSeedIds.has(speciesId);
+  const owned = isSeedOwned(ownedSeedIds, speciesId);
   const affordable = totalHearts >= listing.price;
   const plantName = getPlantName(species, t);
   const description = t.shop.desc[speciesId as SeedDescKey] ?? "";
@@ -100,10 +100,14 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
   };
 
   return (
-    <div className="shop-detail" data-testid="shop-detail" onClick={onClose}>
+    // Scrim click-to-close is a redundant pointer affordance (ESC + the close
+    // button cover keyboard/AT); presentation role keeps it out of the a11y
+    // tree as an interactive element.
+    <div className="shop-detail" data-testid="shop-detail" role="presentation" onClick={onClose}>
       <div
         className="shop-detail__panel"
         role="dialog"
+        aria-modal="true"
         aria-label={t.shop.detail_aria}
         onClick={(e) => e.stopPropagation()}
       >
@@ -208,6 +212,7 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
             <div className="shop-detail__footer-col">
               <span className="shop-detail__owned-label">{t.shop.in_collection}</span>
               <button
+                type="button"
                 className="pixel-btn-secondary shop-detail__grow"
                 data-testid="shop-grow"
                 onClick={() => onGrow?.(speciesId)}
@@ -217,6 +222,7 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
             </div>
           ) : affordable ? (
             <button
+              type="button"
               className={`pixel-btn shop-detail__buy${armed ? " shop-detail__buy--armed" : ""}`}
               data-testid={armed ? "shop-confirm" : "shop-buy"}
               disabled={purchasing}
@@ -228,7 +234,12 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
             </button>
           ) : (
             <div className="shop-detail__footer-row">
-              <button className="pixel-btn shop-detail__buy" data-testid="shop-buy" disabled>
+              <button
+                type="button"
+                className="pixel-btn shop-detail__buy"
+                data-testid="shop-buy"
+                disabled
+              >
                 <span>{t.shop.missing_prefix}</span>
                 <HeartIcon size={11} color="#fff" />
                 <span>{listing.price - totalHearts}</span>
