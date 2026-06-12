@@ -5,6 +5,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and ver
 
 ---
 
+## [0.10.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.9.0...minus-garden-v0.10.0) (2026-06-12)
+
+
+### Added
+
+* **shop:** seed shop, game-mode layer, inventory, and first economy pass ([#55](https://github.com/Axio-Ukano/minus-garden/issues/55)) ([1298190](https://github.com/Axio-Ukano/minus-garden/commit/12981900a967e6f832eb4008481441521da702e8))
+
 ## [0.9.0](https://github.com/Axio-Ukano/minus-garden/compare/minus-garden-v0.8.0...minus-garden-v0.9.0) (2026-06-11)
 
 
