@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { useState } from "react";
@@ -17,7 +17,7 @@ import { useGameModeStore } from "@/modules/gamemode";
 import { useSubjectStore } from "@/modules/subjects";
 import { useSettingsStore } from "@/modules/settings";
 import { PixelArrowButton } from "../../../components/PixelArrowButton";
-import { LockIcon, HeartIcon } from "../../../components/PixelIcons";
+import { HeartIcon } from "../../../components/PixelIcons";
 import { useTranslation } from "../../../i18n";
 
 import { TimerCircle } from "../components/TimerCircle";
@@ -155,12 +155,15 @@ export function TimerSetupView() {
                 <PixelArrowButton direction="left" onClick={() => cyclePlant(-1)} />
               </div>
 
+              {/* No lock glyph here: the locked state is already unmistakable
+                  from the silhouetted sprite and the LOCKED badge below, and an
+                  inline icon shifts the centered name off-axis (worse with long
+                  names / locales). */}
               <span
                 key={species.id}
                 className="timer-view__plant-name"
                 style={{ animation: slideAnimation }}
               >
-                {!owned && <LockIcon size={14} color="var(--color-text-muted)" />}
                 {plantName.toUpperCase()}
               </span>
 

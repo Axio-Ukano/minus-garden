@@ -6,7 +6,7 @@
 
 ## Context
 
-`db.rs` created the schema with `CREATE TABLE IF NOT EXISTS` plus two idempotent `ALTER TABLE … ADD COLUMN` statements (with the error swallowed by `let _ =`) to back-fill pre-Sprint 6 installations. That pattern works but does not scale: every future schema change forces more `IF NOT EXISTS`/ALTERs to be swallowed, with no way to know what version a given database is at, no guaranteed order, and the risk of applying a change twice. ADR-0003 already anticipated "versionable schema with imperative migrations"; this ADR defines that mechanism before the schema grows with the gamification work.
+`db.rs` created the schema with `CREATE TABLE IF NOT EXISTS` plus two idempotent `ALTER TABLE … ADD COLUMN` statements (with the error swallowed by `let _ =`) to back-fill pre-updated installations. That pattern works but does not scale: every future schema change forces more `IF NOT EXISTS`/ALTERs to be swallowed, with no way to know what version a given database is at, no guaranteed order, and the risk of applying a change twice. ADR-0003 already anticipated "versionable schema with imperative migrations"; this ADR defines that mechanism before the schema grows with the gamification work.
 
 ## Decision
 

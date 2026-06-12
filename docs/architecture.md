@@ -59,7 +59,7 @@ minus-garden/
 ├── docs/
 │   ├── architecture.md          # this document
 │   ├── adr/                     # architectural decisions
-│   ├── requirements.md          # milestones per sprint
+│   ├── requirements.md          # milestones
 │   ├── palette.md               # design palette
 │   └── vision.md                # product vision
 ├── src/                         # React frontend

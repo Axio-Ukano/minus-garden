@@ -6,7 +6,7 @@
 
 ## Context
 
-The frontend code is organized by feature under `src/modules/<name>/`. In sprints prior to "tier S", boundaries between modules were respected by human convention (manual review). Without automatic enforcement, the risk of regression was high: any PR could import internals from another module and break encapsulation without CI noticing.
+The frontend code is organized by feature under `src/modules/<name>/`. In updates prior to "tier S", boundaries between modules were respected by human convention (manual review). Without automatic enforcement, the risk of regression was high: any PR could import internals from another module and break encapsulation without CI noticing.
 
 ## Decision
 
@@ -40,7 +40,7 @@ The frontend code is organized by feature under `src/modules/<name>/`. In sprint
 
 ### Barrel only, without enforcement
 
-What we had before the tier S sprint. Proven to erode over time.
+What we had before the tier S update. Proven to erode over time.
 
 ### `eslint-plugin-boundaries`
 

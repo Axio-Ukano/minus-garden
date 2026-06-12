@@ -103,7 +103,7 @@ For the step-by-step flow see [docs/playbook.md §6 and §10](docs/playbook.md).
 - **Operational playbook** (what I do, in what order, with which command): [docs/playbook.md](docs/playbook.md)
 - Architecture: [docs/architecture.md](docs/architecture.md)
 - Vision: [docs/vision.md](docs/vision.md)
-- Requirements and sprints: [docs/requirements.md](docs/requirements.md)
+- Requirements: [docs/requirements.md](docs/requirements.md)
 - Design palette: [docs/palette.md](docs/palette.md)
 - Decisions (ADRs): [docs/adr/](docs/adr/)
 - Changes: [CHANGELOG.md](CHANGELOG.md)

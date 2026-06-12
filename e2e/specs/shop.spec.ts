@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { test, expect } from "@playwright/test";
@@ -73,6 +73,42 @@ test.describe("shop", () => {
     await shop.openItem("lotus");
     await expect(shop.detail).toBeVisible();
     await expect(shop.buyButton).toBeDisabled();
+  });
+
+  test("the growth filmstrip scrolls by drag and by wheel", async ({ page }) => {
+    await gotoApp(page, { totalHearts: 5 });
+    const gameMode = new GameModePage(page);
+    const shop = new ShopPage(page);
+
+    await gameMode.open();
+    // Lotus has the most stages, so its filmstrip overflows the frame.
+    await shop.openItem("lotus");
+
+    const strip = page.locator(".shop-detail__stages");
+    await expect(strip).toBeVisible();
+
+    // Precondition: it genuinely overflows, and is marked draggable.
+    const overflow = await strip.evaluate((el) => el.scrollWidth - el.clientWidth);
+    expect(overflow).toBeGreaterThan(0);
+    await expect(strip).toHaveClass(/shop-detail__stages--draggable/);
+
+    // Drag-to-scroll: grab near the right edge and pull left.
+    const box = (await strip.boundingBox())!;
+    const midY = box.y + box.height / 2;
+    await page.mouse.move(box.x + box.width - 16, midY);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 24, midY, { steps: 10 });
+    await page.mouse.up();
+    expect(await strip.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+
+    // Native scrolling is untouched: a real scrollbar (overflow-x: auto), a
+    // keyboard-focusable region, and a live scroll position the drag only
+    // rides on top of.
+    expect(await strip.evaluate((el) => getComputedStyle(el).overflowX)).toBe("auto");
+    await expect(strip).toHaveAttribute("tabindex", "0");
+    await strip.evaluate((el) => (el.scrollLeft = 0));
+    await strip.evaluate((el) => (el.scrollLeft = el.scrollWidth - el.clientWidth));
+    expect(await strip.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
   });
 
   test("back button returns to the desk", async ({ page }) => {

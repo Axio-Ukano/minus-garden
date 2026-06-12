@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 export function SpeakerIcon({
@@ -185,38 +185,6 @@ export function GearIcon({ size = 16, color = "currentColor" }: { size?: number;
       <rect x="6" y="6" width="4" height="4" fill="transparent" />
       <rect x="7" y="5" width="2" height="6" fill="transparent" />
       <rect x="5" y="7" width="6" height="2" fill="transparent" />
-    </svg>
-  );
-}
-
-export function LockIcon({
-  size = 16,
-  color = "currentColor",
-  bg = "transparent",
-}: {
-  size?: number;
-  color?: string;
-  /** Keyhole color — pass the surface color to punch a visible hole. */
-  bg?: string;
-}) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ pointerEvents: "none", flexShrink: 0 }}
-    >
-      {/* Shackle */}
-      <rect x="5" y="1" width="6" height="2" fill={color} />
-      <rect x="4" y="3" width="2" height="4" fill={color} />
-      <rect x="10" y="3" width="2" height="4" fill={color} />
-      {/* Body */}
-      <rect x="2" y="7" width="12" height="8" fill={color} />
-      {/* Keyhole */}
-      <rect x="7" y="9" width="2" height="2" fill={bg} />
-      <rect x="7" y="11" width="2" height="2" fill={bg} />
     </svg>
   );
 }

@@ -54,7 +54,7 @@ More permissive and "just works". Discarded for being opaque to reviewers and pr
 
 ### Self-host the "Press Start 2P" font
 
-Vendor the `.ttf`/`.woff2` in `public/` and remove `fonts.googleapis.com` and `fonts.gstatic.com` from the CSP. This is the natural next iteration; left as a follow-up because it changes the font loading flow and was out of scope for the tier S sprint.
+Vendor the `.ttf`/`.woff2` in `public/` and remove `fonts.googleapis.com` and `fonts.gstatic.com` from the CSP. This is the natural next iteration; left as a follow-up because it changes the font loading flow and was out of scope for the tier S update.
 
 ## Notes
 

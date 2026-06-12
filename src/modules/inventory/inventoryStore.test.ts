@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
@@ -181,6 +181,21 @@ describe("inventoryStore", () => {
       expect(result).toBeNull();
       expect(useInventoryStore.getState().ownedSeedIds.has("gerbera")).toBe(false);
       expect(useInventoryStore.getState().purchasing).toBe(false);
+    });
+
+    it("leaves the heart balance untouched when the purchase is rejected (atomic)", async () => {
+      // 5 hearts, gerbera costs 10 — the backend rejects and must not have
+      // charged anything. The store adopts the backend balance only on success,
+      // so a rejection must leave totalHearts exactly where it was.
+      useHistoryStore.setState({ totalHearts: 5 });
+      inventoryPurchaseMock.mockRejectedValueOnce(new Error("Not enough hearts"));
+
+      const result = await useInventoryStore.getState().purchaseSeed("gerbera");
+
+      expect(result).toBeNull();
+      expect(inventoryPurchaseMock).toHaveBeenCalledTimes(1);
+      expect(useInventoryStore.getState().ownedSeedIds.has("gerbera")).toBe(false);
+      expect(useHistoryStore.getState().totalHearts).toBe(5);
     });
 
     it("returns null without calling repository when speciesId is already owned", async () => {

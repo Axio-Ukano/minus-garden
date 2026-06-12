@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 // ─── Seed detail overlay ──────────────────────────────────────────────────────
@@ -25,6 +25,7 @@ import { PixelCloseButton } from "@/components/PixelCloseButton";
 import { pushToast } from "@/lib/toast";
 import { useTranslation } from "@/i18n";
 import type { Translations } from "@/i18n";
+import { useDragScroll } from "./useDragScroll";
 
 type SeedDescKey = keyof Translations["shop"]["desc"];
 
@@ -52,6 +53,7 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
   const purchasing = useInventoryStore((s) => s.purchasing);
   const totalHearts = useHistoryStore((s) => s.totalHearts);
   const { t } = useTranslation();
+  const { ref: stagesRef, dragging, scrollable, dragHandlers } = useDragScroll<HTMLDivElement>();
 
   const species = getSpeciesById(speciesId);
   const listing = getSeedListing(speciesId);
@@ -158,7 +160,23 @@ export function SeedDetailOverlay({ speciesId, onClose, onGrow }: SeedDetailOver
 
               <div className="shop-detail__preview">
                 <span className="shop-detail__preview-title">{t.shop.preview_title}</span>
-                <div className="shop-detail__stages">
+                <div
+                  ref={stagesRef}
+                  className={[
+                    "shop-detail__stages",
+                    scrollable && "shop-detail__stages--draggable",
+                    scrollable && !dragging && "cursor-grab",
+                    dragging && "cursor-grabbing",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  {...dragHandlers}
+                  // When scrollable, expose the strip as a focusable region so
+                  // arrow keys scroll it too — drag is never the only way in.
+                  {...(scrollable
+                    ? { tabIndex: 0, role: "group", "aria-label": t.shop.preview_title }
+                    : {})}
+                >
                   {Array.from({ length: species.maxStages }, (_, i) => i + 1).map((stage) => (
                     <span
                       key={stage}

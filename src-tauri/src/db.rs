@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 use rusqlite::Connection;
@@ -24,7 +24,7 @@ const MIGRATIONS: &[&str] = &[
     //
     // Uses IF NOT EXISTS + swallowed ALTERs so it is safe to apply to a
     // pre-migration database (one created before user_version tracking, which
-    // already has these tables and possibly the Sprint-6 plant columns). On a
+    // already has these tables and possibly the updated plant columns). On a
     // fresh database it creates everything. Either way it ends at version 1.
     "CREATE TABLE IF NOT EXISTS sessions (
         id TEXT PRIMARY KEY,
@@ -80,7 +80,7 @@ const MIGRATIONS: &[&str] = &[
     VALUES ('starter-daisy', 'seed', 'daisy', datetime('now'));",
 ];
 
-/// Legacy column back-fill for databases created before Sprint 6, where the
+/// Legacy column back-fill for databases created before updates, where the
 /// `sessions` table existed without the plant columns. `ALTER ... ADD COLUMN`
 /// errors if the column already exists, so each statement is run independently
 /// and its error swallowed. Only relevant while migrating such a DB up to v1;
@@ -210,7 +210,7 @@ mod tests {
 
     #[test]
     fn upgrades_legacy_db_without_plant_columns() {
-        // Simulate a pre-Sprint-6 database: tables exist, user_version still 0,
+        // Simulate a pre-updated database: tables exist, user_version still 0,
         // sessions has no plant columns.
         let conn = Connection::open_in_memory().unwrap();
         conn.execute_batch(

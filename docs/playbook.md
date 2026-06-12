@@ -132,7 +132,7 @@ If any of this breaks, you don't open the PR — investigate the cause first.
 | module boundaries or ESLint rules          | `docs/architecture.md` + ADR                                                                                   |
 | visible stack (React/Vite/Tauri/...)       | `README.md` and `docs/architecture.md`                                                                         |
 | scripts in `package.json`                  | `README.md`                                                                                                    |
-| the scope of a sprint                      | `docs/requirements.md`                                                                                         |
+| the scope of a change                      | `docs/requirements.md`                                                                                         |
 | anything that deserves future traceability | new `docs/adr/NNNN-<slug>.md` based on `docs/adr/0000-template.md`                                             |
 | user-visible behavior                      | the commit message (`feat:` / `fix:`) with a readable description — release-please carries it to the CHANGELOG |
 

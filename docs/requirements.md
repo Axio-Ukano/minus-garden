@@ -1,4 +1,4 @@
-# Minu's Garden — Requirements & Sprints
+# Minu's Garden — Requirements
 
 ## MVP v0.1 — Base functionality
 
@@ -19,7 +19,7 @@
 ### Virtual garden
 
 - [ ] Garden view with fixed slots (e.g. 6–9 positions)
-- [x] Available plants (Daisy, Sunflower and more in later sprints)
+- [x] Available plants (Daisy, Sunflower and more in later updates)
 - [x] Buy plants with hearts (seed shop, v0.9)
 - [x] Plants have growth levels (seed → sprout → plant)
 - [x] Grow over time / completed sessions
@@ -60,15 +60,15 @@
 
 ---
 
-## v0.4 — Architectural cleanup (Sprints 6–8)
+## v0.4 — Architectural cleanup
 
-- [x] Sprint 6: Typed Tauri bridge (`tauriInvoke<T>`), localized errors, toast UX.
-- [x] Sprint 7: Git normalization (LF line endings, updated `.gitattributes`, removal of stray files).
-- [x] Sprint 8: Module boundaries via barrel `index.ts`, `@/*` alias, dead-export cleanup.
+- [x] Typed Tauri bridge (`tauriInvoke<T>`), localized errors, toast UX.
+- [x] Git normalization (LF line endings, updated `.gitattributes`, removal of stray files).
+- [x] Module boundaries via barrel `index.ts`, `@/*` alias, dead-export cleanup.
 
 ---
 
-## v0.5 — Tier S (Sprint 9)
+## v0.5 — Tier S
 
 - [x] Drop of unused Tailwind 4 (Vanilla CSS remains the single styling stack).
 - [x] Validation scripts: `typecheck`, `format:check`, `lint:fix`, `validate`, `circular`, `test*`.

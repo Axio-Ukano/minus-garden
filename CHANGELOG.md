@@ -61,8 +61,6 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and ver
 
 ## [0.5.0] — 2026-04-28
 
-### Sprint 9 — Tier S consolidation
-
 Pull Request `feat/tier-s-consolidation`: 26 atomic commits bringing the repository to tier S without touching the architecture. Each commit leaves `pnpm validate && pnpm build` green.
 
 #### Added
@@ -93,7 +91,7 @@ Pull Request `feat/tier-s-consolidation`: 26 atomic commits bringing the reposit
 - `.vscode/extensions.json`: recommends `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` in addition to Tauri and rust-analyzer.
 - `README.md`: rewritten (repo structure, scripts, conventions, links to docs and ADRs).
 - `docs/architecture.md`: reflects boundaries enforcement, current Tauri commands, tooling/CI section, updated folder schema.
-- `docs/requirements.md`: adds entries for v0.3.1–0.3.3 (catalogue + i18n + sprites), v0.4.0 / v0.4.1 (cleanup), v0.5.0 (this sprint with conscious deferrals).
+- `docs/requirements.md`: adds entries for v0.3.1–0.3.3 (catalogue + i18n + sprites), v0.4.0 / v0.4.1 (cleanup), v0.5.0 (with conscious deferrals).
 
 #### Removed
 
@@ -110,8 +108,6 @@ Pull Request `feat/tier-s-consolidation`: 26 atomic commits bringing the reposit
 
 ## [0.4.1] — 2026-04-27
 
-### Sprint 8 — Boundaries enforcement final
-
 #### Changed
 
 - `PlantStagesModal` moved from `src/modules/timer/components/` to `src/modules/plants/` and re-exported through the `plants` barrel (the modal belongs conceptually to the `plants` module, not `timer`).
@@ -124,10 +120,6 @@ Pull Request `feat/tier-s-consolidation`: 26 atomic commits bringing the reposit
 ---
 
 ## [0.4.0] — 2026-04-27
-
-### Sprint 6 — Architecture Cleanup & Scaling Foundation
-
-First sprint fully dedicated to architectural cleanup before continuing to grow the functional scope.
 
 #### Added
 
@@ -157,8 +149,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 - Versions reconciled: `package.json`, `Cargo.toml` and `tauri.conf.json` all at `0.4.0`.
 - Prettier and ESLint applied across the entire repo.
 
-### Sprint 7 — Git normalization (same release)
-
 #### Changed
 
 - `.gitattributes` updated to force LF line endings on all text files, breaking the CRLF↔LF cycle that produced false diffs on Windows.
@@ -168,8 +158,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 
 ## [0.3.3] — 2026-04-25
 
-### Sprint 8 (original numbering) — Plant sprite redesign
-
 #### Changed
 
 - Complete redesign of pixel-art sprites for all species with variable `viewBox` dimensions per plant to preserve real proportions (lotus is wider than tall, cactus the opposite, etc.). `PlantDisplay` now takes a per-species `viewBox` instead of the previous fixed 16×16 grid.
@@ -177,8 +165,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 ---
 
 ## [0.3.2] — 2026-04-24
-
-### Sprint 7 (original numbering) — EN/ES i18n
 
 #### Added
 
@@ -202,8 +188,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 
 ## [0.3.1] — 2026-04-24
 
-### Sprint 6 (original numbering) — Plant catalogue expansion
-
 #### Added
 
 - 8 new species with pixel-art sprites and unlock threshold logic:
@@ -218,8 +202,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 ---
 
 ## [0.3.0] — 2026-04-24
-
-### Sprint 5 — Identity and maintainability
 
 #### Changed
 
@@ -236,8 +218,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 
 ## [0.2.5] — 2026-04-24
 
-### Sprint 4 — Advanced UX and sound system
-
 #### Added
 
 - **Music player:** audio system with a 6-track Lofi playlist and a persistent `MiniPlayer` when navigating away from the music view.
@@ -250,8 +230,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 
 ## [0.2.0] — 2026-04-23
 
-### Sprint 3 — Growth, subjects and timer redesign
-
 #### Added
 
 - **Plant system:** growth logic integrated with the timer (Daisy and Sunflower). Plants evolve visually as study minutes are completed.
@@ -262,7 +240,7 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 
 #### Changed
 
-- Major refactor (commit "mega overhaul"): architecture, linting and UI consolidated before sprint close.
+- Major refactor (commit "mega overhaul"): architecture, linting and UI consolidated.
 
 #### Fixed
 
@@ -275,8 +253,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 ---
 
 ## [0.1.5] — 2026-04-23
-
-### Sprint 2 — Persistence and heart economy
 
 #### Added
 
@@ -291,8 +267,6 @@ First sprint fully dedicated to architectural cleanup before continuing to grow 
 ---
 
 ## [0.1.0] — 2026-04-23
-
-### Sprint 1 — Foundations
 
 #### Added
 
