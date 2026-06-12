@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 mod db;
@@ -9,7 +9,8 @@ use tauri::Manager;
 use db::init_db;
 use commands::{save_session, get_sessions, delete_session,
                get_user_state, update_hearts,
-               get_subjects, save_subject, update_subject_usage};
+               get_subjects, save_subject, update_subject_usage,
+               get_inventory, purchase_item};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -29,6 +30,8 @@ pub fn run() {
             get_subjects,
             save_subject,
             update_subject_usage,
+            get_inventory,
+            purchase_item,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

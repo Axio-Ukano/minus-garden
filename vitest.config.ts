@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { defineConfig } from "vitest/config";
@@ -29,8 +29,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
-      // Tier S baseline: cover the units this PR adds tests for. Future
-      // sprints expand coverage to UI components/hooks and broaden this list.
+      // Tier S baseline: cover the units this PR adds tests for.
       include: [
         "src/modules/timer/timerStore.ts",
         "src/modules/plants/plantService.ts",

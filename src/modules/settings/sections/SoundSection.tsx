@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { InfoTooltip } from "@/components/InfoTooltip";
@@ -9,7 +9,11 @@ import { useSettingsStore } from "../settingsStore";
 import { VolumeSlider } from "../components/VolumeSlider";
 
 function AmbientSelector() {
-  const { activeAmbient, setAmbient } = useAudioStore();
+  // Granular selectors: the audio store also carries music progress, which
+  // ticks every second during playback — a bare useAudioStore() would
+  // re-render this grid on every tick while the settings panel is open.
+  const activeAmbient = useAudioStore((s) => s.activeAmbient);
+  const setAmbient = useAudioStore((s) => s.setAmbient);
   const { t } = useTranslation();
 
   return (

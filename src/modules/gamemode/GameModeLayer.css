@@ -1,0 +1,288 @@
+/* ─── Game-mode layer ──────────────────────────────────────────────────────────
+   Gate tab + sliding world layer. The game-mode chrome keeps a leaf-green
+   identity to mark "you left the study desk", but it follows the app's own
+   state grammar: solid accent fills in light mode (like the pink nav), tinted
+   washes + inset accent bars in dark mode (like the dark nav). Green never
+   appears as a large solid slab in dark mode. */
+
+.gamemode-layer,
+.gamemode-dock-btn {
+  /* Light: the same leaf green the plant sprites use — on-palette by design. */
+  --gamemode-accent: #5a8a3c;
+  --gamemode-tint: rgba(90, 138, 60, 0.1);
+  --gamemode-active-bg: #5a8a3c;
+  --gamemode-active-bg-hover: #41682a;
+  --gamemode-active-ink: #fff;
+  --gamemode-canopy: #5a8a3c;
+  --gamemode-canopy-shade: #41682a;
+}
+
+html[data-theme="dark"] .gamemode-layer,
+html[data-theme="dark"] .gamemode-dock-btn,
+body[data-theme="dark"] .gamemode-layer,
+body[data-theme="dark"] .gamemode-dock-btn {
+  /* Dark: a pale leaf for text/icons/inset bars (kin to light --color-success)
+     plus low-alpha washes — never a solid green block on the night palette. */
+  --gamemode-accent: #7fbf8e;
+  --gamemode-tint: rgba(127, 191, 142, 0.12);
+  /* Solid moss-night surfaces (pre-blended, not alpha) so the gamepad icon's
+     punched-hole trick keeps an exact color to cut into. */
+  --gamemode-active-bg: #27402f;
+  --gamemode-active-bg-hover: #2f4d39;
+  --gamemode-active-ink: var(--color-text);
+  --gamemode-canopy: #2c5237;
+  --gamemode-canopy-shade: #1b3622;
+}
+
+/* ── Dock entry — a green segment beside the study tabs ──
+   Same anatomy as .pixel-nav-btn (icon over uppercase label) but with the
+   garden-world identity, so it reads as "another layer", not a fourth tab. */
+.gamemode-dock-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  padding: 10px 22px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gamemode-active-ink);
+  background: var(--gamemode-active-bg);
+  border: none;
+  border-left: 3px solid var(--color-border);
+  transition: background-color var(--hover-speed) ease;
+}
+
+.gamemode-dock-btn:hover {
+  background: var(--gamemode-active-bg-hover);
+}
+
+.gamemode-dock-btn--active {
+  background: var(--gamemode-active-bg-hover);
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Dark pressed state borrows the dark nav's grammar: inset accent bar on top
+   instead of a darker shade of the fill. */
+html[data-theme="dark"] .gamemode-dock-btn--active,
+body[data-theme="dark"] .gamemode-dock-btn--active {
+  box-shadow: inset 0 3px 0 var(--gamemode-accent);
+}
+
+/* ── Layer — slides in from the right over the content area ── */
+.gamemode-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-border);
+  border-top: 3px solid var(--color-border);
+  transform: translateX(103%);
+  visibility: hidden;
+  transition:
+    transform 0.3s ease,
+    visibility 0s linear 0.3s;
+}
+
+.gamemode-layer--open {
+  transform: translateX(0);
+  visibility: visible;
+  box-shadow: -3px 0 0 var(--color-pixel-shadow);
+  transition: transform 0.3s ease;
+}
+
+/* ── Canopy — a quiet grass band framing the layer's top edge. Same board
+   grammar as the shop shelves (solid fill, darker inset lower edge) so it
+   reads as part of the garden, not as bunting. No hanging teeth: decoration
+   must never overlap the regions below it. ── */
+.gamemode-canopy {
+  flex-shrink: 0;
+  height: 14px;
+  background: var(--gamemode-canopy);
+  box-shadow: inset 0 -4px 0 var(--gamemode-canopy-shade);
+  border-bottom: 3px solid var(--color-border);
+}
+
+.gamemode-layer__row {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Rail ── */
+.gamemode-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  width: 80px;
+  flex-shrink: 0;
+  background: var(--color-panel);
+  border-right: 3px solid var(--color-border);
+}
+
+.gamemode-rail__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid var(--color-border);
+  transition:
+    background-color var(--hover-speed) ease,
+    color var(--hover-speed) ease;
+}
+
+.gamemode-rail__back:hover {
+  background: var(--gamemode-tint);
+  color: var(--gamemode-accent);
+}
+
+/* Down-chevron rotated counterclockwise → points right, matching the
+   direction the layer slides away. */
+.gamemode-rail__back-chevron {
+  display: flex;
+  transform: rotate(-90deg);
+}
+
+.gamemode-rail__section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 78px;
+  flex-shrink: 0;
+  /* top padding keeps the icon clear of the SOON chip */
+  padding: 18px 4px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition:
+    background-color var(--hover-speed) ease,
+    color var(--hover-speed) ease;
+}
+
+.gamemode-rail__section:hover {
+  background: var(--gamemode-tint);
+  color: var(--color-text);
+}
+
+.gamemode-rail__section--active {
+  background: var(--gamemode-active-bg);
+  color: var(--gamemode-active-ink);
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.gamemode-rail__section--active:hover {
+  background: var(--gamemode-active-bg);
+  color: var(--gamemode-active-ink);
+}
+
+/* Vertical-list adaptation of the dark nav's inset accent bar: the selected
+   section is marked on its leading edge. */
+html[data-theme="dark"] .gamemode-rail__section--active,
+html[data-theme="dark"] .gamemode-rail__section--active:hover,
+body[data-theme="dark"] .gamemode-rail__section--active,
+body[data-theme="dark"] .gamemode-rail__section--active:hover {
+  box-shadow: inset 3px 0 0 var(--gamemode-accent);
+}
+
+.gamemode-rail__section-label {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.gamemode-rail__soon {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  padding: 2px 4px;
+  color: #fff;
+  background: var(--color-accent);
+  border: 2px solid var(--color-border);
+}
+
+/* ── Content area ── */
+.gamemode-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+}
+
+.gamemode-content > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Coming-soon panels ── */
+.gamemode-soon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--color-bg);
+}
+
+.gamemode-soon__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 440px;
+  padding: 36px 32px;
+  background: var(--color-panel);
+  border: 3px solid var(--color-border);
+  box-shadow: 6px 6px 0 var(--color-pixel-shadow);
+  text-align: center;
+}
+
+.gamemode-soon__badge {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.1em;
+  padding: 7px 12px;
+  color: var(--gamemode-accent, #5a8a3c);
+  border: 2px solid currentColor;
+}
+
+.gamemode-soon__art {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 84px;
+  color: var(--color-text-muted);
+}
+
+.gamemode-soon__title {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xl);
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+}
+
+.gamemode-soon__body {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.04em;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+}

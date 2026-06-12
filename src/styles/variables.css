@@ -20,6 +20,12 @@
   --color-border: #3b2f3f;
   --color-pixel-shadow: #2a1f20;
 
+  /* ── sprite silhouettes (locked seeds, unrevealed growth stages) ──
+     A dark shadow reads on light backgrounds; dark mode flips it to a pale
+     ghost so the shape stays visible. Keep both halves in sync. */
+  --sprite-silhouette-filter: brightness(0);
+  --sprite-silhouette-opacity: 0.38;
+
   /* ── plant colors (PlantDisplay only) ── */
   --color-accent-green: #5a8a3c;
   --color-accent-pink: #ff6bb5;
@@ -82,4 +88,8 @@ body[data-theme="dark"] {
   /* ── pixel structure ── */
   --color-border: #3a2960;
   --color-pixel-shadow: #06030f;
+
+  /* ── sprite silhouettes — pale ghost on dark backgrounds ── */
+  --sprite-silhouette-filter: brightness(0) invert(1);
+  --sprite-silhouette-opacity: 0.42;
 }

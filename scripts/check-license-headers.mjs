@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 // CI/local gate: every first-party .ts/.tsx/.rs source file must carry the
@@ -37,7 +37,7 @@ if (missing.length > 0) {
   for (const file of missing) console.error(`  ${file}`);
   console.error("\nAdd this 3-line header to the top of each file:\n");
   console.error("  // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)");
-  console.error("  // Minus Garden · https://github.com/Axio-Ukano/minus-garden");
+  console.error("  // Minu's Garden · https://github.com/Axio-Ukano/minus-garden");
   console.error(`  // ${SPDX}\n`);
   process.exit(1);
 }

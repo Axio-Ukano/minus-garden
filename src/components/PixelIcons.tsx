@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 export function SpeakerIcon({
@@ -185,6 +185,132 @@ export function GearIcon({ size = 16, color = "currentColor" }: { size?: number;
       <rect x="6" y="6" width="4" height="4" fill="transparent" />
       <rect x="7" y="5" width="2" height="6" fill="transparent" />
       <rect x="5" y="7" width="6" height="2" fill="transparent" />
+    </svg>
+  );
+}
+
+export function SproutIcon({
+  size = 16,
+  color = "currentColor",
+}: {
+  size?: number;
+  color?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill={color}
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ pointerEvents: "none", flexShrink: 0 }}
+    >
+      {/* Stem */}
+      <rect x="7" y="7" width="2" height="7" />
+      {/* Left leaf */}
+      <rect x="2" y="5" width="5" height="3" />
+      <rect x="3" y="4" width="3" height="1" />
+      <rect x="5" y="8" width="2" height="1" />
+      {/* Right leaf */}
+      <rect x="9" y="3" width="5" height="3" />
+      <rect x="10" y="2" width="3" height="1" />
+      <rect x="9" y="6" width="2" height="1" />
+      {/* Ground */}
+      <rect x="3" y="14" width="10" height="2" />
+    </svg>
+  );
+}
+
+export function ShopStallIcon({
+  size = 16,
+  color = "currentColor",
+}: {
+  size?: number;
+  color?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill={color}
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ pointerEvents: "none", flexShrink: 0 }}
+    >
+      {/* Awning */}
+      <rect x="1" y="1" width="14" height="3" />
+      <rect x="1" y="4" width="2" height="2" />
+      <rect x="5" y="4" width="2" height="2" />
+      <rect x="9" y="4" width="2" height="2" />
+      <rect x="13" y="4" width="2" height="2" />
+      {/* Posts */}
+      <rect x="2" y="7" width="2" height="8" />
+      <rect x="12" y="7" width="2" height="8" />
+      {/* Counter */}
+      <rect x="2" y="11" width="12" height="4" />
+    </svg>
+  );
+}
+
+export function FenceIcon({
+  size = 16,
+  color = "currentColor",
+}: {
+  size?: number;
+  color?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill={color}
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ pointerEvents: "none", flexShrink: 0 }}
+    >
+      {/* Pickets with pointed tops */}
+      <rect x="3" y="3" width="2" height="1" />
+      <rect x="2" y="4" width="4" height="10" />
+      <rect x="7" y="3" width="2" height="1" />
+      <rect x="6" y="4" width="4" height="10" />
+      <rect x="11" y="3" width="2" height="1" />
+      <rect x="10" y="4" width="4" height="10" />
+      {/* Rail gaps punched by spacing — rails drawn across */}
+      <rect x="1" y="6" width="14" height="2" />
+      <rect x="1" y="10" width="14" height="2" />
+    </svg>
+  );
+}
+
+export function GamepadIcon({
+  size = 16,
+  color = "currentColor",
+  bg = "transparent",
+}: {
+  size?: number;
+  color?: string;
+  /** D-pad/button color — pass the surface color for visible detail. */
+  bg?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ pointerEvents: "none", flexShrink: 0 }}
+    >
+      {/* Body and grips */}
+      <rect x="2" y="4" width="12" height="8" fill={color} />
+      <rect x="1" y="6" width="2" height="7" fill={color} />
+      <rect x="13" y="6" width="2" height="7" fill={color} />
+      {/* D-pad */}
+      <rect x="4" y="6" width="2" height="4" fill={bg} />
+      <rect x="3" y="7" width="4" height="2" fill={bg} />
+      {/* Buttons */}
+      <rect x="10" y="5" width="2" height="2" fill={bg} />
+      <rect x="11" y="8" width="2" height="2" fill={bg} />
     </svg>
   );
 }

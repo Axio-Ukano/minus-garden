@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { create } from "zustand";
@@ -19,6 +19,7 @@ interface HistoryState {
   deleteSession: (id: string) => Promise<void>;
   syncHearts: (total: number) => Promise<void>;
   addHearts: (delta: number) => Promise<void>;
+  applyHeartsBalance: (total: number) => void;
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
@@ -75,6 +76,12 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     }
     const total = base + delta;
     await repository.userState.setHearts(total);
+    set({ totalHearts: total });
+  },
+
+  // Adopt a balance the backend has already persisted (e.g. the total returned
+  // by an atomic shop purchase). No write-back: the backend is ahead of us.
+  applyHeartsBalance: (total: number) => {
     set({ totalHearts: total });
   },
 }));

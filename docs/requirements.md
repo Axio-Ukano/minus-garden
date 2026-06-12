@@ -1,4 +1,4 @@
-# Minu's Garden — Requirements & Sprints
+# Minu's Garden — Requirements
 
 ## MVP v0.1 — Base functionality
 
@@ -19,8 +19,8 @@
 ### Virtual garden
 
 - [ ] Garden view with fixed slots (e.g. 6–9 positions)
-- [x] Available plants (Daisy, Sunflower and more in later sprints)
-- [ ] Buy plants with hearts
+- [x] Available plants (Daisy, Sunflower and more in later updates)
+- [x] Buy plants with hearts (seed shop, v0.9)
 - [x] Plants have growth levels (seed → sprout → plant)
 - [x] Grow over time / completed sessions
 
@@ -60,15 +60,15 @@
 
 ---
 
-## v0.4 — Architectural cleanup (Sprints 6–8)
+## v0.4 — Architectural cleanup
 
-- [x] Sprint 6: Typed Tauri bridge (`tauriInvoke<T>`), localized errors, toast UX.
-- [x] Sprint 7: Git normalization (LF line endings, updated `.gitattributes`, removal of stray files).
-- [x] Sprint 8: Module boundaries via barrel `index.ts`, `@/*` alias, dead-export cleanup.
+- [x] Typed Tauri bridge (`tauriInvoke<T>`), localized errors, toast UX.
+- [x] Git normalization (LF line endings, updated `.gitattributes`, removal of stray files).
+- [x] Module boundaries via barrel `index.ts`, `@/*` alias, dead-export cleanup.
 
 ---
 
-## v0.5 — Tier S (Sprint 9)
+## v0.5 — Tier S
 
 - [x] Drop of unused Tailwind 4 (Vanilla CSS remains the single styling stack).
 - [x] Validation scripts: `typecheck`, `format:check`, `lint:fix`, `validate`, `circular`, `test*`.
@@ -118,6 +118,25 @@
 
 ---
 
+## v0.9 — Seed shop and the core loop
+
+- [x] Game-mode layer: gate tab on the right edge opens a sliding world layer with a section
+      rail (Shop live; Garden and Minigames as teasers) — the meta-progression side of the
+      app, separate from the study tabs.
+- [x] Seed shop: storefront with category tabs (seeds live, future categories visible),
+      seed packets on continuous shelves, per-species detail (tier, flavor text, growth
+      facts, stage preview silhouetted until owned), two-step purchase confirm.
+- [x] Inventory/ownership: `inventory` table (migration v2), atomic `purchase_item`
+      command, inventory store; daisy is the starter species, everything else is bought.
+- [x] First economy pass: seed catalog with prices 10–110 ♥ across 5 tiers
+      (starter/common/uncommon/rare/exotic); full collection ≈ 440 ♥ (~37 h of study);
+      daisy's test thresholds replaced with a real curve (full bloom at 25 min).
+- [x] Timer plant selection: carousel follows catalog order; locked species render as
+      silhouettes with price and a "view in shop" deep link; start is blocked for
+      unowned seeds; owned seed detail offers "grow this one" back to the desk.
+
+---
+
 ## Done, unreleased
 
 - [x] English standardization: all code comments, documentation, CHANGELOG, PR template and the release-please changelog sections in English (the only Spanish left is the `es.ts` user locale and DB-facing species IDs).
@@ -127,9 +146,9 @@
 ## Roadmap
 
 Forward-looking backlog, grouped by the product pillars in [vision.md](vision.md). Order
-within a group is rough priority, not a committed schedule. The **core loop** (shop →
-garden) is the headline gap: hearts are earned but cannot yet be spent, and seed-packet
-sprites exist with no screen to live in.
+within a group is rough priority, not a committed schedule. With the seed shop shipped
+(v0.9), hearts can finally be spent — the **garden view** is now the headline gap: owned
+seeds need ground to live in.
 
 ### Focused study
 
@@ -142,8 +161,11 @@ sprites exist with no screen to live in.
 
 ### Hearts economy & shop
 
-- [ ] Shop: economy (buy / sell), locked and unlockable plants, and the selection experience for plants, pots, tools, upgrades and plots.
-- [ ] Inventory management.
+- [x] Shop (seeds): buy economy, locked/unlockable plants, selection experience (v0.9).
+- [ ] Shop growth: selling, and the pots / tools / upgrades / plots categories (stalls
+      already visible in the shop as "coming soon").
+- [ ] Inventory management (quantities/consumables — the `inventory` table and `kind`
+      column are already shaped for it).
 
 ### Garden
 

@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 // Domain types owned by the data layer. These describe the shape the rest of
@@ -35,4 +35,25 @@ export interface Subject {
 /** Aggregate user progression state. */
 export interface UserState {
   totalHearts: number;
+}
+
+/**
+ * Categories of ownable shop items. Only seeds exist today; the wire format
+ * already carries the kind so future categories extend this union without a
+ * schema change.
+ */
+export type InventoryKind = "seed" | "tool" | "decoration" | "upgrade" | "plot";
+
+/** One owned item — for seeds, `itemId` is the plant species id. */
+export interface InventoryItem {
+  id: string;
+  kind: InventoryKind;
+  itemId: string;
+  acquiredAt: string;
+}
+
+/** Outcome of a successful purchase: the granted item plus the new balance. */
+export interface PurchaseOutcome {
+  totalHearts: number;
+  item: InventoryItem;
 }

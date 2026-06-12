@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import type { DeepTranslation } from "./types";
@@ -26,6 +26,75 @@ export const es: DeepTranslation<Translations> = {
     hide_player: "Ocultar reproductor",
     show_player_aria: "Mostrar mini reproductor",
     hide_player_aria: "Ocultar mini reproductor",
+  },
+  gamemode: {
+    gate_tooltip: "Entrar al jardín",
+    gate_aria: "Abrir el mundo del jardín",
+    back_tooltip: "Volver al escritorio",
+    back_aria: "Volver al escritorio de estudio",
+    shop: "TIENDA",
+    garden: "JARDÍN",
+    minigames: "JUEGOS",
+    soon_tag: "PRONTO",
+    sprouting_badge: "AÚN BROTANDO",
+    garden_teaser_title: "EL JARDÍN",
+    garden_teaser_body:
+      "Parcelas, riego y mimos — cada semilla que lleves a casa vivirá aquí. La tierra ya se está preparando.",
+    minigames_teaser_title: "MINIJUEGOS",
+    minigames_teaser_body:
+      "Pequeños juegos para acompañar tus pausas de estudio. Ya vienen de camino.",
+  },
+  shop: {
+    title: "TIENDA DE SEMILLAS",
+    tagline: "Corazones ganados, semillas soñadas",
+    collected: "COLECCIONADAS",
+    categories: {
+      seeds: "SEMILLAS",
+      tools: "HERRAMIENTAS",
+      decor: "DECORACIÓN",
+      upgrades: "MEJORAS",
+      plots: "PARCELAS",
+    },
+    category_soon: "Próximamente",
+    tier: {
+      starter: "INICIAL",
+      common: "COMÚN",
+      uncommon: "POCO COMÚN",
+      rare: "RARA",
+      exotic: "EXÓTICA",
+    },
+    owned_badge: "TUYA",
+    starter_badge: "INICIAL",
+    buy: "COMPRAR",
+    confirm_buy: "CONFIRMAR",
+    missing_prefix: "FALTAN",
+    in_collection: "EN TU COLECCIÓN",
+    grow_this: "CULTÍVALA ›",
+    bought_toast: "se unió a tu colección ✦",
+    earn_hint: "MIN DE ESTUDIO = 1",
+    worth_suffix: "DE ESTUDIO",
+    stages_label: "ETAPAS",
+    full_bloom: "EN PLENA FLOR A LOS",
+    min_abbr: "MIN",
+    preview_title: "ASÍ CRECE",
+    preview_hidden: "Llévatela a casa y descubre cómo florece",
+    free_price: "TUYA DESDE SIEMPRE",
+    detail_aria: "Detalles de la semilla",
+    desc: {
+      daisy: "La primera amiga que hace todo jardín. Honesta, luminosa y siempre puntual.",
+      sunflower: "Sigue la luz como tú sigues tus metas. Crece alto a base de paciencia.",
+      gerbera: "Un toque de color que te anima desde la ventana.",
+      lavanda:
+        "La calma hecha planta. Las tardes largas de lectura se sienten más suaves a su lado.",
+      clavel: "Pétalos rizados con modales de jardín antiguo. Un clásico de coleccionista.",
+      lirio: "Elegante y un poco reservado — se abre cuando decide que ha llegado el momento.",
+      peonia: "Florece despacio y hace que la espera valga la pena. Capas sobre capas.",
+      cactus:
+        "Prospera con el descuido y florece por pura terquedad. Un compañero de escritorio leal.",
+      orquidea: "Una flor de conocedores. Exige devoción y la devuelve con creces.",
+      lotus:
+        "Se alza desde el agua quieta hasta volverse sagrada. La corona silenciosa del jardín.",
+    },
   },
   header: {
     settings_tooltip: "Ajustes",
@@ -183,6 +252,9 @@ export const es: DeepTranslation<Translations> = {
     stages_count: "ETAPAS",
     up_to: "HASTA",
     view_stages: "VER ETAPAS ›",
+    locked_badge: "AÚN NO ES TUYA",
+    view_in_shop: "VER EN LA TIENDA ›",
+    locked_hint: "Esta semilla vive en la tienda — llévala a casa para estudiar con ella.",
     session_complete: "✦ SESIÓN COMPLETADA ✦",
     stage_label: "ETAPA",
     view_history: "VER EN HISTORIAL",
@@ -214,6 +286,10 @@ export const es: DeepTranslation<Translations> = {
     subjects_load_failed: "No se pudieron cargar las materias",
     subject_save_failed: "No se pudo guardar la materia",
     subject_usage_failed: "No se pudo actualizar el uso de la materia",
+    inventory_load_failed: "No se pudo cargar tu inventario",
+    purchase_failed: "No se pudo completar la compra",
+    purchase_insufficient: "Aún no tienes suficientes corazones — ¡sigue estudiando!",
+    purchase_duplicate: "Ya es tuya",
     generic: "Algo salió mal",
   },
   plants: {

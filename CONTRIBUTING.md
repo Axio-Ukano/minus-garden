@@ -75,7 +75,7 @@ Create a new `docs/adr/NNNN-<slug>.md` (based on `docs/adr/0000-template.md`) wh
 - README: setup and scripts.
 - CHANGELOG: one entry per release with `Added/Changed/Fixed/Removed` sections.
 - `docs/architecture.md`: layer by layer, must reflect the real state of the repo.
-- `docs/requirements.md`: milestones per sprint.
+- `docs/requirements.md`: milestones.
 
 When opening a PR that changes behavior or architecture, update the affected documentation in the same PR.
 

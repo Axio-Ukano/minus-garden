@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 use rusqlite::Connection;
@@ -24,7 +24,7 @@ const MIGRATIONS: &[&str] = &[
     //
     // Uses IF NOT EXISTS + swallowed ALTERs so it is safe to apply to a
     // pre-migration database (one created before user_version tracking, which
-    // already has these tables and possibly the Sprint-6 plant columns). On a
+    // already has these tables and possibly the updated plant columns). On a
     // fresh database it creates everything. Either way it ends at version 1.
     "CREATE TABLE IF NOT EXISTS sessions (
         id TEXT PRIMARY KEY,
@@ -60,9 +60,27 @@ const MIGRATIONS: &[&str] = &[
         ('11111111-1111-1111-1111-111111111111', 'Mathematics', '#e8a0b4'),
         ('22222222-2222-2222-2222-222222222222', 'History',     '#a0c4e8'),
         ('33333333-3333-3333-3333-333333333333', 'Science',     '#a0e8b4');",
+    // ── v2 ── Shop inventory.
+    //
+    // Generic ownership ledger for everything purchasable: `kind` partitions
+    // future categories (seed, tool, decoration, upgrade, plot) and `item_id`
+    // is the domain id within that kind (species id for seeds). Buying a seed
+    // unlocks its species permanently; quantity-based consumables can extend
+    // this table later without reshaping it. Every player starts with the
+    // daisy — it is the garden's first friend.
+    "CREATE TABLE inventory (
+        id TEXT PRIMARY KEY,
+        kind TEXT NOT NULL,
+        item_id TEXT NOT NULL,
+        acquired_at TEXT NOT NULL,
+        UNIQUE (kind, item_id)
+    );
+
+    INSERT INTO inventory (id, kind, item_id, acquired_at)
+    VALUES ('starter-daisy', 'seed', 'daisy', datetime('now'));",
 ];
 
-/// Legacy column back-fill for databases created before Sprint 6, where the
+/// Legacy column back-fill for databases created before updates, where the
 /// `sessions` table existed without the plant columns. `ALTER ... ADD COLUMN`
 /// errors if the column already exists, so each statement is run independently
 /// and its error swallowed. Only relevant while migrating such a DB up to v1;
@@ -113,6 +131,15 @@ pub fn init_db(app_handle: &AppHandle) -> DbState {
     DbState(Mutex::new(conn))
 }
 
+/// In-memory database at the latest schema version, for unit tests across
+/// modules (commands.rs tests purchase rules against it).
+#[cfg(test)]
+pub fn test_connection() -> Connection {
+    let conn = Connection::open_in_memory().expect("in-memory db");
+    run_migrations(&conn).expect("migrations");
+    conn
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -139,6 +166,33 @@ mod tests {
             .query_row("SELECT COUNT(*) FROM subjects", [], |r| r.get(0))
             .unwrap();
         assert_eq!(subjects, 3);
+
+        // v2: inventory exists and the starter daisy is granted.
+        let starter: String = conn
+            .query_row(
+                "SELECT item_id FROM inventory WHERE kind = 'seed' AND item_id = 'daisy'",
+                [],
+                |r| r.get(0),
+            )
+            .unwrap();
+        assert_eq!(starter, "daisy");
+    }
+
+    #[test]
+    fn upgrades_v1_db_with_inventory_and_starter_daisy() {
+        // Simulate a database already at v1: run only the baseline, then the
+        // full runner must apply v2 on top.
+        let conn = Connection::open_in_memory().unwrap();
+        conn.execute_batch(MIGRATIONS[0]).unwrap();
+        conn.pragma_update(None, "user_version", 1).unwrap();
+
+        run_migrations(&conn).unwrap();
+        assert_eq!(current_version(&conn), MIGRATIONS.len() as i64);
+
+        let owned: i64 = conn
+            .query_row("SELECT COUNT(*) FROM inventory WHERE kind = 'seed'", [], |r| r.get(0))
+            .unwrap();
+        assert_eq!(owned, 1);
     }
 
     #[test]
@@ -156,7 +210,7 @@ mod tests {
 
     #[test]
     fn upgrades_legacy_db_without_plant_columns() {
-        // Simulate a pre-Sprint-6 database: tables exist, user_version still 0,
+        // Simulate a pre-updated database: tables exist, user_version still 0,
         // sessions has no plant columns.
         let conn = Connection::open_in_memory().unwrap();
         conn.execute_batch(

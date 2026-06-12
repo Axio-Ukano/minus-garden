@@ -1,5 +1,5 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 // ─── Data repository boundary ────────────────────────────────────────────────
@@ -15,9 +15,23 @@
 // See ADR-0005.
 
 import { tauriInvoke } from "@/lib/tauri";
-import type { Session, Subject, UserState } from "./types";
+import type {
+  InventoryItem,
+  InventoryKind,
+  PurchaseOutcome,
+  Session,
+  Subject,
+  UserState,
+} from "./types";
 
-export type { Session, Subject, UserState } from "./types";
+export type {
+  InventoryItem,
+  InventoryKind,
+  PurchaseOutcome,
+  Session,
+  Subject,
+  UserState,
+} from "./types";
 
 /** Raw row shapes as returned by the Rust commands (snake_case wire format). */
 interface SubjectRow {
@@ -31,8 +45,29 @@ interface UserStateRow {
   total_hearts: number;
 }
 
+interface InventoryItemRow {
+  id: string;
+  kind: string;
+  item_id: string;
+  acquired_at: string;
+}
+
+interface PurchaseResultRow {
+  total_hearts: number;
+  item: InventoryItemRow;
+}
+
 function toSubject(row: SubjectRow): Subject {
   return { id: row.id, name: row.name, color: row.color, useCount: row.use_count };
+}
+
+function toInventoryItem(row: InventoryItemRow): InventoryItem {
+  return {
+    id: row.id,
+    kind: row.kind as InventoryKind,
+    itemId: row.item_id,
+    acquiredAt: row.acquired_at,
+  };
 }
 
 export const repository = {
@@ -68,6 +103,22 @@ export const repository = {
     },
     markUsed(id: string): Promise<void> {
       return tauriInvoke("update_subject_usage", { id });
+    },
+  },
+
+  inventory: {
+    async list(): Promise<InventoryItem[]> {
+      const rows = await tauriInvoke<InventoryItemRow[]>("get_inventory");
+      return rows.map(toInventoryItem);
+    },
+    /**
+     * Atomic purchase: the backend deducts the hearts and grants the item in
+     * one transaction, returning the new balance. Price is passed from the
+     * client catalog — the client is the rules authority today (ADR-0007).
+     */
+    async purchase(kind: InventoryKind, itemId: string, price: number): Promise<PurchaseOutcome> {
+      const row = await tauriInvoke<PurchaseResultRow>("purchase_item", { kind, itemId, price });
+      return { totalHearts: row.total_hearts, item: toInventoryItem(row.item) };
     },
   },
 } as const;

@@ -1,0 +1,620 @@
+/* ─── Seed shop ────────────────────────────────────────────────────────────────
+   Storefront styling: pixel awning, wooden shelves that run continuously
+   across each grid row, tier chips, and the detail overlay with the
+   silhouette-until-owned stage preview. */
+
+.shop-view {
+  --shop-shelf: #c9986b;
+  --shop-shelf-dark: #a87850;
+  --shop-tier-uncommon: #4a7ab8;
+  --shop-tier-exotic: #b8860b;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] .shop-view,
+body[data-theme="dark"] .shop-view {
+  /* Wood at night: cooler and deeper than the daylight shelf, not just a
+     dimmed version of it, so the boards settle into the purple darks. */
+  --shop-shelf: #74584c;
+  --shop-shelf-dark: #523c32;
+  --shop-tier-uncommon: #7ab1e0;
+  /* Softened gold — the daylight brass reads neon against night panels. */
+  --shop-tier-exotic: #d9a94a;
+}
+
+/* ── Header ── */
+.shop-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 32px 12px;
+}
+
+.shop-header__title {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xl);
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+}
+
+.shop-header__tagline {
+  margin: 9px 0 0;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.shop-header__collected {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  background: var(--color-panel);
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-pixel-shadow);
+}
+
+/* ── Category tabs ── */
+.shop-categories {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 8px 32px 0;
+  flex-wrap: wrap;
+}
+
+.shop-categories__tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 10px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  background: var(--color-panel);
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-pixel-shadow);
+}
+
+.shop-categories__tab--active {
+  color: #fff;
+  background: var(--color-accent);
+}
+
+.shop-categories__tab--soon {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.shop-categories__soon-tag {
+  font-size: 6px;
+  padding: 2px 3px;
+  color: #fff;
+  background: var(--color-accent);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Shelves — items merge into one wooden board per row ── */
+.shop-shelves {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  column-gap: 0;
+  row-gap: 32px;
+  align-content: start;
+  padding: 24px 32px 44px;
+}
+
+.shop-shelf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px 0;
+  background: transparent;
+  border: none;
+}
+
+.shop-shelf-item__sprite {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 126px;
+  transition: transform var(--hover-speed) ease;
+}
+
+.shop-shelf-item:hover .shop-shelf-item__sprite {
+  transform: translateY(-3px);
+}
+
+.shop-shelf-item:active .shop-shelf-item__sprite {
+  transform: translateY(0);
+}
+
+/* The board bleeds across the item's padding; with column-gap 0 the boards of
+   adjacent cells touch and read as one continuous shelf per row. */
+.shop-shelf-item__board {
+  width: calc(100% + 20px);
+  margin: 0 -10px;
+  height: 13px;
+  background: var(--shop-shelf);
+  border-top: 3px solid var(--color-border);
+  border-bottom: 3px solid var(--color-border);
+  box-shadow: inset 0 -3px 0 var(--shop-shelf-dark);
+}
+
+.shop-shelf-item__name {
+  margin-top: 10px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.shop-chip,
+.shop-price {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.06em;
+}
+
+.shop-chip {
+  padding: 3px 6px;
+  border: 2px solid currentColor;
+  text-transform: uppercase;
+}
+
+.shop-chip--owned {
+  color: var(--color-success);
+}
+
+.shop-chip--starter {
+  color: var(--color-heart);
+}
+
+.shop-price {
+  color: var(--color-text);
+}
+
+.shop-price--dim {
+  color: var(--color-text-muted);
+  opacity: 0.55;
+}
+
+/* ── Tier chip (detail header) ── */
+.shop-tier {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 7px;
+  border: 2px solid currentColor;
+}
+
+.shop-tier[data-tier="starter"] {
+  color: var(--color-heart);
+}
+.shop-tier[data-tier="common"] {
+  color: var(--color-success);
+}
+.shop-tier[data-tier="uncommon"] {
+  color: var(--shop-tier-uncommon, #4a7ab8);
+}
+.shop-tier[data-tier="rare"] {
+  color: var(--color-accent-purple);
+}
+.shop-tier[data-tier="exotic"] {
+  color: var(--shop-tier-exotic, #b8860b);
+}
+
+/* ── Detail overlay — covers only the shop area ── */
+.shop-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(30, 15, 20, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+/* The light scrim's warm cast turns muddy over night panels — deepen it into
+   the same purple-black family as --color-pixel-shadow. */
+html[data-theme="dark"] .shop-detail,
+body[data-theme="dark"] .shop-detail {
+  background: rgba(8, 4, 18, 0.72);
+}
+
+.shop-detail__panel {
+  display: flex;
+  flex-direction: column;
+  /* Wide enough that every potted species' filmstrip fits at the shared md
+     sprite size — only the 9-stage lotus overflows into the scroll. */
+  width: min(760px, 100%);
+  max-height: 100%;
+  background: var(--color-panel);
+  border: 3px solid var(--color-border);
+  box-shadow: 6px 6px 0 var(--color-pixel-shadow);
+  overflow: hidden;
+}
+
+.shop-detail__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 3px solid var(--color-border);
+}
+
+.shop-detail__heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.shop-detail__title {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xl);
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-detail__scroll {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.shop-detail__body {
+  display: grid;
+  grid-template-columns: 164px 1fr;
+  gap: 20px;
+  padding: 20px 24px;
+}
+
+@media (max-width: 600px) {
+  .shop-detail__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Vertically centered against the (taller) info column so the packet doesn't
+   leave a dead corner below it. */
+.shop-detail__left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.shop-detail__packet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shop-detail__packet-shelf {
+  width: 152px;
+  height: 13px;
+  background: var(--shop-shelf);
+  border: 3px solid var(--color-border);
+  box-shadow: inset 0 -3px 0 var(--shop-shelf-dark);
+}
+
+.shop-detail__price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-md);
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* What the price means in study time — fills the left column with the most
+   purchase-relevant fact instead of empty space. */
+.shop-detail__worth {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.shop-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.shop-detail__desc {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.03em;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+}
+
+.shop-detail__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.shop-detail__fact {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 7px;
+}
+
+.shop-detail__fact-label {
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── Stage preview — a horizontal growth filmstrip, silhouetted until owned.
+   Every species shares the same frame and the same md sprite scale; a strip
+   that genuinely doesn't fit scrolls sideways on a quiet slim scrollbar
+   instead of shrinking its sprites. ── */
+.shop-detail__preview {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.shop-detail__preview-title {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-sm);
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.shop-detail__stages {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  /* Fixed frame: tall enough for an md sprite plus breathing room, identical
+     for a 5-stage daisy and a 9-stage lotus. The slack above the sprites also
+     absorbs the scrollbar's height when a strip overflows. */
+  height: 100px;
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  /* Quiet slim scrollbar — the global 12px pixel scrollbar is too heavy for
+     this small inset strip. Firefox fallback below. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-muted) transparent;
+}
+
+/* Drag-to-scroll: suppress text/sprite selection so a drag never paints a
+   selection. The grab/grabbing cursor itself comes from .cursor-grab /
+   .cursor-grabbing (styles/cursors.css), toggled by useDragScroll. */
+.shop-detail__stages--draggable {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Keyboard affordance for the focusable strip — matches the app's accent ring
+   rather than the UA outline. */
+.shop-detail__stages--draggable:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.shop-detail__stages::-webkit-scrollbar {
+  height: 7px;
+}
+
+.shop-detail__stages::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+}
+
+.shop-detail__stages::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border: none;
+}
+
+.shop-detail__stages::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+.shop-detail__stage {
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+/* Center strips that fit; degrade gracefully to a left-anchored scroll when
+   they don't (auto margins collapse once content overflows, so nothing gets
+   clipped the way justify-content: center would). */
+.shop-detail__stage:first-child {
+  margin-left: auto;
+}
+
+.shop-detail__stage:last-child {
+  margin-right: auto;
+}
+
+.shop-detail__stage--hidden {
+  filter: var(--sprite-silhouette-filter);
+  opacity: var(--sprite-silhouette-opacity);
+}
+
+.shop-detail__stage--reveal {
+  animation: shopReveal 0.5s ease-out backwards;
+}
+
+@keyframes shopReveal {
+  from {
+    filter: var(--sprite-silhouette-filter);
+    opacity: var(--sprite-silhouette-opacity);
+  }
+  to {
+    filter: none;
+    opacity: 1;
+  }
+}
+
+.shop-detail__preview-hint {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+/* Short windows (the 720×560 floor): tighten the detail's vertical rhythm —
+   air only, never sprite scale or type size — so the growth preview sits
+   above the panel's fold instead of being sliced by it. */
+@media (max-height: 620px) {
+  .shop-detail {
+    padding: 10px;
+  }
+
+  .shop-detail__header {
+    padding: 8px 16px;
+  }
+
+  .shop-detail__body {
+    padding: 10px 24px;
+    gap: 16px;
+  }
+
+  .shop-detail__info {
+    gap: 8px;
+  }
+
+  .shop-detail__desc {
+    line-height: 1.6;
+  }
+
+  .shop-detail__facts {
+    gap: 7px;
+  }
+
+  .shop-detail__fact {
+    padding-bottom: 6px;
+  }
+
+  .shop-detail__preview {
+    gap: 7px;
+  }
+
+  .shop-detail__stages {
+    height: 92px;
+    padding: 8px 12px;
+  }
+
+  .shop-detail__footer {
+    padding: 10px 24px;
+  }
+}
+
+/* ── Footer / purchase actions ── */
+.shop-detail__footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 16px 24px;
+  border-top: 3px solid var(--color-border);
+}
+
+.shop-detail__footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Owned state: status chip first, action below — reads top-down. */
+.shop-detail__footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.shop-detail__buy {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  justify-content: center;
+  padding: 14px 28px;
+  font-size: var(--text-pixel-md);
+}
+
+.shop-detail__buy--armed {
+  background: var(--color-accent-hover);
+}
+
+.shop-detail__grow {
+  padding: 14px 24px;
+  font-size: var(--text-pixel-md);
+}
+
+/* Same chip language as the OWNED tag on the shelves. */
+.shop-detail__owned-label {
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.08em;
+  color: var(--color-success);
+  border: 2px solid currentColor;
+  padding: 4px 8px;
+  text-transform: uppercase;
+}
+
+.shop-detail__earn-hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-pixel);
+  font-size: var(--text-pixel-xs);
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}

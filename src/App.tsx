@@ -1,14 +1,16 @@
 // Copyright (c) 2024–2026 Carlos Pico (Axio-Ukano)
-// Minus Garden · https://github.com/Axio-Ukano/minus-garden
+// Minu's Garden · https://github.com/Axio-Ukano/minus-garden
 // SPDX-License-Identifier: CC-BY-NC-ND-4.0
 
 import { useState, useEffect } from "react";
-import { TimerDisplay } from "@/modules/timer";
+import { TimerDisplay, useTimerStore } from "@/modules/timer";
 import { HistoryView, useHistoryStore } from "@/modules/history";
 import { MusicPlayerView, MiniPlayer } from "@/modules/music";
 import { useSubjectStore } from "@/modules/subjects";
 import { SettingsModal } from "@/modules/settings";
 import { useAudio, useAudioStore } from "@/modules/audio";
+import { useInventoryStore } from "@/modules/inventory";
+import { GameModeLayer, GameModeDockButton, useGameModeStore } from "@/modules/gamemode";
 import { AppShellHeader } from "@/components/AppShellHeader";
 import { ChevronIcon } from "@/components/PixelIcons";
 import { Tooltip } from "@/components/Tooltip";
@@ -73,7 +75,15 @@ function App() {
     void useHistoryStore.getState().loadSessions();
     void useHistoryStore.getState().loadUserState();
     void useSubjectStore.getState().loadSubjects();
+    void useInventoryStore.getState().loadInventory();
   }, []);
+
+  // "Grow this one" in the shop: pick the seed on the desk and walk back.
+  const handleGrowSpecies = (speciesId: string) => {
+    useTimerStore.getState().setPlantSpecies(speciesId);
+    useGameModeStore.getState().close();
+    setActiveTab("timer");
+  };
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
@@ -90,6 +100,9 @@ function App() {
           {activeTab === "history" && <HistoryView />}
           {activeTab === "music" && <MusicPlayerView />}
         </div>
+        {/* Game-mode layer (gate tab + sliding garden world) anchors to the
+            same content area, so the header and bottom dock stay reachable. */}
+        <GameModeLayer onGrowSpecies={handleGrowSpecies} />
         <ToastContainer />
       </div>
 
@@ -183,6 +196,7 @@ function App() {
                     className={`pixel-nav-btn ${active ? "active" : ""}`}
                     onClick={() => {
                       setActiveTab(tab.id);
+                      useGameModeStore.getState().close();
                       if (isNavCollapsed) setIsNavCollapsed(false);
                     }}
                     style={{
@@ -204,6 +218,9 @@ function App() {
                   </button>
                 );
               })}
+              {/* Garden world entry — its own green segment, not a fourth
+                  study tab; toggles the game-mode layer. */}
+              <GameModeDockButton />
             </nav>
           </div>
         </div>

@@ -179,10 +179,14 @@
   line-height: 1;
 }
 
+/* The info icon sits over the tile's top-right corner. The tile lifts itself to
+   z-index 10 on hover, which would otherwise stack over (and steal the pointer
+   from) this icon — keep the icon one level above so it stays hoverable. */
 .ambient-btn__tooltip {
   position: absolute;
   top: 4px;
   right: 4px;
+  z-index: 11;
 }
 
 /* Fix info button color inside active/hovered ambient cards */
