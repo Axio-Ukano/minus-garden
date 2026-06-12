@@ -206,8 +206,8 @@
 
 /* ── Locked sprite silhouette ── */
 .timer-view__plant-sprite--locked {
-  filter: brightness(0);
-  opacity: 0.38;
+  filter: var(--sprite-silhouette-filter);
+  opacity: var(--sprite-silhouette-opacity);
   transition:
     filter var(--hover-speed) ease,
     opacity var(--hover-speed) ease;

@@ -39,13 +39,14 @@ export const es: DeepTranslation<Translations> = {
     sprouting_badge: "AÚN BROTANDO",
     garden_teaser_title: "EL JARDÍN",
     garden_teaser_body:
-      "Parcelas, riego y cuidados — cada semilla que lleves a casa vivirá aquí. El terreno se está preparando.",
+      "Parcelas, riego y mimos — cada semilla que lleves a casa vivirá aquí. La tierra ya se está preparando.",
     minigames_teaser_title: "MINIJUEGOS",
-    minigames_teaser_body: "Pequeños juegos acogedores para tus descansos están en camino.",
+    minigames_teaser_body:
+      "Pequeños juegos para acompañar tus pausas de estudio. Ya vienen de camino.",
   },
   shop: {
     title: "TIENDA DE SEMILLAS",
-    tagline: "Corazones bien estudiados, semillas bien ganadas",
+    tagline: "Corazones ganados, semillas soñadas",
     collected: "COLECCIONADAS",
     categories: {
       seeds: "SEMILLAS",
@@ -73,12 +74,12 @@ export const es: DeepTranslation<Translations> = {
     earn_hint: "MIN DE ESTUDIO = 1",
     worth_suffix: "DE ESTUDIO",
     stages_label: "ETAPAS",
-    full_bloom: "FLOR PLENA A LOS",
+    full_bloom: "EN PLENA FLOR A LOS",
     min_abbr: "MIN",
-    preview_title: "VISTA DE CRECIMIENTO",
-    preview_hidden: "Llévala a casa para revelar su crecimiento",
+    preview_title: "ASÍ CRECE",
+    preview_hidden: "Llévatela a casa y descubre cómo florece",
     price_label: "PRECIO",
-    free_price: "TUYA DESDE EL INICIO",
+    free_price: "TUYA DESDE SIEMPRE",
     detail_aria: "Detalles de la semilla",
     desc: {
       daisy: "La primera amiga que hace todo jardín. Honesta, luminosa y siempre puntual.",
@@ -87,7 +88,7 @@ export const es: DeepTranslation<Translations> = {
       lavanda:
         "La calma hecha planta. Las tardes largas de lectura se sienten más suaves a su lado.",
       clavel: "Pétalos rizados con modales de jardín antiguo. Un clásico de coleccionista.",
-      lirio: "Elegante y un poco reservado — se abre cuando decide que estás listo.",
+      lirio: "Elegante y un poco reservado — se abre cuando decide que ha llegado el momento.",
       peonia: "Florece despacio y hace que la espera valga la pena. Capas sobre capas.",
       cactus:
         "Prospera con el descuido y florece por pura terquedad. Un compañero de escritorio leal.",

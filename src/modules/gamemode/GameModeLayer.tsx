@@ -43,7 +43,7 @@ function SectionIcon({ section, active }: { section: GameSection; active: boolea
   if (section === "shop") return <ShopStallIcon size={20} />;
   if (section === "garden") return <FenceIcon size={20} />;
   // The gamepad's d-pad/buttons are punched in the surface color behind it.
-  return <GamepadIcon size={20} bg={active ? "var(--gamemode-accent)" : "var(--color-panel)"} />;
+  return <GamepadIcon size={20} bg={active ? "var(--gamemode-active-bg)" : "var(--color-panel)"} />;
 }
 
 /** Placeholder for sections that are designed but not built yet. */

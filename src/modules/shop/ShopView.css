@@ -19,10 +19,13 @@
 
 html[data-theme="dark"] .shop-view,
 body[data-theme="dark"] .shop-view {
-  --shop-shelf: #8a6646;
-  --shop-shelf-dark: #6e4f35;
+  /* Wood at night: cooler and deeper than the daylight shelf, not just a
+     dimmed version of it, so the boards settle into the purple darks. */
+  --shop-shelf: #74584c;
+  --shop-shelf-dark: #523c32;
   --shop-tier-uncommon: #7ab1e0;
-  --shop-tier-exotic: #e8b73a;
+  /* Softened gold — the daylight brass reads neon against night panels. */
+  --shop-tier-exotic: #d9a94a;
 }
 
 /* ── Header ── */
@@ -238,10 +241,19 @@ body[data-theme="dark"] .shop-view {
   backdrop-filter: blur(4px);
 }
 
+/* The light scrim's warm cast turns muddy over night panels — deepen it into
+   the same purple-black family as --color-pixel-shadow. */
+html[data-theme="dark"] .shop-detail,
+body[data-theme="dark"] .shop-detail {
+  background: rgba(8, 4, 18, 0.72);
+}
+
 .shop-detail__panel {
   display: flex;
   flex-direction: column;
-  width: min(720px, 100%);
+  /* Wide enough that every potted species' filmstrip fits at the shared md
+     sprite size — only the 9-stage lotus overflows into the scroll. */
+  width: min(760px, 100%);
   max-height: 100%;
   background: var(--color-panel);
   border: 3px solid var(--color-border);
@@ -382,7 +394,9 @@ body[data-theme="dark"] .shop-view {
 }
 
 /* ── Stage preview — a horizontal growth filmstrip, silhouetted until owned.
-   Long species scroll sideways instead of growing the panel taller. ── */
+   Every species shares the same frame and the same md sprite scale; a strip
+   that genuinely doesn't fit scrolls sideways on a quiet slim scrollbar
+   instead of shrinking its sprites. ── */
 .shop-detail__preview {
   display: flex;
   flex-direction: column;
@@ -401,13 +415,37 @@ body[data-theme="dark"] .shop-view {
   display: flex;
   align-items: flex-end;
   flex-wrap: nowrap;
-  /* Safety net only — sprite buckets are chosen so every species fits one
-     row at normal window sizes without scrolling. */
   overflow-x: auto;
   gap: 8px;
+  /* Fixed frame: tall enough for an md sprite plus breathing room, identical
+     for a 5-stage daisy and a 9-stage lotus. The slack above the sprites also
+     absorbs the scrollbar's height when a strip overflows. */
+  height: 100px;
   padding: 10px 12px;
   background: var(--color-bg);
   border: 2px solid var(--color-border);
+  /* Quiet slim scrollbar — the global 12px pixel scrollbar is too heavy for
+     this small inset strip. Firefox fallback below. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-muted) transparent;
+}
+
+.shop-detail__stages::-webkit-scrollbar {
+  height: 7px;
+}
+
+.shop-detail__stages::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+}
+
+.shop-detail__stages::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border: none;
+}
+
+.shop-detail__stages::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
 }
 
 .shop-detail__stage {
@@ -416,9 +454,20 @@ body[data-theme="dark"] .shop-view {
   flex-shrink: 0;
 }
 
+/* Center strips that fit; degrade gracefully to a left-anchored scroll when
+   they don't (auto margins collapse once content overflows, so nothing gets
+   clipped the way justify-content: center would). */
+.shop-detail__stage:first-child {
+  margin-left: auto;
+}
+
+.shop-detail__stage:last-child {
+  margin-right: auto;
+}
+
 .shop-detail__stage--hidden {
-  filter: brightness(0);
-  opacity: 0.35;
+  filter: var(--sprite-silhouette-filter);
+  opacity: var(--sprite-silhouette-opacity);
 }
 
 .shop-detail__stage--reveal {
@@ -427,11 +476,11 @@ body[data-theme="dark"] .shop-view {
 
 @keyframes shopReveal {
   from {
-    filter: brightness(0);
-    opacity: 0.35;
+    filter: var(--sprite-silhouette-filter);
+    opacity: var(--sprite-silhouette-opacity);
   }
   to {
-    filter: brightness(1);
+    filter: none;
     opacity: 1;
   }
 }
@@ -441,6 +490,53 @@ body[data-theme="dark"] .shop-view {
   font-size: var(--text-pixel-xs);
   letter-spacing: 0.05em;
   color: var(--color-text-muted);
+}
+
+/* Short windows (the 720×560 floor): tighten the detail's vertical rhythm —
+   air only, never sprite scale or type size — so the growth preview sits
+   above the panel's fold instead of being sliced by it. */
+@media (max-height: 620px) {
+  .shop-detail {
+    padding: 10px;
+  }
+
+  .shop-detail__header {
+    padding: 8px 16px;
+  }
+
+  .shop-detail__body {
+    padding: 10px 24px;
+    gap: 16px;
+  }
+
+  .shop-detail__info {
+    gap: 8px;
+  }
+
+  .shop-detail__desc {
+    line-height: 1.6;
+  }
+
+  .shop-detail__facts {
+    gap: 7px;
+  }
+
+  .shop-detail__fact {
+    padding-bottom: 6px;
+  }
+
+  .shop-detail__preview {
+    gap: 7px;
+  }
+
+  .shop-detail__stages {
+    height: 92px;
+    padding: 8px 12px;
+  }
+
+  .shop-detail__footer {
+    padding: 10px 24px;
+  }
 }
 
 /* ── Footer / purchase actions ── */
